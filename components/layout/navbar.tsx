@@ -3,24 +3,27 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Globe, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/context/language-context";
 
 const navLinks = [
     { name: "Home", href: "/", bn: "হোম" },
-    { name: "Services", href: "#services", bn: "সার্ভিস" },
-    { name: "How It Works", href: "#how-it-works", bn: "কিভাবে কাজ করে" },
-    { name: "Fleet", href: "#fleet", bn: "ফ্লিট" },
-    { name: "About Us", href: "#about", bn: "আমাদের সম্পর্কে" },
-    { name: "Contact", href: "#contact", bn: "যোগাযোগ" },
+    { name: "Services", href: "/#services", bn: "সার্ভিস" },
+    { name: "How It Works", href: "/#how-it-works", bn: "কিভাবে কাজ করে" },
+    { name: "Fleet", href: "/#fleet", bn: "ফ্লিট" },
+    { name: "About Us", href: "/about", bn: "আমাদের সম্পর্কে" },
+    { name: "Contact", href: "/contact", bn: "যোগাযোগ" },
 ];
 
 export function Navbar() {
+    const { lang, setLang, t } = useLanguage();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [lang, setLang] = useState<"en" | "bn">("bn");
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -30,9 +33,10 @@ export function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const toggleLang = () => {
-        setLang(lang === "en" ? "bn" : "en");
-    };
+    const toggleLang = () => setLang(lang === "en" ? "bn" : "en");
+
+    // Logic to determine if navbar items should be white (only at top of home page)
+    const isDarkBackground = pathname === "/" && !isScrolled;
 
     return (
         <nav
@@ -43,7 +47,7 @@ export function Navbar() {
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-3">
+                <Link href="/" className="flex items-center gap-4">
                     <Image
                         src="/logos/mainlogo1.png"
                         alt="TruckDorkar Logo"
@@ -52,6 +56,12 @@ export function Navbar() {
                         className="h-16 w-auto object-contain"
                         priority
                     />
+                    <span className={cn(
+                        "text-xl font-bold tracking-tight transition-colors",
+                        isDarkBackground ? "text-white" : "text-black"
+                    )}>
+                        Truck Dorkar
+                    </span>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -62,7 +72,7 @@ export function Navbar() {
                             href={link.href}
                             className={cn(
                                 "text-sm font-semibold transition-colors",
-                                isScrolled ? "text-dark-gray hover:text-primary" : "text-white hover:text-primary"
+                                isDarkBackground ? "text-white hover:text-primary" : "text-dark-gray hover:text-primary"
                             )}
                         >
                             {lang === "en" ? link.name : link.bn}
@@ -76,30 +86,31 @@ export function Navbar() {
                         onClick={toggleLang}
                         className={cn(
                             "flex items-center gap-1.5 text-sm font-bold transition-colors px-3 py-1.5 rounded-md hover:bg-gray-100/10",
-                            isScrolled ? "text-dark-gray hover:text-primary" : "text-white hover:text-primary"
+                            isDarkBackground ? "text-white hover:text-primary" : "text-dark-gray hover:text-primary"
                         )}
                     >
                         <Globe className="w-4 h-4" />
                         {lang === "en" ? "বাংলা" : "EN"}
                     </button>
-                    <div className={cn("h-4 w-[1px] mx-2", isScrolled ? "bg-gray-300" : "bg-white/30")} />
-                    <Link
-                        href="/login"
-                        className={cn(
-                            "text-sm font-bold transition-colors",
-                            isScrolled ? "text-dark-gray hover:text-primary" : "text-white hover:text-primary"
-                        )}
-                    >
-                        {lang === "en" ? "Login" : "লগইন"}
+                    <Link href="/login">
+                        <Button variant="ghost" size="sm" className={cn(
+                            "font-bold",
+                            isDarkBackground ? "text-white hover:bg-white/10" : "text-dark-gray hover:bg-black/5"
+                        )}>
+                            {lang === "en" ? "Login" : "লগইন"}
+                        </Button>
                     </Link>
-                    <Button variant={isScrolled ? "secondary" : "default"} size="sm" className="font-bold">
+                    <Button variant={isDarkBackground ? "default" : "secondary"} size="sm" className="font-bold">
                         {lang === "en" ? "Register" : "রেজিস্টার"}
                     </Button>
                 </div>
 
                 {/* Mobile Toggle */}
                 <button
-                    className="lg:hidden p-2 text-dark-gray"
+                    className={cn(
+                        "lg:hidden p-2 transition-colors",
+                        isDarkBackground ? "text-white" : "text-dark-gray"
+                    )}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     {isMobileMenuOpen ? <X /> : <Menu />}
@@ -126,7 +137,7 @@ export function Navbar() {
                             </Link>
                         ))}
                         <div className="flex flex-col gap-3 pt-4">
-                            <Button variant="outline" className="w-full justify-start text-dark-gray">
+                            <Button variant="outline" className="w-full justify-start text-dark-gray" onClick={toggleLang}>
                                 <Globe className="w-4 h-4 mr-2" />
                                 {lang === "en" ? "Switch to বাংলা" : "English-এ পরিবর্তন করুন"}
                             </Button>

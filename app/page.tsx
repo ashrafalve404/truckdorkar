@@ -6,7 +6,7 @@ import { Services } from "@/components/sections/services";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { WhyChoose } from "@/components/sections/why-choose";
 import { Fleet } from "@/components/sections/fleet";
-import { CorporateClients, MobileApp, Testimonials } from "@/components/sections/social-proof";
+import { MobileApp, Testimonials } from "@/components/sections/social-proof";
 import { FAQ, FinalCTA, Footer } from "@/components/layout/footer-section";
 
 export default function Home() {
@@ -21,7 +21,6 @@ export default function Home() {
         <HowItWorks />
         <WhyChoose />
         <Fleet />
-        <CorporateClients />
         <MobileApp />
         <Testimonials />
         <FAQ />

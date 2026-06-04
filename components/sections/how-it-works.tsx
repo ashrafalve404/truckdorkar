@@ -2,86 +2,53 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { Search, ClipboardCheck, Truck, ThumbsUp } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 const steps = [
-    {
-        number: "01",
-        title: "Request Transport",
-        bn: "পরিবহন অনুরোধ পাঠান",
-        desc: "অ্যাপ বা ওয়েবসাইটের মাধ্যমে আপনার গন্তব্য এবং মালামালের তথ্য দিন।",
-    },
-    {
-        number: "02",
-        title: "Receive Quotes",
-        bn: "কোটেশন গ্রহণ করুন",
-        desc: "আমাদের নেটওয়ার্ক থেকে সেরা এবং সাশ্রয়ী রেট সরাসরি গ্রহণ করুন।",
-    },
-    {
-        number: "03",
-        title: "Confirm Booking",
-        bn: "বুকিং নিশ্চিত করুন",
-        desc: "সব কিছু ঠিক থাকলে ক্লিক করেই আপনার বুকিং নিশ্চিত করে ফেলুন।",
-    },
-    {
-        number: "04",
-        title: "Track Live",
-        bn: "লাইভ ট্র্যাকিং",
-        desc: "পিকআপ থেকে ডেলিভারি পর্যন্ত রিয়েল-টাইমে ট্র্যাক করুন।",
-    },
-    {
-        number: "05",
-        title: "Successful Delivery",
-        bn: "সফল ডেলিভারি",
-        desc: "নিরাপদভাবে নির্দিষ্ট সময়ে আপনার মালামাল পৌঁছে যাবে।",
-    },
+    { title_en: "Find Truck", title_bn: "ট্রাক খুঁজুন", icon: Search, desc_en: "Enter your pickup and drop location to find available trucks.", desc_bn: "আপনার পিকআপ এবং ড্রপ লোকেশন দিয়ে উপযুক্ত ট্রাক খুঁজুন।" },
+    { title_en: "Compare Quotes", title_bn: "ভাড়া যাচাই করুন", icon: ClipboardCheck, desc_en: "Get instant price quotes and compare for the best deal.", desc_bn: "ইনস্ট্যান্ট ভাড়ার কোটেশন পান এবং আপনার জন্য সেরাটি বেছে নিন।" },
+    { title_en: "Book & Track", title_bn: "বুক ও ট্র্যাক", icon: Truck, desc_en: "Book your truck and track your shipment in real-time.", desc_bn: "সহজেই ট্রাক বুক করুন এবং রিয়েল-টাইমে মালামাল ট্র্যাক করুন।" },
+    { title_en: "Safe Delivery", title_bn: "নিরাপদ ডেলিভারি", icon: ThumbsUp, desc_en: "Receive your goods safely and confirm completion.", desc_bn: "নিরাপদ ডেলিভারি বুঝে নিন এবং আপনার ট্রিপ সম্পন্ন করুন।" },
 ];
 
 export function HowItWorks() {
+    const { t } = useLanguage();
     return (
-        <section id="how-it-works" className="py-24 bg-white overflow-hidden text-black">
-            <div className="container mx-auto px-6 lg:px-12">
-                <div className="flex flex-col items-center text-center mb-16">
-                    <div className="text-secondary font-bold uppercase tracking-[0.2em] mb-4">Workflow</div>
-                    <h2 className="text-4xl lg:text-5xl font-black text-black">
-                        কিভাবে বুক করবেন?
+        <section id="how-it-works" className="py-24 bg-white text-black relative">
+            <div className="container mx-auto px-6 lg:px-12 relative z-10">
+                <div className="flex flex-col items-center text-center mb-20">
+                    <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Simple Process", "সহজ প্রক্রিয়া")}</div>
+                    <h2 className="text-4xl lg:text-5xl font-black text-black mb-6">
+                        {t("How TruckDorkar Works", "কিভাবে কাজ করে ট্রাক দরকার")}
                     </h2>
                 </div>
 
-                <div className="relative">
-                    {/* Connection Line Desktop */}
-                    <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-100 -translate-y-12 hidden lg:block" />
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
+                    {/* Connection lines for desktop */}
+                    <div className="hidden lg:block absolute top-1/4 left-1/4 right-1/4 h-[2px] bg-gray-100 -z-10" />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 relative z-10">
-                        {steps.map((step, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.15 }}
-                                viewport={{ once: true }}
-                                className="flex flex-col items-center text-center group"
-                            >
-                                <div className="w-20 h-20 bg-white border-2 border-gray-100 rounded-full flex items-center justify-center text-2xl font-black text-gray-400 mb-8 group-hover:border-primary group-hover:text-primary transition-all duration-300 relative">
-                                    {step.number}
-                                    {/* Progress Line Animation */}
-                                    <motion.div
-                                        initial={{ scaleX: 0 }}
-                                        whileInView={{ scaleX: 1 }}
-                                        transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                                        className="absolute top-1/2 left-full w-full h-0.5 bg-primary origin-left hidden lg:block"
-                                    />
-                                    {index === steps.length - 1 && <div className="hidden lg:block absolute top-1/2 left-full w-full h-0.5 bg-white" />}
+                    {steps.map((step, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.1 }}
+                            viewport={{ once: true }}
+                            className="flex flex-col items-center text-center group"
+                        >
+                            <div className="w-24 h-24 bg-light-gray rounded-3xl flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500 relative">
+                                <step.icon className="w-10 h-10 text-primary group-hover:text-white transition-colors" />
+                                <div className="absolute -top-3 -right-3 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-bold text-sm">
+                                    0{index + 1}
                                 </div>
-                                <h3 className="text-xl font-black text-black mb-2">{step.bn}</h3>
-                                <div className="text-xs font-bold text-gray-400 mb-4 uppercase tracking-tighter">
-                                    {step.title}
-                                </div>
-                                <p className="text-sm text-gray-500 leading-relaxed max-w-[200px]">
-                                    {step.desc}
-                                </p>
-                            </motion.div>
-                        ))}
-                    </div>
+                            </div>
+                            <h3 className="text-xl font-bold text-black mb-4">{t(step.title_en, step.title_bn)}</h3>
+                            <p className="text-gray-500 text-sm leading-relaxed max-w-[200px]">
+                                {t(step.desc_en, step.desc_bn)}
+                            </p>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
         </section>
