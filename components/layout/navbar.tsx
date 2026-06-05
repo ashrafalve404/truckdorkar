@@ -78,7 +78,7 @@ export function Navbar() {
         <nav
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 lg:px-12",
-                isScrolled ? "bg-white/90 backdrop-blur-md py-3 shadow-soft" : "bg-transparent py-5"
+                isScrolled ? "bg-white/90 backdrop-blur-md py-1 shadow-soft" : "bg-transparent py-2"
             )}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -87,13 +87,13 @@ export function Navbar() {
                     <Image
                         src="/logos/mainlogo1.png"
                         alt="TruckDorkar Logo"
-                        width={280}
-                        height={80}
-                        className="h-16 w-auto object-contain"
+                        width={350}
+                        height={100}
+                        className="h-20 w-auto object-contain"
                         priority
                     />
                     <span className={cn(
-                        "text-xl font-bold tracking-tight transition-colors",
+                        "text-2xl md:text-3xl font-bold tracking-tight transition-colors",
                         isDarkBackground ? "text-white" : "text-black"
                     )}>
                         Truck Dorkar
