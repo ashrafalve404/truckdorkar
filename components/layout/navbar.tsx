@@ -20,7 +20,7 @@ const navLinks = [
 ];
 
 export function Navbar() {
-    const { lang, setLang, t } = useLanguage();
+    const { lang, setLang } = useLanguage();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname();

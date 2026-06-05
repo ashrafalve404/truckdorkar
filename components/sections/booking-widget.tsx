@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Truck, Calendar, ArrowRight, Search } from "lucide-react";
+import { MapPin, Truck, Calendar, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 

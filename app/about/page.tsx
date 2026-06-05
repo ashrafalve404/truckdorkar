@@ -46,19 +46,19 @@ export default function AboutPage() {
         <div className="min-h-screen bg-white">
             <Navbar />
 
-            <main className="pt-32">
+            <main className="pt-24 md:pt-32">
                 {/* Hero section */}
-                <section className="py-20 bg-light-gray">
-                    <div className="container mx-auto px-6 lg:px-12 text-center text-black">
+                <section className="py-16 md:py-20 bg-light-gray">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h1 className="text-3xl lg:text-5xl font-black text-black mb-8">
+                            <h1 className="text-2xl md:text-3xl lg:text-5xl font-black text-black mb-6 md:mb-8">
                                 {t("About Us", "আমাদের সম্পর্কে জানুন")}
                             </h1>
-                            <p className="text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed">
+                            <p className="text-lg md:text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed">
                                 {t(
                                     "TruckDorkar is working to revolutionize the logistics sector in Bangladesh. We are making product transportation easier and safer through the combination of technology and humanity.",
                                     "ট্রাক দরকার বাংলাদেশের লজিস্টিক সেক্টরে বিপ্লব আনার জন্য কাজ করছে। আমরা প্রযুক্তি এবং মানবতার সমন্বয়ে পণ্য পরিবহনকে করছি আরও সহজ ও নিরাপদ।"
@@ -69,18 +69,18 @@ export default function AboutPage() {
                 </section>
 
                 {/* Content Section */}
-                <section className="py-24">
-                    <div className="container mx-auto px-6 lg:px-12 text-black">
-                        <div className="grid lg:grid-cols-2 gap-16 items-center">
+                <section className="py-16 md:py-24">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-black">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
                             <motion.div
                                 initial={{ opacity: 0, x: -30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                             >
-                                <h2 className="text-2xl lg:text-3xl font-black text-black mb-8">
+                                <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-black mb-6 md:mb-8">
                                     {t("Reliable Partner for Logistics", "বাংলাদেশের লজিস্টিক সার্ভিসের নির্ভরযোগ্য পার্টনার")}
                                 </h2>
-                                <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
+                                <div className="space-y-4 md:space-y-6 text-base md:text-lg text-gray-600 leading-relaxed">
                                     <p>
                                         {t(
                                             "TruckDorkar is a modern digital platform that directly connects shippers and truck owners. Our goal is to reduce transportation costs and ensure transparency in Bangladesh.",
@@ -100,7 +100,7 @@ export default function AboutPage() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                className="relative h-[400px] rounded-3xl overflow-hidden shadow-premium"
+                                className="relative h-[300px] sm:h-[350px] md:h-[400px] rounded-2xl md:rounded-3xl overflow-hidden shadow-premium"
                             >
                                 <Image
                                     src="/images/image1.png"
@@ -114,14 +114,14 @@ export default function AboutPage() {
                 </section>
 
                 {/* Values Section */}
-                <section className="py-24 bg-dark-gray text-white">
-                    <div className="container mx-auto px-6 lg:px-12">
-                        <div className="text-center mb-16">
-                            <h2 className="text-2xl lg:text-3xl font-black mb-4">{t("Our Core Values", "আমাদের মূল মূল্যবোধ")}</h2>
-                            <div className="w-20 h-1 bg-primary mx-auto"></div>
+                <section className="py-16 md:py-24 bg-dark-gray text-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                        <div className="text-center mb-12 md:mb-16">
+                            <h2 className="text-xl md:text-2xl lg:text-3xl font-black mb-3 md:mb-4">{t("Our Core Values", "আমাদের মূল মূল্যবোধ")}</h2>
+                            <div className="w-16 md:w-20 h-1 bg-primary mx-auto"></div>
                         </div>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                             {values.map((v, i) => (
                                 <motion.div
                                     key={i}
@@ -129,12 +129,12 @@ export default function AboutPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
                                     viewport={{ once: true }}
-                                    className="p-8 bg-black border border-white/5 rounded-2xl hover:border-primary/50 transition-all text-center"
+                                    className="p-6 md:p-8 bg-black border border-white/5 rounded-2xl hover:border-primary/50 transition-all text-center"
                                 >
-                                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                                        <v.icon className="w-8 h-8 text-primary" />
+                                    <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                                        <v.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-4">{t(v.title, v.bn)}</h3>
+                                    <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">{t(v.title, v.bn)}</h3>
                                     <p className="text-gray-400 text-sm leading-relaxed">{t(v.desc_en, v.desc_bn)}</p>
                                 </motion.div>
                             ))}

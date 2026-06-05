@@ -13,7 +13,7 @@ const heroImages = [
 ];
 
 export function Hero() {
-    const { lang, t } = useLanguage();
+    const { t } = useLanguage();
     const [currentImage, setCurrentImage] = useState(0);
 
     useEffect(() => {

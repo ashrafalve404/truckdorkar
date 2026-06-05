@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Star, Apple, Play } from "lucide-react";
+import { Star } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 export function MobileApp() {
@@ -44,11 +44,13 @@ export function MobileApp() {
                             </div>
                         </div>
 
-                        <div className="relative h-full flex items-center justify-center lg:justify-end">
-                            <img
+                        <div className="relative h-full w-full min-h-[500px]">
+                            <Image
                                 src="/images/app poster.png"
                                 alt="TruckDorkar Mobile App"
-                                className="h-full w-auto object-contain"
+                                fill
+                                className="object-contain"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
                             />
                         </div>
                     </div>
@@ -83,7 +85,7 @@ export function Testimonials() {
                             <div className="flex gap-1 text-primary mb-6">
                                 {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
                             </div>
-                            <p className="text-gray-600 mb-8 italic leading-relaxed text-black">"{t(rev.comment_en, rev.comment_bn)}"</p>
+                            <p className="text-gray-600 mb-8 italic leading-relaxed text-black">&quot;{t(rev.comment_en, rev.comment_bn)}&quot;</p>
                             <div>
                                 <div className="text-black font-black">{t(rev.name, rev.bn)}</div>
                             </div>

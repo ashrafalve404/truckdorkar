@@ -28,33 +28,33 @@ export function FAQ() {
     const faqs = lang === "en" ? faqs_en : faqs_bn;
 
     return (
-        <section className="py-24 bg-light-gray text-black">
-            <div className="container mx-auto px-6 lg:px-12">
-                <div className="grid lg:grid-cols-2 gap-16">
+        <section className="py-16 md:py-24 bg-light-gray text-black">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
                     <div>
                         <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Questions", "জিজ্ঞাসা")}</div>
-                        <h2 className="text-4xl lg:text-5xl font-black text-black mb-8">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-black mb-6 md:mb-8">
                             {t("Commonly Asked Questions", "সাধারণ কিছু প্রশ্ন")}
                         </h2>
-                        <p className="text-lg text-gray-500 mb-10 max-w-md">
+                        <p className="text-base md:text-lg text-gray-500 mb-8 md:mb-10 max-w-md">
                             {t("Find quick answers to common questions about our trucking services and platform.", "আমাদের সার্ভিস এবং প্ল্যাটফর্ম সম্পর্কে সাধারণ কিছু প্রশ্নের উত্তর এখানে দেখে নিন।")}
                         </p>
-                        <Button size="lg" className="rounded-xl font-bold gap-2 px-8 h-16 transition-all hover:translate-y-[-4px] text-white">
+                        <Button size="lg" className="rounded-xl font-bold gap-2 px-6 md:px-8 h-12 md:h-16 transition-all hover:translate-y-[-4px] text-white">
                             <MessageSquare className="w-5 h-5" />
                             {t("Talk to Support Team", "সাপোর্ট টিমের সাথে কথা বলুন")}
                         </Button>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3 md:space-y-4">
                         {faqs.map((faq, index) => (
-                            <div key={index} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-soft transition-all">
+                            <div key={index} className="bg-white rounded-xl md:rounded-2xl overflow-hidden border border-gray-100 shadow-soft transition-all">
                                 <button
                                     onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                                    className="w-full p-6 lg:p-8 flex items-center justify-between text-left group"
+                                    className="w-full p-4 md:p-6 lg:p-8 flex items-center justify-between text-left group"
                                 >
-                                    <span className="text-lg font-bold text-black group-hover:text-primary transition-colors">{faq.q}</span>
-                                    <div className={`w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center transition-all ${openIndex === index ? 'bg-primary border-primary text-white' : 'text-gray-400'}`}>
-                                        {openIndex === index ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                                    <span className="text-base md:text-lg font-bold text-black group-hover:text-primary transition-colors">{faq.q}</span>
+                                    <div className={`w-7 h-7 md:w-8 md:h-8 rounded-full border border-gray-100 flex items-center justify-center transition-all ${openIndex === index ? 'bg-primary border-primary text-white' : 'text-gray-400'}`}>
+                                        {openIndex === index ? <Minus className="w-3 h-3 md:w-4 md:h-4" /> : <Plus className="w-3 h-3 md:w-4 md:h-4" />}
                                     </div>
                                 </button>
                                 <AnimatePresence>
@@ -65,9 +65,7 @@ export function FAQ() {
                                             exit={{ height: 0, opacity: 0 }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="px-6 lg:px-8 pb-8 text-gray-500 leading-relaxed border-t border-gray-50 pt-6">
-                                                {faq.a}
-                                            </div>
+                                            <div className="px-4 md:px-6 lg:px-8 pb-4 md:pb-6 lg:pb-8 text-gray-500 leading-relaxed border-t border-gray-50 pt-4 md:pt-6">{faq.a}</div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -83,21 +81,21 @@ export function FAQ() {
 export function FinalCTA() {
     const { t } = useLanguage();
     return (
-        <section className="py-24 bg-primary relative overflow-hidden">
+        <section className="py-16 md:py-24 bg-primary relative overflow-hidden">
             <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-[-20deg] translate-x-20" />
-            <div className="container mx-auto px-6 lg:px-12 relative z-10 text-center">
-                <h2 className="text-4xl lg:text-5xl font-black text-white mb-8">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10 text-center">
+                <h2 className="text-2xl md:text-3xl lg:text-5xl font-black text-white mb-6 md:mb-8">
                     {t("Ready to transport goods?", "পণ্য পরিবহনে প্রস্তুত?")}
                 </h2>
-                <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl text-white/90 mb-8 md:mb-12 max-w-2xl mx-auto">
                     {t("Join thousands of businesses who trust TruckDorkar for their logistics needs.", "হাজারো ব্যবসার সাথে যোগ দিন যারা তাদের লজিস্টিক প্রয়োজনে ট্রাক দরকার-এর ওপর আস্থা রাখে।")}
                 </p>
-                <div className="flex flex-wrap justify-center gap-6">
-                    <Button size="lg" variant="secondary" className="rounded-xl font-bold px-10 h-16 text-lg hover:translate-y-[-4px] transition-all">
+                <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <Button size="lg" variant="secondary" className="rounded-xl font-bold px-6 md:px-10 h-12 md:h-16 text-base md:text-lg hover:translate-y-[-4px] transition-all">
                         {t("Book Now", "বুকিং শুরু করুন")}
                     </Button>
                     <Link href="/contact">
-                        <Button size="lg" className="rounded-xl font-bold px-10 h-16 text-lg border-2 border-white bg-transparent hover:bg-white hover:text-primary hover:translate-y-[-4px] transition-all text-white">
+                        <Button size="lg" className="rounded-xl font-bold px-6 md:px-10 h-12 md:h-16 text-base md:text-lg border-2 border-white bg-transparent hover:bg-white hover:text-primary hover:translate-y-[-4px] transition-all text-white">
                             {t("Contact Us", "যোগাযোগ করুন")}
                         </Button>
                     </Link>
@@ -112,19 +110,19 @@ export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-white pt-24 pb-12 border-t border-gray-100">
-            <div className="container mx-auto px-6 lg:px-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                    <div className="space-y-6 text-black">
-                        <div className="flex items-center gap-4">
+        <footer className="bg-white pt-16 md:pt-24 pb-8 md:pb-12 border-t border-gray-100">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16 md:mb-20">
+                    <div className="space-y-4 md:space-y-6 text-black">
+                        <div className="flex items-center gap-3 md:gap-4">
                             <Image
                                 src="/logos/mainlogo1.png"
                                 alt="TruckDorkar Logo"
-                                width={450}
-                                height={130}
-                                className="h-28 w-auto object-contain"
+                                width={350}
+                                height={100}
+                                className="h-20 md:h-28 w-auto object-contain"
                             />
-                            <span className="text-2xl font-bold tracking-tight text-black">
+                            <span className="text-xl md:text-2xl font-bold tracking-tight text-black">
                                 Truck Dorkar
                             </span>
                         </div>
@@ -134,18 +132,18 @@ export function Footer() {
                                 "বাংলাদেশের এক নম্বর ডিজিটাল লজিস্টিক প্ল্যাটফর্ম। আমরা পণ্য পরিবহনকে করছি আরও সহজ, দ্রুত এবং সাশ্রয়ী।"
                             )}
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex gap-3 md:gap-4">
                             {[Globe, Share2, MessageSquare].map((Icon, i) => (
-                                <a key={i} href="#" className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white hover:border-primary transition-all">
-                                    <Icon className="w-5 h-5" />
+                                <a key={i} href="#" className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white hover:border-primary transition-all">
+                                    <Icon className="w-4 h-4 md:w-5 md:h-5" />
                                 </a>
                             ))}
                         </div>
                     </div>
 
-                    <div>
-                        <h4 className="text-lg font-black text-black mb-8">{t("Quick Links", "কুইক লিঙ্কস")}</h4>
-                        <ul className="space-y-4">
+                    <div className="sm:mt-0">
+                        <h4 className="text-lg font-black text-black mb-6 md:mb-8">{t("Quick Links", "কুইক লিঙ্কস")}</h4>
+                        <ul className="space-y-3 md:space-y-4">
                             {[
                                 { en: "Home", bn: "হোম", href: "/" },
                                 { en: "About Us", bn: "আমাদের সম্পর্কে", href: "/about" },
@@ -154,7 +152,7 @@ export function Footer() {
                                 { en: "Contact", bn: "যোগাযোগ", href: "/contact" }
                             ].map((link, i) => (
                                 <li key={i}>
-                                    <Link href={link.href} className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 group">
+                                    <Link href={link.href} className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 group text-sm md:text-base">
                                         <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                                         {t(link.en, link.bn)}
                                     </Link>
@@ -164,8 +162,8 @@ export function Footer() {
                     </div>
 
                     <div>
-                        <h4 className="text-lg font-black text-black mb-8">{t("Support", "সাপোর্ট")}</h4>
-                        <ul className="space-y-4">
+                        <h4 className="text-lg font-black text-black mb-6 md:mb-8">{t("Support", "সাপোর্ট")}</h4>
+                        <ul className="space-y-3 md:space-y-4">
                             {[
                                 { en: "FAQ", bn: "সাধারণ প্রশ্ন" },
                                 { en: "Privacy Policy", bn: "প্রাইভেসি পলিসি" },
@@ -174,7 +172,7 @@ export function Footer() {
                                 { en: "Partner with Us", bn: "পার্টনারশিপ" }
                             ].map((item, i) => (
                                 <li key={i}>
-                                    <a href="#" className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 group">
+                                    <a href="#" className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 group text-sm md:text-base">
                                         <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                                         {t(item.en, item.bn)}
                                     </a>
@@ -183,14 +181,14 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    <div>
-                        <h4 className="text-lg font-black text-black mb-8">{t("Newsletter", "নিউজলেটার")}</h4>
-                        <p className="text-sm text-gray-500 mb-6">{t("Subscribe to get the latest logistics updates.", "সর্বশেষ লজিস্টিক আপডেট পেতে সাবস্ক্রাইব করুন।")}</p>
+                    <div className="sm:col-span-2 lg:col-span-1">
+                        <h4 className="text-lg font-black text-black mb-6 md:mb-8">{t("Newsletter", "নিউজলেটার")}</h4>
+                        <p className="text-sm text-gray-500 mb-4 md:mb-6">{t("Subscribe to get the latest logistics updates.", "সর্বশেষ লজিস্টিক আপডেট পেতে সাবস্ক্রাইব করুন।")}</p>
                         <div className="relative">
                             <input
                                 type="email"
                                 placeholder={t("Email address", "ইমেইল ঠিকানা")}
-                                className="w-full h-14 bg-gray-50 rounded-xl px-6 outline-none focus:ring-2 focus:ring-primary/20 text-black placeholder:text-gray-400"
+                                className="w-full h-12 md:h-14 bg-gray-50 rounded-lg md:rounded-xl px-4 md:px-6 outline-none focus:ring-2 focus:ring-primary/20 text-black placeholder:text-gray-400"
                             />
                             <button className="absolute right-2 top-2 w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white hover:bg-secondary transition-all">
                                 <Send className="w-5 h-5" />
@@ -199,16 +197,16 @@ export function Footer() {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <p className="text-gray-400 text-sm">
+                <div className="pt-6 md:pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
+                    <p className="text-gray-400 text-xs md:text-sm text-center md:text-left">
                         &copy; {currentYear} TruckDorkar. {t("All rights reserved.", "সর্বস্বত্ব সংরক্ষিত।")}
                     </p>
-                    <div className="flex items-center gap-8">
-                        <div className="flex items-center gap-2 text-gray-400 text-sm">
+                    <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-8">
+                        <div className="flex items-center gap-2 text-gray-400 text-xs md:text-sm">
                             <Globe className="w-4 h-4 text-primary" />
                             Bangladesh
                         </div>
-                        <div className="flex items-center gap-2 text-gray-400 text-sm">
+                        <div className="flex items-center gap-2 text-gray-400 text-xs md:text-sm">
                             <Share2 className="w-4 h-4 text-primary" />
                             {t("Social Media", "সোশ্যাল মিডিয়া")}
                         </div>
