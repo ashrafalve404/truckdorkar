@@ -133,9 +133,44 @@ export function Footer() {
                             )}
                         </p>
                         <div className="flex gap-3 md:gap-4">
-                            {[Globe, Share2, MessageSquare].map((Icon, i) => (
-                                <a key={i} href="#" className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white hover:border-primary transition-all">
-                                    <Icon className="w-4 h-4 md:w-5 md:h-5" />
+                            {[
+                                {
+                                    label: "Facebook",
+                                    href: "https://www.facebook.com/profile.php?id=61579235266143",
+                                    icon: (
+                                        <Image
+                                            src="/icons/facebook-icon.png"
+                                            alt="Facebook"
+                                            width={20}
+                                            height={20}
+                                            className="w-5 h-5 md:w-6 md:h-6 object-contain"
+                                        />
+                                    )
+                                },
+                                {
+                                    label: "WhatsApp",
+                                    href: "https://wa.me/8801826110036",
+                                    icon: (
+                                        <Image
+                                            src="/icons/WhatsApp_icon.png"
+                                            alt="WhatsApp"
+                                            width={20}
+                                            height={20}
+                                            className="w-5 h-5 md:w-6 md:h-6 object-contain"
+                                        />
+                                    )
+                                },
+                                { label: "Share", href: "#", icon: <Share2 className="w-4 h-4 md:w-5 md:h-5" /> }
+                            ].map((social, i) => (
+                                <a
+                                    key={i}
+                                    href={social.href}
+                                    target={social.href.startsWith("http") ? "_blank" : undefined}
+                                    rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                                    className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white hover:border-primary transition-all"
+                                    aria-label={social.label}
+                                >
+                                    {social.icon}
                                 </a>
                             ))}
                         </div>

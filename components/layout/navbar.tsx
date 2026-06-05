@@ -38,6 +38,42 @@ export function Navbar() {
     // Logic to determine if navbar items should be white (only at top of home page)
     const isDarkBackground = pathname === "/" && !isScrolled;
 
+    const [activeHash, setActiveHash] = useState("");
+
+    useEffect(() => {
+        const handleHashChange = () => setActiveHash(window.location.hash);
+        handleHashChange();
+        window.addEventListener("hashchange", handleHashChange);
+        // Also listen for scroll to update hash (simplified)
+        const handleScrollUpdate = () => {
+            const sections = ["services", "how-it-works", "fleet"];
+            for (const section of sections) {
+                const el = document.getElementById(section);
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top <= 300) {
+                        setActiveHash("#" + section);
+                        break;
+                    }
+                }
+            }
+            if (window.scrollY < 100) setActiveHash("");
+        };
+        window.addEventListener("scroll", handleScrollUpdate);
+        return () => {
+            window.removeEventListener("hashchange", handleHashChange);
+            window.removeEventListener("scroll", handleScrollUpdate);
+        };
+    }, []);
+
+    const isActive = (href: string) => {
+        if (href === "/") return pathname === "/" && activeHash === "";
+        if (href.startsWith("/#")) {
+            return pathname === "/" && activeHash === href.substring(1);
+        }
+        return pathname === href;
+    };
+
     return (
         <nav
             className={cn(
@@ -65,19 +101,32 @@ export function Navbar() {
                 </Link>
 
                 {/* Desktop Nav */}
-                <div className="hidden lg:flex items-center gap-8">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.href}
-                            className={cn(
-                                "text-sm font-semibold transition-colors",
-                                isDarkBackground ? "text-white hover:text-primary" : "text-dark-gray hover:text-primary"
-                            )}
-                        >
-                            {lang === "en" ? link.name : link.bn}
-                        </Link>
-                    ))}
+                <div className="hidden lg:flex items-center gap-8 h-full">
+                    {navLinks.map((link) => {
+                        const active = isActive(link.href);
+                        return (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                className={cn(
+                                    "relative text-sm font-semibold transition-all duration-300 h-full py-2",
+                                    isDarkBackground
+                                        ? (active ? "text-red-500" : "text-white hover:text-red-400")
+                                        : (active ? "text-red-600" : "text-dark-gray hover:text-red-600")
+                                )}
+                            >
+                                {lang === "en" ? link.name : link.bn}
+                                {active && (
+                                    <motion.div
+                                        layoutId="navUnderline"
+                                        className="absolute left-0 right-0 bottom-0 h-0.5 bg-red-600"
+                                        initial={false}
+                                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                    />
+                                )}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Right Side */}
