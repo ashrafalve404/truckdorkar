@@ -44,27 +44,27 @@ export default function ContactPage() {
                                 initial={{ opacity: 0, x: -30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                className="bg-white p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl shadow-premium border border-gray-100"
+                                className="bg-white p-6 md:p-8 lg:p-12 rounded-lg md:rounded-xl shadow-premium border border-gray-100"
                             >
-                                <h2 className="text-2xl font-black text-black mb-6 md:mb-8">{t("Send Message", "মেসেজ পাঠান")}</h2>
+                                <h2 className="text-xl md:text-2xl font-black text-black mb-4 md:mb-6">{t("Send Message", "মেসেজ পাঠান")}</h2>
                                 <form className="space-y-5 md:space-y-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-gray-600">{t("Name", "নাম")}</label>
-                                            <input type="text" placeholder={t("Enter your name", "আপনার নাম লিখুন")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                                            <input type="text" placeholder={t("Enter your name", "আপনার নাম লিখুন")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-gray-600">{t("Phone Number", "ফোন নম্বর")}</label>
-                                            <input type="text" placeholder={t("Enter phone number", "আপনার ফোন নম্বর")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                                            <input type="text" placeholder={t("Enter phone number", "আপনার ফোন নম্বর")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-gray-600">{t("Email", "ইমেইল")}</label>
-                                        <input type="email" placeholder={t("Enter email (optional)", "আপনার ইমেইল (ঐচ্ছিক)")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                                            <input type="email" placeholder={t("Enter email (optional)", "আপনার ইমেইল (ঐচ্ছিক)")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-gray-600">{t("Message", "মেসেজ")}</label>
-                                        <textarea placeholder={t("Enter your message...", "আপনার মেসেজ লিখুন...")} rows={4} className="w-full bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none" />
+                                            <textarea placeholder={t("Enter your message...", "আপনার মেসেজ লিখুন...")} rows={4} className="w-full bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none" />
                                     </div>
                                     <Button size="lg" className="w-full h-12 md:h-16 rounded-lg md:rounded-xl font-bold text-base md:text-lg gap-2 transition-all hover:translate-y-[-2px] text-white">
                                         <Send className="w-4 h-4 md:w-5 md:h-5" />
@@ -81,8 +81,8 @@ export default function ContactPage() {
                                 className="space-y-8 md:space-y-12"
                             >
                                 <div>
-                                    <h2 className="text-2xl font-black text-black mb-6 md:mb-8">{t("Direct Contact", "সরাসরি যোগাযোগ")}</h2>
-                                    <p className="text-lg text-gray-500 mb-8 md:mb-12">
+                                    <h2 className="text-xl md:text-2xl font-black text-black mb-4 md:mb-6">{t("Direct Contact", "সরাসরি যোগাযোগ")}</h2>
+                                    <p className="text-base md:text-lg text-gray-500 mb-6 md:mb-10">
                                         {t(
                                             "You can call our 24/7 customer care number at any time or visit our office directly.",
                                             "আমাদের ২৪/৭ কাস্টমার কেয়ার নাম্বারে যেকোনো সময় কল করতে পারেন অথবা সরাসরি আমাদের অফিসে ভিজিট করতে পারেন।"
@@ -122,7 +122,7 @@ export default function ContactPage() {
                                     </div>
                                 </div>
 
-                                <div className="p-6 md:p-8 bg-black rounded-2xl md:rounded-3xl text-white flex items-center justify-between group cursor-pointer hover:bg-primary transition-all duration-500">
+                                <div className="p-5 md:p-7 bg-black rounded-lg md:rounded-xl text-white flex items-center justify-between group cursor-pointer hover:bg-primary transition-all duration-500">
                                     <div className="flex items-center gap-4 md:gap-6">
                                         <div className="w-14 h-14 md:w-16 md:h-16 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-all">
                                             <MessageCircle className="w-6 h-6 md:w-8 md:h-8 text-white" />

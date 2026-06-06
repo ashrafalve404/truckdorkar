@@ -44,14 +44,14 @@ export function MobileApp() {
                             </div>
                         </div>
 
-                        <div className="relative h-full w-full min-h-[500px]">
-                            <Image
-                                src="/images/app poster.png"
-                                alt="TruckDorkar Mobile App"
-                                fill
-                                className="object-contain"
-                                sizes="(max-width: 1024px) 100vw, 50vw"
-                            />
+                        <div className="relative h-full w-full min-h-[500px] rounded-lg">
+                                <Image
+                                    src="/images/app poster.png"
+                                    alt="TruckDorkar Mobile App"
+                                    fill
+                                    className="object-contain rounded-lg"
+                                    sizes="(max-width: 1024px) 100vw, 50vw"
+                                />
                         </div>
                     </div>
                 </div>

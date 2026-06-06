@@ -7,10 +7,12 @@ import { ShieldCheck, Truck } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 const trucks = [
-    { title: "7 Feet Truck", bn: "৭ ফিট ট্রাক", capacity: "1.5 Tons", cap_bn: "১.৫ টন", icon: "/images/7feet truck.png" },
-    { title: "12 Feet Truck", bn: "১২ ফিট ট্রাক", capacity: "3.5 Tons", cap_bn: "৩.৫ টন", icon: "/images/12feet truck.png" },
-    { title: "18 Feet Truck", bn: "১৮ ফিট ট্রাক", capacity: "7 Tons", cap_bn: "৭ টন", icon: "/images/18feettruck.png" },
-    { title: "Trailer Truck", bn: "ট্রেইলার ট্রাক", capacity: "20 Tons", cap_bn: "২০ টন", icon: "/images/trailer truck.png" },
+    { title_en: "1 Ton Open 7Ft Truck", title_bn: "১ টনি খোলা ৭ফিট ট্রাক", icon: "/images/7feet truck.png" },
+    { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টনি কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png" },
+    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png" },
+    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png" },
+    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টনি খোলা ১২ফিট ট্রাক", icon: "/images/12feettruck.png" },
+    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টনি কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png" },
 ];
 
 export function Fleet() {
@@ -33,7 +35,7 @@ export function Fleet() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     {trucks.map((truck, index) => (
                         <motion.div
                             key={index}
@@ -41,28 +43,24 @@ export function Fleet() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            className="group bg-light-gray rounded-3xl overflow-hidden hover:shadow-premium transition-all duration-500"
+                            className="group bg-light-gray rounded-lg md:rounded-xl overflow-hidden hover:shadow-premium transition-all duration-500"
                         >
-                            <div className="p-8 aspect-square relative bg-white m-4 rounded-2xl overflow-hidden">
+                            <div className="relative bg-white m-2 md:m-4 rounded-md md:rounded-lg overflow-hidden aspect-square">
                                 <Image
                                     src={truck.icon}
-                                    alt={truck.title}
+                                    alt={t(truck.title_en, truck.title_bn)}
                                     fill
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     loading={index === 0 ? "eager" : "lazy"}
                                     className="object-contain group-hover:scale-110 transition-transform duration-700"
                                 />
-                                <div className="absolute top-4 right-4 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5">
-                                    <ShieldCheck className="w-3.5 h-3.5" />
-                                    {t("Verified", "ভেরিফাইড")}
-                                </div>
                             </div>
-                            <div className="p-8 pt-4">
-                                <h3 className="text-xl font-bold text-black mb-2">{t(truck.title, truck.bn)}</h3>
-                                <div className="flex items-center gap-3 text-gray-500 font-medium">
-                                    <Truck className="w-4 h-4 text-primary" />
-                                    {t("Capacity:", "ধারণক্ষমতা:")} {t(truck.capacity, truck.cap_bn)}
-                                </div>
+                            <div className="p-4 md:p-6 pt-2 md:pt-4 flex flex-col gap-2">
+                                <span className="flex items-center gap-1 text-[10px] md:text-xs font-bold text-primary bg-primary/10 px-1.5 md:px-2.5 py-0.5 md:py-1 rounded-full w-fit">
+                                    <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                                    {t("Verified", "ভেরিফাইড")}
+                                </span>
+                                <h3 className="text-sm md:text-lg font-bold text-black leading-tight">{t(truck.title_en, truck.title_bn)}</h3>
                             </div>
                         </motion.div>
                     ))}
