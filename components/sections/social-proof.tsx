@@ -46,7 +46,7 @@ export function MobileApp() {
 
                         <div className="relative h-full w-full min-h-[500px] rounded-lg">
                                 <Image
-                                    src="/images/app poster.png"
+                                    src="/images/appscreen1.png"
                                     alt="TruckDorkar Mobile App"
                                     fill
                                     className="object-contain rounded-lg"
