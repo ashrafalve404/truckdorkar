@@ -19,7 +19,7 @@ export function Hero() {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % heroImages.length);
-        }, 5000);
+        }, 4600);
         return () => clearInterval(timer);
     }, []);
 
@@ -37,10 +37,10 @@ export function Hero() {
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={currentImage}
-                        initial={{ opacity: 0, scale: 1.1 }}
-                        animate={{ opacity: 0.6, scale: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        initial={{ x: "100%", opacity: 0 }}
+                        animate={{ x: 0, opacity: 0.6 }}
+                        exit={{ x: "-100%", opacity: 0 }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
                         className="absolute inset-0"
                     >
                         <Image
@@ -67,7 +67,7 @@ export function Hero() {
                     >
                         <h1 className="text-4xl lg:text-6xl font-black text-white leading-[1.1] mb-8 drop-shadow-2xl">
                             {t("Bangladesh's Most", "বাংলাদেশের সবচেয়ে")} <br />
-                            <span className="text-primary italic">{t("Reliable", "নির্ভরযোগ্য")}</span> {t("Truck", "ট্রাক")} <br />
+                            <span className="text-primary italic">{t("Reliable", "নির্ভরযোগ্য")}</span> <span className="tracking-wider"> {t("Truck", "ট্রাক")}</span> <br />
                             {t("Booking Platform", "বুকিং প্ল্যাটফর্ম")}
                         </h1>
 

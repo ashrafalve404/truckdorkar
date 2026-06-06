@@ -224,7 +224,7 @@ export default function RegisterPage() {
                                     <span className="text-sm text-gray-600 leading-relaxed">
                                         {t(
                                             "I agree to the",
-                                            "আমি সম্মত হচেছি"
+                                            "আমি সম্মত হয়েছি"
                                         )}{" "}
                                         <button type="button" className="font-bold text-primary hover:text-secondary">{t("Terms of Service", "সেবার শর্তাবলী")}</button>{" "}
                                         {t("and", "আর")}{" "}
