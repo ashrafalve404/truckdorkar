@@ -149,9 +149,11 @@ export function Navbar() {
                             {lang === "en" ? "Login" : "লগইন"}
                         </Button>
                     </Link>
-                    <Button variant={isDarkBackground ? "default" : "secondary"} size="sm" className="font-bold">
-                        {lang === "en" ? "Register" : "রেজিস্টার"}
-                    </Button>
+                    <Link href="/register">
+                        <Button variant={isDarkBackground ? "default" : "secondary"} size="sm" className="font-bold">
+                            {lang === "en" ? "Register" : "রেজিস্টার"}
+                        </Button>
+                    </Link>
                 </div>
 
                 {/* Mobile Toggle */}
@@ -193,9 +195,11 @@ export function Navbar() {
                             <Button variant="ghost" className="w-full justify-start">
                                 {lang === "en" ? "Login" : "লগইন"}
                             </Button>
-                            <Button className="w-full">
-                                {lang === "en" ? "Register" : "রেজিস্টার"}
-                            </Button>
+                            <Link href="/register">
+                                <Button className="w-full">
+                                    {lang === "en" ? "Register" : "রেজিস্টার"}
+                                </Button>
+                            </Link>
                         </div>
                     </motion.div>
                 )}

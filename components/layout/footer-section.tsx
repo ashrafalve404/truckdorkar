@@ -200,17 +200,17 @@ export function Footer() {
                         <h4 className="text-lg font-black text-black mb-6 md:mb-8">{t("Support", "সাপোর্ট")}</h4>
                         <ul className="space-y-3 md:space-y-4">
                             {[
-                                { en: "FAQ", bn: "সাধারণ প্রশ্ন" },
-                                { en: "Privacy Policy", bn: "প্রাইভেসি পলিসি" },
-                                { en: "Terms of Service", bn: "টার্মস অফ সার্ভিস" },
-                                { en: "Driver Registration", bn: "ড্রাইভার রেজিস্ট্রেশন" },
-                                { en: "Partner with Us", bn: "পার্টনারশিপ" }
+                                { en: "FAQ", bn: "সাধারণ প্রশ্ন", href: "/faq" },
+                                { en: "Privacy Policy", bn: "প্রাইভেসি পলিসি", href: "/privacy-policy" },
+                                { en: "Terms of Service", bn: "টার্মস অফ সার্ভিস", href: "/terms-of-service" },
+                                { en: "Driver Registration", bn: "ড্রাইভার রেজিস্ট্রেশন", href: "/driver-registration" },
+                                { en: "Partner with Us", bn: "পার্টনারশিপ", href: "/partner-with-us" }
                             ].map((item, i) => (
                                 <li key={i}>
-                                    <a href="#" className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 group text-sm md:text-base">
+                                    <Link href={item.href} className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 group text-sm md:text-base">
                                         <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                                         {t(item.en, item.bn)}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
