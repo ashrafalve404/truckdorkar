@@ -48,7 +48,7 @@ export default function AboutPage() {
 
             <main className="pt-24 md:pt-32">
                 {/* Hero section */}
-                <section className="py-16 md:py-20 bg-light-gray">
+                <section className="py-10 md:py-12 bg-light-gray">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}

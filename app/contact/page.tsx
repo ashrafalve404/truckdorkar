@@ -17,7 +17,7 @@ export default function ContactPage() {
 
             <main className="pt-24 md:pt-32">
                 {/* Header */}
-                <section className="py-16 md:py-20 bg-light-gray">
+                <section className="py-10 md:py-12 bg-light-gray">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -116,7 +116,7 @@ export default function ContactPage() {
                                             </div>
                                             <div>
                                                 <div className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">{t("Office Address", "অফিস ঠিকানা")}</div>
-                                                <div className="text-xl md:text-2xl font-black text-black">{t("Mohammadpur, Dhaka, Bangladesh", "মোহাম্মদপুর, ঢাকা, বাংলাদেশ")}</div>
+                                                <div className="text-xl md:text-2xl font-black text-black">{t("Navana Shopping Centre, Gulshan Avenue 01, Gulshan, Dhaka, Bangladesh", "নাভানা শপিং সেন্টার, গুলশান অ্যাভিনিউ ০১, গুলশান, ঢাকা, বাংলাদেশ")}</div>
                                             </div>
                                         </div>
                                     </div>
