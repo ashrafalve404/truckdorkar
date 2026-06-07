@@ -118,9 +118,9 @@ export function Footer() {
                             <Image
                                 src="/logos/mainlogo1.png"
                                 alt="TruckDorkar Logo"
-                                width={600}
-                                height={180}
-                                className="h-32 md:h-44 w-auto object-contain"
+                                width={450}
+                                height={130}
+                                className="h-28 w-auto object-contain"
                             />
                             <span className="text-3xl md:text-4xl font-bold tracking-tight text-black">
                                 Truck Dorkar

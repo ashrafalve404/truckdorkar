@@ -8,6 +8,7 @@ import { WhyChoose } from "@/components/sections/why-choose";
 import { Fleet } from "@/components/sections/fleet";
 import { MobileApp, Testimonials } from "@/components/sections/social-proof";
 import { FAQ, FinalCTA, Footer } from "@/components/layout/footer-section";
+import { FooterBanner } from "@/components/sections/footer-banner";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
         <Testimonials />
         <FAQ />
         <FinalCTA />
+        <FooterBanner />
       </main>
       <Footer />
     </div>
