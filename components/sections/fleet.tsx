@@ -9,8 +9,8 @@ import { useLanguage } from "@/context/language-context";
 const trucks = [
     { title_en: "1 Ton Open 7Ft Truck", title_bn: "১ টনি খোলা ৭ফিট ট্রাক", icon: "/images/7feet truck.png" },
     { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টনি কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png" },
-    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png" },
-    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png" },
+    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ টনি খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png" },
+    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ টনি কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png" },
     { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টনি খোলা ১২ফিট ট্রাক", icon: "/images/12feettruck.png" },
     { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টনি কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png" },
 ];
