@@ -136,6 +136,18 @@ export default function ContactPage() {
                                         <Send className="w-4 h-4 md:w-5 md:h-5 rotate-45" />
                                     </div>
                                 </div>
+                                <div className="rounded-lg md:rounded-xl overflow-hidden shadow-sm h-[200px] md:h-[250px]">
+                                    <iframe
+                                        src="https://maps.google.com/maps?q=Navana+Shopping+Centre,+Gulshan+Avenue+01,+Dhaka&output=embed"
+                                        width="100%"
+                                        height="100%"
+                                        style={{ border: 0 }}
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Office Location Map"
+                                    />
+                                </div>
                             </motion.div>
                         </div>
                     </div>
