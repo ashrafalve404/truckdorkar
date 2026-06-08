@@ -22,7 +22,7 @@ export default function AdminBannersPage() {
                     <h1 className="text-3xl font-black text-slate-900 mb-2">
                         {t("Promotional Banners", "প্রোমোশনাল ব্যানার")}
                     </h1>
-                    <p className="text-slate-500 font-bold">
+                    <p className="text-slate-700 font-bold">
                         {t("Manage the images and promotions displayed on the homepage slider.", "হোমপেজ স্লাইডারে প্রদর্শিত ছবি এবং অফারগুলো পরিচালনা করুন।")}
                     </p>
                 </div>
@@ -36,7 +36,7 @@ export default function AdminBannersPage() {
                 {[1, 2].map((i) => (
                     <div key={i} className="bg-white rounded-lg border border-slate-100 shadow-sm overflow-hidden group">
                         <div className="aspect-[21/9] bg-slate-100 relative overflow-hidden">
-                            <div className="absolute inset-0 flex items-center justify-center text-slate-300 font-bold">
+                            <div className="absolute inset-0 flex items-center justify-center text-slate-500 font-bold">
                                 {t("Banner Preview", "ব্যানার প্রিভিউ")} {i}
                             </div>
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
@@ -53,8 +53,8 @@ export default function AdminBannersPage() {
                         </div>
                         <div className="p-6 flex items-center justify-between">
                             <div>
-                                <h3 className="font-bold text-slate-900">{t("Summer Discount Offer", "সামার ডিসকাউন্ট অফার")}</h3>
-                                <p className="text-xs text-slate-400 font-medium">{t("Active since: June 01, 2026", "চালু হয়েছে: জুন ০১, ২০২৬")}</p>
+                                <h3 className="font-bold text-slate-950">{t("Summer Discount Offer", "সামার ডিসকাউন্ট অফার")}</h3>
+                                <p className="text-xs text-slate-700 font-bold">{t("Active since: June 01, 2026", "চালু হয়েছে: জুন ০১, ২০২৬")}</p>
                             </div>
                             <div className="w-3 h-3 rounded-full bg-green-500" />
                         </div>

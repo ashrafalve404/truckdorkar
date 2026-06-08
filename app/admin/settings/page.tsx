@@ -22,7 +22,7 @@ export default function AdminSettingsPage() {
                 <h1 className="text-3xl font-black text-slate-900 mb-2">
                     {t("System Settings", "সিস্টেম সেটিংস")}
                 </h1>
-                <p className="text-slate-500 font-bold">
+                <p className="text-slate-700 font-bold">
                     {t("Configure platform parameters, pricing, and system notifications.", "প্ল্যাটফর্ম প্যারামিটার, মূল্য নির্ধারণ এবং নোটিফিকেশন কনফিগার করুন।")}
                 </p>
             </header>
@@ -40,7 +40,7 @@ export default function AdminSettingsPage() {
                                 key={item.name}
                                 className={cn(
                                     "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all",
-                                    item.active ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-slate-500 hover:bg-slate-50"
+                                    item.active ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-slate-700 hover:bg-slate-50"
                                 )}
                             >
                                 <item.icon className="w-5 h-5" />
@@ -53,25 +53,25 @@ export default function AdminSettingsPage() {
                 <div className="lg:col-span-3">
                     <div className="bg-white rounded-lg border border-slate-100 shadow-sm overflow-hidden">
                         <div className="p-8 border-b border-slate-50">
-                            <h3 className="text-xl font-bold text-slate-900">{t("General Configuration", "সাধারণ কনফিগারেশন")}</h3>
+                            <h3 className="text-xl font-bold text-slate-950">{t("General Configuration", "সাধারণ কনফিগারেশন")}</h3>
                         </div>
                         <div className="p-8 space-y-8">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-500 ml-1">{t("Platform Name", "প্ল্যাটফর্মের নাম")}</label>
-                                    <input type="text" defaultValue="TruckDorkar" className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-900 font-bold outline-none ring-primary/10 focus:ring-2" />
+                                    <label className="text-sm font-bold text-slate-950 ml-1">{t("Platform Name", "প্ল্যাটফর্মের নাম")}</label>
+                                    <input type="text" defaultValue="TruckDorkar" className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2" />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-500 ml-1">{t("Admin Email", "এডমিন ইমেইল")}</label>
-                                    <input type="email" defaultValue="admin@truckdorkar.com" className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-900 font-bold outline-none ring-primary/10 focus:ring-2" />
+                                    <label className="text-sm font-bold text-slate-700 ml-1">{t("Admin Email", "এডমিন ইমেইল")}</label>
+                                    <input type="email" defaultValue="admin@truckdorkar.com" className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2" />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-500 ml-1">{t("Base Fare (Per KM)", "বেস ভাড়া (প্রতি কিমি)")}</label>
+                                <label className="text-sm font-bold text-slate-700 ml-1">{t("Base Fare (Per KM)", "বেস ভাড়া (প্রতি কিমি)")}</label>
                                 <div className="relative">
-                                    <span className="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-slate-400">৳</span>
-                                    <input type="number" defaultValue="500" className="w-full h-12 bg-slate-50 border-none rounded-lg pl-12 pr-6 text-slate-900 font-bold outline-none ring-primary/10 focus:ring-2" />
+                                    <span className="absolute left-6 top-1/2 -translate-y-1/2 font-bold text-slate-950">৳</span>
+                                    <input type="number" defaultValue="500" className="w-full h-12 bg-slate-50 border-none rounded-lg pl-12 pr-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2" />
                                 </div>
                             </div>
 

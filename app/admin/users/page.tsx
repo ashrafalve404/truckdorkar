@@ -62,24 +62,24 @@ export default function AdminUsersPage() {
                     <h1 className="text-3xl font-black text-slate-900 mb-2">
                         {t("User Management", "ইউজার ম্যানেজমেন্ট")}
                     </h1>
-                    <p className="text-slate-500 font-bold">
+                    <p className="text-slate-700 font-bold">
                         {t("Monitor and manage all registered users on the platform.", "প্ল্যাটফর্মের সকল রেজিস্টার্ড ইউজারদের মনিটর এবং ম্যানেজ করুন।")}
                     </p>
                 </div>
                 <div className="flex gap-4">
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
                         <input
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder={t("Search users...", "ইউজার খুঁজুন...")}
-                            className="bg-white h-12 pl-12 pr-6 rounded-lg border border-slate-100 focus:ring-2 focus:ring-primary/10 outline-none w-64 font-bold text-sm"
+                            className="bg-white h-12 pl-12 pr-6 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-64 font-black text-sm text-slate-950 placeholder:text-slate-500"
                         />
                     </div>
                     <Button variant="outline" className="h-12 rounded-lg gap-2 font-bold px-6">
-                        <Filter className="w-4 h-4" />
-                        {t("Filter", "ফিল্টার")}
+                        <Filter className="w-4 h-4 text-slate-950" />
+                        <span className="text-slate-950">{t("Filter", "ফিল্টার")}</span>
                     </Button>
                 </div>
             </header>
@@ -93,7 +93,7 @@ export default function AdminUsersPage() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead className="bg-slate-50 border-b border-slate-100">
-                                <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <tr className="text-[10px] font-black text-slate-950 uppercase tracking-widest">
                                     <th className="px-8 py-4">{t("User", "ইউজার")}</th>
                                     <th className="px-8 py-4">{t("Role", "রোল")}</th>
                                     <th className="px-8 py-4">{t("Registered", "রেজিস্টার্ড")}</th>
@@ -106,12 +106,12 @@ export default function AdminUsersPage() {
                                     <tr key={user.id} className="hover:bg-slate-50/50 transition-all">
                                         <td className="px-8 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-400">
+                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-600">
                                                     {user.name[0]}
                                                 </div>
                                                 <div>
-                                                    <p className="font-bold text-slate-900">{user.name}</p>
-                                                    <p className="text-xs text-slate-400 font-medium">{user.phone}</p>
+                                                    <p className="font-bold text-slate-950">{user.name}</p>
+                                                    <p className="text-xs text-slate-700 font-bold">{user.phone}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -125,7 +125,7 @@ export default function AdminUsersPage() {
                                                 {user.role}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-4 text-sm text-slate-500 font-bold">
+                                        <td className="px-8 py-4 text-sm text-slate-800 font-bold">
                                             {new Date(user.createdAt).toLocaleDateString()}
                                         </td>
                                         <td className="px-8 py-4">
@@ -146,7 +146,7 @@ export default function AdminUsersPage() {
                                                 >
                                                     {user.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                                                 </Button>
-                                                <Button variant="ghost" size="icon" className="rounded-lg text-slate-400">
+                                                <Button variant="ghost" size="icon" className="rounded-lg text-slate-600">
                                                     <MoreVertical className="w-4 h-4" />
                                                 </Button>
                                             </div>

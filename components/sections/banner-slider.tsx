@@ -69,8 +69,8 @@ export function BannerSlider() {
     const prev = () => setCurrent((prev) => (prev - 1 + banners.length) % banners.length);
 
     return (
-        <section className="relative w-full h-[500px] lg:h-[700px] overflow-hidden bg-white pt-24 pb-8 px-6">
-            <div className="relative h-full max-w-7xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-slate-100">
+        <section className="relative w-full h-[350px] lg:h-[700px] overflow-hidden bg-white pt-24 pb-8 px-4 sm:px-10">
+            <div className="relative h-full max-w-[1600px] mx-auto rounded-2xl overflow-hidden shadow-2xl border border-slate-100">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={current}

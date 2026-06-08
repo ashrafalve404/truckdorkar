@@ -55,7 +55,7 @@ export default function ContactPage() {
                             <h1 className="text-2xl md:text-3xl lg:text-5xl font-black text-black mb-6 md:mb-8">
                                 {t("Contact Us", "যোগাযোগ করুন")}
                             </h1>
-                            <p className="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                            <p className="text-lg md:text-xl text-slate-700 font-bold max-w-2xl mx-auto leading-relaxed">
                                 {t(
                                     "We are always here for any of your inquiries or cooperation.",
                                     "আপনার যেকোনো জিজ্ঞাসা বা সহযোগিতার জন্য আমরা সবসময় পাশে আছি।"
@@ -79,7 +79,7 @@ export default function ContactPage() {
                                 <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-600">{t("Name", "নাম")}</label>
+                                            <label className="text-sm font-bold text-slate-950">{t("Name", "নাম")}</label>
                                             <input
                                                 type="text"
                                                 required
@@ -90,7 +90,7 @@ export default function ContactPage() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-600">{t("Phone Number", "ফোন নম্বর")}</label>
+                                            <label className="text-sm font-bold text-slate-950">{t("Phone Number", "ফোন নম্বর")}</label>
                                             <input
                                                 type="text"
                                                 required
@@ -102,7 +102,7 @@ export default function ContactPage() {
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-sm font-bold text-gray-600">{t("Email", "ইমেইল")}</label>
+                                        <label className="text-sm font-bold text-slate-950">{t("Email", "ইমেইল")}</label>
                                         <input
                                             type="email"
                                             value={formData.email}
@@ -112,14 +112,14 @@ export default function ContactPage() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-sm font-bold text-gray-600">{t("Message", "মেসেজ")}</label>
+                                        <label className="text-sm font-bold text-slate-950">{t("Message", "মেসেজ")}</label>
                                         <textarea
                                             required
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                             placeholder={t("Enter your message...", "আপনার মেসেজ লিখুন...")}
                                             rows={4}
-                                            className="w-full bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
+                                            className="w-full bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-sm md:text-base text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
                                         />
                                     </div>
                                     <Button disabled={loading} size="lg" className="w-full h-12 md:h-16 rounded-lg md:rounded-xl font-bold text-base md:text-lg gap-2 transition-all hover:translate-y-[-2px] text-white">
@@ -142,7 +142,7 @@ export default function ContactPage() {
                             >
                                 <div>
                                     <h2 className="text-xl md:text-2xl font-black text-black mb-4 md:mb-6">{t("Direct Contact", "সরাসরি যোগাযোগ")}</h2>
-                                    <p className="text-base md:text-lg text-gray-500 mb-6 md:mb-10">
+                                    <p className="text-base md:text-lg text-slate-700 font-bold mb-6 md:mb-10">
                                         {t(
                                             "You can call our 24/7 customer care number at any time or visit our office directly.",
                                             "আমাদের ২৪/৭ কাস্টমার কেয়ার নাম্বারে যেকোনো সময় কল করতে পারেন অথবা সরাসরি আমাদের অফিসে ভিজিট করতে পারেন।"
@@ -155,7 +155,7 @@ export default function ContactPage() {
                                                 <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">{t("Call Us", "ফোন করুন")}</div>
+                                                <div className="text-xs md:text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">{t("Call Us", "ফোন করুন")}</div>
                                                 <div className="text-xl md:text-2xl font-black text-black">{t("01826-110036", "০১৮২৬-১১০০৩৬")}</div>
                                             </div>
                                         </div>

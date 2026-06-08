@@ -58,7 +58,7 @@ export default function DashboardPage() {
                     <h1 className="text-3xl font-black text-black">
                         {t("My Bookings", "আমার বুকিং")}
                     </h1>
-                    <p className="text-gray-500 font-medium font-bold">
+                    <p className="text-slate-700 font-bold">
                         {t("Track your active orders and view booking history.", "আপনার সক্রিয় অর্ডারগুলো ট্র্যাক করুন এবং বুকিং ইতিহাস দেখুন।")}
                     </p>
                 </div>
@@ -81,8 +81,8 @@ export default function DashboardPage() {
                                 <stat.icon className="w-6 h-6" />
                             </div>
                             <div>
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{stat.label}</p>
-                                <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+                                <p className="text-xs font-bold text-slate-600 uppercase tracking-widest">{stat.label}</p>
+                                <p className="text-2xl font-black text-slate-950">{stat.value}</p>
                             </div>
                         </div>
                     </div>
@@ -98,12 +98,12 @@ export default function DashboardPage() {
                 {loading ? (
                     <div className="p-20 flex flex-col items-center justify-center gap-4">
                         <Loader2 className="w-10 h-10 animate-spin text-primary" />
-                        <p className="text-slate-400 font-medium">{t("Loading your bookings...", "বুকিং লোড হচ্ছে...")}</p>
+                        <p className="text-slate-700 font-bold">{t("Loading your bookings...", "বুকিং লোড হচ্ছে...")}</p>
                     </div>
                 ) : bookings.length === 0 ? (
                     <div className="p-20 text-center">
-                        <Package className="w-16 h-16 text-slate-100 mx-auto mb-4" />
-                        <h3 className="text-lg font-bold text-slate-400 mb-2">{t("No bookings yet", "কোন বুকিং পাওয়া যায়নি")}</h3>
+                        <Package className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+                        <h3 className="text-lg font-bold text-slate-700 mb-2">{t("No bookings yet", "কোন বুকিং পাওয়া যায়নি")}</h3>
                         <Button variant="outline" onClick={() => router.push("/bookings/new")} className="rounded-xl border-primary text-primary">
                             {t("Book Your First Truck", "আপনার প্রথম ট্রাক বুক করুন")}
                         </Button>
@@ -112,7 +112,7 @@ export default function DashboardPage() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="bg-slate-50 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                <tr className="bg-slate-50 text-[10px] font-black text-slate-950 uppercase tracking-widest">
                                     <th className="px-8 py-4">{t("Details", "বিস্তারিত")}</th>
                                     <th className="px-8 py-4">{t("Pickup", "পিকআপ")}</th>
                                     <th className="px-8 py-4">{t("Drop", "ড্রপ")}</th>
@@ -125,22 +125,22 @@ export default function DashboardPage() {
                                 {bookings.map((booking) => (
                                     <tr key={booking.id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="px-8 py-6">
-                                            <div className="font-bold text-slate-900">{booking.truckType.replace(/_/g, ' ')}</div>
-                                            <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider mt-1">{booking.cargoType}</div>
+                                            <div className="font-bold text-slate-950">{booking.truckType.replace(/_/g, ' ')}</div>
+                                            <div className="text-[10px] uppercase font-bold text-slate-700 tracking-wider mt-1">{booking.cargoType}</div>
                                         </td>
                                         <td className="px-8 py-6">
-                                            <div className="flex items-center gap-2 text-sm text-slate-600 font-medium">
+                                            <div className="flex items-center gap-2 text-sm text-slate-800 font-bold">
                                                 <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
                                                 <span className="line-clamp-1">{booking.pickupAddress}</span>
                                             </div>
                                         </td>
                                         <td className="px-8 py-6">
-                                            <div className="flex items-center gap-2 text-sm text-slate-600 font-medium">
+                                            <div className="flex items-center gap-2 text-sm text-slate-800 font-bold">
                                                 <MapPin className="w-3.5 h-3.5 text-secondary shrink-0" />
                                                 <span className="line-clamp-1">{booking.dropoffAddress}</span>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6 text-sm text-slate-500 font-bold">
+                                        <td className="px-8 py-6 text-sm text-slate-800 font-bold">
                                             {new Date(booking.scheduledAt).toLocaleDateString()}
                                         </td>
                                         <td className="px-8 py-6">

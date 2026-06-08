@@ -24,9 +24,11 @@ import { useLanguage } from "@/context/language-context";
 
 interface SidebarProps {
     role: "ADMIN" | "DRIVER" | "EMPLOYEE" | "USER";
+    isOpen?: boolean;
+    onClose?: () => void;
 }
 
-export function DashboardSidebar({ role }: SidebarProps) {
+export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
     const pathname = usePathname();
     const { logout, user } = useAuth();
     const { lang, setLang } = useLanguage();
@@ -67,7 +69,10 @@ export function DashboardSidebar({ role }: SidebarProps) {
     const currentMenu = menuItems[role] || menuItems.USER;
 
     return (
-        <div className="w-64 bg-white border-r border-gray-100 flex flex-col h-screen fixed left-0 top-0 z-40">
+        <div className={cn(
+            "w-64 bg-white border-r border-gray-100 flex flex-col h-screen fixed left-0 top-0 z-40 transition-transform duration-300 transform lg:translate-x-0 shadow-xl lg:shadow-none",
+            isOpen ? "translate-x-0" : "-translate-x-full"
+        )}>
             {/* Header */}
             <div className="p-6 border-b border-gray-50">
                 <Link href="/" className="flex items-center gap-2">
@@ -90,6 +95,7 @@ export function DashboardSidebar({ role }: SidebarProps) {
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={onClose}
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all group",
                                 isActive

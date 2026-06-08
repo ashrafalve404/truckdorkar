@@ -33,8 +33,8 @@ export function Hero() {
                 <div className="absolute inset-0 bg-black/20 z-10" />
             </div>
 
-            <div className="container mx-auto px-6 lg:px-12 relative z-20">
-                <div className="max-w-3xl">
+            <div className="w-full pl-8 lg:pl-[12%] pr-6 relative z-20">
+                <div className="max-w-4xl text-left">
                     {/* Content */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}

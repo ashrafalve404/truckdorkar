@@ -72,7 +72,7 @@ export default function LoginPage() {
                                 <h1 className="text-2xl md:text-3xl font-black text-black mb-2">
                                     {t("Welcome Back", "সবাইকে স্বাগতম")}
                                 </h1>
-                                <p className="text-gray-500 text-base md:text-lg">
+                                <p className="text-slate-700 font-bold text-base md:text-lg">
                                     {t("Login to your account", "অ্যাকাউন্টে লগইন করুন")}
                                 </p>
                             </div>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                             {/* Form */}
                             <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-600">
+                                    <label className="text-sm font-bold text-slate-950">
                                         {t("Phone Number or Email", "ফোন নম্বর বা ইমেইল")}
                                     </label>
                                     <input
@@ -89,12 +89,12 @@ export default function LoginPage() {
                                         value={formData.identifier}
                                         onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                                         placeholder={t("Enter phone number or email", "ফোন নম্বর বা ইমেইল লিখুন")}
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-600">
+                                    <label className="text-sm font-bold text-slate-950">
                                         {t("Password", "পাসওয়ার্ড")}
                                     </label>
                                     <div className="relative">
@@ -104,12 +104,12 @@ export default function LoginPage() {
                                             value={formData.password}
                                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                             placeholder={t("Enter password", "পাসওয়ার্ড লিখুন")}
-                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 pr-12 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 pr-12 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                            className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
                                         >
                                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                         </button>
@@ -122,7 +122,7 @@ export default function LoginPage() {
                                             type="checkbox"
                                             className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
                                         />
-                                        <span className="text-sm text-gray-600">{t("Remember me", "মনে রাখুন")}</span>
+                                        <span className="text-sm text-slate-700 font-bold">{t("Remember me", "মনে রাখুন")}</span>
                                     </label>
                                     <Link href="/forgot-password" className="text-sm font-bold text-primary hover:text-secondary transition-colors">
                                         {t("Forgot Password?", "পাসওয়ার্ড ভুলে গেছেন?")}
@@ -145,7 +145,7 @@ export default function LoginPage() {
                                     <div className="w-full border-t border-gray-100"></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-4 bg-white text-gray-400">{t("Or continue with", "অথবা এড়িয়ে যান")}</span>
+                                    <span className="px-4 bg-white text-slate-600 font-bold">{t("Or continue with", "অথবা এড়িয়ে যান")}</span>
                                 </div>
                             </div>
 
@@ -163,7 +163,7 @@ export default function LoginPage() {
                             </div>
 
                             {/* Register Link */}
-                            <p className="text-center text-sm md:text-base text-gray-500 mt-6 md:mt-8">
+                            <p className="text-center text-sm md:text-base text-slate-700 font-bold mt-6 md:mt-8">
                                 {t("Don't have an account?", "অ্যাকাউন্ট নেই?")}{" "}
                                 <Link href="/register" className="font-bold text-primary hover:text-secondary transition-colors">
                                     {t("Register", "রেজিস্টার")}

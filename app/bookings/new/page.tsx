@@ -68,7 +68,7 @@ function BookingContent() {
                             <h1 className="text-3xl lg:text-4xl font-black text-black mb-4">
                                 {t("Complete Your Booking", "আপনার বুকিং সম্পূর্ণ করুন")}
                             </h1>
-                            <p className="text-gray-500">
+                            <p className="text-slate-700 font-bold">
                                 {t("Provide more details to get accurate quotes from our drivers.", "সঠিক ভাড়া পেতে আরও বিস্তারিত তথ্য প্রদান করুন।")}
                             </p>
                         </header>
@@ -79,7 +79,7 @@ function BookingContent() {
                                 <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 lg:p-10 shadow-premium border border-gray-100 space-y-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
                                                 <MapPin className="w-4 h-4 text-primary" />
                                                 {t("Pickup Address", "পিকআপ ঠিকানা")}
                                             </label>
@@ -88,11 +88,11 @@ function BookingContent() {
                                                 required
                                                 value={formData.pickupLocation}
                                                 onChange={(e) => setFormData({ ...formData, pickupLocation: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
                                                 <MapPin className="w-4 h-4 text-secondary" />
                                                 {t("Drop-off Address", "ড্রপ-অফ ঠিকানা")}
                                             </label>
@@ -101,14 +101,14 @@ function BookingContent() {
                                                 required
                                                 value={formData.dropLocation}
                                                 onChange={(e) => setFormData({ ...formData, dropLocation: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
                                                 <Truck className="w-4 h-4 text-primary" />
                                                 {t("Truck Type", "ট্রাকের ধরণ")}
                                             </label>
@@ -116,7 +116,7 @@ function BookingContent() {
                                                 required
                                                 value={formData.truckType}
                                                 onChange={(e) => setFormData({ ...formData, truckType: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
                                             >
                                                 <option value="">{t("Select Truck", "ট্রাক নির্বাচন করুন")}</option>
                                                 <option value="MINI_TRUCK_7FT">{t("7 Feet Mini Truck", "৭ ফিট মিনি ট্রাক")}</option>
@@ -125,7 +125,7 @@ function BookingContent() {
                                             </select>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
                                                 <Calendar className="w-4 h-4 text-primary" />
                                                 {t("Schedule Date", "তারিখ")}
                                             </label>
@@ -134,19 +134,19 @@ function BookingContent() {
                                                 required
                                                 value={formData.scheduledDate}
                                                 onChange={(e) => setFormData({ ...formData, scheduledDate: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-700">{t("Cargo Type", "পণ্যের ধরণ")}</label>
+                                            <label className="text-sm font-bold text-slate-950">{t("Cargo Type", "পণ্যের ধরণ")}</label>
                                             <select
                                                 required
                                                 value={formData.cargoType}
                                                 onChange={(e) => setFormData({ ...formData, cargoType: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none text-slate-950 font-bold"
                                             >
                                                 <option value="GENERAL">{t("General Goods", "সাধারণ পণ্য")}</option>
                                                 <option value="HOUSE_SHIFTING">{t("House Shifting", "বাসা বদল")}</option>
@@ -155,25 +155,25 @@ function BookingContent() {
                                             </select>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-700">{t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}</label>
+                                            <label className="text-sm font-bold text-slate-950">{t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}</label>
                                             <input
                                                 type="number"
                                                 required
                                                 value={formData.weight}
                                                 onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
                                                 placeholder="e.g. 1500"
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-bold text-gray-700">{t("Description", "বিস্তারিত")}</label>
+                                        <label className="text-sm font-bold text-slate-950">{t("Description", "বিস্তারিত")}</label>
                                         <textarea
                                             value={formData.description}
                                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                             placeholder={t("Anything else we should know?", "আরও কিছু বলার আছে?")}
-                                            className="w-full h-32 bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none resize-none"
+                                            className="w-full h-32 bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none resize-none text-slate-950 font-bold placeholder:text-slate-500"
                                         />
                                     </div>
 
@@ -195,7 +195,7 @@ function BookingContent() {
                                         <Info className="w-5 h-5" />
                                         <h3 className="font-bold">{t("How it works", "কিভাবে কাজ করে")}</h3>
                                     </div>
-                                    <ul className="space-y-4 text-sm text-gray-600">
+                                    <ul className="space-y-4 text-sm text-slate-700 font-bold">
                                         <li className="flex gap-3">
                                             <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">1</span>
                                             <span>{t("Submit your request", "আপনার রিকোয়েস্ট জমা দিন")}</span>
@@ -213,7 +213,7 @@ function BookingContent() {
 
                                 <div className="bg-white rounded-3xl p-6 shadow-soft border border-gray-100">
                                     <h3 className="font-bold mb-4">{t("Support", "সাপোর্ট")}</h3>
-                                    <p className="text-sm text-gray-500 mb-4">{t("Need help with your booking?", "বুকিং নিয়ে সাহায্য প্রয়োজন?")}</p>
+                                    <p className="text-sm text-slate-700 font-bold mb-4">{t("Need help with your booking?", "বুকিং নিয়ে সাহায্য প্রয়োজন?")}</p>
                                     <Button variant="outline" className="w-full rounded-xl border-primary text-primary hover:bg-primary/5">
                                         {t("Call Center", "কল সেন্টার")}
                                     </Button>

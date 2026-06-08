@@ -143,7 +143,7 @@ export default function AdminDashboard() {
                                 </div>
                             ))
                         ) : (
-                            <div className="text-center py-10 text-slate-400 font-medium italic">
+                            <div className="text-center py-10 text-slate-700 font-bold italic">
                                 {t("No bookings record found.", "কোনো বুকিং রেকর্ড পাওয়া যায়নি।")}
                             </div>
                         )}
@@ -163,16 +163,16 @@ export default function AdminDashboard() {
                         <div className="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
                             <Clock className="w-10 h-10 text-amber-500" />
                             <div className="flex-1">
-                                <p className="font-bold text-slate-900 line-clamp-1">{t("3 New Driver Applications", "৩ জন নতুন ড্রাইভার আবেদন")}</p>
-                                <p className="text-xs text-slate-400 font-medium">{t("Pending review by operations team", "অপারেশন টিমের পর্যালোচনার অপেক্ষায়")}</p>
+                                <p className="font-bold text-slate-950 line-clamp-1">{t("3 New Driver Applications", "৩ জন নতুন ড্রাইভার আবেদন")}</p>
+                                <p className="text-xs text-slate-700 font-bold">{t("Pending review by operations team", "অপারেশন টিমের পর্যালোচনার অপেক্ষায়")}</p>
                             </div>
                             <CheckCircle className="w-6 h-6 text-slate-200" />
                         </div>
                         <div className="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
                             <Users className="w-10 h-10 text-blue-500" />
                             <div className="flex-1">
-                                <p className="font-bold text-slate-900 line-clamp-1">{t("12 Support Tickets", "১২টি সাপোর্ট টিকেট")}</p>
-                                <p className="text-xs text-slate-400 font-medium">{t("4 tickets require immediate attention", "৪টি টিকেট অবিলম্বে মনোযোগ প্রয়োজন")}</p>
+                                <p className="font-bold text-slate-950 line-clamp-1">{t("12 Support Tickets", "১২টি সাপোর্ট টিকেট")}</p>
+                                <p className="text-xs text-slate-700 font-bold">{t("4 tickets require immediate attention", "৪টি টিকেট অবিলম্বে মনোযোগ প্রয়োজন")}</p>
                             </div>
                             <CheckCircle className="w-6 h-6 text-slate-200" />
                         </div>

@@ -126,7 +126,7 @@ export default function RegisterPage() {
                                 <h1 className="text-2xl md:text-3xl font-black text-black mb-2">
                                     {t("Create Account", "অ্যাকাউন্ট তৈরি করুন")}
                                 </h1>
-                                <p className="text-gray-500 text-base md:text-lg">
+                                <p className="text-slate-700 font-bold text-base md:text-lg">
                                     {t("Join TruckDorkar today", "আজই ট্রাক দরকারে যোগ দিন")}
                                 </p>
                             </div>
@@ -146,20 +146,20 @@ export default function RegisterPage() {
                                                 type="button"
                                                 onClick={() => setSelectedRole(role.id)}
                                                 className={`p-4 md:p-5 rounded-xl md:rounded-2xl border-2 transition-all text-center group ${isSelected
-                                                        ? "border-primary bg-primary/5 shadow-md"
-                                                        : "border-gray-100 hover:border-primary/30 bg-gray-50"
+                                                    ? "border-primary bg-primary/5 shadow-md"
+                                                    : "border-gray-100 hover:border-primary/30 bg-gray-50"
                                                     }`}
                                             >
                                                 <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all ${isSelected
-                                                        ? "bg-primary text-white"
-                                                        : "bg-white text-gray-400 group-hover:text-primary"
+                                                    ? "bg-primary text-white"
+                                                    : "bg-white text-gray-400 group-hover:text-primary"
                                                     }`}>
                                                     <Icon className="w-5 h-5 md:w-6 md:h-6" />
                                                 </div>
                                                 <div className={`text-sm md:text-base font-bold mb-1 ${isSelected ? "text-primary" : "text-black"}`}>
                                                     {t(role.title_en, role.title_bn)}
                                                 </div>
-                                                <div className="text-xs text-gray-500 leading-snug">
+                                                <div className="text-xs text-slate-700 font-bold leading-snug">
                                                     {t(role.desc_en, role.desc_bn)}
                                                 </div>
                                             </button>
@@ -171,7 +171,7 @@ export default function RegisterPage() {
                             {/* Form */}
                             <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-600">
+                                    <label className="text-sm font-bold text-slate-950">
                                         {t("Full Name", "পুরো নাম")}
                                     </label>
                                     <input
@@ -180,12 +180,12 @@ export default function RegisterPage() {
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         placeholder={t("Enter your full name", "আপনার পুরো নাম লিখুন")}
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-600">
+                                    <label className="text-sm font-bold text-slate-950">
                                         {t("Phone Number", "ফোন নম্বর")}
                                     </label>
                                     <input
@@ -194,14 +194,14 @@ export default function RegisterPage() {
                                         value={formData.phone}
                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                         placeholder="01700-000000"
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
                                 {selectedRole === "driver" && (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-600">
+                                            <label className="text-sm font-bold text-slate-950">
                                                 {t("License Number", "লাইসেন্স নম্বর")}
                                             </label>
                                             <input
@@ -210,11 +210,11 @@ export default function RegisterPage() {
                                                 value={formData.licenseNumber}
                                                 onChange={(e) => setFormData({ ...formData, licenseNumber: e.target.value })}
                                                 placeholder={t("Enter license number", "লাইসেন্স নম্বর লিখুন")}
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-600">
+                                            <label className="text-sm font-bold text-slate-950">
                                                 {t("Experience (Years)", "অভিজ্ঞতা (বছর)")}
                                             </label>
                                             <input
@@ -224,7 +224,7 @@ export default function RegisterPage() {
                                                 onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                                                 placeholder="0"
                                                 min="0"
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
                                         </div>
                                     </div>
@@ -233,7 +233,7 @@ export default function RegisterPage() {
                                 {selectedRole === "employee" && (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-600">
+                                            <label className="text-sm font-bold text-slate-950">
                                                 {t("Company Name", "কোম্পানির নাম")}
                                             </label>
                                             <input
@@ -242,11 +242,11 @@ export default function RegisterPage() {
                                                 value={formData.companyName}
                                                 onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                                                 placeholder={t("Enter company name", "কোম্পানির নাম লিখুন")}
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-gray-600">
+                                            <label className="text-sm font-bold text-slate-950">
                                                 {t("Employee ID", "কর্মচারী আইডি")}
                                             </label>
                                             <input
@@ -255,14 +255,14 @@ export default function RegisterPage() {
                                                 value={formData.employeeId}
                                                 onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
                                                 placeholder={t("Enter employee ID", "কর্মচারী আইডি লিখুন")}
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
                                         </div>
                                     </div>
                                 )}
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-600">
+                                    <label className="text-sm font-bold text-slate-950">
                                         {t("Email", "ইমেইল")}
                                     </label>
                                     <input
@@ -270,12 +270,12 @@ export default function RegisterPage() {
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         placeholder={t("Enter your email", "আপনার ইমেইল লিখুন")}
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-600">
+                                    <label className="text-sm font-bold text-slate-950">
                                         {t("Password", "পাসওয়ার্ড")}
                                     </label>
                                     <div className="relative">
@@ -290,7 +290,7 @@ export default function RegisterPage() {
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                                            className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
                                         >
                                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                         </button>
@@ -305,14 +305,14 @@ export default function RegisterPage() {
                                         onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
                                         className="w-5 h-5 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary"
                                     />
-                                    <span className="text-sm text-gray-600 leading-relaxed">
+                                    <span className="text-sm text-slate-700 font-bold leading-relaxed">
                                         {t(
                                             "I agree to the",
                                             "আমি সম্মত হয়েছি"
                                         )}{" "}
                                         <Link href="/terms-of-service" className="font-bold text-primary hover:text-secondary">{t("Terms of Service", "সেবার শর্তাবলী")}</Link>{" "}
                                         {t("and", "আর")}{" "}
-                                        <Link href="/privacy-policy" className="font-bold text-primary hover:text-secondary">{t("Privacy Policy", "গোপনীয়তা নীতি")}</Link>
+                                        <Link href="/privacy-policy" className="font-bold text-primary hover:text-secondary">{t("Privacy Policy", "গোপনীয়তা নীতি")}</Link>
                                     </span>
                                 </label>
 
@@ -322,7 +322,7 @@ export default function RegisterPage() {
                             </form>
 
                             {/* Login Link */}
-                            <p className="text-center text-sm md:text-base text-gray-500 mt-6 md:mt-8">
+                            <p className="text-center text-sm md:text-base text-slate-700 font-bold mt-6 md:mt-8">
                                 {t("Already have an account?", "ইতিমধ্যে অ্যাকাউন্ট আছে?")}{" "}
                                 <Link href="/login" className="font-bold text-primary hover:text-secondary transition-colors">
                                     {t("Login", "লগইন")}

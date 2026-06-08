@@ -23,7 +23,7 @@ export default function AdminSupportPage() {
                     <h1 className="text-3xl font-black text-slate-900 mb-2">
                         {t("Support Center", "সাপোর্ট সেন্টার")}
                     </h1>
-                    <p className="text-slate-500 font-bold">
+                    <p className="text-slate-700 font-bold">
                         {t("Manage customer and driver queries, disputes and tickets.", "কাস্টমার এবং ড্রাইভারদের জিজ্ঞাসা এবং অভিযোগ পরিচালনা করুন।")}
                     </p>
                 </div>
@@ -40,8 +40,8 @@ export default function AdminSupportPage() {
                             <stat.icon className="w-6 h-6" />
                         </div>
                         <div>
-                            <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{stat.label}</p>
-                            <p className="text-2xl font-black text-slate-900">{stat.value}</p>
+                            <p className="text-slate-950 text-[10px] font-black uppercase tracking-widest">{stat.label}</p>
+                            <p className="text-2xl font-black text-slate-950">{stat.value}</p>
                         </div>
                     </div>
                 ))}
@@ -49,10 +49,10 @@ export default function AdminSupportPage() {
 
             <div className="bg-white rounded-lg border border-slate-100 p-20 text-center">
                 <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <MessageSquare className="w-8 h-8 text-slate-300" />
+                    <MessageSquare className="w-8 h-8 text-slate-500" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">{t("No Support Tickets", "কোন সাপোর্ট টিকেট নেই")}</h3>
-                <p className="text-slate-500 font-medium max-w-sm mx-auto mb-8">
+                <h3 className="text-xl font-bold text-slate-950 mb-2">{t("No Support Tickets", "কোন সাপোর্ট টিকেট নেই")}</h3>
+                <p className="text-slate-700 font-bold max-w-sm mx-auto mb-8">
                     {t("All clear! Currently there are no pending customer or driver tickets that need your attention.", "সব ঠিক আছে! বর্তমানে কোন কাস্টমার বা ড্রাইভার টিকেট আপনার অপেক্ষায় নেই।")}
                 </p>
                 <Button variant="outline" className="rounded-lg font-bold">

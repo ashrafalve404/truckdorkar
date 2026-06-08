@@ -223,18 +223,52 @@ export function Navbar() {
                             </Link>
                         ))}
                         <div className="flex flex-col gap-3 pt-4">
-                            <Button variant="outline" className="w-full justify-start text-dark-gray" onClick={toggleLang}>
+                            <Button variant="outline" className="w-full justify-start text-dark-gray font-bold" onClick={() => { toggleLang(); setIsMobileMenuOpen(false); }}>
                                 <Globe className="w-4 h-4 mr-2" />
-                                {lang === "en" ? "Switch to বাংলা" : "English-এ পরিবর্তন করুন"}
+                                {lang === "en" ? "বাংলা" : "English"}
                             </Button>
-                            <Button variant="ghost" className="w-full justify-start">
-                                {lang === "en" ? "Login" : "লগইন"}
-                            </Button>
-                            <Link href="/register">
-                                <Button className="w-full">
-                                    {lang === "en" ? "Register" : "রেজিস্টার"}
-                                </Button>
-                            </Link>
+
+                            {isAuthenticated ? (
+                                <>
+                                    {(() => {
+                                        let dashboardLink = "/dashboard";
+                                        if (user?.role === "ADMIN") dashboardLink = "/admin";
+                                        else if (user?.role === "DRIVER") dashboardLink = "/driver/dashboard";
+                                        else if (user?.role === "EMPLOYEE") dashboardLink = "/employee/dashboard";
+
+                                        return (
+                                            <Link href={dashboardLink} onClick={() => setIsMobileMenuOpen(false)}>
+                                                <Button variant="ghost" className="w-full justify-start font-bold text-slate-950">
+                                                    <LayoutDashboard className="w-4 h-4 mr-2" />
+                                                    {lang === "en" ? "Dashboard" : "ড্যাশবোর্ড"}
+                                                </Button>
+                                            </Link>
+                                        );
+                                    })()}
+                                    <Button
+                                        variant="ghost"
+                                        className="w-full justify-start font-bold text-red-500 hover:text-red-600"
+                                        onClick={() => { logout(); setIsMobileMenuOpen(false); }}
+                                    >
+                                        <LogOut className="w-4 h-4 mr-2" />
+                                        {lang === "en" ? "Logout" : "লগআউট"}
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                        <Button variant="ghost" className="w-full justify-start font-bold text-slate-950">
+                                            <UserIcon className="w-4 h-4 mr-2" />
+                                            {lang === "en" ? "Login" : "লগইন"}
+                                        </Button>
+                                    </Link>
+                                    <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
+                                        <Button className="w-full font-bold text-white shadow-lg shadow-primary/20">
+                                            {lang === "en" ? "Register" : "রেজিস্টার"}
+                                        </Button>
+                                    </Link>
+                                </>
+                            )}
                         </div>
                     </motion.div>
                 )}
