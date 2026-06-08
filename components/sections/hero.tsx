@@ -1,27 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
-const heroImages = [
-    "/images/image1.png",
-    "/images/image2.png"
-];
-
 export function Hero() {
     const { t } = useLanguage();
-    const [currentImage, setCurrentImage] = useState(0);
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentImage((prev) => (prev + 1) % heroImages.length);
-        }, 4600);
-        return () => clearInterval(timer);
-    }, []);
 
     const trustBadges = [
         { en: "Verified Drivers", bn: "ভেরিফাইড ড্রাইভার" },
@@ -31,27 +18,16 @@ export function Hero() {
     ];
 
     return (
-        <section className="relative min-h-screen flex items-center pt-24 pb-40 lg:pb-52 overflow-hidden bg-black">
-            {/* Background Image Slider */}
+        <section className="relative min-h-screen flex items-center py-20 pb-40 lg:pb-52 overflow-hidden bg-black">
+            {/* Background Image - Now Still */}
             <div className="absolute inset-0 z-0">
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentImage}
-                        initial={{ x: "100%", opacity: 0 }}
-                        animate={{ x: 0, opacity: 0.6 }}
-                        exit={{ x: "-100%", opacity: 0 }}
-                        transition={{ duration: 0.6, ease: "easeInOut" }}
-                        className="absolute inset-0"
-                    >
-                        <Image
-                            src={heroImages[currentImage]}
-                            alt={`Bangladesh Logistics ${currentImage + 1}`}
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                    </motion.div>
-                </AnimatePresence>
+                <Image
+                    src="/images/image1.png"
+                    alt="Bangladesh Logistics"
+                    fill
+                    className="object-cover opacity-60"
+                    priority
+                />
                 {/* Global Overlays */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10" />
                 <div className="absolute inset-0 bg-black/20 z-10" />

@@ -6,10 +6,16 @@ import { MapPin, Truck, Calendar, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 
+import { useRouter } from "next/navigation";
+
 export function BookingWidget() {
     const { t } = useLanguage();
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState("inter-city");
     const [selectedDate, setSelectedDate] = useState("");
+    const [pickup, setPickup] = useState("");
+    const [drop, setDrop] = useState("");
+    const [truckType, setTruckType] = useState("");
     const dateInputRef = useRef<HTMLInputElement>(null);
 
     const handleDateClick = () => {
@@ -23,6 +29,17 @@ export function BookingWidget() {
         e.stopPropagation();
         setSelectedDate("");
         setTimeout(() => dateInputRef.current?.focus(), 0);
+    };
+
+    const handleSearch = () => {
+        const params = new URLSearchParams({
+            pickup,
+            drop,
+            truckType,
+            date: selectedDate,
+            category: activeTab
+        });
+        router.push(`/bookings/new?${params.toString()}`);
     };
 
     const formatDate = (dateStr: string) => {
@@ -65,6 +82,8 @@ export function BookingWidget() {
                         <div className="relative">
                             <input
                                 type="text"
+                                value={pickup}
+                                onChange={(e) => setPickup(e.target.value)}
                                 placeholder={t("From where?", "কোথা থেকে?")}
                                 className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-600"
                             />
@@ -79,6 +98,8 @@ export function BookingWidget() {
                         <div className="relative">
                             <input
                                 type="text"
+                                value={drop}
+                                onChange={(e) => setDrop(e.target.value)}
                                 placeholder={t("To where?", "কোথায়?")}
                                 className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-600"
                             />
@@ -91,7 +112,11 @@ export function BookingWidget() {
                             {t("Truck Type", "ট্রাকের ধরণ")}
                         </label>
                         <div className="relative">
-                            <select className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer">
+                            <select
+                                value={truckType}
+                                onChange={(e) => setTruckType(e.target.value)}
+                                className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer"
+                            >
                                 <option value="">{t("Select Truck", "ট্রাক নির্বাচন করুন")}</option>
                                 <option value="7ft">{t("7 Feet (1.5 Ton)", "৭ ফিট (১.৫ টন)")}</option>
                                 <option value="12ft">{t("12 Feet (3.5 Ton)", "১২ ফিট (৩.৫ টন)")}</option>
@@ -100,7 +125,10 @@ export function BookingWidget() {
                         </div>
                     </div>
 
-                    <Button className="w-full h-14 rounded-md font-black text-lg gap-3 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary hover:bg-secondary border-none text-white">
+                    <Button
+                        onClick={handleSearch}
+                        className="w-full h-14 rounded-md font-black text-lg gap-3 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary hover:bg-secondary border-none text-white"
+                    >
                         <Search className="w-5 h-5" />
                         {t("Get Quotes", "ভাড়া দেখুন")}
                     </Button>

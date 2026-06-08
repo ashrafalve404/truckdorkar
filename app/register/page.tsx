@@ -7,12 +7,32 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import Link from "next/link";
-import { Eye, EyeOff, ArrowLeft, User, Truck, Briefcase } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, User, Truck, Briefcase, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/store/use-auth";
+import api from "@/lib/api";
+import { toast } from "react-hot-toast";
 
 export default function RegisterPage() {
     const { t } = useLanguage();
+    const router = useRouter();
+    const setAuth = useAuth((state) => state.setAuth);
+
     const [showPassword, setShowPassword] = useState(false);
     const [selectedRole, setSelectedRole] = useState<"user" | "driver" | "employee">("user");
+    const [loading, setLoading] = useState(false);
+
+    const [formData, setFormData] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        password: "",
+        licenseNumber: "",
+        experience: "",
+        companyName: "",
+        employeeId: "",
+        agree: false,
+    });
 
     const roles = [
         {
@@ -40,6 +60,48 @@ export default function RegisterPage() {
             desc_bn: "কোম্পানির কর্মচারী হিসেবে রেজিস্টার",
         },
     ];
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.agree) {
+            toast.error(t("You must agree to the terms", "আপনাকে শর্তাবলীতে সম্মত হতে হবে"));
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const roleMap = {
+                user: "USER",
+                driver: "DRIVER",
+                employee: "EMPLOYEE",
+            };
+
+            const payload = {
+                name: formData.name,
+                phone: formData.phone,
+                email: formData.email || undefined,
+                password: formData.password,
+                role: roleMap[selectedRole],
+                licenseNumber: selectedRole === "driver" ? formData.licenseNumber : undefined,
+                experience: selectedRole === "driver" ? Number(formData.experience) : undefined,
+                companyName: selectedRole === "employee" ? formData.companyName : undefined,
+                employeeId: selectedRole === "employee" ? formData.employeeId : undefined,
+            };
+
+            const { data } = await api.post("/auth/register", payload);
+
+            setAuth(data.data.user, data.data.accessToken, data.data.refreshToken);
+            toast.success(t("Registration successful!", "রেজিস্ট্রেশন সফল হয়েছে!"));
+
+            if (payload.role === 'DRIVER') router.push('/driver/dashboard');
+            else if (payload.role === 'EMPLOYEE') router.push('/employee/dashboard');
+            else router.push('/dashboard');
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || t("Registration failed", "রেজিস্ট্রেশন ব্যর্থ হয়েছে"));
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-white">
@@ -83,17 +145,15 @@ export default function RegisterPage() {
                                                 key={role.id}
                                                 type="button"
                                                 onClick={() => setSelectedRole(role.id)}
-                                                className={`p-4 md:p-5 rounded-xl md:rounded-2xl border-2 transition-all text-center group ${
-                                                    isSelected
+                                                className={`p-4 md:p-5 rounded-xl md:rounded-2xl border-2 transition-all text-center group ${isSelected
                                                         ? "border-primary bg-primary/5 shadow-md"
                                                         : "border-gray-100 hover:border-primary/30 bg-gray-50"
-                                                }`}
+                                                    }`}
                                             >
-                                                <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all ${
-                                                    isSelected
+                                                <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all ${isSelected
                                                         ? "bg-primary text-white"
                                                         : "bg-white text-gray-400 group-hover:text-primary"
-                                                }`}>
+                                                    }`}>
                                                     <Icon className="w-5 h-5 md:w-6 md:h-6" />
                                                 </div>
                                                 <div className={`text-sm md:text-base font-bold mb-1 ${isSelected ? "text-primary" : "text-black"}`}>
@@ -109,26 +169,30 @@ export default function RegisterPage() {
                             </div>
 
                             {/* Form */}
-                            <form className="space-y-5 md:space-y-6">
-                                                                {selectedRole !== "driver" && selectedRole !== "employee" ? (
-                                                                    <div className="space-y-2">
-                                                                        <label className="text-sm font-bold text-gray-600">
-                                                                            {t("Full Name", "পুরো নাম")}
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            placeholder={t("Enter your full name", "আপনার পুরো নাম লিখুন")}
-                                                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                                        />
-                                                                    </div>
-                                ) : null}
+                            <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-gray-600">
+                                        {t("Full Name", "পুরো নাম")}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        placeholder={t("Enter your full name", "আপনার পুরো নাম লিখুন")}
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                    />
+                                </div>
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-gray-600">
                                         {t("Phone Number", "ফোন নম্বর")}
                                     </label>
                                     <input
-                                        type="text"
+                                        type="tel"
+                                        required
+                                        value={formData.phone}
+                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                         placeholder="01700-000000"
                                         className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
@@ -142,6 +206,9 @@ export default function RegisterPage() {
                                             </label>
                                             <input
                                                 type="text"
+                                                required
+                                                value={formData.licenseNumber}
+                                                onChange={(e) => setFormData({ ...formData, licenseNumber: e.target.value })}
                                                 placeholder={t("Enter license number", "লাইসেন্স নম্বর লিখুন")}
                                                 className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
@@ -152,6 +219,9 @@ export default function RegisterPage() {
                                             </label>
                                             <input
                                                 type="number"
+                                                required
+                                                value={formData.experience}
+                                                onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                                                 placeholder="0"
                                                 min="0"
                                                 className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
@@ -168,6 +238,9 @@ export default function RegisterPage() {
                                             </label>
                                             <input
                                                 type="text"
+                                                required
+                                                value={formData.companyName}
+                                                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                                                 placeholder={t("Enter company name", "কোম্পানির নাম লিখুন")}
                                                 className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
@@ -178,6 +251,9 @@ export default function RegisterPage() {
                                             </label>
                                             <input
                                                 type="text"
+                                                required
+                                                value={formData.employeeId}
+                                                onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
                                                 placeholder={t("Enter employee ID", "কর্মচারী আইডি লিখুন")}
                                                 className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
@@ -191,6 +267,8 @@ export default function RegisterPage() {
                                     </label>
                                     <input
                                         type="email"
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         placeholder={t("Enter your email", "আপনার ইমেইল লিখুন")}
                                         className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
@@ -203,6 +281,9 @@ export default function RegisterPage() {
                                     <div className="relative">
                                         <input
                                             type={showPassword ? "text" : "password"}
+                                            required
+                                            value={formData.password}
+                                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                             placeholder={t("Create password", "পাসওয়ার্ড তৈরি করুন")}
                                             className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 pr-12 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                         />
@@ -219,6 +300,9 @@ export default function RegisterPage() {
                                 <label className="flex items-start gap-3 cursor-pointer">
                                     <input
                                         type="checkbox"
+                                        required
+                                        checked={formData.agree}
+                                        onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
                                         className="w-5 h-5 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary"
                                     />
                                     <span className="text-sm text-gray-600 leading-relaxed">
@@ -226,14 +310,14 @@ export default function RegisterPage() {
                                             "I agree to the",
                                             "আমি সম্মত হয়েছি"
                                         )}{" "}
-                                        <button type="button" className="font-bold text-primary hover:text-secondary">{t("Terms of Service", "সেবার শর্তাবলী")}</button>{" "}
+                                        <Link href="/terms-of-service" className="font-bold text-primary hover:text-secondary">{t("Terms of Service", "সেবার শর্তাবলী")}</Link>{" "}
                                         {t("and", "আর")}{" "}
-                                        <button type="button" className="font-bold text-primary hover:text-secondary">{t("Privacy Policy", "গোপনীয়তা নীতি")}</button>
+                                        <Link href="/privacy-policy" className="font-bold text-primary hover:text-secondary">{t("Privacy Policy", "গোপনীয়তা নীতি")}</Link>
                                     </span>
                                 </label>
 
-                                <Button size="lg" className="w-full h-12 md:h-14 rounded-lg md:rounded-xl font-bold text-base md:text-lg transition-all hover:translate-y-[-2px] text-white">
-                                    {t("Create Account", "অ্যাকাউন্ট তৈরি করুন")}
+                                <Button size="lg" disabled={loading} className="w-full h-12 md:h-14 rounded-lg md:rounded-xl font-bold text-base md:text-lg transition-all hover:translate-y-[-2px] text-white">
+                                    {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("Create Account", "অ্যাকাউন্ট তৈরি করুন")}
                                 </Button>
                             </form>
 

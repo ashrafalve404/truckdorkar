@@ -1,15 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Send, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Send, MessageCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
+import api from "@/lib/api";
+import { toast } from "react-hot-toast";
 
 export default function ContactPage() {
     const { t } = useLanguage();
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+    });
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await api.post("/contact/submit", {
+                name: formData.name,
+                phone: formData.phone,
+                email: formData.email || undefined,
+                message: formData.message,
+                subject: "Web Inquiry",
+            });
+            toast.success(t("Message sent successfully!", "মেসেজ সফলভাবে পাঠানো হয়েছে!"));
+            setFormData({ name: "", phone: "", email: "", message: "" });
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || t("Failed to send message", "মেসেজ পাঠানো ব্যর্থ হয়েছে"));
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-white">
@@ -17,7 +46,7 @@ export default function ContactPage() {
 
             <main className="pt-24 md:pt-32">
                 {/* Header */}
-                <section className="py-10 md:py-12 bg-light-gray">
+                <section className="py-10 md:py-12 bg-slate-50">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -44,31 +73,62 @@ export default function ContactPage() {
                                 initial={{ opacity: 0, x: -30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                className="bg-white p-6 md:p-8 lg:p-12 rounded-lg md:rounded-xl shadow-premium border border-gray-100"
+                                className="bg-white p-6 md:p-8 lg:p-12 rounded-lg md:rounded-3xl shadow-premium border border-gray-100"
                             >
                                 <h2 className="text-xl md:text-2xl font-black text-black mb-4 md:mb-6">{t("Send Message", "মেসেজ পাঠান")}</h2>
-                                <form className="space-y-5 md:space-y-6">
+                                <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-gray-600">{t("Name", "নাম")}</label>
-                                            <input type="text" placeholder={t("Enter your name", "আপনার নাম লিখুন")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                                            <input
+                                                type="text"
+                                                required
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                placeholder={t("Enter your name", "আপনার নাম লিখুন")}
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                            />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-gray-600">{t("Phone Number", "ফোন নম্বর")}</label>
-                                            <input type="text" placeholder={t("Enter phone number", "আপনার ফোন নম্বর")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                                            <input
+                                                type="text"
+                                                required
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                placeholder={t("Enter phone number", "আপনার ফোন নম্বর")}
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                            />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-gray-600">{t("Email", "ইমেইল")}</label>
-                                            <input type="email" placeholder={t("Enter email (optional)", "আপনার ইমেইল (ঐচ্ছিক)")} className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                                        <input
+                                            type="email"
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            placeholder={t("Enter email (optional)", "আপনার ইমেইল (ঐচ্ছিক)")}
+                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-gray-600">{t("Message", "মেসেজ")}</label>
-                                            <textarea placeholder={t("Enter your message...", "আপনার মেসেজ লিখুন...")} rows={4} className="w-full bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none" />
+                                        <textarea
+                                            required
+                                            value={formData.message}
+                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                            placeholder={t("Enter your message...", "আপনার মেসেজ লিখুন...")}
+                                            rows={4}
+                                            className="w-full bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 py-3 md:py-4 text-sm md:text-base text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
+                                        />
                                     </div>
-                                    <Button size="lg" className="w-full h-12 md:h-16 rounded-lg md:rounded-xl font-bold text-base md:text-lg gap-2 transition-all hover:translate-y-[-2px] text-white">
-                                        <Send className="w-4 h-4 md:w-5 md:h-5" />
-                                        {t("Send Message", "মেসেজ পাঠান")}
+                                    <Button disabled={loading} size="lg" className="w-full h-12 md:h-16 rounded-lg md:rounded-xl font-bold text-base md:text-lg gap-2 transition-all hover:translate-y-[-2px] text-white">
+                                        {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
+                                            <>
+                                                <Send className="w-4 h-4 md:w-5 md:h-5" />
+                                                {t("Send Message", "মেসেজ পাঠান")}
+                                            </>
+                                        )}
                                     </Button>
                                 </form>
                             </motion.div>
@@ -122,31 +182,19 @@ export default function ContactPage() {
                                     </div>
                                 </div>
 
-                                <div className="p-5 md:p-7 bg-black rounded-lg md:rounded-xl text-white flex items-center justify-between group cursor-pointer hover:bg-primary transition-all duration-500">
+                                <div className="p-5 md:p-7 bg-black rounded-lg md:rounded-3xl text-white flex items-center justify-between group cursor-pointer hover:bg-primary transition-all duration-500">
                                     <div className="flex items-center gap-4 md:gap-6">
                                         <div className="w-14 h-14 md:w-16 md:h-16 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-all">
                                             <MessageCircle className="w-6 h-6 md:w-8 md:h-8 text-white" />
                                         </div>
                                         <div>
                                             <div className="text-lg md:text-xl font-bold">{t("Live Chat Support", "লাইভ চ্যাট সাপোর্ট")}</div>
-                                            <div className="text-xs md:text-sm text-gray-400 group-hover:text-white/80">{t("Talk directly with our team", "আমাদের টিমের সাথে সরাসরি কথা বলুন")}</div>
+                                            <div className="text-xs md:text-sm text-gray-400 group-hover:text-white/80">{t("Talk directly with our team", "আমাদের ટીમના સાથે সরাসরি কথা বলুন")}</div>
                                         </div>
                                     </div>
                                     <div className="w-10 h-10 md:w-12 md:h-12 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
                                         <Send className="w-4 h-4 md:w-5 md:h-5 rotate-45" />
                                     </div>
-                                </div>
-                                <div className="rounded-lg md:rounded-xl overflow-hidden shadow-sm h-[200px] md:h-[250px]">
-                                    <iframe
-                                        src="https://maps.google.com/maps?q=Navana+Shopping+Centre,+Gulshan+Avenue+01,+Dhaka&output=embed"
-                                        width="100%"
-                                        height="100%"
-                                        style={{ border: 0 }}
-                                        allowFullScreen
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        title="Office Location Map"
-                                    />
                                 </div>
                             </motion.div>
                         </div>

@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/layout/navbar";
+import { BannerSlider } from "@/components/sections/banner-slider";
 import { Hero } from "@/components/sections/hero";
 import { BookingWidget } from "@/components/sections/booking-widget";
 import { Statistics } from "@/components/sections/statistics";
@@ -15,6 +16,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <main>
+        <BannerSlider />
         <Hero />
         <BookingWidget />
         <Statistics />

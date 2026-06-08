@@ -9,6 +9,8 @@ import { Globe, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/language-context";
+import { useAuth } from "@/store/use-auth";
+import { User as UserIcon, LogOut, LayoutDashboard } from "lucide-react";
 
 const navLinks = [
     { name: "Home", href: "/", bn: "হোম" },
@@ -21,6 +23,7 @@ const navLinks = [
 
 export function Navbar() {
     const { lang, setLang } = useLanguage();
+    const { user, isAuthenticated, logout } = useAuth();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname();
@@ -35,8 +38,8 @@ export function Navbar() {
 
     const toggleLang = () => setLang(lang === "en" ? "bn" : "en");
 
-    // Logic to determine if navbar items should be white (only at top of home page)
-    const isDarkBackground = pathname === "/" && !isScrolled;
+    // Now that BannerSlider (white) is at the top, we want dark text even when not scrolled
+    const isDarkBackground = false;
 
     const [activeHash, setActiveHash] = useState("");
 
@@ -141,19 +144,51 @@ export function Navbar() {
                         <Globe className="w-4 h-4" />
                         {lang === "en" ? "বাংলা" : "EN"}
                     </button>
-                    <Link href="/login">
-                        <Button variant="ghost" size="sm" className={cn(
-                            "font-bold",
-                            isDarkBackground ? "text-white hover:bg-white/10" : "text-dark-gray hover:bg-black/5"
-                        )}>
-                            {lang === "en" ? "Login" : "লগইন"}
-                        </Button>
-                    </Link>
-                    <Link href="/register">
-                        <Button variant={isDarkBackground ? "default" : "secondary"} size="sm" className="font-bold">
-                            {lang === "en" ? "Register" : "রেজিস্টার"}
-                        </Button>
-                    </Link>
+
+                    {isAuthenticated ? (
+                        <div className="flex items-center gap-4">
+                            {(() => {
+                                let dashboardLink = "/dashboard";
+                                if (user?.role === "ADMIN") dashboardLink = "/admin";
+                                else if (user?.role === "DRIVER") dashboardLink = "/driver/dashboard";
+                                else if (user?.role === "EMPLOYEE") dashboardLink = "/employee/dashboard";
+
+                                return (
+                                    <Link href={dashboardLink} className="flex items-center gap-2 text-sm font-bold text-dark-gray hover:text-primary transition-all">
+                                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                            <UserIcon className="w-4 h-4" />
+                                        </div>
+                                        <span className="hidden md:inline">{user?.name}</span>
+                                    </Link>
+                                );
+                            })()}
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={logout}
+                                className="font-bold text-red-500 hover:text-red-100 hover:bg-red-50 rounded-md px-4"
+                            >
+                                <LogOut className="w-4 h-4 md:mr-2" />
+                                <span className="hidden md:inline">{lang === "en" ? "Logout" : "লগআউট"}</span>
+                            </Button>
+                        </div>
+                    ) : (
+                        <>
+                            <Link href="/login">
+                                <Button variant="ghost" size="sm" className={cn(
+                                    "font-bold",
+                                    isDarkBackground ? "text-white hover:bg-white/10" : "text-dark-gray hover:bg-black/5"
+                                )}>
+                                    {lang === "en" ? "Login" : "লগইন"}
+                                </Button>
+                            </Link>
+                            <Link href="/register">
+                                <Button variant={isDarkBackground ? "default" : "secondary"} size="sm" className="font-bold">
+                                    {lang === "en" ? "Register" : "রেজিস্টার"}
+                                </Button>
+                            </Link>
+                        </>
+                    )}
                 </div>
 
                 {/* Mobile Toggle */}
