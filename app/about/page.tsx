@@ -96,19 +96,14 @@ export default function AboutPage() {
                                 </div>
                             </motion.div>
 
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                className="relative h-[300px] sm:h-[350px] md:h-[400px] rounded-2xl md:rounded-3xl overflow-hidden shadow-premium"
-                            >
-                                <Image
-                                    src="/images/image1.png"
-                                    alt="TruckDorkar Team"
-                                    fill
-                                    className="object-cover"
+                            <div className="w-full overflow-hidden">
+                                <img
+                                    src="/images/footerimagebanner.png"
+                                    alt="TruckDorkar"
+                                    className="w-full h-auto object-contain"
+                                    style={{ maxHeight: '300px' }}
                                 />
-                            </motion.div>
+                            </div>
                         </div>
                     </div>
                 </section>
