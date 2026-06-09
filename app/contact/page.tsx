@@ -189,7 +189,7 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <div className="text-lg md:text-xl font-bold">{t("Live Chat Support", "লাইভ চ্যাট সাপোর্ট")}</div>
-                                            <div className="text-xs md:text-sm text-gray-400 group-hover:text-white/80">{t("Talk directly with our team", "আমাদের ટીમના સાથે সরাসরি কথা বলুন")}</div>
+                                            <div className="text-xs md:text-sm text-gray-400 group-hover:text-white/80">{t("Talk directly with our team", "আমাদের সাথে সরাসরি কথা বলুন")}</div>
                                         </div>
                                     </div>
                                     <div className="w-10 h-10 md:w-12 md:h-12 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
