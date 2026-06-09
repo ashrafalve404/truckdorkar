@@ -25,9 +25,19 @@ export default function EmployeeDriversPage() {
 
     const fetchDrivers = async () => {
         try {
-            // Endpoints should be available or consistent with admin
-            const response = await api.get("/admin/drivers");
-            setDrivers(response.data.data.drivers || []);
+            // Use /drivers endpoint which allows both ADMIN and EMPLOYEE
+            const response = await api.get("/drivers");
+            const driversList = response.data?.data?.drivers || [];
+            // Drivers endpoint returns user info directly, adapt to same structure
+            const adapted = driversList.map((d: any) => ({
+                id: d.id,
+                userId: d.userId,
+                licenseNumber: d.licenseNumber,
+                status: d.status,
+                experience: d.experience,
+                user: d.user || {},
+            }));
+            setDrivers(adapted);
         } catch (error) {
             console.error("Failed to fetch drivers", error);
         } finally {

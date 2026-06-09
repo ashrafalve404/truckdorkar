@@ -24,10 +24,22 @@ function BookingContent() {
         dropLocation: searchParams.get("drop") || "",
         truckType: searchParams.get("truckType") || "",
         scheduledDate: searchParams.get("date") || "",
+        contactPhone: user?.phone || "",
         cargoType: "GENERAL",
         weight: "",
         description: "",
     });
+
+    useEffect(() => {
+        if (user?.phone) {
+            setFormData(prev => ({ ...prev, contactPhone: user.phone }));
+        }
+    }, [user]);
+
+    const validatePhone = (phone: string) => {
+        const regex = /^01[3-9]\d{8}$/;
+        return regex.test(phone);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,6 +47,11 @@ function BookingContent() {
         if (!isAuthenticated) {
             toast.error(t("Please login to book a truck", "ট্রাক বুক করতে অনুগ্রহ করে লগইন করুন"));
             router.push(`/login?redirect=/bookings/new&${searchParams.toString()}`);
+            return;
+        }
+
+        if (!validatePhone(formData.contactPhone)) {
+            toast.error(t("Please enter a valid Bangladeshi phone number (e.g., 017xxxxxxxx)", "অনুগ্রহ করে একটি সঠিক বাংলাদেশী ফোন নম্বর দিন (যেমন: ০১৭১xxxxxxx)"));
             return;
         }
 
@@ -46,6 +63,7 @@ function BookingContent() {
                 // Adjusting fields to match backend schema
                 pickupAddress: formData.pickupLocation,
                 dropoffAddress: formData.dropLocation,
+                phone: formData.contactPhone,
                 scheduledAt: formData.scheduledDate ? new Date(formData.scheduledDate).toISOString() : new Date().toISOString(),
             });
 
@@ -106,7 +124,7 @@ function BookingContent() {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
                                                 <Truck className="w-4 h-4 text-primary" />
@@ -119,9 +137,12 @@ function BookingContent() {
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
                                             >
                                                 <option value="">{t("Select Truck", "ট্রাক নির্বাচন করুন")}</option>
-                                                <option value="MINI_TRUCK_7FT">{t("7 Feet Mini Truck", "৭ ফিট মিনি ট্রাক")}</option>
-                                                <option value="TRUCK_12FT">{t("12 Feet Truck", "১২ ফিট ট্রাক")}</option>
-                                                <option value="TRUCK_18FT">{t("18 Feet Truck", "১৮ ফিট ট্রাক")}</option>
+                                                <option value="1_ton_open_7ft">{t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক")}</option>
+                                                <option value="1_ton_cover_7ft">{t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক")}</option>
+                                                <option value="1.5_ton_open_9ft">{t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক")}</option>
+                                                <option value="1.5_ton_cover_9ft">{t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক")}</option>
+                                                <option value="3_ton_open_12ft">{t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক")}</option>
+                                                <option value="3_ton_cover_12ft">{t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক")}</option>
                                             </select>
                                         </div>
                                         <div className="space-y-2">
@@ -135,6 +156,20 @@ function BookingContent() {
                                                 value={formData.scheduledDate}
                                                 onChange={(e) => setFormData({ ...formData, scheduledDate: e.target.value })}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                <Info className="w-4 h-4 text-primary" />
+                                                {t("Contact Phone", "যোগাযোগ নম্বর")}
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                required
+                                                placeholder="01xxxxxxxxx"
+                                                value={formData.contactPhone}
+                                                onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
                                     </div>

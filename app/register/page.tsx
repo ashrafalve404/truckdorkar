@@ -61,8 +61,19 @@ export default function RegisterPage() {
         },
     ];
 
+    const validatePhone = (phone: string) => {
+        const regex = /^01[3-9]\d{8}$/;
+        return regex.test(phone);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!validatePhone(formData.phone)) {
+            toast.error(t("Please enter a valid Bangladeshi phone number (e.g., 017xxxxxxxx)", "অনুগ্রহ করে একটি সঠিক বাংলাদেশী ফোন নম্বর দিন (যেমন: ০১৭১xxxxxxx)"));
+            return;
+        }
+
         if (!formData.agree) {
             toast.error(t("You must agree to the terms", "আপনাকে শর্তাবলীতে সম্মত হতে হবে"));
             return;
@@ -79,7 +90,7 @@ export default function RegisterPage() {
             const payload = {
                 name: formData.name,
                 phone: formData.phone,
-                email: formData.email || undefined,
+                email: formData.email.trim() === "" ? undefined : formData.email,
                 password: formData.password,
                 role: roleMap[selectedRole],
                 licenseNumber: selectedRole === "driver" ? formData.licenseNumber : undefined,
@@ -172,7 +183,7 @@ export default function RegisterPage() {
                             <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-slate-950">
-                                        {t("Full Name", "পুরো নাম")}
+                                        {t("Full Name", "পুরো নাম")} <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -186,7 +197,7 @@ export default function RegisterPage() {
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-slate-950">
-                                        {t("Phone Number", "ফোন নম্বর")}
+                                        {t("Phone Number", "ফোন নম্বর")} <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="tel"
@@ -202,7 +213,7 @@ export default function RegisterPage() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">
-                                                {t("License Number", "লাইসেন্স নম্বর")}
+                                                {t("License Number", "লাইসেন্স নম্বর")} <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -215,7 +226,7 @@ export default function RegisterPage() {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">
-                                                {t("Experience (Years)", "অভিজ্ঞতা (বছর)")}
+                                                {t("Experience (Years)", "অভিজ্ঞতা (বছর)")} <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="number"
@@ -234,7 +245,7 @@ export default function RegisterPage() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">
-                                                {t("Company Name", "কোম্পানির নাম")}
+                                                {t("Company Name", "কোম্পানির নাম")} <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -247,7 +258,7 @@ export default function RegisterPage() {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">
-                                                {t("Employee ID", "কর্মচারী আইডি")}
+                                                {t("Employee ID", "কর্মচারী আইডি")} <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -276,7 +287,7 @@ export default function RegisterPage() {
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-slate-950">
-                                        {t("Password", "পাসওয়ার্ড")}
+                                        {t("Password", "পাসওয়ার্ড")} <span className="text-red-500">*</span>
                                     </label>
                                     <div className="relative">
                                         <input

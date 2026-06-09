@@ -57,7 +57,7 @@ export default function DriverSupportPage() {
                     </div>
                     <h3 className="font-bold text-slate-950 mb-2">{t("FAQ", "সাধারণ জিজ্ঞাসা")}</h3>
                     <p className="text-sm text-slate-700 font-bold mb-6">{t("Find answers to common questions.", "সাধারণ প্রশ্নের উত্তরগুলো খুঁজে নিন।")}</p>
-                    <Button variant="outline" className="w-full rounded-lg font-bold border-slate-200">
+                    <Button variant="outline" className="w-full rounded-lg font-bold border-slate-200 text-slate-900">
                         {t("View FAQ", "FAQ দেখুন")}
                     </Button>
                 </div>

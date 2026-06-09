@@ -50,6 +50,7 @@ export function BookingWidget() {
 
     return (
         <motion.div
+            id="booking-form"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -118,9 +119,12 @@ export function BookingWidget() {
                                 className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer"
                             >
                                 <option value="">{t("Select Truck", "ট্রাক নির্বাচন করুন")}</option>
-                                <option value="7ft">{t("7 Feet (1.5 Ton)", "৭ ফিট (১.৫ টন)")}</option>
-                                <option value="12ft">{t("12 Feet (3.5 Ton)", "১২ ফিট (৩.৫ টন)")}</option>
-                                <option value="18ft">{t("18 Feet (7 Ton)", "১৮ ফিট (৭ টন)")}</option>
+                                <option value="1_ton_open_7ft">{t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক")}</option>
+                                <option value="1_ton_cover_7ft">{t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক")}</option>
+                                <option value="1.5_ton_open_9ft">{t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক")}</option>
+                                <option value="1.5_ton_cover_9ft">{t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক")}</option>
+                                <option value="3_ton_open_12ft">{t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক")}</option>
+                                <option value="3_ton_cover_12ft">{t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক")}</option>
                             </select>
                         </div>
                     </div>

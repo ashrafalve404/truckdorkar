@@ -182,6 +182,7 @@ export function Footer() {
                             {[
                                 { en: "Home", bn: "হোম", href: "/" },
                                 { en: "About Us", bn: "আমাদের সম্পর্কে", href: "/about" },
+                                { en: "Book a Truck", bn: "ট্রাক বুক করুন", href: "/bookings/new" },
                                 { en: "Services", bn: "সার্ভিস", href: "/#services" },
                                 { en: "Fleet", bn: "ফ্লিট", href: "/#fleet" },
                                 { en: "Contact", bn: "যোগাযোগ", href: "/contact" }

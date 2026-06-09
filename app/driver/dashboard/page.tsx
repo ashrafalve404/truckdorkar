@@ -68,7 +68,7 @@ export default function DriverDashboard() {
                 </div>
                 <div className="flex items-center gap-3 bg-white p-1 rounded-full border border-slate-100 shadow-sm">
                     <div className="bg-green-500 w-3 h-3 rounded-full ml-4 animate-pulse"></div>
-                    <span className="text-sm font-bold pr-4">{t("Available for Jobs", "কাজের জন্য প্রস্তুত")}</span>
+                    <span className="text-sm font-bold pr-4 text-slate-900">{t("Available for Jobs", "কাজের জন্য প্রস্তুত")}</span>
                 </div>
             </header>
 

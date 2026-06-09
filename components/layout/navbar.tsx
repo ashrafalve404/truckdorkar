@@ -14,6 +14,7 @@ import { User as UserIcon, LogOut, LayoutDashboard } from "lucide-react";
 
 const navLinks = [
     { name: "Home", href: "/", bn: "হোম" },
+    { name: "Booking", href: "/bookings/new", bn: "বুকিং" },
     { name: "Services", href: "/#services", bn: "সার্ভিস" },
     { name: "How It Works", href: "/#how-it-works", bn: "কিভাবে কাজ করে" },
     { name: "Fleet", href: "/#fleet", bn: "ফ্লিট" },

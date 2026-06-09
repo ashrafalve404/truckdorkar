@@ -15,6 +15,7 @@ import {
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
 import api from "@/lib/api";
+import Link from "next/link";
 
 export default function AdminDashboard() {
     const { t } = useLanguage();
@@ -123,9 +124,9 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 text-black">
                 {/* Recent Bookings */}
                 <div className="bg-white rounded-xl border border-slate-100 p-8 shadow-sm">
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center justify-between mb-8 text-black">
                         <h2 className="text-xl font-bold text-slate-900">{t("Recent Bookings", "সাম্প্রতিক বুকিং")}</h2>
-                        <button className="text-primary text-sm font-bold hover:underline">{t("View All", "সব দেখুন")}</button>
+                        <Link href="/admin/bookings" className="text-primary text-sm font-bold hover:underline">{t("View All", "সব দেখুন")}</Link>
                     </div>
                     <div className="space-y-4">
                         {stats?.recentBookings?.length > 0 ? (
@@ -163,18 +164,18 @@ export default function AdminDashboard() {
                         <div className="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
                             <Clock className="w-10 h-10 text-amber-500" />
                             <div className="flex-1">
-                                <p className="font-bold text-slate-950 line-clamp-1">{t("3 New Driver Applications", "৩ জন নতুন ড্রাইভার আবেদন")}</p>
+                                <p className="font-bold text-slate-950 line-clamp-1">{t(`${stats?.pendingDrivers || 0} New Driver Applications`, `${stats?.pendingDrivers || 0} জন নতুন ড্রাইভার আবেদন`)}</p>
                                 <p className="text-xs text-slate-700 font-bold">{t("Pending review by operations team", "অপারেশন টিমের পর্যালোচনার অপেক্ষায়")}</p>
                             </div>
-                            <CheckCircle className="w-6 h-6 text-slate-200" />
+                            {stats?.pendingDrivers === 0 && <CheckCircle className="w-6 h-6 text-green-500" />}
                         </div>
                         <div className="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
                             <Users className="w-10 h-10 text-blue-500" />
                             <div className="flex-1">
-                                <p className="font-bold text-slate-950 line-clamp-1">{t("12 Support Tickets", "১২টি সাপোর্ট টিকেট")}</p>
-                                <p className="text-xs text-slate-700 font-bold">{t("4 tickets require immediate attention", "৪টি টিকেট অবিলম্বে মনোযোগ প্রয়োজন")}</p>
+                                <p className="font-bold text-slate-950 line-clamp-1">{t(`${stats?.openTickets || 0} Support Tickets`, `${stats?.openTickets || 0}টি সাপোর্ট টিকেট`)}</p>
+                                <p className="text-xs text-slate-700 font-bold">{t("Tickets require attention", "টিকেট অবিলম্বে মনোযোগ প্রয়োজন")}</p>
                             </div>
-                            <CheckCircle className="w-6 h-6 text-slate-200" />
+                            {stats?.openTickets === 0 && <CheckCircle className="w-6 h-6 text-green-500" />}
                         </div>
                     </div>
                 </div>

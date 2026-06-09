@@ -40,7 +40,6 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Drivers", href: "/admin/drivers", icon: Truck, bn: "ড্রাইভার" },
             { name: "Users", href: "/admin/users", icon: Users, bn: "ইউজার" },
             { name: "Support", href: "/admin/support", icon: MessageSquare, bn: "সাপোর্ট" },
-            { name: "Banners", href: "/admin/banners", icon: ImageIcon, bn: "ব্যানার" },
             { name: "Settings", href: "/admin/settings", icon: Settings, bn: "সেটিংস" },
         ],
         DRIVER: [

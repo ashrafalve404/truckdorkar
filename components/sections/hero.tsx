@@ -7,8 +7,11 @@ import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
+import { useRouter } from "next/navigation";
+
 export function Hero() {
     const { t } = useLanguage();
+    const router = useRouter();
 
     const trustBadges = [
         { en: "Verified Drivers", bn: "ভেরিফাইড ড্রাইভার" },
@@ -16,6 +19,13 @@ export function Hero() {
         { en: "24/7 Support", bn: "২৪/৭ সাপোর্ট" },
         { en: "Real-Time Tracking", bn: "রিয়েল-টাইম ট্র্যাকিং" },
     ];
+
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
     return (
         <section className="relative min-h-screen flex items-center py-20 pb-40 lg:pb-52 overflow-hidden bg-black">
@@ -55,10 +65,19 @@ export function Hero() {
                         </p>
 
                         <div className="flex flex-wrap gap-6 mb-16">
-                            <Button size="lg" className="rounded-md font-bold px-10 h-16 text-lg shadow-2xl hover:translate-y-[-4px] transition-all bg-primary hover:bg-secondary border-none text-white">
+                            <Button
+                                size="lg"
+                                onClick={() => router.push("/bookings/new")}
+                                className="rounded-md font-bold px-10 h-16 text-lg shadow-2xl hover:translate-y-[-4px] transition-all bg-primary hover:bg-secondary border-none text-white"
+                            >
                                 {t("Book a Truck", "ট্রাক বুক করুন")}
                             </Button>
-                            <Button size="lg" variant="outline" className="rounded-md font-bold px-10 h-16 text-lg border-2 border-white text-white hover:bg-white hover:text-black hover:translate-y-[-4px] transition-all">
+                            <Button
+                                size="lg"
+                                variant="outline"
+                                onClick={() => scrollToSection("fleet")}
+                                className="rounded-md font-bold px-10 h-16 text-lg border-2 border-white text-white hover:bg-white hover:text-black hover:translate-y-[-4px] transition-all"
+                            >
                                 {t("Find Trucks", "ট্রাক খুঁজুন")}
                                 <ArrowRight className="ml-2 w-6 h-6" />
                             </Button>
