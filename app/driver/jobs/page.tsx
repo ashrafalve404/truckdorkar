@@ -1,14 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
     Search,
-    Filter,
-    MapPin,
     Calendar,
-    Truck,
     ArrowRight,
     Loader2,
     Package
@@ -19,27 +16,26 @@ import { toast } from "react-hot-toast";
 
 export default function DriverJobsPage() {
     const { t } = useLanguage();
-    const [jobs, setJobs] = useState<any[]>([]);
+    const [jobs, setJobs] = useState<{ id: string; type?: string; pickupAddress: string; dropAddress: string; status: string; estimatedFare?: number | string; scheduledAt?: string; goodsType?: string }[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchJobs = async () => {
+    const fetchJobs = useCallback(async () => {
         try {
             // Fetch available jobs (PENDING status)
             const response = await api.get("/bookings");
             const allBookings = response.data.data || [];
-            // Filter only pending ones for "Find Jobs"
-            setJobs(allBookings.filter((b: any) => b.status === 'PENDING'));
+            setJobs(allBookings.filter((b: { status: string }) => b.status === 'PENDING'));
         } catch (error) {
             console.error("Failed to fetch jobs", error);
             toast.error(t("Failed to load available jobs", "কাজগুলো লোড করতে ব্যর্থ হয়েছে"));
         } finally {
             setLoading(false);
         }
-    };
+    }, [t, toast]);
 
     useEffect(() => {
         fetchJobs();
-    }, []);
+    }, [fetchJobs]);
 
     const handleAcceptJob = async (id: string) => {
         try {

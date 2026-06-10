@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
@@ -8,10 +8,7 @@ import {
     Search,
     Loader2,
     UserX,
-    UserCheck,
-    CheckCircle,
-    XCircle,
-    AlertCircle
+    UserCheck
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -20,32 +17,35 @@ import { cn } from "@/lib/utils";
 
 export default function AdminDriversPage() {
     const { t } = useLanguage();
-    const [drivers, setDrivers] = useState<any[]>([]);
+    const [drivers, setDrivers] = useState<{
+        id: string; user?: { name?: string; phone?: string; isActive?: boolean; id?: string }; licenseNumber?: string; status: string
+    }[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
 
-    const fetchDrivers = async () => {
+    const fetchDrivers = useCallback(async () => {
         try {
             const response = await api.get("/admin/drivers");
             setDrivers(response.data?.data?.drivers || []);
-        } catch (error: any) {
-            console.error("Failed to fetch drivers", error);
+        } catch (err) {
+            console.error("Failed to fetch drivers", err);
             toast.error(t("Failed to load drivers", "ড্রাইভার লোড করতে ব্যর্থ হয়েছে"));
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         fetchDrivers();
-    }, []);
+    }, [fetchDrivers]);
 
     const toggleStatus = async (userId: string, currentStatus: boolean) => {
         try {
             await api.patch(`/admin/users/${userId}/status`, { isActive: !currentStatus });
             toast.success(t("User status updated", "ইউজার স্ট্যাটাস আপডেট করা হয়েছে"));
             fetchDrivers();
-        } catch (error) {
+        } catch (err) {
+            console.error(err);
             toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
         }
     };
@@ -55,7 +55,8 @@ export default function AdminDriversPage() {
             await api.patch(`/admin/drivers/${driverId}/verify`, { status });
             toast.success(t("Driver status updated", "ড্রাইভার স্ট্যাটাস আপডেট করা হয়েছে"));
             fetchDrivers();
-        } catch (error) {
+        } catch (err) {
+            console.error(err);
             toast.error(t("Failed to verify driver", "ড্রাইভার যাচাই করতে ব্যর্থ হয়েছে"));
         }
     };

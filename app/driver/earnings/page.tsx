@@ -8,7 +8,6 @@ import {
     TrendingUp,
     Download,
     Calendar,
-    ArrowUpRight,
     Loader2
 } from "lucide-react";
 import api from "@/lib/api";
@@ -16,7 +15,12 @@ import { Button } from "@/components/ui/button";
 
 export default function DriverEarningsPage() {
     const { t } = useLanguage();
-    const [earnings, setEarnings] = useState<any>({
+    const [earnings, setEarnings] = useState<{
+        total: number;
+        thisMonth: number;
+        thisWeek: number;
+        history: { id: number; date: string; amount: number; status: string; trip: string }[];
+    }>({
         total: 0,
         thisMonth: 0,
         thisWeek: 0,
@@ -104,7 +108,7 @@ export default function DriverEarningsPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                                {earnings.history.map((tx: any) => (
+                                {earnings.history.map((tx) => (
                                     <tr key={tx.id} className="hover:bg-slate-50/50 transition-all">
                                         <td className="px-8 py-4 font-black text-primary text-sm">{tx.trip}</td>
                                         <td className="px-8 py-4 text-sm font-bold text-slate-800">{tx.date}</td>

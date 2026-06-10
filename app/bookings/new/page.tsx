@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useCallback, useState, Suspense } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { useLanguage } from "@/context/language-context";
@@ -15,7 +15,7 @@ function BookingContent() {
     const { t } = useLanguage();
     const searchParams = useSearchParams();
     const router = useRouter();
-    const { isAuthenticated, user } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -51,8 +51,9 @@ function BookingContent() {
 
             toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
             router.push(`/bookings/success?bookingId=${data.data.id}`);
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || t("Booking failed", "বুকিং ব্যর্থ হয়েছে"));
+        } catch (error: unknown) {
+            const message = error && typeof error === 'object' && 'response' in error && (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+            toast.error(typeof message === 'string' ? message : t("Booking failed", "বুকিং ব্যর্থ হয়েছে"));
         } finally {
             setLoading(false);
         }

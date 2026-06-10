@@ -1,17 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Package,
     Search,
-    MoreVertical,
     Loader2,
     Filter,
     Calendar,
-    MapPin,
-    Tag,
     Trash2
 } from "lucide-react";
 import api from "@/lib/api";
@@ -19,14 +15,24 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
 
+interface BookingRow {
+    id: string;
+    bookingNumber: string;
+    pickupAddress: string;
+    dropAddress: string;
+    scheduledAt: string | null;
+    status: string;
+    estimatedFare: number | null;
+    user: { name: string | null; phone: string | null } | null;
+}
+
 export default function AdminBookingsPage() {
     const { t } = useLanguage();
-    const [bookings, setBookings] = useState<any[]>([]);
+    const [bookings, setBookings] = useState<BookingRow[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
-    const [deleteId, setDeleteId] = useState<string | null>(null);
 
-    const fetchBookings = async () => {
+    const fetchBookings = useCallback(async () => {
         try {
             const response = await api.get("/admin/bookings");
             setBookings(response.data.data.bookings || []);
@@ -35,11 +41,11 @@ export default function AdminBookingsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         fetchBookings();
-    }, []);
+    }, [fetchBookings]);
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this booking?")) return;
@@ -47,8 +53,11 @@ export default function AdminBookingsPage() {
             await api.delete(`/bookings/${id}`);
             setBookings(prev => prev.filter(b => b.id !== id));
             toast.success("Booking deleted successfully");
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || "Failed to delete booking");
+        } catch (error: unknown) {
+            const message = error && typeof error === "object" && "response" in error
+                ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+                : undefined;
+            toast.error(message || "Failed to delete booking");
         }
     };
 
@@ -61,12 +70,12 @@ export default function AdminBookingsPage() {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'PENDING': return 'bg-amber-100 text-amber-600';
-            case 'ACCEPTED': return 'bg-blue-100 text-blue-600';
-            case 'IN_TRANSIT': return 'bg-indigo-100 text-indigo-600';
-            case 'COMPLETED': return 'bg-green-100 text-green-600';
-            case 'CANCELLED': return 'bg-red-100 text-red-600';
-            default: return 'bg-slate-100 text-slate-600';
+            case "PENDING": return "bg-amber-100 text-amber-600";
+            case "ACCEPTED": return "bg-blue-100 text-blue-600";
+            case "IN_TRANSIT": return "bg-indigo-100 text-indigo-600";
+            case "COMPLETED": return "bg-green-100 text-green-600";
+            case "CANCELLED": return "bg-red-100 text-red-600";
+            default: return "bg-slate-100 text-slate-600";
         }
     };
 
@@ -78,7 +87,7 @@ export default function AdminBookingsPage() {
                         {t("All Bookings", "সকল বুকিং")}
                     </h1>
                     <p className="text-slate-700 font-bold">
-                        {t("Track and manage all logistics requests across the country.", "সারা দেশের সকল লজিস্টিক রিকোয়েস্ট ট্র্যাক এবং ম্যানেজ করুন।")}
+                        {t("Track and manage all logistics requests across the country.", "সারা দেশের সকল লজিস্টিক রিকোয়েস্ট ট্র্যাক এবং ম্যানেজ করুন।")}
                     </p>
                 </div>
                 <div className="flex gap-4">
@@ -146,7 +155,7 @@ export default function AdminBookingsPage() {
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <p className="font-black text-slate-950">৳{booking.estimatedFare || 0}</p>
+                                            <p className="font-black text-slate-950">৳{booking.estimatedFare ?? 0}</p>
                                         </td>
                                         <td className="px-8 py-4">
                                             <span className={cn(

@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLanguage } from "@/context/language-context";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Banner {
@@ -55,14 +54,7 @@ const banners: Banner[] = [
 ];
 
 export function BannerSlider() {
-    const { t, lang } = useLanguage();
     const [current, setCurrent] = useState(0);
-
-    useEffect(() => {
-        if (current >= banners.length) {
-            setCurrent(0);
-        }
-    }, [current, banners.length]);
 
     useEffect(() => {
         const timer = setInterval(() => {

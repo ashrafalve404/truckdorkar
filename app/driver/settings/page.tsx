@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
@@ -15,8 +15,7 @@ import {
     ShieldCheck,
     UserCheck,
     Phone,
-    Mail,
-    Calendar
+    Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/store/use-auth";
@@ -24,9 +23,10 @@ import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 
 type Tab = "profile" | "truck" | "safety" | "notifications";
+type LucideIcon = React.ComponentType<{ className?: string }>;
 
 export default function DriverSettingsPage() {
-    const { t, lang } = useLanguage();
+    const { t } = useLanguage();
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<Tab>("profile");
     const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ export default function DriverSettingsPage() {
         supportUpdates: false,
     });
 
-    const fetchProfile = async () => {
+    const fetchProfile = useCallback(async () => {
         try {
             const res = await api.get("/drivers/profile");
             const d = res.data?.data || {};
@@ -66,11 +66,11 @@ export default function DriverSettingsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [user]);
 
     useEffect(() => {
         fetchProfile();
-    }, []);
+    }, [fetchProfile]);
 
     const handleSaveProfile = async () => {
         setSaving(true);
@@ -82,7 +82,7 @@ export default function DriverSettingsPage() {
                 experience: Number(profile.experience) || 0,
             });
             toast.success(t("Profile updated successfully", "প্রোফাইল সফলভাবে আপডেট হয়েছে"));
-        } catch (error) {
+        } catch {
             toast.error(t("Failed to update profile", "প্রোফাইল আপডেট করতে ব্যর্থ হয়েছে"));
         } finally {
             setSaving(false);
@@ -101,7 +101,7 @@ export default function DriverSettingsPage() {
         }
     };
 
-    const tabs: { id: Tab; label_en: string; label_bn: string; icon: any }[] = [
+    const tabs: { id: Tab; label_en: string; label_bn: string; icon: LucideIcon }[] = [
         { id: "profile", label_en: "Profile", label_bn: "প্রোফাইল", icon: User },
         { id: "truck", label_en: "My Truck", label_bn: "আমার ট্রাক", icon: Truck },
         { id: "safety", label_en: "Safety & Privacy", label_bn: "সুরক্ষা", icon: Lock },
@@ -341,7 +341,7 @@ export default function DriverSettingsPage() {
                                     { key: "quotationAlerts", label_en: "Quotation Requests", label_bn: "কোটেশন রিকোয়েস্ট", desc_en: "Receive alerts for quotation offers", desc_bn: "কোটেশন অফারের জন্য 알림 পান" },
                                     { key: "paymentAlerts", label_en: "Payment Updates", label_bn: "পেমেন্ট অ্যাপডেট", desc_en: "Get notified about payment status changes", desc_bn: "পেমেন্ট স্ট্যাটাস পরিবর্তনের 알림 পান" },
                                     { key: "supportUpdates", label_en: "Support Ticket Updates", label_bn: "সাপোর্ট টিকেট আপডেট", desc_en: "Receive updates on your support tickets", desc_bn: "সাপোর্ট টিকেটের আপডেট পান" },
-                                ].map((item, idx) => (
+                                ].map((item) => (
                                     <div key={item.key} className={`flex items-center justify-between p-4 rounded-xl border transition-all ${notifications[item.key as keyof typeof notifications] ? "bg-primary/5 border-primary/20" : "bg-slate-50 border-slate-100"}`}>
                                         <div className="flex-1 min-w-0 mr-4">
                                             <p className="text-sm font-bold text-slate-900">{t(item.label_en, item.label_bn)}</p>

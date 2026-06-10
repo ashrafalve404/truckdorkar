@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 
 export default function AdminSupportPage() {
     const { t } = useLanguage();
-    const [tickets, setTickets] = useState<any[]>([]);
+    const [tickets, setTickets] = useState<{ id: string; user: { name: string; phone: string }; subject: string; status: string; priority: string }[]>([]);
     const [loading, setLoading] = useState(true);
 
     const fetchTickets = async () => {

@@ -33,8 +33,9 @@ export default function ContactPage() {
             });
             toast.success(t("Message sent successfully!", "মেসেজ সফলভাবে পাঠানো হয়েছে!"));
             setFormData({ name: "", phone: "", email: "", message: "" });
-        } catch (error: any) {
-            toast.error(error.response?.data?.message || t("Failed to send message", "মেসেজ পাঠানো ব্যর্থ হয়েছে"));
+        } catch (error: unknown) {
+            const message = error && typeof error === 'object' && 'response' in error && (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+            toast.error(typeof message === 'string' ? message : t("Failed to send message", "মেসেজ পাঠানো ব্যর্থ হয়েছে"));
         } finally {
             setLoading(false);
         }

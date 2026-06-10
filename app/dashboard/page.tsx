@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
-import { motion } from "framer-motion";
 import { useLanguage } from "@/context/language-context";
 import { Package, Clock, CheckCircle, AlertCircle, MapPin, Truck as TruckIcon, Loader2 } from "lucide-react";
 import api from "@/lib/api";

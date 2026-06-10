@@ -49,10 +49,11 @@ export default function AdminSettingsPage() {
                 baseFarePerKm: settings.baseFarePerKm,
             });
             toast.success(t("Settings saved successfully", "সেটিংস সফলভাবে সংরক্ষিত হয়েছে"));
-        } catch (error: any) {
-            console.error("Failed to save settings:", error?.response?.data || error?.message);
-            const msg = error?.response?.data?.message || t("Failed to save settings", "সেটিংস সংরক্ষণ করতে ব্যর্থ হয়েছে");
-            toast.error(typeof msg === "string" ? msg : JSON.stringify(msg));
+        } catch (error: unknown) {
+            console.error("Failed to save settings:", (error as Error)?.message || JSON.stringify(error));
+            const message = error && typeof error === 'object' && 'response' in error && (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+            const msg = typeof message === 'string' ? message : t("Failed to save settings", "সেটিংস সংরক্ষণ করতে ব্যর্থ হয়েছে");
+            toast.error(msg);
         } finally {
             setSaving(false);
         }

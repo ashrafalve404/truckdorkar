@@ -17,9 +17,16 @@ import { cn } from "@/lib/utils";
 import api from "@/lib/api";
 import Link from "next/link";
 
+interface AdminStats {
+    summary: { totalRevenue: number; totalBookings: number; totalUsers: number; totalDrivers: number };
+    recentBookings: { id: string; bookingNumber: string; user: { name: string }; finalFare?: number; estimatedFare?: number; status: string }[];
+    pendingDrivers: number;
+    openTickets: number;
+}
+
 export default function AdminDashboard() {
     const { t } = useLanguage();
-    const [stats, setStats] = useState<any>(null);
+    const [stats, setStats] = useState<AdminStats | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -130,7 +137,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="space-y-4">
                         {stats?.recentBookings?.length > 0 ? (
-                            stats.recentBookings.map((booking: any) => (
+                            stats.recentBookings.map((booking) => (
                                 <div key={booking.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-100">
                                     <div>
                                         <p className="font-bold text-sm text-slate-950">#{booking.bookingNumber.slice(-6)}</p>

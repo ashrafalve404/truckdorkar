@@ -1,17 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Package,
     Search,
-    MoreVertical,
     Loader2,
-    Filter,
     Calendar,
-    MapPin,
-    Truck
+    MapPin
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -20,27 +16,33 @@ import { toast } from "react-hot-toast";
 
 export default function DriverBookingsPage() {
     const { t } = useLanguage();
-    const [bookings, setBookings] = useState<any[]>([]);
+    const [bookings, setBookings] = useState<{
+        id: string;
+        bookingNumber?: string;
+        pickupAddress: string;
+        dropAddress: string;
+        status: string;
+        scheduledAt?: string;
+        user?: { name?: string };
+    }[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchMyBookings = async () => {
+    const fetchMyBookings = useCallback(async () => {
         try {
-            // Re-using /bookings but for driver it should return assigned ones
             const response = await api.get("/bookings");
             const all = response.data.data || [];
-            // Filter only assigned ones (non-pending)
-            setBookings(all.filter((b: any) => b.status !== 'PENDING'));
+            setBookings(all.filter((b: { status: string }) => b.status !== 'PENDING'));
         } catch (error) {
             console.error("Failed to fetch my bookings", error);
             toast.error(t("Failed to load your bookings", "আপনার বুকিংগুলো লোড করতে ব্যর্থ হয়েছে"));
         } finally {
             setLoading(false);
         }
-    };
+    }, [t, toast]);
 
     useEffect(() => {
         fetchMyBookings();
-    }, []);
+    }, [fetchMyBookings]);
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -62,12 +64,6 @@ export default function DriverBookingsPage() {
                     <p className="text-slate-700 font-bold">
                         {t("Manage your active trips and view completed history.", "আপনার চলমান ট্রিপগুলো পরিচালনা করুন এবং ইতিহাস দেখুন।")}
                     </p>
-                </div>
-                <div className="flex gap-4">
-                    <Button variant="outline" className="h-12 rounded-lg gap-2 font-bold px-6">
-                        <Filter className="w-4 h-4" />
-                        {t("Filter", "ফিল্টার")}
-                    </Button>
                 </div>
             </header>
 

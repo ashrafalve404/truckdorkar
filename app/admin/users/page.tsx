@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Users as UsersIcon,
     Search,
     MoreVertical,
-    Shield,
     UserX,
     UserCheck,
     Loader2,
@@ -20,11 +18,11 @@ import { cn } from "@/lib/utils";
 
 export default function AdminUsersPage() {
     const { t } = useLanguage();
-    const [users, setUsers] = useState<any[]>([]);
+    const [users, setUsers] = useState<{ id: string; name: string; phone: string; email?: string; role: string; createdAt: string; isActive: boolean }[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
 
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
         try {
             const response = await api.get("/admin/users");
             setUsers(response.data.data.users || []);
@@ -33,11 +31,11 @@ export default function AdminUsersPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    }, [fetchUsers]);
 
     const toggleStatus = async (userId: string, currentStatus: boolean) => {
         try {
