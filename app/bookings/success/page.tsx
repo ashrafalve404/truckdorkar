@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { useLanguage } from "@/context/language-context";
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-export default function BookingSuccessPage() {
+function SuccessContent() {
     const { t } = useLanguage();
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -60,5 +60,13 @@ export default function BookingSuccessPage() {
             </main>
             <Footer />
         </div>
+    );
+}
+
+export default function BookingSuccessPage() {
+    return (
+        <Suspense fallback={<div className="h-screen flex items-center justify-center"><Loader2 className="animate-spin text-primary" /></div>}>
+            <SuccessContent />
+        </Suspense>
     );
 }
