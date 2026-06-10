@@ -37,6 +37,15 @@ export function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => { document.body.style.overflow = ""; };
+    }, [isMobileMenuOpen]);
+
     const toggleLang = () => setLang(lang === "en" ? "bn" : "en");
 
     // Now that BannerSlider (white) is at the top, we want dark text even when not scrolled
@@ -211,7 +220,7 @@ export function Navbar() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-full left-0 right-0 bg-white shadow-xl border-t border-gray-100 p-6 flex flex-col gap-4 lg:hidden"
+                        className="absolute top-full left-0 right-0 bg-white shadow-xl border-t border-gray-100 p-6 flex flex-col gap-4 lg:hidden overflow-y-auto max-h-[calc(100dvh-5rem)] overscroll-contain"
                     >
                         {navLinks.map((link) => (
                             <Link
