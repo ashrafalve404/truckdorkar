@@ -136,12 +136,12 @@ export default function AdminDashboard() {
                         <Link href="/admin/bookings" className="text-primary text-sm font-bold hover:underline">{t("View All", "সব দেখুন")}</Link>
                     </div>
                     <div className="space-y-4">
-                        {stats?.recentBookings?.length > 0 ? (
+                        {stats && stats.recentBookings.length > 0 ? (
                             stats.recentBookings.map((booking) => (
                                 <div key={booking.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-100">
                                     <div>
                                         <p className="font-bold text-sm text-slate-950">#{booking.bookingNumber.slice(-6)}</p>
-                                        <p className="text-xs text-slate-700 font-bold">{booking.user.name}</p>
+                                        <p className="text-xs text-slate-700 font-bold">{booking.user?.name || "—"}</p>
                                     </div>
                                     <div className="text-right">
                                         <p className="font-bold text-sm text-slate-900">৳{booking.finalFare || booking.estimatedFare}</p>

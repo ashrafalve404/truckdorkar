@@ -39,7 +39,8 @@ export default function AdminDriversPage() {
         fetchDrivers();
     }, [fetchDrivers]);
 
-    const toggleStatus = async (userId: string, currentStatus: boolean) => {
+    const toggleStatus = async (userId?: string, currentStatus?: boolean) => {
+        if (!userId) return;
         try {
             await api.patch(`/admin/users/${userId}/status`, { isActive: !currentStatus });
             toast.success(t("User status updated", "ইউজার স্ট্যাটাস আপডেট করা হয়েছে"));
@@ -186,7 +187,7 @@ export default function AdminDriversPage() {
                                                     variant="ghost"
                                                     size="icon"
                                                     className={cn("rounded-lg", driver.user?.isActive ? "text-red-500 hover:bg-red-50" : "text-green-500 hover:bg-green-50")}
-                                                    onClick={() => toggleStatus(driver.user?.id, driver.user?.isActive)}
+                                                    onClick={() => driver.user?.id && toggleStatus(driver.user.id, !!driver.user.isActive)}
                                                 >
                                                     {driver.user?.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                                                 </Button>
