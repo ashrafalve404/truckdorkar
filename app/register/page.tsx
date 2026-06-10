@@ -31,6 +31,8 @@ export default function RegisterPage() {
         experience: "",
         companyName: "",
         employeeId: "",
+        nidNumber: "",
+        dateOfBirth: "",
         agree: false,
     });
 
@@ -97,6 +99,8 @@ export default function RegisterPage() {
                 experience: selectedRole === "driver" ? Number(formData.experience) : undefined,
                 companyName: selectedRole === "employee" ? formData.companyName : undefined,
                 employeeId: selectedRole === "employee" ? formData.employeeId : undefined,
+                nidNumber: selectedRole === "employee" ? formData.nidNumber : undefined,
+                dateOfBirth: selectedRole === "employee" ? formData.dateOfBirth || undefined : undefined,
             };
 
             const { data } = await api.post("/auth/register", payload);
@@ -242,32 +246,61 @@ export default function RegisterPage() {
                                 )}
 
                                 {selectedRole === "employee" && (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">
-                                                {t("Company Name", "কোম্পানির নাম")} <span className="text-red-500">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                required
-                                                value={formData.companyName}
-                                                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                                                placeholder={t("Enter company name", "কোম্পানির নাম লিখুন")}
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                            />
+                                    <div className="space-y-4 md:space-y-6">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-950">
+                                                    {t("NID Number", "এনআইডি নম্বর")} <span className="text-red-500">*</span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={formData.nidNumber}
+                                                    onChange={(e) => setFormData({ ...formData, nidNumber: e.target.value })}
+                                                    placeholder={t("Enter NID number", "এনআইডি নম্বর লিখুন")}
+                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-950">
+                                                    {t("Date of Birth", "জন্ম তারিখ")} <span className="text-red-500">*</span>
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    required
+                                                    value={formData.dateOfBirth}
+                                                    onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">
-                                                {t("Employee ID", "কর্মচারী আইডি")} <span className="text-red-500">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                required
-                                                value={formData.employeeId}
-                                                onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
-                                                placeholder={t("Enter employee ID", "কর্মচারী আইডি লিখুন")}
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                            />
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-950">
+                                                    {t("Company Name", "কোম্পানির নাম")} <span className="text-red-500">*</span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={formData.companyName}
+                                                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                                                    placeholder={t("Enter company name", "কোম্পানির নাম লিখুন")}
+                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-slate-950">
+                                                    {t("Employee ID", "কর্মচারী আইডি")} <span className="text-red-500">*</span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={formData.employeeId}
+                                                    onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
+                                                    placeholder={t("Enter employee ID", "কর্মচারী আইডি লিখুন")}
+                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 )}

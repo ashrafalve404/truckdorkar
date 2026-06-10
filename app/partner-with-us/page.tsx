@@ -20,7 +20,7 @@ export default function PartnerWithUsPage() {
                         <div className="bg-light-gray p-8 rounded-2xl text-gray-500">
                             {t("Partnership inquiry form coming soon...", "শীঘ্রই পার্টনারশিপ অনুসন্ধান ফর্ম যাবে...")}
                         </div>
-                        <Button size="lg" className="mt-8 text-white">{t("Become a Partner", "পার্টনার হওয়ার জন্যใบ")}</Button>
+                        <Button size="lg" className="mt-8 text-white">{t("Become a Partner", "পার্টনার হওয়ার জন্য")}</Button>
                     </motion.div>
                 </div>
             </main>

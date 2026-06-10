@@ -116,9 +116,9 @@ function BookingContent() {
                                                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold"
                                             >
-                                                <option value="INTER_CITY">{t("Inter City", "Inter City")}</option>
-                                                <option value="INTRA_CITY">{t("Intra City", "Intra City")}</option>
-                                                <option value="SPECIALIZED">{t("Specialized", "Specialized")}</option>
+                                                <option value="INTER_CITY">{t("Inter City", "আন্তঃশহর")}</option>
+                                                <option value="INTRA_CITY">{t("Intra City", "শহরের ভিতরে")}</option>
+                                                <option value="SPECIALIZED">{t("Specialized", "বিশেষায়িত")}</option>
                                             </select>
                                         </div>
                                         <div className="space-y-2">

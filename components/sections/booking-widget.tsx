@@ -68,7 +68,7 @@ export function BookingWidget() {
                                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                                 }`}
                         >
-                            {t(tab, tab === "Inter-City" ? "ইন্টার-সিটি" : tab === "Intra-City" ? "ইন্ট্রা-সিটি" : "স্পেশালাইজড")}
+                            {t(tab, tab === "Inter-City" ? "আন্তঃশহর" : tab === "Intra-City" ? "শহরের ভিতরে" : "বিশেষায়িত")}
                         </button>
                     ))}
                 </div>
