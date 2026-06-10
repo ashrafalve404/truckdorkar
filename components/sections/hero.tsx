@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
-
 import { useRouter } from "next/navigation";
 
 export function Hero() {
@@ -28,8 +27,8 @@ export function Hero() {
     };
 
     return (
-        <section className="relative min-h-screen flex items-center py-20 pb-40 lg:pb-52 overflow-hidden bg-black">
-            {/* Background Image - Now Still */}
+        <section className="relative min-h-screen flex items-center pt-24 pb-40 lg:pb-52 overflow-hidden bg-black">
+            {/* Background Image - Still (no slider) */}
             <div className="absolute inset-0 z-0">
                 <Image
                     src="/images/image1.png"
@@ -38,14 +37,12 @@ export function Hero() {
                     className="object-cover opacity-60"
                     priority
                 />
-                {/* Global Overlays */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10" />
                 <div className="absolute inset-0 bg-black/20 z-10" />
             </div>
 
-            <div className="w-full pl-8 lg:pl-[12%] pr-6 relative z-20">
-                <div className="max-w-4xl text-left">
-                    {/* Content */}
+            <div className="container mx-auto px-6 lg:px-12 relative z-20">
+                <div className="max-w-3xl">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -53,7 +50,7 @@ export function Hero() {
                     >
                         <h1 className="text-4xl lg:text-6xl font-black text-white leading-[1.1] mb-8 drop-shadow-2xl">
                             {t("Bangladesh's Most", "বাংলাদেশের সবচেয়ে")} <br />
-                            <span className="text-primary italic">{t("Reliable", "নির্ভরযোগ্য")}</span> <span className="tracking-wider"> {t("Truck", "ট্রাক")}</span> <br />
+                            <span className="text-primary italic">{t("Reliable", "নির্ভরযোগ্য")}</span> {t("Truck", "ট্রাক")} <br />
                             {t("Booking Platform", "বুকিং প্ল্যাটফর্ম")}
                         </h1>
 
@@ -83,7 +80,6 @@ export function Hero() {
                             </Button>
                         </div>
 
-                        {/* Trust Badges */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                             {trustBadges.map((badge, index) => (
                                 <motion.div

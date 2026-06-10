@@ -3,10 +3,9 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
-import { motion } from "framer-motion";
 import { useLanguage } from "@/context/language-context";
 import { useSearchParams, useRouter } from "next/navigation";
-import { MapPin, Truck, Calendar, ArrowRight, Loader2, Info } from "lucide-react";
+import { MapPin, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { useAuth } from "@/store/use-auth";
@@ -22,24 +21,12 @@ function BookingContent() {
     const [formData, setFormData] = useState({
         pickupLocation: searchParams.get("pickup") || "",
         dropLocation: searchParams.get("drop") || "",
-        truckType: searchParams.get("truckType") || "",
-        scheduledDate: searchParams.get("date") || "",
-        contactPhone: user?.phone || "",
-        cargoType: "GENERAL",
-        weight: "",
-        description: "",
+        type: "INTER_CITY",
+        scheduledAt: searchParams.get("date") || "",
+        goodsType: "GENERAL",
+        goodsWeight: "",
+        specialNote: "",
     });
-
-    useEffect(() => {
-        if (user?.phone) {
-            setFormData(prev => ({ ...prev, contactPhone: user.phone }));
-        }
-    }, [user]);
-
-    const validatePhone = (phone: string) => {
-        const regex = /^01[3-9]\d{8}$/;
-        return regex.test(phone);
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,25 +37,20 @@ function BookingContent() {
             return;
         }
 
-        if (!validatePhone(formData.contactPhone)) {
-            toast.error(t("Please enter a valid Bangladeshi phone number (e.g., 017xxxxxxxx)", "অনুগ্রহ করে একটি সঠিক বাংলাদেশী ফোন নম্বর দিন (যেমন: ০১৭১xxxxxxx)"));
-            return;
-        }
-
         setLoading(true);
         try {
             const { data } = await api.post("/bookings", {
-                ...formData,
-                weight: Number(formData.weight) || 0,
-                // Adjusting fields to match backend schema
+                type: formData.type,
                 pickupAddress: formData.pickupLocation,
-                dropoffAddress: formData.dropLocation,
-                phone: formData.contactPhone,
-                scheduledAt: formData.scheduledDate ? new Date(formData.scheduledDate).toISOString() : new Date().toISOString(),
+                dropAddress: formData.dropLocation,
+                scheduledAt: formData.scheduledAt || undefined,
+                goodsType: formData.goodsType,
+                goodsWeight: Number(formData.goodsWeight) || undefined,
+                specialNote: formData.specialNote || undefined,
             });
 
             toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
-            router.push(`/bookings/${data.data.id}/success`);
+            router.push(`/bookings/success?bookingId=${data.data.id}`);
         } catch (error: any) {
             toast.error(error.response?.data?.message || t("Booking failed", "বুকিং ব্যর্থ হয়েছে"));
         } finally {
@@ -124,63 +106,26 @@ function BookingContent() {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <Truck className="w-4 h-4 text-primary" />
-                                                {t("Truck Type", "ট্রাকের ধরণ")}
-                                            </label>
+                                            <label className="text-sm font-bold text-slate-950">{t("Booking Type", "বুকিং ধরন")}</label>
                                             <select
                                                 required
-                                                value={formData.truckType}
-                                                onChange={(e) => setFormData({ ...formData, truckType: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
+                                                value={formData.type}
+                                                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold"
                                             >
-                                                <option value="">{t("Select Truck", "ট্রাক নির্বাচন করুন")}</option>
-                                                <option value="1_ton_open_7ft">{t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক")}</option>
-                                                <option value="1_ton_cover_7ft">{t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক")}</option>
-                                                <option value="1.5_ton_open_9ft">{t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক")}</option>
-                                                <option value="1.5_ton_cover_9ft">{t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক")}</option>
-                                                <option value="3_ton_open_12ft">{t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক")}</option>
-                                                <option value="3_ton_cover_12ft">{t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক")}</option>
+                                                <option value="INTER_CITY">{t("Inter City", "Inter City")}</option>
+                                                <option value="INTRA_CITY">{t("Intra City", "Intra City")}</option>
+                                                <option value="SPECIALIZED">{t("Specialized", "Specialized")}</option>
                                             </select>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <Calendar className="w-4 h-4 text-primary" />
-                                                {t("Schedule Date", "তারিখ")}
-                                            </label>
-                                            <input
-                                                type="date"
-                                                required
-                                                value={formData.scheduledDate}
-                                                onChange={(e) => setFormData({ ...formData, scheduledDate: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <Info className="w-4 h-4 text-primary" />
-                                                {t("Contact Phone", "যোগাযোগ নম্বর")}
-                                            </label>
-                                            <input
-                                                type="tel"
-                                                required
-                                                placeholder="01xxxxxxxxx"
-                                                value={formData.contactPhone}
-                                                onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">{t("Cargo Type", "পণ্যের ধরণ")}</label>
+                                            <label className="text-sm font-bold text-slate-950">{t("Goods Type", "পণ্যের ধরণ")}</label>
                                             <select
                                                 required
-                                                value={formData.cargoType}
-                                                onChange={(e) => setFormData({ ...formData, cargoType: e.target.value })}
+                                                value={formData.goodsType}
+                                                onChange={(e) => setFormData({ ...formData, goodsType: e.target.value })}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none text-slate-950 font-bold"
                                             >
                                                 <option value="GENERAL">{t("General Goods", "সাধারণ পণ্য")}</option>
@@ -189,24 +134,36 @@ function BookingContent() {
                                                 <option value="CONSTRUCTION">{t("Construction", "নির্মাণ সামগ্রী")}</option>
                                             </select>
                                         </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">{t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}</label>
                                             <input
                                                 type="number"
                                                 required
-                                                value={formData.weight}
-                                                onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+                                                value={formData.goodsWeight}
+                                                onChange={(e) => setFormData({ ...formData, goodsWeight: e.target.value })}
                                                 placeholder="e.g. 1500"
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-slate-950">{t("Scheduled Date", "তারিখ")}</label>
+                                            <input
+                                                type="date"
+                                                value={formData.scheduledAt}
+                                                onChange={(e) => setFormData({ ...formData, scheduledAt: e.target.value })}
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-bold text-slate-950">{t("Description", "বিস্তারিত")}</label>
+                                        <label className="text-sm font-bold text-slate-950">{t("Special Note", "বিস্তারিত")}</label>
                                         <textarea
-                                            value={formData.description}
-                                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                            value={formData.specialNote}
+                                            onChange={(e) => setFormData({ ...formData, specialNote: e.target.value })}
                                             placeholder={t("Anything else we should know?", "আরও কিছু বলার আছে?")}
                                             className="w-full h-32 bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none resize-none text-slate-950 font-bold placeholder:text-slate-500"
                                         />
@@ -226,10 +183,7 @@ function BookingContent() {
                             {/* Sidebar Info */}
                             <div className="space-y-6">
                                 <div className="bg-primary/5 border border-primary/20 rounded-3xl p-6">
-                                    <div className="flex items-center gap-3 mb-4 text-primary">
-                                        <Info className="w-5 h-5" />
-                                        <h3 className="font-bold">{t("How it works", "কিভাবে কাজ করে")}</h3>
-                                    </div>
+                                    <h3 className="font-bold text-primary mb-4">{t("How it works", "কিভাবে কাজ করে")}</h3>
                                     <ul className="space-y-4 text-sm text-slate-700 font-bold">
                                         <li className="flex gap-3">
                                             <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">1</span>
@@ -244,14 +198,6 @@ function BookingContent() {
                                             <span>{t("Accept the best offer", "সেরা অফারটি গ্রহণ করুন")}</span>
                                         </li>
                                     </ul>
-                                </div>
-
-                                <div className="bg-white rounded-3xl p-6 shadow-soft border border-gray-100">
-                                    <h3 className="font-bold mb-4">{t("Support", "সাপোর্ট")}</h3>
-                                    <p className="text-sm text-slate-700 font-bold mb-4">{t("Need help with your booking?", "বুকিং নিয়ে সাহায্য প্রয়োজন?")}</p>
-                                    <Button variant="outline" className="w-full rounded-xl border-primary text-primary hover:bg-primary/5">
-                                        {t("Call Center", "কল সেন্টার")}
-                                    </Button>
                                 </div>
                             </div>
                         </div>

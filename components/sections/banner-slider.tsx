@@ -59,6 +59,12 @@ export function BannerSlider() {
     const [current, setCurrent] = useState(0);
 
     useEffect(() => {
+        if (current >= banners.length) {
+            setCurrent(0);
+        }
+    }, [current, banners.length]);
+
+    useEffect(() => {
         const timer = setInterval(() => {
             setCurrent((prev) => (prev + 1) % banners.length);
         }, 5000);
@@ -70,7 +76,7 @@ export function BannerSlider() {
 
     return (
         <section className="relative w-full h-[350px] lg:h-[700px] overflow-hidden bg-white pt-24 pb-8 px-4 sm:px-10">
-            <div className="relative h-full max-w-[1600px] mx-auto rounded-2xl overflow-hidden shadow-2xl border border-slate-100">
+                <div className="relative h-full max-w-[1600px] mx-auto rounded-sm md:rounded-md overflow-hidden shadow-2xl border border-slate-100">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={current}

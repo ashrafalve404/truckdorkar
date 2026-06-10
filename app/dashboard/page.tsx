@@ -11,12 +11,15 @@ import { Button } from "@/components/ui/button";
 
 interface Booking {
     id: string;
+    bookingNumber: string;
+    type: string;
     pickupAddress: string;
-    dropoffAddress: string;
-    status: string;
+    dropAddress: string;
     scheduledAt: string;
-    truckType: string;
-    cargoType: string;
+    status: string;
+    truck?: { id: string; name: string; category: string } | null;
+    goodsType?: string | null;
+    goodsWeight?: number | null;
 }
 
 export default function DashboardPage() {
@@ -124,10 +127,10 @@ export default function DashboardPage() {
                             <tbody className="divide-y divide-gray-50">
                                 {bookings.map((booking) => (
                                     <tr key={booking.id} className="hover:bg-slate-50/50 transition-colors">
-                                        <td className="px-8 py-6">
-                                            <div className="font-bold text-slate-950">{booking.truckType.replace(/_/g, ' ')}</div>
-                                            <div className="text-[10px] uppercase font-bold text-slate-700 tracking-wider mt-1">{booking.cargoType}</div>
-                                        </td>
+                                         <td className="px-8 py-6">
+                                             <div className="font-bold text-slate-950">{booking.type.replace(/_/g, ' ')}</div>
+                                             <div className="text-[10px] uppercase font-bold text-slate-700 tracking-wider mt-1">{booking.goodsType || "—"}</div>
+                                         </td>
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-2 text-sm text-slate-800 font-bold">
                                                 <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
@@ -137,7 +140,7 @@ export default function DashboardPage() {
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-2 text-sm text-slate-800 font-bold">
                                                 <MapPin className="w-3.5 h-3.5 text-secondary shrink-0" />
-                                                <span className="line-clamp-1">{booking.dropoffAddress}</span>
+                                                <span className="line-clamp-1">{booking.dropAddress}</span>
                                             </div>
                                         </td>
                                         <td className="px-8 py-6 text-sm text-slate-800 font-bold">

@@ -11,17 +11,20 @@ import {
     Filter,
     Calendar,
     MapPin,
-    Tag
+    Tag,
+    Trash2
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { toast } from "react-hot-toast";
 
 export default function AdminBookingsPage() {
     const { t } = useLanguage();
     const [bookings, setBookings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [deleteId, setDeleteId] = useState<string | null>(null);
 
     const fetchBookings = async () => {
         try {
@@ -38,11 +41,22 @@ export default function AdminBookingsPage() {
         fetchBookings();
     }, []);
 
+    const handleDelete = async (id: string) => {
+        if (!confirm("Are you sure you want to delete this booking?")) return;
+        try {
+            await api.delete(`/bookings/${id}`);
+            setBookings(prev => prev.filter(b => b.id !== id));
+            toast.success("Booking deleted successfully");
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || "Failed to delete booking");
+        }
+    };
+
     const filteredBookings = bookings.filter(b =>
-        b.bookingId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.pickupLocation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.dropoffLocation.toLowerCase().includes(searchTerm.toLowerCase())
+        b.bookingNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        b.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        b.pickupAddress?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        b.dropAddress?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const getStatusColor = (status: string) => {
@@ -108,31 +122,31 @@ export default function AdminBookingsPage() {
                                     <tr key={booking.id} className="hover:bg-slate-50/50 transition-all">
                                         <td className="px-8 py-4">
                                             <div>
-                                                <p className="font-black text-primary text-xs mb-1">#{booking.bookingId}</p>
-                                                <p className="font-bold text-slate-950">{booking.user.name}</p>
-                                                <p className="text-[10px] text-slate-700 font-bold">{booking.user.phone}</p>
+                                                <p className="font-black text-primary text-xs mb-1">#{booking.bookingNumber}</p>
+                                                <p className="font-bold text-slate-950">{booking.user?.name || "—"}</p>
+                                                <p className="text-[10px] text-slate-700 font-bold">{booking.user?.phone || "—"}</p>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                                    {booking.pickupLocation}
+                                                    {booking.pickupAddress}
                                                 </div>
                                                 <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                                                    {booking.dropoffLocation}
+                                                    {booking.dropAddress}
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4 text-xs font-bold text-slate-800">
                                             <div className="flex items-center gap-2">
                                                 <Calendar className="w-3.5 h-3.5" />
-                                                {new Date(booking.pickupDate).toLocaleDateString()}
+                                                {booking.scheduledAt ? new Date(booking.scheduledAt).toLocaleDateString() : "—"}
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <p className="font-black text-slate-950">৳{booking.price}</p>
+                                            <p className="font-black text-slate-950">৳{booking.estimatedFare || 0}</p>
                                         </td>
                                         <td className="px-8 py-4">
                                             <span className={cn(
@@ -144,8 +158,8 @@ export default function AdminBookingsPage() {
                                         </td>
                                         <td className="px-8 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
-                                                <Button variant="ghost" size="icon" className="rounded-lg text-slate-600">
-                                                    <MoreVertical className="w-4 h-4" />
+                                                <Button variant="ghost" size="icon" className="rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => handleDelete(booking.id)}>
+                                                    <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
                                         </td>
