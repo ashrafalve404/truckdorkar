@@ -135,11 +135,13 @@ export default function EmployeeAddTruckPage() {
         blueBookFile: File | null;
         numberPlateFile: File | null;
         roadPermitFile: File | null;
+        drivingLicenseFile: File | null;
     }>({
         taxTokenFile: null,
         blueBookFile: null,
         numberPlateFile: null,
         roadPermitFile: null,
+        drivingLicenseFile: null,
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -162,6 +164,7 @@ export default function EmployeeAddTruckPage() {
             formData.append("blueBookFile", files.blueBookFile);
             formData.append("numberPlateFile", files.numberPlateFile);
             formData.append("roadPermitFile", files.roadPermitFile);
+            if (files.drivingLicenseFile) formData.append("drivingLicenseFile", files.drivingLicenseFile);
 
             await api.post("/employees/trucks", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
@@ -390,6 +393,13 @@ export default function EmployeeAddTruckPage() {
                                 file={files.numberPlateFile}
                                 onFileChange={f => setFiles({ ...files, numberPlateFile: f })}
                                 required
+                            />
+                            <DocUploader
+                                label="Driving License"
+                                labelBn="ড্রাইভিং লাইসেন্স"
+                                icon={<CreditCard className="w-4 h-4 text-slate-500" />}
+                                file={files.drivingLicenseFile}
+                                onFileChange={f => setFiles({ ...files, drivingLicenseFile: f })}
                             />
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Truck, Package, Factory, Warehouse, Building2, ShieldCheck } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 const services = [
     {
@@ -10,47 +11,57 @@ const services = [
         bn: "ট্রাক বুকিং",
         icon: Truck,
         description: "Book trucks of various sizes for local or long-distance haulage.",
+        descBn: "স্থানীয় বা দূরপাল্লার পরিবহনের জন্য বিভিন্ন আকারের ট্রাক বুক করুন।"
     },
     {
         title: "Mini Truck Rental",
         bn: "মিনি ট্রাক রেন্টাল",
         icon: Package,
         description: "Perfect for shifting small furniture or moving within the city.",
+        descBn: "শহরের মধ্যে ছোট আসবাবপত্র বা মালামাল স্থানান্তরের জন্য উপযুক্ত।"
     },
     {
         title: "Container Transport",
         bn: "কন্টেইনার ট্রান্সপোর্ট",
         icon: Factory,
         description: "Reliable movement of containers between ports and warehouses.",
+        descBn: "বন্দর এবং গুদামের মধ্যে কন্টেইনার পরিবহনের নির্ভরযোগ্য মাধ্যম।"
     },
     {
         title: "Industrial Logistics",
         bn: "ইন্ডাস্ট্রিয়াল লজিস্টিকস",
         icon: ShieldCheck,
         description: "Specialized logistics solutions for large-scale industrial goods.",
+        descBn: "বৃহৎ মাপের শিল্প পণ্যের জন্য বিশেষ লজিস্টিক সমাধান।"
     },
     {
         title: "Warehouse Delivery",
         bn: "ওয়্যারহাউস ডেলিভারি",
         icon: Warehouse,
         description: "Efficient distribution from central warehouses to any district.",
+        descBn: "কেন্দ্রীয় গুদাম থেকে যেকোনো জেলায় দক্ষ বিতরণ ব্যবস্থা।"
     },
     {
         title: "Corporate Fleet",
         bn: "কর্পোরেট ফ্লিট",
         icon: Building2,
         description: "Long-term partnership with businesses for dedicated transport.",
+        descBn: "ডেডিকেটেড পরিবহনের জন্য ব্যবসার সাথে দীর্ঘমেয়াদী অংশীদারিত্ব।"
     },
 ];
 
 export function Services() {
+    const { t } = useLanguage();
+
     return (
         <section id="services" className="py-24 bg-light-gray text-black">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="flex flex-col items-center text-center mb-16">
-                    <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">Our Services</div>
+                    <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">
+                        {t("Our Services", "আমাদের সার্ভিস")}
+                    </div>
                     <h2 className="text-4xl lg:text-5xl font-black text-black mb-6">
-                        আমরা যা সমাধান করি
+                        {t("What We Solve", "আমরা যা সমাধান করি")}
                     </h2>
                     <div className="w-20 h-1.5 bg-primary rounded-full" />
                 </div>
@@ -72,16 +83,15 @@ export function Services() {
                             <div className="w-14 h-14 bg-gray-50 flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
                                 <service.icon className="w-7 h-7 text-primary group-hover:text-white transition-colors duration-300" />
                             </div>
-                            <h3 className="text-2xl font-black text-black mb-2">{service.bn}</h3>
-                            <div className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-tighter">
-                                {service.title}
-                            </div>
-                            <p className="text-gray-500 leading-relaxed">
-                                {service.description}
+                            <h3 className="text-2xl font-black text-black mb-1">
+                                {t(service.title, service.bn)}
+                            </h3>
+                            <p className="text-gray-500 leading-relaxed mb-6">
+                                {t(service.description, service.descBn)}
                             </p>
 
-                            <div className="mt-8 flex items-center gap-2 text-sm font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                                Learn More <span>→</span>
+                            <div className="mt-auto flex items-center gap-2 text-sm font-bold text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+                                {t("Learn More", "আরও জানুন")} <span>→</span>
                             </div>
                         </motion.div>
                     ))}

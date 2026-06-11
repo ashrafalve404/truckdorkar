@@ -15,6 +15,7 @@ import { useLanguage } from "@/context/language-context";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function DriverDashboard() {
     const { t } = useLanguage();
@@ -24,6 +25,7 @@ export default function DriverDashboard() {
         rating: 4.8,
         activeJobs: 0
     });
+    const [trucks, setTrucks] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     const router = useRouter();
@@ -31,15 +33,22 @@ export default function DriverDashboard() {
     useEffect(() => {
         const fetchDriverData = async () => {
             try {
-                // In reality, we'd fetch driver-specific stats
-                const response = await api.get("/drivers/profile");
-                const driver = response.data.data;
+                // Fetch driver profile and trucks
+                const [profileRes, trucksRes] = await Promise.all([
+                    api.get("/drivers/profile"),
+                    api.get("/trucks/mine")
+                ]);
+
+                const driver = profileRes.data.data;
+                const driverTrucks = trucksRes.data.data;
+
                 setStats({
                     totalTrips: driver.totalTrips || 0,
                     earnings: driver.totalEarnings || 0,
                     rating: driver.rating || 5.0,
-                    activeJobs: 0 // Fetch from bookings filtered by driverId and status
+                    activeJobs: 0
                 });
+                setTrucks(driverTrucks);
             } catch (error) {
                 console.error("Failed to fetch driver stats", error);
             } finally {
@@ -48,6 +57,9 @@ export default function DriverDashboard() {
         };
         fetchDriverData();
     }, []);
+
+    const hasApprovedTruck = trucks.some(t => t.status === 'APPROVED');
+    const hasPendingTruck = trucks.some(t => t.status === 'PENDING');
 
     const cards = [
         { label: t("Earnings", "উপার্জন"), value: `৳${stats.earnings.toLocaleString()}`, icon: DollarSign, color: "bg-green-500", href: "/driver/earnings" },
@@ -72,6 +84,35 @@ export default function DriverDashboard() {
                 </div>
             </header>
 
+            {!loading && !hasApprovedTruck && (
+                <div className="mb-10 bg-amber-50 border border-amber-200 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+                    <div className="flex items-center gap-4 text-center md:text-left">
+                        <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+                            <Truck className="w-6 h-6 text-amber-600" />
+                        </div>
+                        <div>
+                            <h2 className="text-lg font-black text-slate-900 mb-1">
+                                {hasPendingTruck
+                                    ? t("Truck Verification Pending", "ট্রাক ভেরিফিকেশন পেন্ডিং")
+                                    : t("No Approved Truck Found", "কোনো অনুমোদিত ট্রাক খুঁজে পাওয়া যায়নি")
+                                }
+                            </h2>
+                            <p className="text-sm font-bold text-slate-600">
+                                {hasPendingTruck
+                                    ? t("Your truck is under review. Please wait for admin approval to start receiving bookings.", "আপনার ট্রাক রিভিউ করা হচ্ছে। বুকিং শুরু করতে অ্যাডমিনের অনুমোদনের জন্য অপেক্ষা করুন।")
+                                    : t("You must register a truck and get it approved before you can accept bookings.", "বুকিং গ্রহণ করার আগে আপনাকে একটি ট্রাক নিবন্ধন করতে হবে এবং তা অনুমোদন করতে হবে।")
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    {!hasPendingTruck && (
+                        <Button onClick={() => router.push("/driver/trucks/new")} className="h-12 px-8 rounded-xl font-black bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20">
+                            {t("Add a Truck Now", "এখনই ট্রাক যোগ করুন")}
+                        </Button>
+                    )}
+                </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 {cards.map((card, idx) => (
                     <div key={idx} onClick={() => router.push(card.href)} className="bg-white p-8 rounded-lg border border-slate-100 shadow-sm flex items-center gap-6 cursor-pointer hover:border-primary/20 transition-all">
@@ -86,13 +127,26 @@ export default function DriverDashboard() {
                 ))}
             </div>
 
-            <div className="bg-primary/5 rounded-xl p-10 border border-primary/10 mb-10 relative overflow-hidden">
+            <div className={cn(
+                "rounded-xl p-10 border mb-10 relative overflow-hidden transition-all",
+                hasApprovedTruck ? "bg-primary/5 border-primary/10" : "bg-slate-50 border-slate-200 opacity-75 grayscale"
+            )}>
                 <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                     <div>
                         <h2 className="text-2xl font-black text-slate-950 mb-2">{t("Find New Jobs", "নতুন কাজ খুঁজুন")}</h2>
-                        <p className="text-slate-700 font-bold">{t("There are several new booking requests in your current area.", "আপনার বর্তমান এলাকায় বেশ কিছু নতুন বুকিং রিকোয়েস্ট আছে।")}</p>
+                        <p className="text-slate-700 font-bold">
+                            {hasApprovedTruck
+                                ? t("There are several new booking requests in your current area.", "আপনার বর্তমান এলাকায় বেশ কিছু নতুন বুকিং রিকোয়েস্ট আছে।")
+                                : t("Unlock job feed by registering and verifying your truck.", "ট্রাক নিবন্ধন এবং যাচাই করে জব ফিড আনলক করুন।")
+                            }
+                        </p>
                     </div>
-                    <Button onClick={() => router.push("/driver/jobs")} size="lg" className="rounded-lg h-14 px-8 font-black text-lg gap-3 text-white">
+                    <Button
+                        disabled={!hasApprovedTruck}
+                        onClick={() => router.push("/driver/jobs")}
+                        size="lg"
+                        className="rounded-lg h-14 px-8 font-black text-lg gap-3 text-white"
+                    >
                         {t("View Job Feed", "জব ফিড দেখুন")}
                         <ArrowRight className="w-5 h-5" />
                     </Button>

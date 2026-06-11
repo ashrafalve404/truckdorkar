@@ -46,6 +46,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
         DRIVER: [
             { name: "Dashboard", href: "/driver/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
             { name: "Find Jobs", href: "/driver/jobs", icon: TrendingUp, bn: "কাজ খুঁজুন" },
+            { name: "My Trucks", href: "/driver/trucks", icon: Truck, bn: "আমার ট্রাক" },
             { name: "My Bookings", href: "/driver/bookings", icon: Package, bn: "আমার বুকিং" },
             { name: "Earnings", href: "/driver/earnings", icon: FileText, bn: "উপার্জন" },
             { name: "Support", href: "/driver/support", icon: MessageSquare, bn: "সাপোর্ট" },

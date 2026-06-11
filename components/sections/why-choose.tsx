@@ -39,7 +39,9 @@ export function WhyChoose() {
                         >
                             <feature.icon className="w-10 h-10 text-primary mb-6" />
                             <h3 className="text-xl font-bold mb-2">{t(feature.title_en, feature.title_bn)}</h3>
-                            <div className="text-xs font-bold text-gray-500 uppercase tracking-tighter mb-4">{feature.title_en}</div>
+                            <div className="text-xs font-bold text-gray-500 uppercase tracking-tighter mb-4">
+                                {t(feature.title_en, feature.title_bn)}
+                            </div>
                             <p className="text-gray-400 text-sm leading-relaxed">{t(feature.desc_en, feature.desc_bn)}</p>
                         </motion.div>
                     ))}

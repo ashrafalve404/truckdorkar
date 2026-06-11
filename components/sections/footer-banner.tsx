@@ -11,8 +11,9 @@ export function FooterBanner() {
                     src="/images/footerimagebanner.png"
                     alt="TruckDorkar Footer Banner"
                     width={500}
-                    height={120}
-                    className="w-full h-auto max-h-[120px] object-contain"
+                    height={100}
+                    className="w-full max-h-[120px] object-contain"
+                    style={{ height: 'auto' }}
                     priority
                 />
             </div>
