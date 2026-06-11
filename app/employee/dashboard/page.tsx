@@ -65,8 +65,7 @@ export default function EmployeeDashboard() {
     }, []);
 
     const stats = [
-        { label: t("Truck Verification", "ট্রাক ভেরিফিকেশন"), value: counts.pendingTrucks, icon: Truck, color: "text-blue-500", bg: "bg-blue-50", href: "/employee/drivers" },
-        { label: t("Driver Verification", "ড্রাইভার যাচাই"), value: counts.pendingDrivers, icon: Users, color: "text-amber-500", bg: "bg-amber-50", href: "/employee/drivers" },
+        { label: t("Truck Verification", "ট্রাক ভেরিফিকেশন"), value: counts.pendingTrucks, icon: Truck, color: "text-blue-500", bg: "bg-blue-50", href: "/employee/trucks" },
         { label: t("Support Tickets", "সাপোর্ট টিকেট"), value: counts.openTickets, icon: MessageSquare, color: "text-purple-500", bg: "bg-purple-50", href: "/employee/support" },
         { label: t("Total Bookings", "মোট বুকিং"), value: counts.todayBookings, icon: Package, color: "text-green-500", bg: "bg-green-50", href: "/employee/bookings" },
     ];
@@ -112,38 +111,7 @@ export default function EmployeeDashboard() {
                 })}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Pending Approvals */}
-                <div className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-slate-900">{t("Pending Approvals", "অপেক্ষমান অনুমোদন")}</h3>
-                        <button onClick={() => router.push("/employee/drivers")} className="text-primary text-sm font-bold hover:underline">{t("View All", "সব দেখুন")}</button>
-                    </div>
-                    {pendingApprovals.length > 0 ? (
-                        <div className="space-y-3">
-                            {pendingApprovals.map((driver) => (
-                                <div key={driver.id} className="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
-                                    <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center font-black text-amber-600 text-xs">
-                                        {t("DRV", "ড্রাই")}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold text-sm text-slate-900 truncate">{driver.user?.name || "Unknown"}</p>
-                                        <p className="text-xs text-slate-500 font-bold">{driver.user?.phone || "—"}</p>
-                                    </div>
-                                    <span className="px-2 py-1 rounded-full bg-amber-100 text-amber-600 text-[10px] font-black uppercase tracking-wider">
-                                        {t("PENDING", "অপেক্ষমান")}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-10">
-                            <CheckCircle className="w-10 h-10 text-green-500 mx-auto mb-3" />
-                            <p className="text-sm font-bold text-slate-500">{t("No pending approvals", "কোনো অনুমোদনের অপেক্ষায় নয়")}</p>
-                        </div>
-                    )}
-                </div>
-
+            <div className="grid grid-cols-1 gap-8">
                 {/* Recent Tickets */}
                 <div className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
