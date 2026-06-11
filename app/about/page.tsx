@@ -124,7 +124,7 @@ export default function AboutPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
                                     viewport={{ once: true }}
-                                    className="p-6 md:p-8 bg-black border border-white/5 rounded-2xl hover:border-primary/50 transition-all text-center"
+                                    className="p-6 md:p-8 bg-black border border-white/5 rounded-xl hover:border-primary/50 transition-all text-center"
                                 >
                                     <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
                                         <v.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
