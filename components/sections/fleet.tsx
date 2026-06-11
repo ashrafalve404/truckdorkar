@@ -24,9 +24,9 @@ export function Fleet() {
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div className="text-black">
-                        <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Our Fleet", "আমাদের ফ্লিট")}</div>
+                        <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Truck Types", "ট্রাক এর ধরণ")}</div>
                         <h2 className="text-4xl lg:text-5xl font-black text-black">
-                            {t("Modern Logistics", "যেকোনো মালামালের জন্য")} <br /> {t("Fleet", "সঠিক ট্রাক")}
+                            {t("Modern Logistics", "যেকোনো মালামালের জন্য")} <br /> {t("Trucks", "সঠিক ট্রাক")}
                         </h2>
                     </div>
                     <p className="text-gray-500 max-w-md text-black">

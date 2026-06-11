@@ -205,6 +205,15 @@ function BookingContent() {
                     </div>
                 </div>
             </main>
+
+            <section className="w-full">
+                <img
+                    src="/images/truckroadimage.png"
+                    alt="Truck on road"
+                    className="w-full h-auto block"
+                />
+            </section>
+
             <Footer />
         </div>
     );

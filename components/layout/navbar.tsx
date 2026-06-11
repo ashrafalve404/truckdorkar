@@ -17,7 +17,7 @@ const navLinks = [
     { name: "Booking", href: "/bookings/new", bn: "বুকিং" },
     { name: "Services", href: "/#services", bn: "সার্ভিস" },
     { name: "How It Works", href: "/#how-it-works", bn: "কিভাবে কাজ করে" },
-    { name: "Fleet", href: "/#fleet", bn: "ফ্লিট" },
+    { name: "Trucks", href: "/#fleet", bn: "ট্রাকসমূহ" },
     { name: "About Us", href: "/about", bn: "আমাদের সম্পর্কে" },
     { name: "Contact", href: "/contact", bn: "যোগাযোগ" },
 ];

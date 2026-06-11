@@ -51,6 +51,15 @@ export function HowItWorks() {
                     ))}
                 </div>
             </div>
+
+            {/* Bottom Graphic */}
+            <div className="w-full mt-10 md:mt-20 border-t border-gray-50">
+                <img
+                    src="/images/howitworks.png"
+                    alt="How TruckDorkar Works Graphic"
+                    className="w-full h-auto block"
+                />
+            </div>
         </section>
     );
 }

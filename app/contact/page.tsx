@@ -184,18 +184,31 @@ export default function ContactPage() {
                                 </div>
 
                                 <div className="p-5 md:p-7 bg-black rounded-lg md:rounded-3xl text-white flex items-center justify-between group cursor-pointer hover:bg-primary transition-all duration-500">
-                                    <div className="flex items-center gap-4 md:gap-6">
-                                        <div className="w-14 h-14 md:w-16 md:h-16 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-all">
-                                            <MessageCircle className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                                    <div className="flex items-center gap-3 md:gap-4">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 bg-white/10 rounded-lg md:rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-all">
+                                            <MessageCircle className="w-4 h-4 md:w-5 md:h-5 text-white" />
                                         </div>
                                         <div>
-                                            <div className="text-lg md:text-xl font-bold">{t("Live Chat Support", "লাইভ চ্যাট সাপোর্ট")}</div>
-                                            <div className="text-xs md:text-sm text-gray-400 group-hover:text-white/80">{t("Talk directly with our team", "আমাদের সাথে সরাসরি কথা বলুন")}</div>
+                                            <div className="text-base md:text-lg font-semibold">{t("Live Chat Support", "লাইভ চ্যাট সাপোর্ট")}</div>
+                                            <div className="text-[10px] md:text-xs text-gray-400 group-hover:text-white/80">{t("Talk directly with our team", "আমাদের সাথে সরাসরি কথা বলুন")}</div>
                                         </div>
                                     </div>
-                                    <div className="w-10 h-10 md:w-12 md:h-12 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                        <Send className="w-4 h-4 md:w-5 md:h-5 rotate-45" />
+                                    <div className="w-8 h-8 md:w-10 md:h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                                        <Send className="w-3 h-3 md:w-4 md:h-4 rotate-45" />
                                     </div>
+                                </div>
+
+                                <div className="mt-4 md:mt-6 rounded-lg md:rounded-xl overflow-hidden border border-gray-100">
+                                    <iframe
+                                        src="https://maps.google.com/maps?q=Navana%20Tower%20Shopping%20Complex%20Gulshan%201%20Dhaka&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                        width="100%"
+                                        height="200"
+                                        style={{ border: 0 }}
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Navana Shopping Centre Location"
+                                    />
                                 </div>
                             </motion.div>
                         </div>
