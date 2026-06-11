@@ -142,42 +142,42 @@ export default function ContactPage() {
                                 className="space-y-8 md:space-y-12"
                             >
                                 <div>
-                                    <h2 className="text-xl md:text-2xl font-black text-black mb-4 md:mb-6">{t("Direct Contact", "সরাসরি যোগাযোগ")}</h2>
-                                    <p className="text-base md:text-lg text-slate-700 font-bold mb-6 md:mb-10">
+                                    <h2 className="text-lg md:text-xl font-bold text-black mb-3 md:mb-4">{t("Direct Contact", "সরাসরি যোগাযোগ")}</h2>
+                                    <p className="text-sm md:text-base text-slate-600 font-medium mb-4 md:mb-6">
                                         {t(
                                             "You can call our 24/7 customer care number at any time or visit our office directly.",
                                             "আমাদের ২৪/৭ কাস্টমার কেয়ার নাম্বারে যেকোনো সময় কল করতে পারেন অথবা সরাসরি আমাদের অফিসে ভিজিট করতে পারেন।"
                                         )}
                                     </p>
 
-                                    <div className="space-y-6 md:space-y-8 text-black">
-                                        <div className="flex items-start gap-4 md:gap-6 group">
-                                            <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/10 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                                                <Phone className="w-5 h-5 md:w-6 md:h-6 text-primary group-hover:text-white" />
+                                    <div className="space-y-4 md:space-y-5 text-black">
+                                        <div className="flex items-start gap-3 md:gap-4 group">
+                                            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
+                                                <Phone className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-xs md:text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">{t("Call Us", "ফোন করুন")}</div>
-                                                <div className="text-xl md:text-2xl font-black text-black">{t("01826-110036", "০১৮২৬-১১০০৩৬")}</div>
+                                                <div className="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">{t("Call Us", "ফোন করুন")}</div>
+                                                <div className="text-base md:text-lg font-bold text-black">{t("01826-110036", "০১৮২৬-১১০০৩৬")}</div>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-start gap-4 md:gap-6 group">
-                                            <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/10 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                                                <Mail className="w-5 h-5 md:w-6 md:h-6 text-primary group-hover:text-white" />
+                                        <div className="flex items-start gap-3 md:gap-4 group">
+                                            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
+                                                <Mail className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">{t("Email Us", "ইমেইল করুন")}</div>
-                                                <div className="text-xl md:text-2xl font-black text-black">truckdorkarlimited@gmail.com</div>
+                                                <div className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-widest mb-0.5">{t("Email Us", "ইমেইল করুন")}</div>
+                                                <div className="text-base md:text-lg font-bold text-black">truckdorkarlimited@gmail.com</div>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-start gap-4 md:gap-6 group">
-                                            <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/10 rounded-xl md:rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                                                <MapPin className="w-5 h-5 md:w-6 md:h-6 text-primary group-hover:text-white" />
+                                        <div className="flex items-start gap-3 md:gap-4 group">
+                                            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
+                                                <MapPin className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">{t("Office Address", "অফিস ঠিকানা")}</div>
-                                                <div className="text-xl md:text-2xl font-black text-black">{t("Navana Shopping Centre, Gulshan Avenue 01, Gulshan, Dhaka, Bangladesh", "নাভানা শপিং সেন্টার, গুলশান অ্যাভিনিউ ০১, গুলশান, ঢাকা, বাংলাদেশ")}</div>
+                                                <div className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-widest mb-0.5">{t("Office Address", "অফিস ঠিকানা")}</div>
+                                                <div className="text-base md:text-lg font-bold text-black">{t("Navana Shopping Centre, Gulshan Avenue 01, Gulshan, Dhaka, Bangladesh", "নাভানা শপিং সেন্টার, গুলশান অ্যাভিনিউ ০১, গুলশান, ঢাকা, বাংলাদেশ")}</div>
                                             </div>
                                         </div>
                                     </div>

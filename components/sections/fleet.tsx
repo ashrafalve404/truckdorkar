@@ -14,6 +14,7 @@ const trucks = [
     { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png" },
     { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png" },
     { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png" },
+    { title_en: "5 Ton Open Truck", title_bn: "৫ টন খোলা ট্রাক", icon: "/images/5tonopentruck.png" },
 ];
 
 export function Fleet() {
