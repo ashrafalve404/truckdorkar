@@ -17,7 +17,7 @@ import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
-export default function EmployeeDashboard() {
+export default function AgentDashboard() {
     const { t } = useLanguage();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
@@ -34,7 +34,7 @@ export default function EmployeeDashboard() {
         const fetchDashboard = async () => {
             try {
                 const [dashRes, ticketsRes, driversRes] = await Promise.all([
-                    api.get("/employees/dashboard"),
+                    api.get("/agents/dashboard"),
                     api.get("/support/tickets"),
                     api.get("/drivers"),
                 ]);
@@ -54,7 +54,7 @@ export default function EmployeeDashboard() {
                 const pending = driversList.filter((d: any) => d.status === "PENDING");
                 setPendingApprovals(pending.slice(0, 5));
             } catch (error) {
-                console.error("Failed to fetch employee dashboard", error);
+                console.error("Failed to fetch agent dashboard", error);
                 toast.error(t("Failed to load dashboard data", "ড্যাশবোর্ড ডেটা লোড করতে ব্যর্থ হয়েছে"));
             } finally {
                 setLoading(false);
@@ -65,14 +65,14 @@ export default function EmployeeDashboard() {
     }, []);
 
     const stats = [
-        { label: t("Truck Verification", "ট্রাক ভেরিফিকেশন"), value: counts.pendingTrucks, icon: Truck, color: "text-blue-500", bg: "bg-blue-50", href: "/employee/trucks" },
-        { label: t("Support Tickets", "সাপোর্ট টিকেট"), value: counts.openTickets, icon: MessageSquare, color: "text-purple-500", bg: "bg-purple-50", href: "/employee/support" },
-        { label: t("Total Bookings", "মোট বুকিং"), value: counts.todayBookings, icon: Package, color: "text-green-500", bg: "bg-green-50", href: "/employee/bookings" },
+        { label: t("Truck Verification", "ট্রাক ভেরিফিকেশন"), value: counts.pendingTrucks, icon: Truck, color: "text-blue-500", bg: "bg-blue-50", href: "/agent/trucks" },
+        { label: t("Support Tickets", "সাপোর্ট টিকেট"), value: counts.openTickets, icon: MessageSquare, color: "text-purple-500", bg: "bg-purple-50", href: "/agent/support" },
+        { label: t("Total Bookings", "মোট বুকিং"), value: counts.todayBookings, icon: Package, color: "text-green-500", bg: "bg-green-50", href: "/agent/bookings" },
     ];
 
     if (loading) {
         return (
-            <DashboardLayout requiredRole="EMPLOYEE">
+            <DashboardLayout requiredRole="AGENT">
                 <div className="h-64 w-full flex items-center justify-center">
                     <Loader2 className="w-10 h-10 animate-spin text-primary" />
                 </div>
@@ -81,7 +81,7 @@ export default function EmployeeDashboard() {
     }
 
     return (
-        <DashboardLayout requiredRole="EMPLOYEE">
+        <DashboardLayout requiredRole="AGENT">
             <header className="mb-10">
                 <h1 className="text-3xl font-black text-slate-900 mb-2">
                     {t("Operations Dashboard", "অপারেশন ড্যাশবোর্ড")}
@@ -116,7 +116,7 @@ export default function EmployeeDashboard() {
                 <div className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-lg font-bold text-slate-900">{t("Recent Tickets", "সাম্প্রতিক টিকেট")}</h3>
-                        <button onClick={() => router.push("/employee/support")} className="text-primary text-sm font-bold hover:underline">{t("View All", "সব দেখুন")}</button>
+                        <button onClick={() => router.push("/agent/support")} className="text-primary text-sm font-bold hover:underline">{t("View All", "সব দেখুন")}</button>
                     </div>
                     {recentTickets.length > 0 ? (
                         <div className="space-y-3">

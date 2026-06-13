@@ -17,7 +17,7 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 
-export default function EmployeeSupportPage() {
+export default function AgentSupportPage() {
     const { t } = useLanguage();
     const [loading, setLoading] = useState(true);
     const [tickets, setTickets] = useState<any[]>([]);
@@ -68,7 +68,7 @@ export default function EmployeeSupportPage() {
     };
 
     return (
-        <DashboardLayout requiredRole="EMPLOYEE">
+        <DashboardLayout requiredRole="AGENT">
             <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 mb-2">

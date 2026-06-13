@@ -25,13 +25,13 @@ const STATUS_CONFIG: Record<string, { label: string; labelBn: string; color: str
     INACTIVE: { label: "Inactive", labelBn: "নিষ্ক্রিয়", color: "text-slate-500", bg: "bg-slate-50", icon: <Clock className="w-3 h-3" /> },
 };
 
-export default function EmployeeTrucksPage() {
+export default function AgentTrucksPage() {
     const { t } = useLanguage();
     const [trucks, setTrucks] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get("/employees/trucks")
+        api.get("/agents/trucks")
             .then(r => setTrucks(r.data?.data || []))
             .catch(console.error)
             .finally(() => setLoading(false));
@@ -45,7 +45,7 @@ export default function EmployeeTrucksPage() {
     };
 
     return (
-        <DashboardLayout requiredRole="EMPLOYEE">
+        <DashboardLayout requiredRole="AGENT">
             <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 mb-2">
@@ -55,7 +55,7 @@ export default function EmployeeTrucksPage() {
                         {t("Track the approval status of trucks you've submitted.", "আপনার জমা দেওয়া ট্রাকগুলোর অনুমোদনের অবস্থা দেখুন।")}
                     </p>
                 </div>
-                <Link href="/employee/trucks/new">
+                <Link href="/agent/trucks/new">
                     <Button className="h-12 px-6 rounded-xl font-black gap-2 shadow-lg shadow-primary/20 text-white">
                         <Plus className="w-5 h-5" />
                         {t("Register New Truck", "নতুন ট্রাক নিবন্ধন")}
@@ -91,7 +91,7 @@ export default function EmployeeTrucksPage() {
                     <p className="text-slate-500 font-bold text-sm mb-8">
                         {t("Start by registering your first truck for admin approval.", "প্রথম ট্রাক নিবন্ধন করুন।")}
                     </p>
-                    <Link href="/employee/trucks/new">
+                    <Link href="/agent/trucks/new">
                         <Button className="font-black gap-2 text-white rounded-xl">
                             <Plus className="w-4 h-4" />
                             {t("Register First Truck", "প্রথম ট্রাক নিবন্ধন করুন")}

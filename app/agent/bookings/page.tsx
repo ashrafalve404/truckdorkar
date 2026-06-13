@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
 
-export default function EmployeeBookingsPage() {
+export default function AgentBookingsPage() {
     const { t } = useLanguage();
     const [bookings, setBookings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ export default function EmployeeBookingsPage() {
     };
 
     return (
-        <DashboardLayout requiredRole="EMPLOYEE">
+        <DashboardLayout requiredRole="AGENT">
             <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 mb-2">

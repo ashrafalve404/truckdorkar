@@ -19,7 +19,7 @@ export default function RegisterPage() {
     const setAuth = useAuth((state) => state.setAuth);
 
     const [showPassword, setShowPassword] = useState(false);
-    const [selectedRole, setSelectedRole] = useState<"user" | "driver" | "employee">("user");
+    const [selectedRole, setSelectedRole] = useState<"user" | "driver" | "agent">("user");
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -30,7 +30,7 @@ export default function RegisterPage() {
         licenseNumber: "",
         experience: "",
         companyName: "",
-        employeeId: "",
+        agentId: "",
         nidNumber: "",
         dateOfBirth: "",
         agree: false,
@@ -54,12 +54,12 @@ export default function RegisterPage() {
             desc_bn: "বুকিং রিকোয়েস্ট পেতে ড্রাইভার হিসেবে রেজিস্টার",
         },
         {
-            id: "employee" as const,
+            id: "agent" as const,
             icon: Briefcase,
-            title_en: "Employee",
-            title_bn: "কর্মচারী",
-            desc_en: "Register as a company employee",
-            desc_bn: "কোম্পানির কর্মচারী হিসেবে রেজিস্টার",
+            title_en: "Agent",
+            title_bn: "এজেন্ট",
+            desc_en: "Register as a company agent",
+            desc_bn: "কোম্পানির এজেন্ট হিসেবে রেজিস্টার",
         },
     ];
 
@@ -86,7 +86,7 @@ export default function RegisterPage() {
             const roleMap = {
                 user: "USER",
                 driver: "DRIVER",
-                employee: "EMPLOYEE",
+                agent: "AGENT",
             };
 
             const payload = {
@@ -97,10 +97,10 @@ export default function RegisterPage() {
                 role: roleMap[selectedRole],
                 licenseNumber: selectedRole === "driver" ? formData.licenseNumber : undefined,
                 experience: selectedRole === "driver" ? Number(formData.experience) : undefined,
-                companyName: selectedRole === "employee" ? formData.companyName : undefined,
-                employeeId: selectedRole === "employee" ? formData.employeeId : undefined,
-                nidNumber: selectedRole === "employee" ? formData.nidNumber : undefined,
-                dateOfBirth: selectedRole === "employee" ? formData.dateOfBirth || undefined : undefined,
+                companyName: selectedRole === "agent" ? formData.companyName : undefined,
+                agentId: selectedRole === "agent" ? formData.agentId : undefined,
+                nidNumber: selectedRole === "agent" ? formData.nidNumber : undefined,
+                dateOfBirth: selectedRole === "agent" ? formData.dateOfBirth || undefined : undefined,
             };
 
             const { data } = await api.post("/auth/register", payload);
@@ -109,7 +109,7 @@ export default function RegisterPage() {
             toast.success(t("Registration successful!", "রেজিস্ট্রেশন সফল হয়েছে!"));
 
             if (payload.role === 'DRIVER') router.push('/driver/dashboard');
-            else if (payload.role === 'EMPLOYEE') router.push('/employee/dashboard');
+            else if (payload.role === 'AGENT') router.push('/agent/dashboard');
             else router.push('/dashboard');
         } catch (error: any) {
             toast.error(error.response?.data?.message || t("Registration failed", "রেজিস্ট্রেশন ব্যর্থ হয়েছে"));
@@ -245,7 +245,7 @@ export default function RegisterPage() {
                                     </div>
                                 )}
 
-                                {selectedRole === "employee" && (
+                                {selectedRole === "agent" && (
                                     <div className="space-y-4 md:space-y-6">
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                                             <div className="space-y-2">
@@ -290,14 +290,14 @@ export default function RegisterPage() {
                                             </div>
                                             <div className="space-y-2">
                                                 <label className="text-sm font-bold text-slate-950">
-                                                    {t("Employee ID", "কর্মচারী আইডি")} <span className="text-red-500">*</span>
+                                                    {t("Agent ID", "এজেন্ট আইডি")} <span className="text-red-500">*</span>
                                                 </label>
                                                 <input
                                                     type="text"
                                                     required
-                                                    value={formData.employeeId}
-                                                    onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
-                                                    placeholder={t("Enter employee ID", "কর্মচারী আইডি লিখুন")}
+                                                    value={formData.agentId}
+                                                    onChange={(e) => setFormData({ ...formData, agentId: e.target.value })}
+                                                    placeholder={t("Enter agent ID", "এজেন্ট আইডি লিখুন")}
                                                     className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                                 />
                                             </div>

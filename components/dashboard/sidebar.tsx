@@ -23,7 +23,7 @@ import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
 
 interface SidebarProps {
-    role: "ADMIN" | "DRIVER" | "EMPLOYEE" | "USER";
+    role: "ADMIN" | "DRIVER" | "AGENT" | "USER";
     isOpen?: boolean;
     onClose?: () => void;
 }
@@ -39,7 +39,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Bookings", href: "/admin/bookings", icon: Package, bn: "বুকিং" },
             { name: "Drivers", href: "/admin/drivers", icon: Truck, bn: "ড্রাইভার" },
             { name: "Users", href: "/admin/users", icon: Users, bn: "ইউজার" },
-            { name: "Employees", href: "/admin/employees", icon: Users, bn: "কর্মচারী" },
+            { name: "Agents", href: "/admin/agents", icon: Users, bn: "এজেন্ট" },
             { name: "Support", href: "/admin/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Settings", href: "/admin/settings", icon: Settings, bn: "সেটিংস" },
         ],
@@ -52,12 +52,12 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Support", href: "/driver/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Settings", href: "/driver/settings", icon: Settings, bn: "সেটিংস" },
         ],
-        EMPLOYEE: [
-            { name: "Dashboard", href: "/employee/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
-            { name: "Manage Bookings", href: "/employee/bookings", icon: Package, bn: "বুকিং ম্যানেজ" },
-            { name: "My Trucks", href: "/employee/trucks", icon: Truck, bn: "আমার ট্রাক" },
-            { name: "Support Tickets", href: "/employee/support", icon: MessageSquare, bn: "সাপোর্ট টিকেট" },
-            { name: "Notifications", href: "/employee/notifications", icon: Bell, bn: "নোটিফিকেশন" },
+        AGENT: [
+            { name: "Dashboard", href: "/agent/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
+            { name: "Manage Bookings", href: "/agent/bookings", icon: Package, bn: "বুকিং ম্যানেজ" },
+            { name: "My Trucks", href: "/agent/trucks", icon: Truck, bn: "আমার ট্রাক" },
+            { name: "Support Tickets", href: "/agent/support", icon: MessageSquare, bn: "সাপোর্ট টিকেট" },
+            { name: "Notifications", href: "/agent/notifications", icon: Bell, bn: "নোটিফিকেশন" },
         ],
         USER: [
             { name: "My Bookings", href: "/dashboard", icon: Package, bn: "আমার বুকিং" },

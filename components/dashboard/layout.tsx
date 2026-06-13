@@ -8,7 +8,7 @@ import { Loader2, Menu, Truck } from "lucide-react";
 
 interface DashboardLayoutProps {
     children: React.ReactNode;
-    requiredRole?: "ADMIN" | "DRIVER" | "EMPLOYEE" | "USER";
+    requiredRole?: "ADMIN" | "DRIVER" | "AGENT" | "USER";
 }
 
 export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps) {
@@ -24,7 +24,7 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
             // Role mismatch redirection
             if (user?.role === "ADMIN") router.push("/admin");
             else if (user?.role === "DRIVER") router.push("/driver/dashboard");
-            else if (user?.role === "EMPLOYEE") router.push("/employee/dashboard");
+            else if (user?.role === "AGENT") router.push("/agent/dashboard");
             else router.push("/dashboard");
         }
     }, [isAuthenticated, isHydrated, user, requiredRole, router]);

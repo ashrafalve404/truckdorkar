@@ -16,7 +16,7 @@ import {
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 
-export default function EmployeeNotificationsPage() {
+export default function AgentNotificationsPage() {
     const { t } = useLanguage();
     const [loading, setLoading] = useState(true);
     const [notifications, setNotifications] = useState<any[]>([]);
@@ -68,7 +68,7 @@ export default function EmployeeNotificationsPage() {
     };
 
     return (
-        <DashboardLayout requiredRole="EMPLOYEE">
+        <DashboardLayout requiredRole="AGENT">
             <header className="mb-10 flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 mb-2">

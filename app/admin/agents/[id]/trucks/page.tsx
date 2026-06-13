@@ -25,7 +25,7 @@ const STATUS_COLOURS: Record<string, string> = {
     REJECTED: "text-red-600 bg-red-50",
 };
 
-export default function AdminEmployeeTrucksPage() {
+export default function AdminAgentTrucksPage() {
     const { t } = useLanguage();
     const router = useRouter();
     const { id } = useParams();
@@ -37,10 +37,10 @@ export default function AdminEmployeeTrucksPage() {
 
     const fetchTrucks = async () => {
         try {
-            const response = await api.get(`/employees/admin/${id}/trucks`);
+            const response = await api.get(`/agents/admin/${id}/trucks`);
             setTrucks(response.data.data);
         } catch (error) {
-            console.error("Failed to fetch employee trucks", error);
+            console.error("Failed to fetch agent trucks", error);
         } finally {
             setLoading(false);
         }
@@ -53,7 +53,7 @@ export default function AdminEmployeeTrucksPage() {
     const handleAction = async (truckId: string, status: string) => {
         setActionLoading(true);
         try {
-            await api.patch(`/employees/admin/trucks/${truckId}/approve`, { status, note });
+            await api.patch(`/agents/admin/trucks/${truckId}/approve`, { status, note });
             toast.success(`Truck ${status.toLowerCase()} successfully`);
             fetchTrucks();
             setSelectedTruck(null);
@@ -69,7 +69,7 @@ export default function AdminEmployeeTrucksPage() {
         <DashboardLayout requiredRole="ADMIN">
             <header className="mb-10 flex items-center gap-4">
                 <button
-                    onClick={() => router.push("/admin/employees")}
+                    onClick={() => router.push("/admin/agents")}
                     className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-all text-black"
                 >
                     <ArrowLeft className="w-5 h-5" />
@@ -79,7 +79,7 @@ export default function AdminEmployeeTrucksPage() {
                         {t("Truck Submissions", "ট্রাক সাবমিশন")}
                     </h1>
                     <p className="text-slate-600 font-bold text-sm">
-                        {t("Review and verify truck registrations submitted by this employee.", "এই কর্মচারীর জমা দেওয়া ট্রাক রেজিস্ট্রেশন যাচাই করুন।")}
+                        {t("Review and verify truck registrations submitted by this agent.", "এই এজেন্টের জমা দেওয়া ট্রাক রেজিস্ট্রেশন যাচাই করুন।")}
                     </p>
                 </div>
             </header>
@@ -182,7 +182,7 @@ export default function AdminEmployeeTrucksPage() {
                                         value={note}
                                         onChange={(e) => setNote(e.target.value)}
                                         className="w-full h-24 p-4 rounded-xl bg-slate-50 border-none outline-none focus:ring-2 focus:ring-primary/10 font-bold text-sm"
-                                        placeholder={t("Add a note for the employee...", "কর্মচারীর জন্য একটি নোট যোগ করুন...")}
+                                        placeholder={t("Add a note for the agent...", "এজেন্টের জন্য একটি নোট যোগ করুন...")}
                                     />
                                 </div>
 

@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 
-export default function EmployeeDriversPage() {
+export default function AgentDriversPage() {
     const { t } = useLanguage();
     const [drivers, setDrivers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ export default function EmployeeDriversPage() {
 
     const fetchDrivers = async () => {
         try {
-            // Use /drivers endpoint which allows both ADMIN and EMPLOYEE
+            // Use /drivers endpoint which allows both ADMIN and Agent
             const response = await api.get("/drivers");
             const driversList = response.data?.data?.drivers || [];
             // Drivers endpoint returns user info directly, adapt to same structure
@@ -55,7 +55,7 @@ export default function EmployeeDriversPage() {
     );
 
     return (
-        <DashboardLayout requiredRole="EMPLOYEE">
+        <DashboardLayout requiredRole="AGENT">
             <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 mb-2">

@@ -161,7 +161,7 @@ export function Navbar() {
                                 let dashboardLink = "/dashboard";
                                 if (user?.role === "ADMIN") dashboardLink = "/admin";
                                 else if (user?.role === "DRIVER") dashboardLink = "/driver/dashboard";
-                                else if (user?.role === "EMPLOYEE") dashboardLink = "/employee/dashboard";
+                                else if (user?.role === "AGENT") dashboardLink = "/agent/dashboard";
 
                                 return (
                                     <Link href={dashboardLink} className="flex items-center gap-2 text-sm font-bold text-dark-gray hover:text-primary transition-all">
@@ -244,7 +244,7 @@ export function Navbar() {
                                         let dashboardLink = "/dashboard";
                                         if (user?.role === "ADMIN") dashboardLink = "/admin";
                                         else if (user?.role === "DRIVER") dashboardLink = "/driver/dashboard";
-                                        else if (user?.role === "EMPLOYEE") dashboardLink = "/employee/dashboard";
+                                        else if (user?.role === "AGENT") dashboardLink = "/agent/dashboard";
 
                                         return (
                                             <Link href={dashboardLink} onClick={() => setIsMobileMenuOpen(false)}>

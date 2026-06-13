@@ -6,7 +6,7 @@ export interface User {
     name: string;
     email: string;
     phone: string;
-    role: 'USER' | 'DRIVER' | 'EMPLOYEE' | 'ADMIN';
+    role: 'USER' | 'DRIVER' | 'AGENT' | 'ADMIN';
     isActive: boolean;
     avatar?: string;
 }

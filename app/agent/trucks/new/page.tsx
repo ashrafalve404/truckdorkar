@@ -110,7 +110,7 @@ function DocUploader({ label, labelBn, icon, file, onFileChange, required }: Doc
     );
 }
 
-export default function EmployeeAddTruckPage() {
+export default function AgentAddTruckPage() {
     const { t } = useLanguage();
     const router = useRouter();
     const [submitting, setSubmitting] = useState(false);
@@ -166,12 +166,12 @@ export default function EmployeeAddTruckPage() {
             formData.append("roadPermitFile", files.roadPermitFile);
             if (files.drivingLicenseFile) formData.append("drivingLicenseFile", files.drivingLicenseFile);
 
-            await api.post("/employees/trucks", formData, {
+            await api.post("/agents/trucks", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
             toast.success(t("Truck submitted for admin review!", "ট্রাক অ্যাডমিনের পর্যালোচনার জন্য জমা দেওয়া হয়েছে!"));
-            router.push("/employee/trucks");
+            router.push("/agent/trucks");
         } catch (error: any) {
             const msg = error?.response?.data?.message;
             toast.error(typeof msg === "string" ? msg : t("Failed to submit truck", "ট্রাক জমা দিতে ব্যর্থ হয়েছে"));
@@ -183,10 +183,10 @@ export default function EmployeeAddTruckPage() {
     const inputClass = "w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-slate-950 font-bold text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all";
 
     return (
-        <DashboardLayout requiredRole="EMPLOYEE">
+        <DashboardLayout requiredRole="AGENT">
             <div className="max-w-4xl mx-auto">
                 <header className="mb-10 flex items-center gap-4">
-                    <Link href="/employee/trucks" className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-all">
+                    <Link href="/agent/trucks" className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-all">
                         <ArrowLeft className="w-5 h-5 text-slate-700" />
                     </Link>
                     <div>
@@ -418,7 +418,7 @@ export default function EmployeeAddTruckPage() {
                             )}
                             {t("Submit for Admin Approval", "অ্যাডমিনের অনুমোদনের জন্য জমা দিন")}
                         </Button>
-                        <Link href="/employee/trucks" className="text-slate-600 font-bold text-sm hover:underline">
+                        <Link href="/agent/trucks" className="text-slate-600 font-bold text-sm hover:underline">
                             {t("Cancel", "বাতিল")}
                         </Link>
                     </div>
