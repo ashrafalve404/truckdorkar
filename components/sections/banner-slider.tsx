@@ -42,7 +42,7 @@ const banners: Banner[] = [
     },
     {
         id: 3,
-        image: "/images/image1.png",
+        image: "/images/image3.png",
         titleEn: "Enterprise Solutions",
         titleBn: "এন্টারপ্রাইজ সমাধান",
         subtitleEn: "Reliable logistics solutions for businesses of all sizes.",
@@ -68,7 +68,7 @@ export function BannerSlider() {
 
     return (
         <section className="relative w-full h-[350px] lg:h-[700px] overflow-hidden bg-white pt-24 pb-8 px-4 sm:px-10">
-                <div className="relative h-full max-w-[1600px] mx-auto rounded-sm md:rounded-md overflow-hidden shadow-2xl border border-slate-100">
+            <div className="relative h-full max-w-[1600px] mx-auto rounded-sm md:rounded-md overflow-hidden shadow-2xl border border-slate-100">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={current}

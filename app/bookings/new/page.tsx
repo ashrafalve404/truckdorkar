@@ -277,12 +277,14 @@ function BookingContent() {
                 </div>
             </main>
 
-            <section className="w-full">
-                <img
-                    src="/images/truckroadimage.png"
-                    alt="Truck on road"
-                    className="w-full h-auto block"
-                />
+            <section className="container mx-auto px-4 lg:px-12 mb-16">
+                <div className="w-full h-auto overflow-hidden rounded-xl border border-slate-100 shadow-sm">
+                    <img
+                        src="/images/bookingpagefoto.png"
+                        alt="Truck on road"
+                        className="w-full h-full object-cover"
+                    />
+                </div>
             </section>
 
             <Footer />
