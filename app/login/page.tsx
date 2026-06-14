@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/store/use-auth";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export default function LoginPage() {
     const { t } = useLanguage();
@@ -23,6 +24,43 @@ export default function LoginPage() {
     const [formData, setFormData] = useState({
         identifier: "",
         password: "",
+    });
+
+    const handleGoogleSuccess = async (tokenResponse: any) => {
+        setLoading(true);
+        try {
+            // tokenResponse contains access_token, but for safe verification, 
+            // we often need the id_token or similar. 
+            // @react-oauth/google's useGoogleLogin returns an implicit flow.
+            // We need to send this to our backend.
+            const { data } = await api.post("/auth/google", {
+                token: tokenResponse.access_token // Or use the one from credential callback
+            });
+
+            setAuth(data.data.user, data.data.accessToken, data.data.refreshToken);
+            toast.success(t("Google Login successful!", "গুগল লগইন সফল হয়েছে!"));
+
+            if (data.data.user.role === 'ADMIN') router.push('/admin/dashboard');
+            else if (data.data.user.role === 'DRIVER') router.push('/driver/dashboard');
+            else router.push('/dashboard');
+        } catch (error: any) {
+            const message = error.response?.data?.message;
+            if (error.response?.status === 404) {
+                toast.error(t("No account found with this Google email. Please register first.", "এই গুগল ইমেইলের সাথে কোনো অ্যাকাউন্ট পাওয়া যায়নি। অনুগ্রহ করে আগে রেজিস্টার করুন।"), {
+                    duration: 5000,
+                    icon: '🚫'
+                });
+            } else {
+                toast.error(message || t("Google login failed", "গুগল লগইন ব্যর্থ হয়েছে"));
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const googleLogin = useGoogleLogin({
+        onSuccess: handleGoogleSuccess,
+        onError: () => toast.error(t("Google Login failed", "গুগল লগইন ব্যর্থ হয়েছে")),
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -151,7 +189,13 @@ export default function LoginPage() {
 
                             {/* Social Login */}
                             <div className="grid grid-cols-1 gap-3 md:gap-4">
-                                <Button variant="outline" className="w-full h-11 md:h-12 rounded-lg md:rounded-xl font-bold text-sm md:text-base gap-2 text-black border-gray-200 hover:bg-gray-50">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => googleLogin()}
+                                    disabled={loading}
+                                    className="w-full h-11 md:h-12 rounded-lg md:rounded-xl font-bold text-sm md:text-base gap-2 text-black border-gray-200 hover:bg-gray-50"
+                                >
                                     <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none">
                                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
                                         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
