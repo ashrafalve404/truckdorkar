@@ -1,22 +1,46 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { MapPin, Truck, Calendar, Search, X } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, Truck, Calendar, Search, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
+import { cn } from "@/lib/utils";
 
 import { useRouter } from "next/navigation";
 
 export function BookingWidget() {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     const router = useRouter();
     const [activeTab, setActiveTab] = useState("inter-city");
     const [selectedDate, setSelectedDate] = useState("");
     const [pickup, setPickup] = useState("");
     const [drop, setDrop] = useState("");
     const [truckType, setTruckType] = useState("");
+    const [isTruckDropdownOpen, setIsTruckDropdownOpen] = useState(false);
     const dateInputRef = useRef<HTMLInputElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const truckTypes = [
+        { value: "1_ton_open_7ft", en: "1 Ton Open 7Ft", bn: "১ টন খোলা ৭ফিট ট্রাক" },
+        { value: "1_ton_cover_7ft", en: "1 Ton Cover 7Ft", bn: "১ টন কাভার ৭ফিট ট্রাক" },
+        { value: "1.5_ton_open_9ft", en: "1.5 Ton Open 9Ft", bn: "১.৫ টন খোলা ৯ফিট ট্রাক" },
+        { value: "1.5_ton_cover_9ft", en: "1.5 Ton Cover 9Ft", bn: "১.৫ টন কাভার ৯ফিট ট্রাক" },
+        { value: "2_ton_open_9ft", en: "2 Ton Open 9Ft", bn: "২ টন খোলা ৯ফিট ট্রাক" },
+        { value: "3_ton_open_12ft", en: "3 Ton Open 12Ft", bn: "৩ টন খোলা ১২ফিট ট্রাক" },
+        { value: "3_ton_cover_12ft", en: "3 Ton Cover 12Ft", bn: "৩ টন কাভার ১২ফিট ট্রাক" },
+        { value: "5_ton_open_truck", en: "5 Ton Open Truck", bn: "৫ টন খোলা ট্রাক" },
+    ];
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsTruckDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const handleDateClick = () => {
         if (dateInputRef.current) {
@@ -47,6 +71,8 @@ export function BookingWidget() {
         const date = new Date(dateStr);
         return date.toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" });
     };
+
+    const selectedTruckLabel = truckTypes.find(t => t.value === truckType);
 
     return (
         <motion.div
@@ -112,20 +138,48 @@ export function BookingWidget() {
                             <Truck className="w-3 h-3 text-primary" />
                             {t("Truck Type", "ট্রাকের ধরণ")}
                         </label>
-                        <div className="relative">
-                            <select
-                                value={truckType}
-                                onChange={(e) => setTruckType(e.target.value)}
-                                className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer"
+                        <div className="relative" ref={dropdownRef}>
+                            <div
+                                onClick={() => setIsTruckDropdownOpen(!isTruckDropdownOpen)}
+                                className="w-full h-14 bg-gray-200 rounded-md px-6 flex items-center justify-between cursor-pointer group hover:bg-gray-300/80 transition-all"
                             >
-                                <option value="">{t("Select Truck", "ট্রাক নির্বাচন করুন")}</option>
-                                <option value="1_ton_open_7ft">{t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক")}</option>
-                                <option value="1_ton_cover_7ft">{t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক")}</option>
-                                <option value="1.5_ton_open_9ft">{t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক")}</option>
-                                <option value="1.5_ton_cover_9ft">{t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক")}</option>
-                                <option value="3_ton_open_12ft">{t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক")}</option>
-                                <option value="3_ton_cover_12ft">{t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক")}</option>
-                            </select>
+                                <span className={cn("font-semibold", truckType ? "text-black" : "text-gray-600")}>
+                                    {truckType
+                                        ? (lang === 'en' ? selectedTruckLabel?.en : selectedTruckLabel?.bn)
+                                        : t("Select Truck", "ট্রাক নির্বাচন করুন")}
+                                </span>
+                                <ChevronDown className={cn("w-5 h-5 text-gray-400 transition-transform duration-300", isTruckDropdownOpen && "rotate-180")} />
+                            </div>
+
+                            <AnimatePresence>
+                                {isTruckDropdownOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 5, scale: 1 }}
+                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-xl shadow-2xl z-50 py-2 max-h-72 overflow-y-auto scrollbar-hide"
+                                    >
+                                        {truckTypes.map((type) => (
+                                            <div
+                                                key={type.value}
+                                                onClick={() => {
+                                                    setTruckType(type.value);
+                                                    setIsTruckDropdownOpen(false);
+                                                }}
+                                                className={cn(
+                                                    "px-6 py-3 text-sm font-semibold transition-all cursor-pointer flex items-center justify-between",
+                                                    truckType === type.value
+                                                        ? "bg-primary/10 text-primary"
+                                                        : "text-gray-700 hover:bg-gray-50 hover:text-primary"
+                                                )}
+                                            >
+                                                {lang === 'en' ? type.en : type.bn}
+                                                {truckType === type.value && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
+                                            </div>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
                     </div>
 

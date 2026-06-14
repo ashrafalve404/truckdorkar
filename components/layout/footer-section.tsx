@@ -91,9 +91,11 @@ export function FinalCTA() {
                     {t("Join thousands of businesses who trust TruckDorkar for their logistics needs.", "হাজারো ব্যবসার সাথে যোগ দিন যারা তাদের লজিস্টিক প্রয়োজনে ট্রাক দরকার-এর ওপর আস্থা রাখে।")}
                 </p>
                 <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-                    <Button size="lg" variant="secondary" className="rounded-xl font-bold px-6 md:px-10 h-12 md:h-16 text-base md:text-lg hover:translate-y-[-4px] transition-all">
-                        {t("Book Now", "বুকিং শুরু করুন")}
-                    </Button>
+                    <Link href="/bookings/new">
+                        <Button size="lg" variant="secondary" className="rounded-xl font-bold px-6 md:px-10 h-12 md:h-16 text-base md:text-lg hover:translate-y-[-4px] transition-all">
+                            {t("Book Now", "বুকিং শুরু করুন")}
+                        </Button>
+                    </Link>
                     <Link href="/contact">
                         <Button size="lg" className="rounded-xl font-bold px-6 md:px-10 h-12 md:h-16 text-base md:text-lg border-2 border-white bg-transparent hover:bg-white hover:text-primary hover:translate-y-[-4px] transition-all text-white">
                             {t("Contact Us", "যোগাযোগ করুন")}

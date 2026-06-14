@@ -1,15 +1,86 @@
 "use client";
 
-import React, { useCallback, useState, Suspense } from "react";
+import React, { useCallback, useState, Suspense, useRef, useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { useLanguage } from "@/context/language-context";
 import { useSearchParams, useRouter } from "next/navigation";
-import { MapPin, ArrowRight, Loader2 } from "lucide-react";
+import { MapPin, ArrowRight, Loader2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { useAuth } from "@/store/use-auth";
 import { toast } from "react-hot-toast";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+interface CustomSelectProps {
+    value: string;
+    onChange: (val: string) => void;
+    options: { label: string; value: string }[];
+    placeholder: string;
+    label?: string;
+}
+
+function CustomSelect({ value, onChange, options, placeholder, label }: CustomSelectProps) {
+    const [isOpen, setIsOpen] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const selectedOption = options.find(opt => opt.value === value);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    return (
+        <div className="space-y-2 relative" ref={containerRef}>
+            {label && <label className="text-sm font-bold text-slate-950">{label}</label>}
+            <div
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all font-bold text-slate-950 shadow-sm"
+            >
+                <span className={cn(value ? "text-slate-950" : "text-slate-500")}>
+                    {selectedOption ? selectedOption.label : placeholder}
+                </span>
+                <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform duration-300", isOpen && "rotate-180")} />
+            </div>
+
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 4, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className="absolute top-full left-0 right-0 bg-white border border-slate-100 rounded-xl shadow-2xl z-50 py-2 mt-1 overflow-hidden"
+                    >
+                        {options.map((opt) => (
+                            <div
+                                key={opt.value}
+                                onClick={() => {
+                                    onChange(opt.value);
+                                    setIsOpen(false);
+                                }}
+                                className={cn(
+                                    "px-4 py-2.5 text-sm font-bold transition-all cursor-pointer flex items-center justify-between",
+                                    value === opt.value
+                                        ? "bg-primary/10 text-primary"
+                                        : "text-slate-700 hover:bg-slate-50 hover:text-primary"
+                                )}
+                            >
+                                {opt.label}
+                                {value === opt.value && <div className="w-1 h-1 rounded-full bg-primary" />}
+                            </div>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}
 
 function BookingContent() {
     const { t } = useLanguage();
@@ -27,6 +98,19 @@ function BookingContent() {
         goodsWeight: "",
         specialNote: "",
     });
+
+    const bookingTypes = [
+        { label: t("Inter City", "আন্তঃশহর"), value: "INTER_CITY" },
+        { label: t("Intra City", "শহরের ভিতরে"), value: "INTRA_CITY" },
+        { label: t("Specialized", "বিশেষায়িত"), value: "SPECIALIZED" },
+    ];
+
+    const goodsTypes = [
+        { label: t("General Goods", "সাধারণ পণ্য"), value: "GENERAL" },
+        { label: t("House Shifting", "বাসা বদল"), value: "HOUSE_SHIFTING" },
+        { label: t("Fragile", "ভঙ্গুর পণ্য"), value: "FRAGILE" },
+        { label: t("Construction", "নির্মাণ সামগ্রী"), value: "CONSTRUCTION" },
+    ];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -108,33 +192,20 @@ function BookingContent() {
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">{t("Booking Type", "বুকিং ধরন")}</label>
-                                            <select
-                                                required
-                                                value={formData.type}
-                                                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold"
-                                            >
-                                                <option value="INTER_CITY">{t("Inter City", "আন্তঃশহর")}</option>
-                                                <option value="INTRA_CITY">{t("Intra City", "শহরের ভিতরে")}</option>
-                                                <option value="SPECIALIZED">{t("Specialized", "বিশেষায়িত")}</option>
-                                            </select>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">{t("Goods Type", "পণ্যের ধরণ")}</label>
-                                            <select
-                                                required
-                                                value={formData.goodsType}
-                                                onChange={(e) => setFormData({ ...formData, goodsType: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none text-slate-950 font-bold"
-                                            >
-                                                <option value="GENERAL">{t("General Goods", "সাধারণ পণ্য")}</option>
-                                                <option value="HOUSE_SHIFTING">{t("House Shifting", "বাসা বদল")}</option>
-                                                <option value="FRAGILE">{t("Fragile", "ভঙ্গুর পণ্য")}</option>
-                                                <option value="CONSTRUCTION">{t("Construction", "নির্মাণ সামগ্রী")}</option>
-                                            </select>
-                                        </div>
+                                        <CustomSelect
+                                            label={t("Booking Type", "বুকিং ধরন")}
+                                            value={formData.type}
+                                            onChange={(val) => setFormData({ ...formData, type: val })}
+                                            options={bookingTypes}
+                                            placeholder={t("Select Type", "নির্বাচন করুন")}
+                                        />
+                                        <CustomSelect
+                                            label={t("Goods Type", "পণ্যের ধরণ")}
+                                            value={formData.goodsType}
+                                            onChange={(val) => setFormData({ ...formData, goodsType: val })}
+                                            options={goodsTypes}
+                                            placeholder={t("Select Goods", "নির্বাচন করুন")}
+                                        />
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

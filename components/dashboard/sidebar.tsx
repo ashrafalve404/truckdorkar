@@ -38,6 +38,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Overview", href: "/admin", icon: LayoutDashboard, bn: "ওভারভিউ" },
             { name: "Bookings", href: "/admin/bookings", icon: Package, bn: "বুকিং" },
             { name: "Drivers", href: "/admin/drivers", icon: Truck, bn: "ড্রাইভার" },
+            { name: "Trucks", href: "/admin/trucks", icon: Truck, bn: "ট্রাক" },
             { name: "Users", href: "/admin/users", icon: Users, bn: "ইউজার" },
             { name: "Agents", href: "/admin/agents", icon: Users, bn: "এজেন্ট" },
             { name: "Support", href: "/admin/support", icon: MessageSquare, bn: "সাপোর্ট" },

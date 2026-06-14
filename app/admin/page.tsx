@@ -21,6 +21,7 @@ interface AdminStats {
     summary: { totalRevenue: number; totalBookings: number; totalUsers: number; totalDrivers: number };
     recentBookings: { id: string; bookingNumber: string; user: { name: string }; finalFare?: number; estimatedFare?: number; status: string }[];
     pendingDrivers: number;
+    pendingTrucks: number;
     openTickets: number;
 }
 
@@ -177,12 +178,12 @@ export default function AdminDashboard() {
                             {stats?.pendingDrivers === 0 && <CheckCircle className="w-6 h-6 text-green-500" />}
                         </div>
                         <div className="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
-                            <Users className="w-10 h-10 text-blue-500" />
+                            <Truck className="w-10 h-10 text-emerald-500" />
                             <div className="flex-1">
-                                <p className="font-bold text-slate-950 line-clamp-1">{t(`${stats?.openTickets || 0} Support Tickets`, `${stats?.openTickets || 0}টি সাপোর্ট টিকেট`)}</p>
-                                <p className="text-xs text-slate-700 font-bold">{t("Tickets require attention", "টিকেট অবিলম্বে মনোযোগ প্রয়োজন")}</p>
+                                <p className="font-bold text-slate-950 line-clamp-1">{t(`${stats?.pendingTrucks || 0} New Truck Registrations`, `${stats?.pendingTrucks || 0}টি নতুন ট্রাক রেজিস্ট্রেশন`)}</p>
+                                <p className="text-xs text-slate-700 font-bold">{t("Verify documents and approve fleet", "ডকুমেন্টস যাচাই করুন এবং অনুমোদন দিন")}</p>
                             </div>
-                            {stats?.openTickets === 0 && <CheckCircle className="w-6 h-6 text-green-500" />}
+                            {stats?.pendingTrucks === 0 && <CheckCircle className="w-6 h-6 text-green-500" />}
                         </div>
                     </div>
                 </div>
