@@ -81,7 +81,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                     <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
                         <Truck className="w-5 h-5 text-white" />
                     </div>
-                    <span className="font-black text-xl tracking-tight text-slate-950">TruckDorkar</span>
+                    <span className="font-black text-xl tracking-tight text-slate-950">Truck Dorkar</span>
                 </Link>
                 <div className="mt-4 px-3 py-1.5 bg-slate-100 rounded-md inline-block">
                     <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">{role} PANEL</span>

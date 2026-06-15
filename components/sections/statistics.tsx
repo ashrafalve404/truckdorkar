@@ -5,8 +5,8 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
 const stats = [
-    { value: 50000, label: "সফল ডেলিভারি", suffix: "+", subLabel: "Successful Deliveries" },
-    { value: 10000, label: "ভেরিফাইড ট্রাক", suffix: "+", subLabel: "Verified Trucks" },
+    { value: 20000, label: "সফল ডেলিভারি", suffix: "+", subLabel: "Successful Deliveries" },
+    { value: 5000, label: "ভেরিফাইড ট্রাক", suffix: "+", subLabel: "Verified Trucks" },
     { value: 64, label: "জেলা কভারেজ", suffix: "", subLabel: "District Coverage" },
     { value: 98, label: "সন্তুষ্ট গ্রাহক", suffix: "%", subLabel: "Customer Satisfaction" },
 ];

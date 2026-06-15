@@ -58,7 +58,7 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
                     <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-white">
                         <Truck className="w-5 h-5" />
                     </div>
-                    <span className="font-black text-lg text-slate-950">TruckDorkar</span>
+                    <span className="font-black text-lg text-slate-950">Truck Dorkar</span>
                 </div>
                 <button onClick={toggleSidebar} className="p-2 text-slate-700">
                     <Menu className="w-6 h-6" />

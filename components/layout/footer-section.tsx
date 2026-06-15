@@ -112,7 +112,7 @@ export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-white pt-16 md:pt-24 pb-8 md:pb-12 border-t border-gray-100">
+        <footer className="bg-light-gray pt-16 md:pt-24 pb-8 md:pb-12 border-t border-gray-200 rounded-t-[32px] md:rounded-t-[64px] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.08)]">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16 md:mb-20">
                     <div className="space-y-4 md:space-y-6 text-black">
@@ -186,7 +186,7 @@ export function Footer() {
                                 { en: "About Us", bn: "আমাদের সম্পর্কে", href: "/about" },
                                 { en: "Book a Truck", bn: "ট্রাক বুক করুন", href: "/bookings/new" },
                                 { en: "Services", bn: "সার্ভিস", href: "/#services" },
-                                { en: "Fleet", bn: "ফ্লিট", href: "/#fleet" },
+                                { en: "Trucks", bn: "ট্রাকসমূহ", href: "/#fleet" },
                                 { en: "Contact", bn: "যোগাযোগ", href: "/contact" }
                             ].map((link, i) => (
                                 <li key={i}>
@@ -237,7 +237,7 @@ export function Footer() {
 
                 <div className="pt-6 md:pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
                     <p className="text-gray-400 text-xs md:text-sm text-center md:text-left">
-                        &copy; {currentYear} TruckDorkar. {t("All rights reserved.", "সর্বস্বত্ব সংরক্ষিত।")}
+                        &copy; {currentYear} Truck Dorkar. {t("All rights reserved.", "সর্বস্বত্ব সংরক্ষিত।")}
                     </p>
                     <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-8">
                         <div className="flex items-center gap-2 text-gray-400 text-xs md:text-sm">

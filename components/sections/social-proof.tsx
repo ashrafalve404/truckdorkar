@@ -22,7 +22,7 @@ export function MobileApp() {
                             </h2>
                             <p className="text-lg text-gray-500 mb-10 max-w-md">
                                 {t(
-                                    "Truck booking and tracking will now be easier through the TruckDorkar app. Download today!",
+                                    "Truck booking and tracking will now be easier through the Truck Dorkar app. Download today!",
                                     "ট্রাক দরকার অ্যাপের মাধ্যমে এখন ট্রাক বুকিং এবং ট্র্যাকিং হবে আরও সহজ। ডাউনলোড করুন আজই!"
                                 )}
                             </p>
@@ -48,7 +48,7 @@ export function MobileApp() {
                         <div className="relative h-full w-full min-h-[500px] rounded-lg">
                             <Image
                                 src="/images/appscreen1.png"
-                                alt="TruckDorkar Mobile App"
+                                alt="Truck Dorkar Mobile App"
                                 fill
                                 className="object-contain rounded-lg"
                                 sizes="(max-width: 1024px) 100vw, 50vw"

@@ -92,11 +92,13 @@ function BookingContent() {
     const [formData, setFormData] = useState({
         pickupLocation: searchParams.get("pickup") || "",
         dropLocation: searchParams.get("drop") || "",
-        type: "INTER_CITY",
+        type: searchParams.get("category")?.toUpperCase() === "INTRA-CITY" ? "INTRA_CITY" :
+            searchParams.get("category")?.toUpperCase() === "SPECIALIZED" ? "SPECIALIZED" : "INTER_CITY",
         scheduledAt: searchParams.get("date") || "",
         goodsType: "GENERAL",
         goodsWeight: "",
         specialNote: "",
+        truckType: searchParams.get("truckType") || "",
     });
 
     const bookingTypes = [
@@ -110,6 +112,17 @@ function BookingContent() {
         { label: t("House Shifting", "বাসা বদল"), value: "HOUSE_SHIFTING" },
         { label: t("Fragile", "ভঙ্গুর পণ্য"), value: "FRAGILE" },
         { label: t("Construction", "নির্মাণ সামগ্রী"), value: "CONSTRUCTION" },
+    ];
+
+    const truckTypes = [
+        { value: "1_ton_open_7ft", label: t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক") },
+        { value: "1_ton_cover_7ft", label: t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক") },
+        { value: "1.5_ton_open_9ft", label: t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক") },
+        { value: "1.5_ton_cover_9ft", label: t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক") },
+        { value: "2_ton_open_9ft", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক") },
+        { value: "3_ton_open_12ft", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক") },
+        { value: "3_ton_cover_12ft", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক") },
+        { value: "5_ton_open_17ft", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক") },
     ];
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -131,6 +144,7 @@ function BookingContent() {
                 goodsType: formData.goodsType,
                 goodsWeight: Number(formData.goodsWeight) || undefined,
                 specialNote: formData.specialNote || undefined,
+                truckType: formData.truckType || undefined,
             });
 
             toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
@@ -205,6 +219,13 @@ function BookingContent() {
                                             onChange={(val) => setFormData({ ...formData, goodsType: val })}
                                             options={goodsTypes}
                                             placeholder={t("Select Goods", "নির্বাচন করুন")}
+                                        />
+                                        <CustomSelect
+                                            label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
+                                            value={formData.truckType}
+                                            onChange={(val) => setFormData({ ...formData, truckType: val })}
+                                            options={truckTypes}
+                                            placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
                                         />
                                     </div>
 

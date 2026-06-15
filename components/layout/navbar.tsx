@@ -94,7 +94,7 @@ export function Navbar() {
             <div className={cn(
                 "mx-auto transition-all duration-500 rounded-b-[32px]",
                 isScrolled
-                    ? "bg-white/95 backdrop-blur-md shadow-premium border-b border-x border-slate-100 py-1"
+                    ? "bg-light-gray/95 backdrop-blur-md shadow-premium border-b border-x border-slate-200 py-1"
                     : "bg-transparent py-4"
             )}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
@@ -102,7 +102,7 @@ export function Navbar() {
                     <Link href="/" className="flex items-center gap-4">
                         <Image
                             src="/logos/mainlogo1.png"
-                            alt="TruckDorkar Logo"
+                            alt="Truck Dorkar Logo"
                             width={350}
                             height={100}
                             className="h-20 w-auto object-contain"

@@ -34,7 +34,7 @@ const banners: Banner[] = [
         image: "/images/image2.png",
         titleEn: "Become a Driver Partner",
         titleBn: "ড্রাইভার পার্টনার হোন",
-        subtitleEn: "Join our fleet and start earning daily with TruckDorkar.",
+        subtitleEn: "Join our fleet and start earning daily with Truck Dorkar.",
         subtitleBn: "আমাদের সাথে যোগ দিন এবং প্রতিদিন আয় শুরু করুন।",
         ctaEn: "Join Now",
         ctaBn: "এখনই যোগ দিন",
@@ -83,6 +83,7 @@ export function BannerSlider() {
                             src={banners[current].image}
                             alt={banners[current].titleEn}
                             fill
+                            sizes="100vw"
                             className="object-cover"
                             priority
                         />

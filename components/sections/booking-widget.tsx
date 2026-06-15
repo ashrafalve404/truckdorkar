@@ -29,7 +29,7 @@ export function BookingWidget() {
         { value: "2_ton_open_9ft", en: "2 Ton Open 9Ft", bn: "২ টন খোলা ৯ফিট ট্রাক" },
         { value: "3_ton_open_12ft", en: "3 Ton Open 12Ft", bn: "৩ টন খোলা ১২ফিট ট্রাক" },
         { value: "3_ton_cover_12ft", en: "3 Ton Cover 12Ft", bn: "৩ টন কাভার ১২ফিট ট্রাক" },
-        { value: "5_ton_open_truck", en: "5 Ton Open Truck", bn: "৫ টন খোলা ট্রাক" },
+        { value: "5_ton_open_17ft", en: "5 Ton Open 17Ft Truck", bn: "৫ টন খোলা ১৭ফিট ট্রাক" },
     ];
 
     useEffect(() => {

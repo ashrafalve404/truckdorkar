@@ -5,20 +5,23 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShieldCheck, Truck } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const trucks = [
-    { title_en: "1 Ton Open 7Ft Truck", title_bn: "১ টন খোলা ৭ফিট ট্রাক", icon: "/images/1ton7feet.png" },
-    { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png" },
-    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png" },
-    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png" },
-    { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png" },
-    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png" },
-    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png" },
-    { title_en: "5 Ton Open Truck", title_bn: "৫ টন খোলা ট্রাক", icon: "/images/5tonopentruck.png" },
+    { title_en: "1 Ton Open 7Ft Truck", title_bn: "১ টন খোলা ৭ফিট ট্রাক", icon: "/images/1ton7feet.png", value: "1_ton_open_7ft" },
+    { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png", value: "1_ton_cover_7ft" },
+    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png", value: "1.5_ton_open_9ft" },
+    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png", value: "1.5_ton_cover_9ft" },
+    { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png", value: "2_ton_open_9ft" },
+    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png", value: "3_ton_open_12ft" },
+    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png", value: "3_ton_cover_12ft" },
+    { title_en: "5 Ton Open 17Ft Truck", title_bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/images/5tonopentruck.png", value: "5_ton_open_17ft" },
 ];
 
 export function Fleet() {
     const { t } = useLanguage();
+    const router = useRouter();
     return (
         <section id="fleet" className="py-24 bg-white text-black">
             <div className="container mx-auto px-6 lg:px-12">
@@ -57,11 +60,24 @@ export function Fleet() {
                                     className="object-contain group-hover:scale-110 transition-transform duration-700"
                                 />
                             </div>
-                            <div className="p-4 md:p-6 pt-2 md:pt-4 flex flex-col gap-2">
-                                <span className="flex items-center gap-1 text-[10px] md:text-xs font-bold text-primary bg-primary/10 px-1.5 md:px-2.5 py-0.5 md:py-1 rounded-full w-fit">
-                                    <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                                    {t("Verified", "ভেরিফাইড")}
-                                </span>
+                            <div className="p-4 md:p-6 pt-2 md:pt-4 flex flex-col gap-3">
+                                <div className="flex items-center justify-between">
+                                    <span className="flex items-center gap-1 text-[10px] md:text-xs font-bold text-primary bg-primary/10 px-1.5 md:px-2.5 py-0.5 md:py-1 rounded-full w-fit">
+                                        <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                                        {t("Verified", "ভেরিফাইড")}
+                                    </span>
+                                    <Button
+                                        variant="default"
+                                        size="sm"
+                                        onClick={() => {
+                                            const params = new URLSearchParams({ truckType: truck.value });
+                                            router.push(`/bookings/new?${params.toString()}`);
+                                        }}
+                                        className="h-6 md:h-7 text-[8px] md:text-[10px] font-black uppercase tracking-wider px-2 md:px-3 rounded-full shadow-lg shadow-black/10 bg-black hover:bg-primary text-white border-none transition-colors"
+                                    >
+                                        {t("Book Now", "বুক করুন")}
+                                    </Button>
+                                </div>
                                 <h3 className="text-sm md:text-lg font-bold text-black leading-tight">{t(truck.title_en, truck.title_bn)}</h3>
                             </div>
                         </motion.div>

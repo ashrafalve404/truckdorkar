@@ -34,6 +34,7 @@ export function Hero() {
                     src="/images/image1.png"
                     alt="Bangladesh Logistics"
                     fill
+                    sizes="100vw"
                     className="object-cover opacity-60"
                     priority
                 />

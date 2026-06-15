@@ -21,7 +21,7 @@ export function WhyChoose() {
         <section className="py-24 bg-dark-gray text-white">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="flex flex-col items-center text-center mb-16">
-                    <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Why TruckDorkar", "কেন ট্রাক দরকার")}</div>
+                    <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Why Truck Dorkar", "কেন ট্রাক দরকার")}</div>
                     <h2 className="text-4xl lg:text-5xl font-black mb-6">
                         {t("Why Choose Us?", "কেন আমাদের পছন্দ করবেন?")}
                     </h2>

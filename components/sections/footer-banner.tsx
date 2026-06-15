@@ -9,7 +9,7 @@ export function FooterBanner() {
             <div className="max-w-3xl mx-auto px-4 py-3">
                 <Image
                     src="/images/footerimagebanner.png"
-                    alt="TruckDorkar Footer Banner"
+                    alt="Truck Dorkar Footer Banner"
                     width={500}
                     height={100}
                     className="w-full max-h-[120px] object-contain"
