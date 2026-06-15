@@ -14,6 +14,7 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminDriversPage() {
     const { t } = useLanguage();
@@ -22,6 +23,8 @@ export default function AdminDriversPage() {
     }[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [statusModal, setStatusModal] = useState<{ open: boolean; id: string; name: string; currentActive: boolean }>({ open: false, id: "", name: "", currentActive: true });
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const fetchDrivers = useCallback(async () => {
         try {
@@ -39,15 +42,19 @@ export default function AdminDriversPage() {
         fetchDrivers();
     }, [fetchDrivers]);
 
-    const toggleStatus = async (userId?: string, currentStatus?: boolean) => {
-        if (!userId) return;
+    const toggleStatus = async () => {
+        if (!statusModal.id) return;
+        setIsUpdating(true);
         try {
-            await api.patch(`/admin/users/${userId}/status`, { isActive: !currentStatus });
+            await api.patch(`/admin/users/${statusModal.id}/status`, { isActive: !statusModal.currentActive });
             toast.success(t("User status updated", "ইউজার স্ট্যাটাস আপডেট করা হয়েছে"));
             fetchDrivers();
+            setStatusModal({ open: false, id: "", name: "", currentActive: true });
         } catch (err) {
             console.error(err);
             toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -187,7 +194,16 @@ export default function AdminDriversPage() {
                                                     variant="ghost"
                                                     size="icon"
                                                     className={cn("rounded-lg", driver.user?.isActive ? "text-red-500 hover:bg-red-50" : "text-green-500 hover:bg-green-50")}
-                                                    onClick={() => driver.user?.id && toggleStatus(driver.user.id, !!driver.user.isActive)}
+                                                    onClick={() => {
+                                                        if (driver.user?.isActive && driver.user.id) {
+                                                            setStatusModal({ open: true, id: driver.user.id, name: driver.user.name || "this driver", currentActive: true });
+                                                        } else if (driver.user?.id) {
+                                                            api.patch(`/admin/users/${driver.user.id}/status`, { isActive: true }).then(() => {
+                                                                toast.success("Driver account activated");
+                                                                fetchDrivers();
+                                                            });
+                                                        }
+                                                    }}
                                                 >
                                                     {driver.user?.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                                                 </Button>
@@ -200,6 +216,15 @@ export default function AdminDriversPage() {
                     </div>
                 )}
             </div>
+
+            <DeleteConfirmModal
+                isOpen={statusModal.open}
+                onClose={() => setStatusModal({ open: false, id: "", name: "", currentActive: true })}
+                onConfirm={toggleStatus}
+                isLoading={isUpdating}
+                title={t("Suspend Driver", "ড্রাইভার স্থগিত করুন")}
+                description={`${t("Are you sure you want to suspend", "আপনি কি নিশ্চিত যে আপনি স্থগিত করতে চান")} ${statusModal.name}? ${t("This will revoke their access to the platform until reactivated.", "এটি পুনরায় সক্রিয় না করা পর্যন্ত প্ল্যাটফর্মে তাদের অ্যাক্সেস বাতিল করবে।")}`}
+            />
         </DashboardLayout>
     );
 }

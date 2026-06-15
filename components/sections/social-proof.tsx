@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/language-context";
 
 export function MobileApp() {
@@ -45,13 +46,13 @@ export function MobileApp() {
                         </div>
 
                         <div className="relative h-full w-full min-h-[500px] rounded-lg">
-                                <Image
-                                    src="/images/appscreen1.png"
-                                    alt="TruckDorkar Mobile App"
-                                    fill
-                                    className="object-contain rounded-lg"
-                                    sizes="(max-width: 1024px) 100vw, 50vw"
-                                />
+                            <Image
+                                src="/images/appscreen1.png"
+                                alt="TruckDorkar Mobile App"
+                                fill
+                                className="object-contain rounded-lg"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
                         </div>
                     </div>
                 </div>
@@ -62,36 +63,65 @@ export function MobileApp() {
 
 export function Testimonials() {
     const { t } = useLanguage();
+    const [isPaused, setIsPaused] = useState(false);
+
     const reviews = [
         { name: "Sajid Islam", bn: "সাজিদ ইসলাম", comment_en: "The best truck booking service in Bangladesh. Very fast and reliable.", comment_bn: "বাংলাদেশের সেরা ট্রাক বুকিং সার্ভিস। অনেক দ্রুত এবং নির্ভরযোগ্য।" },
         { name: "Rafiqul Islam", bn: "রফিকুল ইসলাম", comment_en: "Low fare and efficient service. Tracking feature is amazing.", comment_bn: "কম ভাড়া এবং দক্ষ সার্ভিস। ট্র্যাকিং ফিচারটি অসাধারণ।" },
         { name: "Sumaiya Akter", bn: "সুমাইয়া আক্তার", comment_en: "Corporate business's best choice. Their drivers are professional.", comment_bn: "কর্পোরেট বিজনেসের জন্য তারা সেরা। তাদের ড্রাইভারা অনেক বেশি প্রফেশনাল এবং দক্ষ।" },
+        { name: "Tanvir Ahmed", bn: "তানভীর আহমেদ", comment_en: "Excellent experience for inter-city shifting. Highly recommended.", comment_bn: "আন্তঃশহর স্থানান্তরের জন্য চমৎকার অভিজ্ঞতা। দারুণ সার্ভিস।" },
     ];
 
+    const marqueeReviews = [...reviews, ...reviews, ...reviews];
+
     return (
-        <section className="py-24 bg-white text-black">
-            <div className="container mx-auto px-6 lg:px-12 text-center text-black">
-                <h2 className="text-4xl font-black text-black mb-16">{t("What Our Clients Say", "আমাদের গ্রাহকেরা কি বলছেন")}</h2>
-                <div className="grid md:grid-cols-3 gap-8">
-                    {reviews.map((rev, index) => (
-                        <motion.div
+        <section className="py-24 bg-white text-black overflow-hidden select-none">
+            <div className="container mx-auto px-6 lg:px-12 text-center mb-16">
+                <h2 className="text-4xl font-black text-black">{t("What Our Clients Say", "আমাদের গ্রাহকেরা কি বলছেন")}</h2>
+            </div>
+
+            <div className="relative flex overflow-hidden">
+                {/* Continuous Marquee Container */}
+                <motion.div
+                    className="flex whitespace-nowrap"
+                    initial={{ x: 0 }}
+                    animate={{ x: isPaused ? undefined : ["0%", "-50%"] }}
+                    transition={{
+                        x: {
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            duration: 30,
+                            ease: "linear",
+                        },
+                    }}
+                >
+                    {marqueeReviews.map((rev, index) => (
+                        <div
                             key={index}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="p-10 border border-gray-100 rounded-2xl text-left bg-light-gray/50 hover:bg-white hover:shadow-premium transition-all group"
+                            className="inline-block w-[350px] mx-4 whitespace-normal cursor-pointer"
+                            onMouseDown={() => setIsPaused(true)}
+                            onMouseUp={() => setIsPaused(false)}
+                            onTouchStart={() => setIsPaused(true)}
+                            onTouchEnd={() => setIsPaused(false)}
                         >
-                            <div className="flex gap-1 text-primary mb-6">
-                                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+                            <div className="p-10 border border-gray-100 rounded-2xl text-left bg-light-gray/30 hover:bg-white hover:shadow-premium transition-all h-full flex flex-col active:scale-95 duration-200">
+                                <div className="flex gap-1 text-primary mb-6">
+                                    {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+                                </div>
+                                <p className="text-gray-600 mb-8 italic leading-relaxed text-black grow pointer-events-none">
+                                    &quot;{t(rev.comment_en, rev.comment_bn)}&quot;
+                                </p>
+                                <div className="pointer-events-none">
+                                    <div className="text-black font-black">{t(rev.name, rev.bn)}</div>
+                                </div>
                             </div>
-                            <p className="text-gray-600 mb-8 italic leading-relaxed text-black">&quot;{t(rev.comment_en, rev.comment_bn)}&quot;</p>
-                            <div>
-                                <div className="text-black font-black">{t(rev.name, rev.bn)}</div>
-                            </div>
-                        </motion.div>
+                        </div>
                     ))}
-                </div>
+                </motion.div>
+
+                {/* Gradient Masks */}
+                <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
             </div>
         </section>
     );

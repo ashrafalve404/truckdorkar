@@ -14,6 +14,7 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 interface BookingRow {
     id: string;
@@ -31,6 +32,8 @@ export default function AdminBookingsPage() {
     const [bookings, setBookings] = useState<BookingRow[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; num: string }>({ open: false, id: "", num: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const fetchBookings = useCallback(async () => {
         try {
@@ -47,17 +50,21 @@ export default function AdminBookingsPage() {
         fetchBookings();
     }, [fetchBookings]);
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this booking?")) return;
+    const handleDelete = async () => {
+        if (!deleteModal.id) return;
+        setIsDeleting(true);
         try {
-            await api.delete(`/bookings/${id}`);
-            setBookings(prev => prev.filter(b => b.id !== id));
+            await api.delete(`/bookings/${deleteModal.id}`);
+            setBookings(prev => prev.filter(b => b.id !== deleteModal.id));
             toast.success("Booking deleted successfully");
+            setDeleteModal({ open: false, id: "", num: "" });
         } catch (error: unknown) {
             const message = error && typeof error === "object" && "response" in error
                 ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
                 : undefined;
             toast.error(message || "Failed to delete booking");
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -167,7 +174,12 @@ export default function AdminBookingsPage() {
                                         </td>
                                         <td className="px-8 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2">
-                                                <Button variant="ghost" size="icon" className="rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => handleDelete(booking.id)}>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50"
+                                                    onClick={() => setDeleteModal({ open: true, id: booking.id, num: booking.bookingNumber })}
+                                                >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
@@ -179,6 +191,15 @@ export default function AdminBookingsPage() {
                     </div>
                 )}
             </div>
+
+            <DeleteConfirmModal
+                isOpen={deleteModal.open}
+                onClose={() => setDeleteModal({ open: false, id: "", num: "" })}
+                onConfirm={handleDelete}
+                isLoading={isDeleting}
+                title={t("Delete Booking", "বুকিং মুছুন")}
+                description={`${t("Are you sure you want to delete booking", "আপনি কি নিশ্চিত যে আপনি বুকিং মুছতে চান")} #${deleteModal.num}? ${t("This action cannot be undone and will remove the booking from historical records.", "এই কাজটি আর ফেরানো যাবে না এবং এটি ইতিহাস থেকে বুকিংটি মুছে ফেলবে।")}`}
+            />
         </DashboardLayout>
     );
 }

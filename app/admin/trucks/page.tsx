@@ -14,10 +14,11 @@ import {
     ExternalLink,
     User
 } from "lucide-react";
-import api from "@/lib/api";
+import api, { getFileUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 const STATUS_COLOURS: Record<string, string> = {
     PENDING: "text-amber-600 bg-amber-50",
@@ -34,6 +35,8 @@ export default function AdminTrucksPage() {
     const [selectedTruck, setSelectedTruck] = useState<any>(null);
     const [actionLoading, setActionLoading] = useState(false);
     const [note, setNote] = useState("");
+    const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string }>({ open: false, id: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const fetchTrucks = useCallback(async () => {
         try {
@@ -63,6 +66,21 @@ export default function AdminTrucksPage() {
             toast.error("Failed to update truck status");
         } finally {
             setActionLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!deleteModal.id) return;
+        setIsDeleting(true);
+        try {
+            await api.delete(`/trucks/${deleteModal.id}`);
+            toast.success("Truck removed successfully");
+            fetchTrucks();
+            setDeleteModal({ open: false, id: "" });
+        } catch (err) {
+            toast.error("Failed to remove truck");
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -153,10 +171,23 @@ export default function AdminTrucksPage() {
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4 text-right">
-                                                    <Button variant="ghost" size="sm" className="text-primary hover:text-primary font-black" onClick={() => setSelectedTruck(truck)}>
-                                                        <Eye className="w-4 h-4 mr-2" />
-                                                        {t("Review", "রিভিউ")}
-                                                    </Button>
+                                                    <div className="flex justify-end gap-2">
+                                                        <Button variant="ghost" size="sm" className="text-primary hover:text-primary font-black" onClick={() => setSelectedTruck(truck)}>
+                                                            <Eye className="w-4 h-4 mr-2" />
+                                                            {t("Review", "রিভিউ")}
+                                                        </Button>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setDeleteModal({ open: true, id: truck.id });
+                                                            }}
+                                                        >
+                                                            <XCircle className="w-4 h-4" />
+                                                        </Button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
@@ -215,7 +246,7 @@ export default function AdminTrucksPage() {
                                                 </div>
                                                 {doc.url ? (
                                                     <a
-                                                        href={doc.url}
+                                                        href={getFileUrl(doc.url)}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="text-primary hover:underline flex items-center gap-1 text-[10px] font-black"
@@ -274,6 +305,15 @@ export default function AdminTrucksPage() {
                     )}
                 </div>
             </div>
+
+            <DeleteConfirmModal
+                isOpen={deleteModal.open}
+                onClose={() => setDeleteModal({ open: false, id: "" })}
+                onConfirm={handleDelete}
+                isLoading={isDeleting}
+                title={t("Remove Truck", "ট্রাক মুছুন")}
+                description={t("Are you sure you want to remove this truck? This action will archive the record and it will no longer be visible in the active fleet.", "আপনি কি নিশ্চিত যে আপনি এই ট্রাকটি সরাতে চান? এটি সক্রিয় তালিকা থেকে সরিয়ে আর্কাইভ করা হবে।")}
+            />
         </DashboardLayout>
     );
 }

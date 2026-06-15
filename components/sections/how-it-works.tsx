@@ -20,7 +20,7 @@ export function HowItWorks() {
                 <div className="flex flex-col items-center text-center mb-20">
                     <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Simple Process", "সহজ প্রক্রিয়া")}</div>
                     <h2 className="text-4xl lg:text-5xl font-black text-black mb-6">
-                        {t("How TruckDorkar Works", "কিভাবে কাজ করে ট্রাক দরকার")}
+                        {t("How Truck Dorkar Works", "কিভাবে কাজ করে ট্রাক দরকার")}
                     </h2>
                 </div>
 
@@ -57,7 +57,7 @@ export function HowItWorks() {
                 <div className="w-full h-auto overflow-hidden rounded-xl border border-gray-100 shadow-sm">
                     <img
                         src="/images/howitworksimage.png"
-                        alt="How TruckDorkar Works Graphic"
+                        alt="How Truck Dorkar Works Graphic"
                         className="w-full h-auto block"
                     />
                 </div>

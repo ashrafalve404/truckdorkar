@@ -15,12 +15,15 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminUsersPage() {
     const { t } = useLanguage();
     const [users, setUsers] = useState<{ id: string; name: string; phone: string; email?: string; role: string; createdAt: string; isActive: boolean }[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [statusModal, setStatusModal] = useState<{ open: boolean; id: string; name: string; currentActive: boolean }>({ open: false, id: "", name: "", currentActive: true });
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const fetchUsers = useCallback(async () => {
         try {
@@ -37,13 +40,18 @@ export default function AdminUsersPage() {
         fetchUsers();
     }, [fetchUsers]);
 
-    const toggleStatus = async (userId: string, currentStatus: boolean) => {
+    const toggleStatus = async () => {
+        if (!statusModal.id) return;
+        setIsUpdating(true);
         try {
-            await api.patch(`/admin/users/${userId}/status`, { isActive: !currentStatus });
+            await api.patch(`/admin/users/${statusModal.id}/status`, { isActive: !statusModal.currentActive });
             toast.success(t("User status updated", "ইউজার স্ট্যাটাস আপডেট করা হয়েছে"));
             fetchUsers();
+            setStatusModal({ open: false, id: "", name: "", currentActive: true });
         } catch (error) {
             toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -140,7 +148,20 @@ export default function AdminUsersPage() {
                                                     variant="ghost"
                                                     size="icon"
                                                     className={cn("rounded-lg", user.isActive ? "text-red-500 hover:bg-red-50" : "text-green-500 hover:bg-green-50")}
-                                                    onClick={() => toggleStatus(user.id, user.isActive)}
+                                                    onClick={() => {
+                                                        if (user.isActive) {
+                                                            setStatusModal({ open: true, id: user.id, name: user.name, currentActive: user.isActive });
+                                                        } else {
+                                                            // For activating, we can just do it directly or show a modal. 
+                                                            // User specifically asked for alert on delete/remove, activation is positive.
+                                                            // But let's be consistent and use modal for both or just suspension.
+                                                            // user said "delete or remove anything", suspension is like removal.
+                                                            api.patch(`/admin/users/${user.id}/status`, { isActive: true }).then(() => {
+                                                                toast.success("User activated");
+                                                                fetchUsers();
+                                                            });
+                                                        }
+                                                    }}
                                                 >
                                                     {user.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                                                 </Button>
@@ -156,6 +177,15 @@ export default function AdminUsersPage() {
                     </div>
                 )}
             </div>
+
+            <DeleteConfirmModal
+                isOpen={statusModal.open}
+                onClose={() => setStatusModal({ open: false, id: "", name: "", currentActive: true })}
+                onConfirm={toggleStatus}
+                isLoading={isUpdating}
+                title={t("Suspend User", "ইউজার স্থগিত করুন")}
+                description={`${t("Are you sure you want to suspend", "আপনি কি নিশ্চিত যে আপনি স্থগিত করতে চান")} ${statusModal.name}? ${t("This will revoke their access to the platform until reactivated.", "এটি পুনরায় সক্রিয় না করা পর্যন্ত প্ল্যাটফর্মে তাদের অ্যাক্সেস বাতিল করবে।")}`}
+            />
         </DashboardLayout>
     );
 }

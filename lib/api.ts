@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const API_URL = `${BACKEND_URL}/api/v1`;
+
+export const getFileUrl = (path?: string) => {
+    if (!path) return '/images/placeholder.png';
+    if (path.startsWith('http')) return path;
+    return `${BACKEND_URL}${path}`;
+};
 
 const api = axios.create({
     baseURL: API_URL,

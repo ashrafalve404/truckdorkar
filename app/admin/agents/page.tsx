@@ -16,7 +16,9 @@ import {
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminAgentsPage() {
     const { t } = useLanguage();
@@ -24,6 +26,8 @@ export default function AdminAgentsPage() {
     const [loading, setLoading] = useState(true);
     const [agents, setAgents] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; name: string }>({ open: false, id: "", name: "" });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         const fetchAgents = async () => {
@@ -38,6 +42,23 @@ export default function AdminAgentsPage() {
         };
         fetchAgents();
     }, []);
+
+    const handleDelete = async () => {
+        if (!deleteModal.id) return;
+        setIsDeleting(true);
+        try {
+            await api.delete(`/agents/${deleteModal.id}`);
+            toast.success("Agent removed successfully");
+            setDeleteModal({ open: false, id: "", name: "" });
+            // Re-fetch agents instead of reload
+            const response = await api.get("/agents/admin/overview");
+            setAgents(response.data.data);
+        } catch (err) {
+            toast.error("Failed to remove agent");
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     const filteredAgents = agents.filter(agent =>
         agent.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -124,18 +145,38 @@ export default function AdminAgentsPage() {
                                     </div>
                                 </div>
 
-                                <Button
-                                    onClick={() => router.push(`/admin/agents/${agent.id}/trucks`)}
-                                    className="w-full h-12 rounded-lg gap-2 font-black text-white"
-                                >
-                                    <Truck className="w-5 h-5" />
-                                    {t("View Truck Submissions", "ট্রাক সাবমিশন দেখুন")}
-                                </Button>
+                                <div className="flex gap-2">
+                                    <Button
+                                        onClick={() => router.push(`/admin/agents/${agent.id}/trucks`)}
+                                        className="flex-1 h-12 rounded-lg gap-2 font-black text-white"
+                                    >
+                                        <Truck className="w-5 h-5" />
+                                        {t("View Trucks", "ট্রাক দেখুন")}
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => {
+                                            setDeleteModal({ open: true, id: agent.id, name: agent.user.name });
+                                        }}
+                                        className="h-12 w-12 rounded-lg p-0 border-red-100 text-red-500 hover:bg-red-50"
+                                    >
+                                        <XCircle className="w-5 h-5" />
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     ))
                 )}
             </div>
+
+            <DeleteConfirmModal
+                isOpen={deleteModal.open}
+                onClose={() => setDeleteModal({ open: false, id: "", name: "" })}
+                onConfirm={handleDelete}
+                isLoading={isDeleting}
+                title={t("Remove Agent", "এজেন্ট সরান")}
+                description={`${t("Are you sure you want to remove agent", "আপনি কি নিশ্চিত যে আপনি এজেন্টকে সরাতে চান")} ${deleteModal.name}? ${t("This will suspend their account and they will no longer have access to the agent panel.", "এটি তাদের অ্যাকাউন্ট স্থগিত করবে এবং তারা আর এজেন্ট প্যানেলে প্রবেশ করতে পারবে না।")}`}
+            />
         </DashboardLayout>
     );
 }

@@ -166,9 +166,13 @@ export default function AgentAddTruckPage() {
             formData.append("roadPermitFile", files.roadPermitFile);
             if (files.drivingLicenseFile) formData.append("drivingLicenseFile", files.drivingLicenseFile);
 
-            await api.post("/agents/trucks", formData, {
+            const res = await api.post("/agents/trucks", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
+
+            if (res.data.info) {
+                toast(res.data.info, { icon: "⚠️" });
+            }
 
             toast.success(t("Truck submitted for admin review!", "ট্রাক অ্যাডমিনের পর্যালোচনার জন্য জমা দেওয়া হয়েছে!"));
             router.push("/agent/trucks");
