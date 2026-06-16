@@ -401,7 +401,7 @@ function BookingContent() {
                                         </li>
                                         <li className="flex gap-3">
                                             <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">2</span>
-                                            <span>{t("Drivers will send quotes", "ড্রাইভাররা ভাড়া অফার করবে")}</span>
+                                            <span>{t("Drivers will confirm the booking", "ড্রাইভাররা বুকিং নিশ্চিত করবে")}</span>
                                         </li>
                                         <li className="flex gap-3">
                                             <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">3</span>
