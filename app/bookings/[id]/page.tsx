@@ -190,7 +190,9 @@ export default function BookingDetailPage() {
                                         <Truck className="w-3 h-3 text-primary" />
                                         {t("Truck Type", "ট্রাকের ধরন")}
                                     </p>
-                                    <p className="text-sm font-bold text-slate-950 truncate">{booking.truckType.replace(/_/g, ' ')}</p>
+                                    <p className="text-sm font-bold text-slate-950 truncate">
+                                        {booking.truckType?.replace(/_/g, ' ') || t("Not Specified", "নির্দিষ্ট নয়")}
+                                    </p>
                                 </div>
                             </div>
                         </div>

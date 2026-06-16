@@ -111,8 +111,8 @@ export default function AgentBookingsPage() {
                                         <tr key={booking.id} className="hover:bg-slate-50/50 transition-all">
                                             <td className="px-8 py-4">
                                                 <div>
-                                                    <p className="font-bold text-slate-950">{booking.truckType.replace(/_/g, ' ')}</p>
-                                                    <p className="text-[10px] text-slate-700 font-bold uppercase tracking-wider">{booking.cargoType}</p>
+                                                    <p className="font-bold text-slate-950">{booking.truckType?.replace(/_/g, ' ') || 'Any Truck'}</p>
+                                                    <p className="text-[10px] text-slate-700 font-bold uppercase tracking-wider">{booking.cargoType || booking.goodsType}</p>
                                                 </div>
                                             </td>
                                             <td className="px-8 py-4">

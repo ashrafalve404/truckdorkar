@@ -12,7 +12,8 @@ import {
     Eye,
     FileText,
     ExternalLink,
-    User
+    User,
+    Trash2
 } from "lucide-react";
 import api, { getFileUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -73,14 +74,25 @@ export default function AdminTrucksPage() {
         if (!deleteModal.id) return;
         setIsDeleting(true);
         try {
-            await api.delete(`/trucks/${deleteModal.id}`);
-            toast.success("Truck removed successfully");
+            await api.delete(`/admin/trucks/${deleteModal.id}`);
+            toast.success(t("Truck permanently deleted", "ট্রাক চিরতরে মুছে ফেলা হয়েছে"));
             fetchTrucks();
             setDeleteModal({ open: false, id: "" });
         } catch (err) {
-            toast.error("Failed to remove truck");
+            toast.error(t("Failed to delete truck", "ট্রাক মুছতে ব্যর্থ হয়েছে"));
         } finally {
             setIsDeleting(false);
+        }
+    };
+
+    const toggleInactive = async (truckId: string, currentStatus: string) => {
+        const newStatus = currentStatus === 'INACTIVE' ? 'APPROVED' : 'INACTIVE';
+        try {
+            await api.patch(`/trucks/${truckId}/approve`, { status: newStatus, note: "Status changed by admin" });
+            toast.success(t(`Truck marked as ${newStatus.toLowerCase()}`, `ট্রাক ${newStatus} হিসেবে চিহ্নিত করা হয়েছে`));
+            fetchTrucks();
+        } catch (err) {
+            toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
         }
     };
 
@@ -176,6 +188,19 @@ export default function AdminTrucksPage() {
                                                             <Eye className="w-4 h-4 mr-2" />
                                                             {t("Review", "রিভিউ")}
                                                         </Button>
+                                                        {truck.status !== 'PENDING' && (
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                className={cn("hover:bg-slate-50", truck.status === 'INACTIVE' ? "text-green-500" : "text-amber-500")}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    toggleInactive(truck.id, truck.status);
+                                                                }}
+                                                            >
+                                                                {truck.status === 'INACTIVE' ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                                                            </Button>
+                                                        )}
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
@@ -185,7 +210,7 @@ export default function AdminTrucksPage() {
                                                                 setDeleteModal({ open: true, id: truck.id });
                                                             }}
                                                         >
-                                                            <XCircle className="w-4 h-4" />
+                                                            <Trash2 className="w-4 h-4" />
                                                         </Button>
                                                     </div>
                                                 </td>
@@ -311,8 +336,8 @@ export default function AdminTrucksPage() {
                 onClose={() => setDeleteModal({ open: false, id: "" })}
                 onConfirm={handleDelete}
                 isLoading={isDeleting}
-                title={t("Remove Truck", "ট্রাক মুছুন")}
-                description={t("Are you sure you want to remove this truck? This action will archive the record and it will no longer be visible in the active fleet.", "আপনি কি নিশ্চিত যে আপনি এই ট্রাকটি সরাতে চান? এটি সক্রিয় তালিকা থেকে সরিয়ে আর্কাইভ করা হবে।")}
+                title={t("Permanently Delete Truck", "ট্রাক চিরতরে মুছুন")}
+                description={t("Are you sure you want to permanently delete this truck? This action is irreversible and will remove all vehicle logs and records from the system.", "আপনি কি নিশ্চিত যে আপনি এই ট্রাকটি চিরতরে মুছে ফেলতে চান? এই ক্রিয়াটি অপরিবর্তনীয় এবং সিস্টেম থেকে সমস্ত যানবাহন লগ এবং রেকর্ড সরিয়ে দেবে।")}
             />
         </DashboardLayout>
     );

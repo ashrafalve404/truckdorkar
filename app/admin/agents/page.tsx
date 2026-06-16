@@ -11,7 +11,10 @@ import {
     Eye,
     CheckCircle,
     XCircle,
-    Clock
+    Clock,
+    UserX,
+    UserCheck,
+    Trash2
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -27,19 +30,23 @@ export default function AdminAgentsPage() {
     const [agents, setAgents] = useState<any[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; name: string }>({ open: false, id: "", name: "" });
+    const [statusModal, setStatusModal] = useState<{ open: boolean; id: string; name: string; currentActive: boolean }>({ open: false, id: "", name: "", currentActive: true });
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    const fetchAgents = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get("/agents/admin/overview");
+            setAgents(response.data.data);
+        } catch (error) {
+            console.error("Failed to fetch agent overview", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchAgents = async () => {
-            try {
-                const response = await api.get("/agents/admin/overview");
-                setAgents(response.data.data);
-            } catch (error) {
-                console.error("Failed to fetch agent overview", error);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchAgents();
     }, []);
 
@@ -47,16 +54,29 @@ export default function AdminAgentsPage() {
         if (!deleteModal.id) return;
         setIsDeleting(true);
         try {
-            await api.delete(`/agents/${deleteModal.id}`);
-            toast.success("Agent removed successfully");
+            await api.delete(`/admin/agents/${deleteModal.id}`);
+            toast.success(t("Agent permanently deleted", "এজেন্ট চিরতরে মুছে ফেলা হয়েছে"));
             setDeleteModal({ open: false, id: "", name: "" });
-            // Re-fetch agents instead of reload
-            const response = await api.get("/agents/admin/overview");
-            setAgents(response.data.data);
+            fetchAgents();
         } catch (err) {
-            toast.error("Failed to remove agent");
+            toast.error(t("Failed to delete agent", "এজেন্ট মুছতে ব্যর্থ হয়েছে"));
         } finally {
             setIsDeleting(false);
+        }
+    };
+
+    const toggleStatus = async () => {
+        if (!statusModal.id) return;
+        setIsUpdating(true);
+        try {
+            await api.patch(`/admin/users/${statusModal.id}/status`, { isActive: !statusModal.currentActive });
+            toast.success(t("Agent status updated", "এজেন্ট স্ট্যাটাস আপডেট করা হয়েছে"));
+            setStatusModal({ open: false, id: "", name: "", currentActive: true });
+            fetchAgents();
+        } catch (err) {
+            toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setIsUpdating(false);
         }
     };
 
@@ -71,7 +91,7 @@ export default function AdminAgentsPage() {
             <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 mb-2">
-                        {t("Agent Operations", "এজেন্ট অপারেশন")}
+                        {t("Agent Management", "এজেন্ট ম্যানেজমেন্ট")}
                     </h1>
                     <p className="text-slate-700 font-bold">
                         {t("Monitor agent performance and truck registrations.", "এজেন্টদের পারফরম্যান্স এবং ট্রাক রেজিস্ট্রেশন মনিটর করুন।")}
@@ -105,10 +125,12 @@ export default function AdminAgentsPage() {
                             <div className="p-6">
                                 <div className="flex items-center gap-4 mb-4">
                                     <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-black">
-                                        {agent.user.name.charAt(0)}
+                                        {(agent.user.name === "Operations Staff" ? "Agent" : agent.user.name).charAt(0)}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-black text-slate-950 truncate">{agent.user.name}</h3>
+                                        <h3 className="font-black text-slate-950 truncate">
+                                            {agent.user.name === "Operations Staff" ? "Agent" : agent.user.name}
+                                        </h3>
                                         <p className="text-xs text-slate-500 font-bold">{agent.agentId || "No ID"}</p>
                                     </div>
                                     <div className={cn(
@@ -156,11 +178,27 @@ export default function AdminAgentsPage() {
                                     <Button
                                         variant="outline"
                                         onClick={() => {
-                                            setDeleteModal({ open: true, id: agent.id, name: agent.user.name });
+                                            if (agent.user.isActive) {
+                                                setStatusModal({ open: true, id: agent.user.id, name: agent.user.name === "Operations Staff" ? "Agent" : agent.user.name, currentActive: true });
+                                            } else {
+                                                api.patch(`/admin/users/${agent.user.id}/status`, { isActive: true }).then(() => {
+                                                    toast.success("Agent activated");
+                                                    fetchAgents();
+                                                });
+                                            }
+                                        }}
+                                        className={cn("h-12 w-12 rounded-lg p-0", agent.user.isActive ? "border-amber-100 text-amber-500 hover:bg-amber-50" : "border-green-100 text-green-500 hover:bg-green-50")}
+                                    >
+                                        {agent.user.isActive ? <UserX className="w-5 h-5" /> : <UserCheck className="w-5 h-5" />}
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => {
+                                            setDeleteModal({ open: true, id: agent.id, name: agent.user.name === "Operations Staff" ? "Agent" : agent.user.name });
                                         }}
                                         className="h-12 w-12 rounded-lg p-0 border-red-100 text-red-500 hover:bg-red-50"
                                     >
-                                        <XCircle className="w-5 h-5" />
+                                        <Trash2 className="w-5 h-5" />
                                     </Button>
                                 </div>
                             </div>
@@ -170,12 +208,21 @@ export default function AdminAgentsPage() {
             </div>
 
             <DeleteConfirmModal
+                isOpen={statusModal.open}
+                onClose={() => setStatusModal({ open: false, id: "", name: "", currentActive: true })}
+                onConfirm={toggleStatus}
+                isLoading={isUpdating}
+                title={t("Suspend Agent", "এজেন্ট স্থগিত করুন")}
+                description={`${t("Are you sure you want to suspend", "আপনি কি নিশ্চিত যে আপনি স্থগিত করতে চান")} ${statusModal.name}? ${t("This will revoke their access to the agent panel until reactivated.", "এটি পুনরায় সক্রিয় না করা পর্যন্ত এজেন্ট প্যানেলে তাদের অ্যাক্সেস বাতিল করবে।")}`}
+            />
+
+            <DeleteConfirmModal
                 isOpen={deleteModal.open}
                 onClose={() => setDeleteModal({ open: false, id: "", name: "" })}
                 onConfirm={handleDelete}
                 isLoading={isDeleting}
-                title={t("Remove Agent", "এজেন্ট সরান")}
-                description={`${t("Are you sure you want to remove agent", "আপনি কি নিশ্চিত যে আপনি এজেন্টকে সরাতে চান")} ${deleteModal.name}? ${t("This will suspend their account and they will no longer have access to the agent panel.", "এটি তাদের অ্যাকাউন্ট স্থগিত করবে এবং তারা আর এজেন্ট প্যানেলে প্রবেশ করতে পারবে না।")}`}
+                title={t("Permanently Delete Agent", "এজেন্ট চিরতরে মুছুন")}
+                description={`${t("Are you sure you want to permanently delete", "আপনি কি নিশ্চিত যে আপনি চিরতরে মুছে ফেলতে চান")} ${deleteModal.name}? ${t("This action is irreversible and will remove all their data from the system.", "এই ক্রিয়াটি অপরিবর্তনীয় এবং সিস্টেম থেকে তাদের সমস্ত ডেটা সরিয়ে দেবে।")}`}
             />
         </DashboardLayout>
     );

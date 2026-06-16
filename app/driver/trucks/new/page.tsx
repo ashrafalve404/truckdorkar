@@ -24,12 +24,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const TRUCK_CATEGORIES = [
-    { value: "PICKUP", label: "Pickup", bn: "পিকআপ" },
-    { value: "MINI_TRUCK", label: "Mini Truck", bn: "মিনি ট্রাক" },
-    { value: "COVERED_VAN", label: "Covered Van", bn: "কভার্ড ভ্যান" },
-    { value: "OPEN_TRUCK", label: "Open Truck", bn: "ওপেন ট্রাক" },
-    { value: "CONTAINER_TRUCK", label: "Container Truck", bn: "কন্টেইনার ট্রাক" },
-    { value: "HEAVY_TRUCK", label: "Heavy Truck", bn: "ভারী ট্রাক" },
+    { value: "T1_OPEN_7FT", label: "1 Ton Open 7Ft", bn: "১ টন ওপেন ৭ ফুট", capacity: 1, length: 7 },
+    { value: "T1_COVER_7FT", label: "1 Ton Cover 7Ft", bn: "১ টন কভার ৭ ফুট", capacity: 1, length: 7 },
+    { value: "T1_5_OPEN_9FT", label: "1.5 Ton Open 9Ft", bn: "১.৫ টন ওপেন ৯ ফুট", capacity: 1.5, length: 9 },
+    { value: "T1_5_COVER_9FT", label: "1.5 Ton Cover 9Ft", bn: "১.৫ টন কভার ৯ ফুট", capacity: 1.5, length: 9 },
+    { value: "T2_OPEN_9FT", label: "2 Ton Open 9Ft", bn: "২ টন ওপেন ৯ ফুট", capacity: 2, length: 9 },
+    { value: "T3_OPEN_12FT", label: "3 Ton Open 12Ft", bn: "৩ টন ওপেন ১২ ফুট", capacity: 3, length: 12 },
+    { value: "T3_COVER_12FT", label: "3 Ton Cover 12Ft", bn: "৩ টন কভার ১২ ফুট", capacity: 3, length: 12 },
+    { value: "T5_OPEN_17FT", label: "5 Ton Open 17Ft Truck", bn: "৫ টন ওপেন ১৭ ফুট ট্রাক", capacity: 5, length: 17 },
 ];
 
 interface DocUploadProps {
@@ -115,6 +117,20 @@ export default function DriverAddTruckPage() {
         description: "",
     });
 
+    const handleCategoryChange = (val: string) => {
+        const cat = TRUCK_CATEGORIES.find(c => c.value === val);
+        if (cat) {
+            setForm({
+                ...form,
+                category: val,
+                capacityTon: cat.capacity.toString(),
+                lengthFt: cat.length.toString()
+            });
+        } else {
+            setForm({ ...form, category: val });
+        }
+    };
+
     const [files, setFiles] = useState<{
         taxTokenFile: File | null;
         blueBookFile: File | null;
@@ -187,15 +203,19 @@ export default function DriverAddTruckPage() {
                                 <input className={inputClass} value={form.registrationNo} onChange={e => setForm({ ...form, registrationNo: e.target.value })} placeholder="DHA-MA-11-2222" />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-xs font-black text-slate-700 uppercase tracking-wider">{t("Category", "ক্যাটাগরি")} *</label>
-                                <select className={inputClass} value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
-                                    <option value="">{t("Select Category", "ক্যাটাগরি বেছে নিন")}</option>
+                                <label className="text-xs font-black text-slate-700 uppercase tracking-wider">{t("Truck Type / Category", "ট্রাকের ধরণ / ক্যাটাগরি")} *</label>
+                                <select className={inputClass} value={form.category} onChange={e => handleCategoryChange(e.target.value)}>
+                                    <option value="">{t("Select Type", "ধরণ বেছে নিন")}</option>
                                     {TRUCK_CATEGORIES.map(c => <option key={c.value} value={c.value}>{t(c.label, c.bn)}</option>)}
                                 </select>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-black text-slate-700 uppercase tracking-wider">{t("Capacity (Ton)", "ধারণক্ষমতা (টন)")} *</label>
-                                <input type="number" className={inputClass} value={form.capacityTon} onChange={e => setForm({ ...form, capacityTon: e.target.value })} placeholder="1, 1.5, etc." />
+                            <div className="space-y-2 opacity-60 pointer-events-none">
+                                <label className="text-xs font-black text-slate-700 uppercase tracking-wider">{t("Capacity (Ton)", "ধারণক্ষমতা (টন)")}</label>
+                                <input type="number" className={inputClass} value={form.capacityTon} readOnly placeholder="1, 1.5, etc." />
+                            </div>
+                            <div className="space-y-2 opacity-60 pointer-events-none">
+                                <label className="text-xs font-black text-slate-700 uppercase tracking-wider">{t("Length (Feet)", "দৈর্ঘ্য (ফুট)")}</label>
+                                <input type="number" className={inputClass} value={form.lengthFt} readOnly placeholder="7, 9, etc." />
                             </div>
                         </div>
                     </div>

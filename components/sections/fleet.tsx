@@ -9,14 +9,14 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 const trucks = [
-    { title_en: "1 Ton Open 7Ft Truck", title_bn: "১ টন খোলা ৭ফিট ট্রাক", icon: "/images/1ton7feet.png", value: "1_ton_open_7ft" },
-    { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png", value: "1_ton_cover_7ft" },
-    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png", value: "1.5_ton_open_9ft" },
-    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png", value: "1.5_ton_cover_9ft" },
-    { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png", value: "2_ton_open_9ft" },
-    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png", value: "3_ton_open_12ft" },
-    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png", value: "3_ton_cover_12ft" },
-    { title_en: "5 Ton Open 17Ft Truck", title_bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/images/5tonopentruck.png", value: "5_ton_open_17ft" },
+    { title_en: "1 Ton Open 7Ft Truck", title_bn: "১ টন খোলা ৭ফিট ট্রাক", icon: "/images/1ton7feet.png", value: "T1_OPEN_7FT" },
+    { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png", value: "T1_COVER_7FT" },
+    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png", value: "T1_5_OPEN_9FT" },
+    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png", value: "T1_5_COVER_9FT" },
+    { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png", value: "T2_OPEN_9FT" },
+    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png", value: "T3_OPEN_12FT" },
+    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png", value: "T3_COVER_12FT" },
+    { title_en: "5 Ton Open 17Ft Truck", title_bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/images/5tonopentruck.png", value: "T5_OPEN_17FT" },
 ];
 
 export function Fleet() {

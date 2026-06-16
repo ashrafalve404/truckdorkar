@@ -9,7 +9,8 @@ import {
     UserX,
     UserCheck,
     Loader2,
-    Filter
+    Filter,
+    Trash2
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,9 @@ export default function AdminUsersPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [statusModal, setStatusModal] = useState<{ open: boolean; id: string; name: string; currentActive: boolean }>({ open: false, id: "", name: "", currentActive: true });
+    const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; name: string }>({ open: false, id: "", name: "" });
     const [isUpdating, setIsUpdating] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const fetchUsers = useCallback(async () => {
         try {
@@ -52,6 +55,21 @@ export default function AdminUsersPage() {
             toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
         } finally {
             setIsUpdating(false);
+        }
+    };
+
+    const handleHardDelete = async () => {
+        if (!deleteModal.id) return;
+        setIsDeleting(true);
+        try {
+            await api.delete(`/admin/users/${deleteModal.id}`);
+            toast.success(t("User permanently deleted", "ইউজার চিরতরে মুছে ফেলা হয়েছে"));
+            fetchUsers();
+            setDeleteModal({ open: false, id: "", name: "" });
+        } catch (error) {
+            toast.error(t("Failed to delete user", "ইউজার মুছতে ব্যর্থ হয়েছে"));
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -165,8 +183,13 @@ export default function AdminUsersPage() {
                                                 >
                                                     {user.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                                                 </Button>
-                                                <Button variant="ghost" size="icon" className="rounded-lg text-slate-600">
-                                                    <MoreVertical className="w-4 h-4" />
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="rounded-lg text-red-500 hover:bg-red-50"
+                                                    onClick={() => setDeleteModal({ open: true, id: user.id, name: user.name })}
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
                                         </td>
@@ -185,6 +208,15 @@ export default function AdminUsersPage() {
                 isLoading={isUpdating}
                 title={t("Suspend User", "ইউজার স্থগিত করুন")}
                 description={`${t("Are you sure you want to suspend", "আপনি কি নিশ্চিত যে আপনি স্থগিত করতে চান")} ${statusModal.name}? ${t("This will revoke their access to the platform until reactivated.", "এটি পুনরায় সক্রিয় না করা পর্যন্ত প্ল্যাটফর্মে তাদের অ্যাক্সেস বাতিল করবে।")}`}
+            />
+
+            <DeleteConfirmModal
+                isOpen={deleteModal.open}
+                onClose={() => setDeleteModal({ open: false, id: "", name: "" })}
+                onConfirm={handleHardDelete}
+                isLoading={isDeleting}
+                title={t("Permanently Delete User", "ইউজার চিরতরে মুছুন")}
+                description={`${t("Are you sure you want to permanently delete", "আপনি কি নিশ্চিত যে আপনি চিরতরে মুছে ফেলতে চান")} ${deleteModal.name}? ${t("This action is irreversible and will remove all their data from the system.", "এই ক্রিয়াটি অপরিবর্তনীয় এবং সিস্টেম থেকে তাদের সমস্ত ডেটা সরিয়ে দেবে।")}`}
             />
         </DashboardLayout>
     );

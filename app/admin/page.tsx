@@ -173,7 +173,7 @@ export default function AdminDashboard() {
                             <Clock className="w-10 h-10 text-amber-500" />
                             <div className="flex-1">
                                 <p className="font-bold text-slate-950 line-clamp-1">{t(`${stats?.pendingDrivers || 0} New Driver Applications`, `${stats?.pendingDrivers || 0} জন নতুন ড্রাইভার আবেদন`)}</p>
-                                <p className="text-xs text-slate-700 font-bold">{t("Pending review by operations team", "অপারেশন টিমের পর্যালোচনার অপেক্ষায়")}</p>
+                                <p className="text-xs text-slate-700 font-bold">{t("Pending review by agent team", "এজেন্ট টিমের পর্যালোচনার অপেক্ষায়")}</p>
                             </div>
                             {stats?.pendingDrivers === 0 && <CheckCircle className="w-6 h-6 text-green-500" />}
                         </div>

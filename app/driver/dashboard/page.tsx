@@ -16,6 +16,7 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { toast } from "react-hot-toast";
 
 export default function DriverDashboard() {
     const { t } = useLanguage();
@@ -26,6 +27,7 @@ export default function DriverDashboard() {
         activeJobs: 0
     });
     const [trucks, setTrucks] = useState<any[]>([]);
+    const [activeTrips, setActiveTrips] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     const router = useRouter();
@@ -33,22 +35,28 @@ export default function DriverDashboard() {
     useEffect(() => {
         const fetchDriverData = async () => {
             try {
-                // Fetch driver profile and trucks
-                const [profileRes, trucksRes] = await Promise.all([
+                // Fetch driver profile, trucks, and active bookings
+                const [profileRes, trucksRes, bookingsRes] = await Promise.all([
                     api.get("/drivers/profile"),
-                    api.get("/trucks/mine")
+                    api.get("/trucks/mine"),
+                    api.get("/bookings")
                 ]);
 
                 const driver = profileRes.data.data;
                 const driverTrucks = trucksRes.data.data;
+                const allBookings = bookingsRes.data.data || [];
+                const active = allBookings.filter((b: any) =>
+                    b.status === 'ACCEPTED' || b.status === 'IN_TRANSIT'
+                );
 
                 setStats({
                     totalTrips: driver.totalTrips || 0,
                     earnings: driver.totalEarnings || 0,
                     rating: driver.rating || 5.0,
-                    activeJobs: 0
+                    activeJobs: active.length
                 });
                 setTrucks(driverTrucks);
+                setActiveTrips(active);
             } catch (error) {
                 console.error("Failed to fetch driver stats", error);
             } finally {
@@ -57,6 +65,18 @@ export default function DriverDashboard() {
         };
         fetchDriverData();
     }, []);
+
+    const handleCompleteTrip = async (bookingId: string) => {
+        try {
+            await api.patch(`/bookings/${bookingId}/status`, { status: 'COMPLETED', note: 'Trip finished by driver' });
+            toast.success(t("Trip marked as completed!", "ট্রিপ সফলভাবে শেষ করা হয়েছে!"));
+            // Refresh data
+            window.location.reload();
+        } catch (error) {
+            console.error("Failed to complete trip", error);
+            toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
+        }
+    };
 
     const hasApprovedTruck = trucks.some(t => t.status === 'APPROVED');
     const hasPendingTruck = trucks.some(t => t.status === 'PENDING');
@@ -155,15 +175,52 @@ export default function DriverDashboard() {
 
             <div className="bg-white rounded-lg border border-slate-100 overflow-hidden shadow-sm">
                 <div className="p-8 border-b border-slate-50 flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-slate-950">{t("Upcoming Trips", "আসন্ন ট্রিপসমূহ")}</h3>
+                    <h3 className="text-xl font-bold text-slate-950">{t("Active Trips", "চলমান ট্রিপসমূহ")}</h3>
                     <button onClick={() => router.push("/driver/bookings")} className="text-slate-600 font-bold text-sm hover:text-primary transition-colors">{t("History", "ইতিহাস")}</button>
                 </div>
-                <div className="p-20 text-center">
-                    <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Package className="w-10 h-10 text-slate-200" />
-                    </div>
-                    <h4 className="text-lg font-bold text-slate-600 mb-1">{t("No assigned trips yet", "এখনও কোনো ট্রিপ বরাদ্দ করা হয়নি")}</h4>
-                    <p className="text-slate-600 text-sm font-bold">{t("Requests you accept will appear here.", "আপনার গ্রহণ করা রিকোয়েস্টগুলো এখানে দেখা যাবে।")}</p>
+                <div className="p-0">
+                    {loading ? (
+                        <div className="p-12 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
+                    ) : activeTrips.length === 0 ? (
+                        <div className="p-20 text-center">
+                            <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Package className="w-10 h-10 text-slate-200" />
+                            </div>
+                            <h4 className="text-lg font-bold text-slate-600 mb-1">{t("No active trips", "কোনো চলমান ট্রিপ নেই")}</h4>
+                            <p className="text-slate-600 text-sm font-bold">{t("Requests you accept will appear here.", "আপনার গ্রহণ করা রিকোয়েস্টগুলো এখানে দেখা যাবে।")}</p>
+                        </div>
+                    ) : (
+                        <div className="divide-y divide-slate-50">
+                            {activeTrips.map((trip: any) => (
+                                <div key={trip.id} className="p-8 flex flex-col md:flex-row items-center justify-between gap-6 hover:bg-slate-50/50 transition-all">
+                                    <div className="flex-1 w-full">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <span className="text-[10px] font-black bg-blue-100 text-blue-600 px-2 py-1 rounded uppercase">#{trip.bookingNumber}</span>
+                                            <span className="text-xs font-bold text-slate-900">{trip.user?.name}</span>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+                                                <div className="w-2 h-2 rounded-full bg-green-500" />
+                                                {trip.pickupAddress}
+                                            </div>
+                                            <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+                                                <div className="w-2 h-2 rounded-full bg-red-500" />
+                                                {trip.dropAddress}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3 w-full md:w-auto">
+                                        <Button
+                                            onClick={() => handleCompleteTrip(trip.id)}
+                                            className="w-full md:w-auto h-11 px-6 rounded-lg font-black bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/10"
+                                        >
+                                            {t("Complete Trip", "ট্রিপ শেষ করুন")}
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </DashboardLayout>

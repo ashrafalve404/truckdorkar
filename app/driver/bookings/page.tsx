@@ -40,6 +40,17 @@ export default function DriverBookingsPage() {
         }
     }, [t, toast]);
 
+    const handleUpdateStatus = async (id: string, status: string) => {
+        try {
+            await api.patch(`/bookings/${id}/status`, { status, note: 'Status updated by driver' });
+            toast.success(t("Status updated successfully!", "স্ট্যাটাস সফলভাবে আপডেট করা হয়েছে!"));
+            fetchMyBookings();
+        } catch (error) {
+            console.error("Failed to update status", error);
+            toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
+        }
+    };
+
     useEffect(() => {
         fetchMyBookings();
     }, [fetchMyBookings]);
@@ -125,9 +136,20 @@ export default function DriverBookingsPage() {
                                             </span>
                                         </td>
                                         <td className="px-8 py-4 text-right">
-                                            <Button variant="default" size="sm" className="rounded-lg h-9 font-bold px-4">
-                                                {t("Manage", "ম্যানেজ")}
-                                            </Button>
+                                            {booking.status === 'ACCEPTED' || booking.status === 'IN_TRANSIT' ? (
+                                                <Button
+                                                    onClick={() => handleUpdateStatus(booking.id, 'COMPLETED')}
+                                                    variant="default"
+                                                    size="sm"
+                                                    className="rounded-lg h-9 font-bold px-4 bg-green-600 hover:bg-green-700 text-white border-none"
+                                                >
+                                                    {t("Complete Trip", "ট্রিপ শেষ করুন")}
+                                                </Button>
+                                            ) : (
+                                                <Button variant="outline" size="sm" className="rounded-lg h-9 font-bold px-4 opacity-50 cursor-default">
+                                                    {t("No Action", "কোনো কাজ নেই")}
+                                                </Button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

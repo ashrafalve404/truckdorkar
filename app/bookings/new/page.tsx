@@ -5,13 +5,25 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { useLanguage } from "@/context/language-context";
 import { useSearchParams, useRouter } from "next/navigation";
-import { MapPin, ArrowRight, Loader2, ChevronDown } from "lucide-react";
+import {
+    MapPin,
+    ArrowRight,
+    Loader2,
+    ChevronDown,
+    TrendingUp
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { useAuth } from "@/store/use-auth";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
+
+const MapComponent = dynamic(() => import("@/components/mapping/MapComponent"), {
+    ssr: false,
+    loading: () => <div className="h-full w-full bg-slate-100 animate-pulse rounded-3xl" />
+});
 
 interface CustomSelectProps {
     value: string;
@@ -100,8 +112,49 @@ function BookingContent() {
         specialNote: "",
         truckType: searchParams.get("truckType") || "",
         estimatedFare: "",
-        distance: 12, // Default mock distance in KM
+        distance: searchParams.get("distance") || "",
     });
+    const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
+    const [coords, setCoords] = useState<{ pickup?: [number, number], drop?: [number, number] }>({});
+
+    // Auto-detect distance when locations change
+    useEffect(() => {
+        const timer = setTimeout(async () => {
+            if (formData.pickupLocation.length > 5 && formData.dropLocation.length > 5) {
+                setIsCalculatingDistance(true);
+                try {
+                    // 1. Geocode Pickup
+                    const pRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.pickupLocation)}&limit=1`);
+                    const pData = await pRes.json();
+
+                    // 2. Geocode Drop
+                    const dRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.dropLocation)}&limit=1`);
+                    const dData = await dRes.json();
+
+                    if (pData[0] && dData[0]) {
+                        const pCoord: [number, number] = [parseFloat(pData[0].lat), parseFloat(pData[0].lon)];
+                        const dCoord: [number, number] = [parseFloat(dData[0].lat), parseFloat(dData[0].lon)];
+                        setCoords({ pickup: pCoord, drop: dCoord });
+
+                        // 3. Get OSRM Distance
+                        const osrmRes = await fetch(`https://router.project-osrm.org/route/v1/driving/${pCoord[1]},${pCoord[0]};${dCoord[1]},${dCoord[0]}?overview=false`);
+                        const osrmData = await osrmRes.json();
+
+                        if (osrmData.routes && osrmData.routes[0]) {
+                            const distanceKm = Math.round(osrmData.routes[0].distance / 1000);
+                            setFormData(prev => ({ ...prev, distance: distanceKm.toString() }));
+                        }
+                    }
+                } catch (error) {
+                    console.error("Distance detection failed", error);
+                } finally {
+                    setIsCalculatingDistance(false);
+                }
+            }
+        }, 1500); // Debounce for 1.5 seconds
+
+        return () => clearTimeout(timer);
+    }, [formData.pickupLocation, formData.dropLocation]);
 
     const bookingTypes = [
         { label: t("Inter City", "আন্তঃশহর"), value: "INTER_CITY" },
@@ -117,14 +170,14 @@ function BookingContent() {
     ];
 
     const truckTypes = [
-        { value: "1_ton_open_7ft", label: t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক") },
-        { value: "1_ton_cover_7ft", label: t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক") },
-        { value: "1.5_ton_open_9ft", label: t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক") },
-        { value: "1.5_ton_cover_9ft", label: t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক") },
-        { value: "2_ton_open_9ft", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক") },
-        { value: "3_ton_open_12ft", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক") },
-        { value: "3_ton_cover_12ft", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক") },
-        { value: "5_ton_open_17ft", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক") },
+        { value: "T1_OPEN_7FT", label: t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক") },
+        { value: "T1_COVER_7FT", label: t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক") },
+        { value: "T1_5_OPEN_9FT", label: t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক") },
+        { value: "T1_5_COVER_9FT", label: t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক") },
+        { value: "T2_OPEN_9FT", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক") },
+        { value: "T3_OPEN_12FT", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক") },
+        { value: "T3_COVER_12FT", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক") },
+        { value: "T5_OPEN_17FT", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক") },
     ];
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -137,6 +190,12 @@ function BookingContent() {
         }
 
         setLoading(true);
+        if (!formData.truckType) {
+            toast.error(t("Please select a required truck", "অনুগ্রহ করে একটি ট্রাক নির্বাচন করুন"));
+            setLoading(false);
+            return;
+        }
+
         if (Number(formData.estimatedFare) < 1000) {
             toast.error(t("Minimum fare is 1000 TK", "সর্বনিম্ন ভাড়া ১০০০ টাকা"));
             setLoading(false);
@@ -154,7 +213,7 @@ function BookingContent() {
                 specialNote: formData.specialNote || undefined,
                 truckType: formData.truckType || undefined,
                 estimatedFare: Number(formData.estimatedFare) || undefined,
-                distance: formData.distance,
+                distance: formData.distance ? Number(formData.distance) : 12,
             });
 
             toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
@@ -237,6 +296,20 @@ function BookingContent() {
                                             options={truckTypes}
                                             placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
                                         />
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                <TrendingUp className="w-4 h-4 text-primary" />
+                                                {t("Trip Distance (KM)", "ট্রিপ দূরত্ব (কিমি)")}
+                                                {isCalculatingDistance && <Loader2 className="w-3 h-3 animate-spin text-primary" />}
+                                            </label>
+                                            <input
+                                                type="number"
+                                                value={formData.distance}
+                                                onChange={(e) => setFormData({ ...formData, distance: e.target.value })}
+                                                placeholder={t("Distance in KM (optional)", "কিমি-এ দূরত্ব (ঐচ্ছিক)")}
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                            />
+                                        </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -315,6 +388,10 @@ function BookingContent() {
 
                             {/* Sidebar Info */}
                             <div className="space-y-6">
+                                <div className="h-80 w-full overflow-hidden rounded-3xl border border-slate-100 shadow-sm relative z-0">
+                                    <MapComponent pickup={coords.pickup} drop={coords.drop} />
+                                </div>
+
                                 <div className="bg-primary/5 border border-primary/20 rounded-3xl p-6">
                                     <h3 className="font-bold text-primary mb-4">{t("How it works", "কিভাবে কাজ করে")}</h3>
                                     <ul className="space-y-4 text-sm text-slate-700 font-bold">

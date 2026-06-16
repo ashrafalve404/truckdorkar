@@ -79,7 +79,7 @@ export default function AgentNotificationsPage() {
                     </p>
                 </div>
                 <span className="px-3 py-1.5 bg-primary/10 text-primary text-xs font-bold rounded-full">
-                    {notifications.filter((n) => !n.isRead).length} {t("unread", "আন্রead")}
+                    {notifications.filter((n) => !n.isRead).length} {t("unread", "অপঠিত")}
                 </span>
             </header>
 

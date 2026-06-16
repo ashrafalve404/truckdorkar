@@ -333,13 +333,13 @@ export default function DriverSettingsPage() {
                                     <Bell className="w-5 h-5 text-primary" />
                                     {t("Notification Preferences", "নোটিফিকেশন পছন্দ")}
                                 </h4>
-                                <p className="text-sm text-slate-500 font-bold mt-1">{t("Manage how you receive notifications", "নোটিফিকেশন প接收ের পদ্ধতি পরিচালনা করুন")}</p>
+                                <p className="text-sm text-slate-500 font-bold mt-1">{t("Manage how you receive notifications", "আপনি কীভাবে নোটিফিকেশন পাবেন তা পরিচালনা করুন")}</p>
                             </div>
                             <div className="p-6 space-y-3">
                                 {[
-                                    { key: "bookingAlerts", label_en: "New Booking Alerts", label_bn: "নতুন বুকিং 알림", desc_en: "Get notified when new booking requests arrive", desc_bn: "নতুন বুকিং রিকোয়েস্ট এলে 알림 পান" },
-                                    { key: "quotationAlerts", label_en: "Quotation Requests", label_bn: "কোটেশন রিকোয়েস্ট", desc_en: "Receive alerts for quotation offers", desc_bn: "কোটেশন অফারের জন্য 알림 পান" },
-                                    { key: "paymentAlerts", label_en: "Payment Updates", label_bn: "পেমেন্ট অ্যাপডেট", desc_en: "Get notified about payment status changes", desc_bn: "পেমেন্ট স্ট্যাটাস পরিবর্তনের 알림 পান" },
+                                    { key: "bookingAlerts", label_en: "New Booking Alerts", label_bn: "নতুন বুকিং নোটিফিকেশন", desc_en: "Get notified when new booking requests arrive", desc_bn: "নতুন বুকিং রিকোয়েস্ট এলে নোটিফিকেশন পান" },
+                                    { key: "quotationAlerts", label_en: "Quotation Requests", label_bn: "কোটেশন রিকোয়েস্ট", desc_en: "Receive alerts for quotation offers", desc_bn: "কোটেশন অফারের জন্য নোটিফিকেশন পান" },
+                                    { key: "paymentAlerts", label_en: "Payment Updates", label_bn: "পেমেন্ট আপডেট", desc_en: "Get notified about payment status changes", desc_bn: "পেমেন্ট স্ট্যাটাস পরিবর্তনের নোটিফিকেশন পান" },
                                     { key: "supportUpdates", label_en: "Support Ticket Updates", label_bn: "সাপোর্ট টিকেট আপডেট", desc_en: "Receive updates on your support tickets", desc_bn: "সাপোর্ট টিকেটের আপডেট পান" },
                                 ].map((item) => (
                                     <div key={item.key} className={`flex items-center justify-between p-4 rounded-xl border transition-all ${notifications[item.key as keyof typeof notifications] ? "bg-primary/5 border-primary/20" : "bg-slate-50 border-slate-100"}`}>
@@ -390,8 +390,8 @@ export default function DriverSettingsPage() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-all ${activeTab === tab.id
-                                        ? "bg-primary text-white shadow-lg shadow-primary/20"
-                                        : "text-slate-700 hover:bg-slate-50"
+                                    ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                    : "text-slate-700 hover:bg-slate-50"
                                     }`}
                             >
                                 <tab.icon className="w-5 h-5" />
