@@ -11,7 +11,8 @@ import {
     CheckCircle,
     Clock,
     AlertCircle,
-    Loader2
+    Loader2,
+    TrendingUp
 } from "lucide-react";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
@@ -23,9 +24,10 @@ export default function AgentDashboard() {
     const [loading, setLoading] = useState(true);
     const [counts, setCounts] = useState({
         pendingTrucks: 0,
-        pendingDrivers: 0,
-        openTickets: 0,
+        myTrucksCount: 0,
+        totalCommission: 0,
         todayBookings: 0,
+        totalTrips: 0,
     });
     const [recentTickets, setRecentTickets] = useState<any[]>([]);
     const [pendingApprovals, setPendingApprovals] = useState<any[]>([]);
@@ -42,9 +44,10 @@ export default function AgentDashboard() {
                 const dashData = dashRes.data?.data || {};
                 setCounts({
                     pendingTrucks: dashData.counts?.pendingTrucks || 0,
-                    pendingDrivers: dashData.counts?.pendingDrivers || 0,
-                    openTickets: dashData.counts?.openTickets || 0,
+                    myTrucksCount: dashData.counts?.myTrucksCount || 0,
+                    totalCommission: dashData.counts?.totalCommission || 0,
                     todayBookings: dashData.counts?.todayBookings || 0,
+                    totalTrips: dashData.counts?.totalTrips || 0,
                 });
 
                 const tickets = ticketsRes.data?.data || [];
@@ -65,9 +68,10 @@ export default function AgentDashboard() {
     }, []);
 
     const stats = [
-        { label: t("Truck Verification", "ট্রাক ভেরিফিকেশন"), value: counts.pendingTrucks, icon: Truck, color: "text-blue-500", bg: "bg-blue-50", href: "/agent/trucks" },
-        { label: t("Support Tickets", "সাপোর্ট টিকেট"), value: counts.openTickets, icon: MessageSquare, color: "text-purple-500", bg: "bg-purple-50", href: "/agent/support" },
-        { label: t("Total Bookings", "মোট বুকিং"), value: counts.todayBookings, icon: Package, color: "text-green-500", bg: "bg-green-50", href: "/agent/bookings" },
+        { label: t("My Registered Trucks", "আমার নিবন্ধিত ট্রাক"), value: counts.myTrucksCount, icon: Truck, color: "text-blue-500", bg: "bg-blue-50", href: "/agent/trucks" },
+        { label: t("Total Commission", "মোট কমিশন"), value: `৳${counts.totalCommission.toLocaleString()}`, icon: TrendingUp, color: "text-green-500", bg: "bg-green-50", href: "/agent/earnings" },
+        { label: t("Successful Trips", "সফল ট্রিপ"), value: counts.totalTrips, icon: Package, color: "text-purple-500", bg: "bg-purple-50", href: "/agent/earnings" },
+        { label: t("Pending Trucks", "অপেক্ষমান ট্রাক"), value: counts.pendingTrucks, icon: Clock, color: "text-amber-500", bg: "bg-amber-50", href: "/agent/trucks" },
     ];
 
     if (loading) {
@@ -84,10 +88,10 @@ export default function AgentDashboard() {
         <DashboardLayout requiredRole="AGENT">
             <header className="mb-10">
                 <h1 className="text-3xl font-black text-slate-900 mb-2">
-                    {t("Operations Dashboard", "অপারেশন ড্যাশবোর্ড")}
+                    {t("Agent Dashboard", "এজেন্ট ড্যাশবোর্ড")}
                 </h1>
                 <p className="text-slate-700 font-bold">
-                    {t("Manage driver verification, support requests, and daily operations.", "ড্রাইভার ভেরিফিকেশন, সাপোর্ট রিকোয়েস্ট এবং দৈনন্দিন অপারেশন পরিচালনা করুন।")}
+                    {t("Manage your registered trucks, support requests, and commissions.", "আপনার নিবন্ধিত ট্রাক, সাপোর্ট রিকোয়েস্ট এবং কমিশন পরিচালনা করুন।")}
                 </p>
             </header>
 

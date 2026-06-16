@@ -99,6 +99,8 @@ function BookingContent() {
         goodsWeight: "",
         specialNote: "",
         truckType: searchParams.get("truckType") || "",
+        estimatedFare: "",
+        distance: 12, // Default mock distance in KM
     });
 
     const bookingTypes = [
@@ -135,6 +137,12 @@ function BookingContent() {
         }
 
         setLoading(true);
+        if (Number(formData.estimatedFare) < 1000) {
+            toast.error(t("Minimum fare is 1000 TK", "সর্বনিম্ন ভাড়া ১০০০ টাকা"));
+            setLoading(false);
+            return;
+        }
+
         try {
             const { data } = await api.post("/bookings", {
                 type: formData.type,
@@ -145,6 +153,8 @@ function BookingContent() {
                 goodsWeight: Number(formData.goodsWeight) || undefined,
                 specialNote: formData.specialNote || undefined,
                 truckType: formData.truckType || undefined,
+                estimatedFare: Number(formData.estimatedFare) || undefined,
+                distance: formData.distance,
             });
 
             toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
@@ -227,6 +237,36 @@ function BookingContent() {
                                             options={truckTypes}
                                             placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
                                         />
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between items-center">
+                                                <label className="text-sm font-bold text-slate-950">{t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}</label>
+                                                {Number(formData.estimatedFare) < 1000 && formData.estimatedFare !== "" && (
+                                                    <span className="text-[10px] bg-red-50 text-red-500 px-2 py-0.5 rounded-full font-black animate-pulse">
+                                                        Min 1000 TK
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <input
+                                                type="number"
+                                                required
+                                                value={formData.estimatedFare}
+                                                onChange={(e) => setFormData({ ...formData, estimatedFare: e.target.value })}
+                                                placeholder="e.g. 1500"
+                                                className={cn(
+                                                    "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500",
+                                                    Number(formData.estimatedFare) < 1000 && formData.estimatedFare !== "" ? "border-red-300" : "border-slate-200"
+                                                )}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-slate-950">{t("Trip Distance (KM)", "ট্রিপের দূরত্ব (কিমি)")}</label>
+                                            <div className="w-full h-12 bg-slate-100/50 border border-slate-200 rounded-xl px-4 flex items-center text-slate-500 font-bold">
+                                                {formData.distance} KM
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

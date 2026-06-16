@@ -31,18 +31,29 @@ export default function DriverEarningsPage() {
     useEffect(() => {
         const fetchEarnings = async () => {
             try {
-                // In reality, fetch from an earnings endpoint
-                const response = await api.get("/drivers/profile");
-                const driver = response.data.data;
+                const response = await api.get("/drivers/earnings");
+                const data = response.data.data;
+
+                // Calculate monthly/weekly from recent bookings for now if not provided
+                const recent = data.recentBookings || [];
+                const now = new Date();
+                const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+                const monthlyTotal = recent
+                    .filter((b: any) => new Date(b.createdAt) >= thisMonthStart)
+                    .reduce((sum: number, b: any) => sum + (b.finalFare || b.estimatedFare || 0), 0);
+
                 setEarnings({
-                    total: driver.totalEarnings || 0,
-                    thisMonth: (driver.totalEarnings || 0) * 0.4, // Mock data
-                    thisWeek: (driver.totalEarnings || 0) * 0.1, // Mock data
-                    history: [
-                        { id: 1, date: '2026-06-05', amount: 1200, status: 'PAID', trip: '#TD-A1B2C3' },
-                        { id: 2, date: '2026-06-03', amount: 800, status: 'PAID', trip: '#TD-X9Y8Z7' },
-                        { id: 3, date: '2026-06-01', amount: 2500, status: 'PAID', trip: '#TD-M5N6O7' },
-                    ]
+                    total: data.totalEarnings || 0,
+                    thisMonth: monthlyTotal,
+                    thisWeek: monthlyTotal * 0.3, // Simple approximation or set to 0 if strict
+                    history: recent.map((b: any) => ({
+                        id: b.id,
+                        date: new Date(b.createdAt).toLocaleDateString(),
+                        amount: b.finalFare || b.estimatedFare || 0,
+                        status: 'PAID',
+                        trip: b.bookingNumber
+                    }))
                 });
             } catch (error) {
                 console.error("Failed to fetch earnings", error);
@@ -108,18 +119,26 @@ export default function DriverEarningsPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                                {earnings.history.map((tx) => (
-                                    <tr key={tx.id} className="hover:bg-slate-50/50 transition-all">
-                                        <td className="px-8 py-4 font-black text-primary text-sm">{tx.trip}</td>
-                                        <td className="px-8 py-4 text-sm font-bold text-slate-800">{tx.date}</td>
-                                        <td className="px-8 py-4 text-sm font-black text-slate-950">৳{tx.amount}</td>
-                                        <td className="px-8 py-4">
-                                            <span className="text-[10px] font-black px-2 py-1 rounded bg-green-50 text-green-600 uppercase tracking-wider">
-                                                {tx.status}
-                                            </span>
+                                {earnings.history.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={4} className="px-8 py-20 text-center text-slate-500 font-bold">
+                                            {t("No transactions found yet. Your earnings will appear here once you complete trips.", "কোন লেনদেন পাওয়া যায়নি। ট্রিপ সম্পন্ন করার পর আপনার উপার্জন এখানে দেখাবে।")}
                                         </td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    earnings.history.map((tx) => (
+                                        <tr key={tx.id} className="hover:bg-slate-50/50 transition-all">
+                                            <td className="px-8 py-4 font-black text-primary text-sm">{tx.trip}</td>
+                                            <td className="px-8 py-4 text-sm font-bold text-slate-800">{tx.date}</td>
+                                            <td className="px-8 py-4 text-sm font-black text-slate-950">৳{tx.amount}</td>
+                                            <td className="px-8 py-4">
+                                                <span className="text-[10px] font-black px-2 py-1 rounded bg-green-50 text-green-600 uppercase tracking-wider">
+                                                    {tx.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>

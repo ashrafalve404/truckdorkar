@@ -55,8 +55,8 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
         ],
         AGENT: [
             { name: "Dashboard", href: "/agent/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
-            { name: "Manage Bookings", href: "/agent/bookings", icon: Package, bn: "বুকিং ম্যানেজ" },
             { name: "My Trucks", href: "/agent/trucks", icon: Truck, bn: "আমার ট্রাক" },
+            { name: "Earnings", href: "/agent/earnings", icon: TrendingUp, bn: "উপার্জন" },
             { name: "Support Tickets", href: "/agent/support", icon: MessageSquare, bn: "সাপোর্ট টিকেট" },
             { name: "Notifications", href: "/agent/notifications", icon: Bell, bn: "নোটিফিকেশন" },
         ],
@@ -69,6 +69,12 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
     };
 
     const currentMenu = menuItems[role] || menuItems.USER;
+    const logoMap = {
+        ADMIN: "/logos/bluelogo.png",
+        DRIVER: "/logos/greenlogo.png",
+        AGENT: "/logos/orangelogo.png",
+        USER: "/logos/redlogo.png",
+    };
 
     return (
         <div className={cn(
@@ -78,9 +84,11 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             {/* Header */}
             <div className="p-6 border-b border-gray-50">
                 <Link href="/" className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                        <Truck className="w-5 h-5 text-white" />
-                    </div>
+                    <img
+                        src={logoMap[role]}
+                        alt="Truck Dorkar"
+                        className="w-8 h-8 object-contain"
+                    />
                     <span className="font-black text-xl tracking-tight text-slate-950">Truck Dorkar</span>
                 </Link>
                 <div className="mt-4 px-3 py-1.5 bg-slate-100 rounded-md inline-block">
@@ -131,7 +139,9 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                         )}
                     </div>
                     <div className="flex-1 overflow-hidden">
-                        <p className="text-sm font-bold text-slate-950 truncate">{user?.name}</p>
+                        <p className="text-sm font-bold text-slate-950 truncate">
+                            {user?.role === "AGENT" && user?.name === "Operations Staff" ? "Agent" : user?.name}
+                        </p>
                         <p className="text-[10px] text-slate-600 font-bold truncate">{user?.email || user?.phone}</p>
                     </div>
                 </div>

@@ -171,7 +171,9 @@ export function Navbar() {
                                             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                                 <UserIcon className="w-4 h-4" />
                                             </div>
-                                            <span className="hidden md:inline">{user?.name}</span>
+                                            <span className="hidden md:inline">
+                                                {user?.role === "AGENT" && user?.name === "Operations Staff" ? "Agent" : user?.name}
+                                            </span>
                                         </Link>
                                     );
                                 })()}
