@@ -62,21 +62,21 @@ export function Fleet() {
                             </div>
                             <div className="p-4 md:p-6 pt-2 md:pt-4 flex flex-col gap-3">
                                 <div className="flex items-center justify-between">
-                                    <span className="flex items-center gap-1 text-[10px] md:text-xs font-bold text-primary bg-primary/10 px-1.5 md:px-2.5 py-0.5 md:py-1 rounded-full w-fit">
-                                        <ShieldCheck className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                                        {t("Verified", "ভেরিফাইড")}
-                                    </span>
-                                    <Button
-                                        variant="default"
-                                        size="sm"
-                                        onClick={() => {
-                                            const params = new URLSearchParams({ truckType: truck.value });
-                                            router.push(`/bookings/new?${params.toString()}`);
-                                        }}
-                                        className="h-6 md:h-7 text-[8px] md:text-[10px] font-black uppercase tracking-wider px-2 md:px-3 rounded-full shadow-lg shadow-black/10 bg-black hover:bg-primary text-white border-none transition-colors"
-                                    >
-                                        {t("Book Now", "বুক করুন")}
-                                    </Button>
+<span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-primary bg-primary/10 px-1 md:px-1.5 py-0 rounded-sm">
+                                            <ShieldCheck className="w-2.5 h-2.5" />
+                                            {t("Verified", "ভেরিফাইড")}
+                                        </span>
+                                        <Button
+                                            variant="default"
+                                            size="sm"
+                                            onClick={() => {
+                                                const params = new URLSearchParams({ truckType: truck.value });
+                                                router.push(`/bookings/new?${params.toString()}`);
+                                            }}
+                                            className="h-5 md:h-6 text-[7px] md:text-[9px] font-bold uppercase tracking-wider px-1.5 md:px-2 rounded-sm shadow-sm bg-black hover:bg-primary text-white border-none transition-colors"
+                                        >
+                                            {t("Book Now", "বুক করুন")}
+                                        </Button>
                                 </div>
                                 <h3 className="text-sm md:text-lg font-bold text-black leading-tight">{t(truck.title_en, truck.title_bn)}</h3>
                             </div>
