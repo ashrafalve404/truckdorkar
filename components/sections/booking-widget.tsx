@@ -26,10 +26,10 @@ export function BookingWidget() {
         { value: "T1_COVER_7FT", en: "1 Ton Cover 7Ft", bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/icons/1ton7feetcovericon.png" },
         { value: "T1_5_OPEN_9FT", en: "1.5 Ton Open 9Ft", bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/icons/1.5ton9feeticon.png" },
         { value: "T1_5_COVER_9FT", en: "1.5 Ton Cover 9Ft", bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/icons/1.5on9feetcovericon.png" },
-        { value: "T2_OPEN_9FT", en: "2 Ton Open 9Ft", bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/icons/2ton9feeticon.png" },
-        { value: "T3_OPEN_12FT", en: "3 Ton Open 12Ft", bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/icons/3ton12feeticon.png" },
-        { value: "T3_COVER_12FT", en: "3 Ton Cover 12Ft", bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/icons/3ton12feetcovericon.png" },
-        { value: "T5_OPEN_17FT", en: "5 Ton Open 17Ft Truck", bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/icons/5ton17feeticon.png" },
+        { value: "T2_OPEN_9FT", en: "2 Ton Open 9Ft", bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/icons/2ton9feeticon.png", upcoming: true },
+        { value: "T3_OPEN_12FT", en: "3 Ton Open 12Ft", bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/icons/3ton12feeticon.png", upcoming: true },
+        { value: "T3_COVER_12FT", en: "3 Ton Cover 12Ft", bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/icons/3ton12feetcovericon.png", upcoming: true },
+        { value: "T5_OPEN_17FT", en: "5 Ton Open 17Ft Truck", bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/icons/5ton17feeticon.png", upcoming: true },
     ];
 
     useEffect(() => {
@@ -163,21 +163,28 @@ export function BookingWidget() {
                                             <div
                                                 key={type.value}
                                                 onClick={() => {
+                                                    if (type.upcoming) return;
                                                     setTruckType(type.value);
                                                     setIsTruckDropdownOpen(false);
                                                 }}
                                                 className={cn(
-                                                    "px-6 py-3 text-sm font-semibold transition-all cursor-pointer flex items-center justify-between",
-                                                    truckType === type.value
-                                                        ? "bg-primary/10 text-primary"
-                                                        : "text-gray-700 hover:bg-gray-50 hover:text-primary"
+                                                    "px-6 py-3 text-sm font-semibold transition-all flex items-center justify-between",
+                                                    type.upcoming
+                                                        ? "opacity-50 cursor-not-allowed"
+                                                        : truckType === type.value
+                                                            ? "bg-primary/10 text-primary cursor-pointer"
+                                                            : "text-gray-700 hover:bg-gray-50 hover:text-primary cursor-pointer"
                                                 )}
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <img src={type.icon} alt="" className="w-8 h-8 object-contain" />
                                                     {lang === 'en' ? type.en : type.bn}
                                                 </div>
-                                                {truckType === type.value && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
+                                                {type.upcoming ? (
+                                                    <span className="text-[9px] font-black bg-orange-100 text-orange-500 px-2 py-0.5 rounded-full uppercase tracking-wide">Upcoming</span>
+                                                ) : truckType === type.value ? (
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                                ) : null}
                                             </div>
                                         ))}
                                     </motion.div>

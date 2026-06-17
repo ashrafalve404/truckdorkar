@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShieldCheck, Truck } from "lucide-react";
+import { ShieldCheck, Clock } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -13,10 +13,10 @@ const trucks = [
     { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png", value: "T1_COVER_7FT" },
     { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png", value: "T1_5_OPEN_9FT" },
     { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png", value: "T1_5_COVER_9FT" },
-    { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png", value: "T2_OPEN_9FT" },
-    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png", value: "T3_OPEN_12FT" },
-    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png", value: "T3_COVER_12FT" },
-    { title_en: "5 Ton Open 17Ft Truck", title_bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/images/5tonopentruck.png", value: "T5_OPEN_17FT" },
+    { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png", value: "T2_OPEN_9FT", upcoming: true },
+    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png", value: "T3_OPEN_12FT", upcoming: true },
+    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png", value: "T3_COVER_12FT", upcoming: true },
+    { title_en: "5 Ton Open 17Ft Truck", title_bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/images/5tonopentruck.png", value: "T5_OPEN_17FT", upcoming: true },
 ];
 
 export function Fleet() {
@@ -35,7 +35,7 @@ export function Fleet() {
                     <p className="text-gray-500 max-w-md text-black">
                         {t(
                             "Choose from our wide range of verified vehicles that suit your specific business or personal transportation needs.",
-                            "আপনার ব্যবসা বা ব্যক্তিগত প্রয়োজনে আমাদের ভেরিফাইড ট্রাকগুলোর মধ্য থেকে সঠিকটি বেছে নিন।"
+                            "আপনার ব্যবসা বা ব্যক্তিগত প্রয়োজনে আমাদের ভেরিফাইড ট্রাকগুলোর মধ্য থেকে সঠিকটি বেছে নিন।"
                         )}
                     </p>
                 </div>
@@ -48,7 +48,7 @@ export function Fleet() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            className="group bg-light-gray rounded-lg md:rounded-xl overflow-hidden hover:shadow-premium transition-all duration-500"
+                            className={`group bg-light-gray rounded-lg md:rounded-xl overflow-hidden transition-all duration-500 ${truck.upcoming ? "opacity-75" : "hover:shadow-premium"}`}
                         >
                             <div className="relative bg-white m-2 md:m-4 rounded-md md:rounded-lg overflow-hidden aspect-square">
                                 <Image
@@ -57,15 +57,32 @@ export function Fleet() {
                                     fill
                                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     loading={index === 0 ? "eager" : "lazy"}
-                                    className="object-contain group-hover:scale-110 transition-transform duration-700"
+                                    className={`object-contain transition-transform duration-700 ${!truck.upcoming && "group-hover:scale-110"}`}
                                 />
+                                {/* Upcoming overlay */}
+                                {truck.upcoming && (
+                                    <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
+                                        <span className="bg-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg rotate-[-8deg]">
+                                            Upcoming
+                                        </span>
+                                    </div>
+                                )}
                             </div>
                             <div className="p-4 md:p-6 pt-2 md:pt-4 flex flex-col gap-3">
                                 <div className="flex items-center justify-between">
-<span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-primary bg-primary/10 px-1 md:px-1.5 py-0 rounded-sm">
+                                    {truck.upcoming ? (
+                                        <span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-orange-500 bg-orange-50 px-1 md:px-1.5 py-0 rounded-sm">
+                                            <Clock className="w-2.5 h-2.5" />
+                                            {t("Upcoming", "শীঘ্রই আসছে")}
+                                        </span>
+                                    ) : (
+                                        <span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-primary bg-primary/10 px-1 md:px-1.5 py-0 rounded-sm">
                                             <ShieldCheck className="w-2.5 h-2.5" />
                                             {t("Verified", "ভেরিফাইড")}
                                         </span>
+                                    )}
+
+                                    {!truck.upcoming && (
                                         <Button
                                             variant="default"
                                             size="sm"
@@ -77,6 +94,7 @@ export function Fleet() {
                                         >
                                             {t("Book Now", "বুক করুন")}
                                         </Button>
+                                    )}
                                 </div>
                                 <h3 className="text-sm md:text-lg font-bold text-black leading-tight">{t(truck.title_en, truck.title_bn)}</h3>
                             </div>

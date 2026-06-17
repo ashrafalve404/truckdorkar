@@ -10,7 +10,8 @@ import {
     ArrowRight,
     Loader2,
     ChevronDown,
-    TrendingUp
+    TrendingUp,
+    LocateFixed
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
@@ -28,7 +29,7 @@ const MapComponent = dynamic(() => import("@/components/mapping/MapComponent"), 
 interface CustomSelectProps {
     value: string;
     onChange: (val: string) => void;
-    options: { label: string; value: string; icon?: string }[];
+    options: { label: string; value: string; icon?: string; upcoming?: boolean }[];
     placeholder: string;
     label?: string;
 }
@@ -73,21 +74,28 @@ function CustomSelect({ value, onChange, options, placeholder, label }: CustomSe
                             <div
                                 key={opt.value}
                                 onClick={() => {
+                                    if (opt.upcoming) return;
                                     onChange(opt.value);
                                     setIsOpen(false);
                                 }}
                                 className={cn(
-                                    "px-4 py-2.5 text-sm font-bold transition-all cursor-pointer flex items-center justify-between",
-                                    value === opt.value
-                                        ? "bg-primary/10 text-primary"
-                                        : "text-slate-700 hover:bg-slate-50 hover:text-primary"
+                                    "px-4 py-2.5 text-sm font-bold transition-all flex items-center justify-between",
+                                    opt.upcoming
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : value === opt.value
+                                            ? "bg-primary/10 text-primary cursor-pointer"
+                                            : "text-slate-700 hover:bg-slate-50 hover:text-primary cursor-pointer"
                                 )}
                             >
                                 <div className="flex items-center gap-3">
                                     {opt.icon && <img src={opt.icon} alt="" className="w-8 h-8 object-contain" />}
                                     {opt.label}
                                 </div>
-                                {value === opt.value && <div className="w-1 h-1 rounded-full bg-primary" />}
+                                {opt.upcoming ? (
+                                    <span className="text-[9px] font-black bg-orange-100 text-orange-500 px-2 py-0.5 rounded-full uppercase tracking-wide">Upcoming</span>
+                                ) : value === opt.value ? (
+                                    <div className="w-1 h-1 rounded-full bg-primary" />
+                                ) : null}
                             </div>
                         ))}
                     </motion.div>
@@ -126,6 +134,47 @@ function BookingContent() {
         const km = Number(distanceKm) || 0;
         if (km <= 10) return 1000;
         return 1000 + Math.ceil(km - 10) * 50;
+    };
+
+    // --- Geolocation: Use My Location ---
+    const [isGeolocating, setIsGeolocating] = useState(false);
+
+    const handleUseMyLocation = () => {
+        if (!navigator.geolocation) {
+            toast.error(t("Geolocation is not supported by your browser.", "আপনার ব্রাউজার লোকেশন সাপোর্ট করে না।"));
+            return;
+        }
+        setIsGeolocating(true);
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                try {
+                    const { latitude, longitude } = position.coords;
+                    const res = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=14&addressdetails=1`
+                    );
+                    const data = await res.json();
+                    const addr = data.address;
+                    // Build a readable address: neighbourhood/suburb, city/district, state
+                    const parts = [
+                        addr.neighbourhood || addr.suburb || addr.village || addr.hamlet,
+                        addr.city || addr.town || addr.county || addr.district,
+                        addr.state || addr.region,
+                    ].filter(Boolean);
+                    const readable = parts.join(", ") || data.display_name;
+                    setFormData(prev => ({ ...prev, pickupLocation: readable }));
+                    toast.success(t("Location detected!", "লোকেশন শনাক্ত হয়েছে!"));
+                } catch {
+                    toast.error(t("Could not read your address.", "আপনার ঠিকানা পড়তে ব্যর্থ হয়েছে।"));
+                } finally {
+                    setIsGeolocating(false);
+                }
+            },
+            () => {
+                toast.error(t("Location access denied. Please allow location permission.", "লোকেশন লোড হয়নি। অনুগ্রহ করে লোকেশন পারমিশন দিন।"));
+                setIsGeolocating(false);
+            },
+            { timeout: 10000 }
+        );
     };
 
     // Auto-detect distance when locations change
@@ -190,10 +239,10 @@ function BookingContent() {
         { value: "T1_COVER_7FT", label: t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক"), icon: "/icons/1ton7feetcovericon.png" },
         { value: "T1_5_OPEN_9FT", label: t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক"), icon: "/icons/1.5ton9feeticon.png" },
         { value: "T1_5_COVER_9FT", label: t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক"), icon: "/icons/1.5on9feetcovericon.png" },
-        { value: "T2_OPEN_9FT", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক"), icon: "/icons/2ton9feeticon.png" },
-        { value: "T3_OPEN_12FT", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক"), icon: "/icons/3ton12feeticon.png" },
-        { value: "T3_COVER_12FT", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক"), icon: "/icons/3ton12feetcovericon.png" },
-        { value: "T5_OPEN_17FT", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক"), icon: "/icons/5ton17feeticon.png" },
+        { value: "T2_OPEN_9FT", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক"), icon: "/icons/2ton9feeticon.png", upcoming: true },
+        { value: "T3_OPEN_12FT", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক"), icon: "/icons/3ton12feeticon.png", upcoming: true },
+        { value: "T3_COVER_12FT", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক"), icon: "/icons/3ton12feetcovericon.png", upcoming: true },
+        { value: "T5_OPEN_17FT", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক"), icon: "/icons/5ton17feeticon.png", upcoming: true },
     ];
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -266,15 +315,30 @@ function BookingContent() {
                                 <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 lg:p-10 shadow-premium border border-gray-100 space-y-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <MapPin className="w-4 h-4 text-primary" />
-                                                {t("Pickup Address", "পিকআপ ঠিকানা")}
+                                            <label className="text-sm font-bold text-slate-950 flex items-center justify-between">
+                                                <span className="flex items-center gap-2">
+                                                    <MapPin className="w-4 h-4 text-primary" />
+                                                    {t("Pickup Address", "পিকআপ ঠিকানা")}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    onClick={handleUseMyLocation}
+                                                    disabled={isGeolocating}
+                                                    className="flex items-center gap-1 text-[10px] font-black text-primary hover:text-primary/70 transition-colors disabled:opacity-50"
+                                                >
+                                                    {isGeolocating
+                                                        ? <Loader2 className="w-3 h-3 animate-spin" />
+                                                        : <LocateFixed className="w-3 h-3" />
+                                                    }
+                                                    {t("Use My Location", "আমার লোকেশন")}
+                                                </button>
                                             </label>
                                             <input
                                                 type="text"
                                                 required
                                                 value={formData.pickupLocation}
                                                 onChange={(e) => setFormData({ ...formData, pickupLocation: e.target.value })}
+                                                placeholder={t("From where?", "কোথা থেকে?")}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
@@ -288,6 +352,7 @@ function BookingContent() {
                                                 required
                                                 value={formData.dropLocation}
                                                 onChange={(e) => setFormData({ ...formData, dropLocation: e.target.value })}
+                                                placeholder={t("To where?", "কোথায়?")}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>

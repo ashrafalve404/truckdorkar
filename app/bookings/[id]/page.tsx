@@ -87,8 +87,11 @@ export default function BookingDetailPage() {
 
     const handleUpdateFare = async () => {
         const fareNum = Number(newFare);
-        if (booking?.distance && booking.distance <= 10 && fareNum < 1000) {
-            toast.error(t("Minimum fare for trips up to 10km is 1000 TK", "১০ কিমি পর্যন্ত ট্রিপের জন্য সর্বনিম্ন ভাড়া ১০০০ টাকা"));
+        const currentFare = booking?.estimatedFare || 0;
+
+        // Users can ONLY increase fares, never reduce them
+        if (fareNum <= currentFare) {
+            toast.error(t("You can only increase your fare offer, not reduce it.", "আপনি শুধুমাত্র ভাড়া বাড়াতে পারবেন, কমাতে পারবেন না।"));
             return;
         }
 
@@ -208,18 +211,28 @@ export default function BookingDetailPage() {
 
                                 {isPending && isUser ? (
                                     <div className="space-y-4">
+                                        <p className="text-3xl font-black text-slate-950">৳{booking.estimatedFare.toLocaleString()}</p>
                                         <div className="relative">
                                             <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-400">৳</span>
                                             <input
                                                 type="number"
                                                 value={newFare}
+                                                min={booking.estimatedFare + 1}
                                                 onChange={(e) => setNewFare(e.target.value)}
-                                                className="w-full h-14 bg-white border border-slate-200 rounded-xl pl-10 pr-4 font-black text-xl text-slate-950 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className={cn(
+                                                    "w-full h-14 bg-white border rounded-xl pl-10 pr-4 font-black text-xl text-slate-950 focus:ring-2 focus:ring-primary/20 outline-none transition-all",
+                                                    Number(newFare) < booking.estimatedFare ? "border-red-300" : "border-slate-200"
+                                                )}
                                             />
                                         </div>
+                                        {Number(newFare) < booking.estimatedFare && (
+                                            <p className="text-xs text-red-500 font-bold">
+                                                {t("Fare cannot be reduced. Enter a value above ", "ভাড়া কমানো যাবে না। এর চেয়ে বেশি লিখুন: ")}{booking.estimatedFare} TK
+                                            </p>
+                                        )}
                                         <Button
                                             onClick={handleUpdateFare}
-                                            disabled={updating || Number(newFare) === booking.estimatedFare}
+                                            disabled={updating || Number(newFare) <= booking.estimatedFare}
                                             className="w-full h-12 rounded-xl font-bold bg-primary text-white"
                                         >
                                             {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Update My Offer", "অফার আপডেট করুন")}
