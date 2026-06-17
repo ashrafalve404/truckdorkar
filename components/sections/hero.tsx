@@ -27,15 +27,15 @@ export function Hero() {
     };
 
     return (
-        <section className="relative min-h-screen flex items-center pt-24 pb-40 lg:pb-52 overflow-hidden bg-black">
+        <section className="relative min-h-screen flex items-center pt-8 pb-40 lg:pb-52 overflow-hidden bg-black">
             {/* Background Image - Still (no slider) */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/images/image1.png"
+                    src="/images/heroimage01.png"
                     alt="Bangladesh Logistics"
                     fill
                     sizes="100vw"
-                    className="object-cover opacity-60"
+                    className="object-cover lg:object-fill opacity-60"
                     priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10" />

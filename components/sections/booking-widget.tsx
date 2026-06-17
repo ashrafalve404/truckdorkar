@@ -22,14 +22,14 @@ export function BookingWidget() {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const truckTypes = [
-        { value: "1_ton_open_7ft", en: "1 Ton Open 7Ft", bn: "১ টন খোলা ৭ফিট ট্রাক" },
-        { value: "1_ton_cover_7ft", en: "1 Ton Cover 7Ft", bn: "১ টন কাভার ৭ফিট ট্রাক" },
-        { value: "1.5_ton_open_9ft", en: "1.5 Ton Open 9Ft", bn: "১.৫ টন খোলা ৯ফিট ট্রাক" },
-        { value: "1.5_ton_cover_9ft", en: "1.5 Ton Cover 9Ft", bn: "১.৫ টন কাভার ৯ফিট ট্রাক" },
-        { value: "2_ton_open_9ft", en: "2 Ton Open 9Ft", bn: "২ টন খোলা ৯ফিট ট্রাক" },
-        { value: "3_ton_open_12ft", en: "3 Ton Open 12Ft", bn: "৩ টন খোলা ১২ফিট ট্রাক" },
-        { value: "3_ton_cover_12ft", en: "3 Ton Cover 12Ft", bn: "৩ টন কাভার ১২ফিট ট্রাক" },
-        { value: "5_ton_open_17ft", en: "5 Ton Open 17Ft Truck", bn: "৫ টন খোলা ১৭ফিট ট্রাক" },
+        { value: "T1_OPEN_7FT", en: "1 Ton Open 7Ft", bn: "১ টন খোলা ৭ফিট ট্রাক", icon: "/icons/1ton7feeticon.png" },
+        { value: "T1_COVER_7FT", en: "1 Ton Cover 7Ft", bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/icons/1ton7feetcovericon.png" },
+        { value: "T1_5_OPEN_9FT", en: "1.5 Ton Open 9Ft", bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/icons/1.5ton9feeticon.png" },
+        { value: "T1_5_COVER_9FT", en: "1.5 Ton Cover 9Ft", bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/icons/1.5on9feetcovericon.png" },
+        { value: "T2_OPEN_9FT", en: "2 Ton Open 9Ft", bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/icons/2ton9feeticon.png" },
+        { value: "T3_OPEN_12FT", en: "3 Ton Open 12Ft", bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/icons/3ton12feeticon.png" },
+        { value: "T3_COVER_12FT", en: "3 Ton Cover 12Ft", bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/icons/3ton12feetcovericon.png" },
+        { value: "T5_OPEN_17FT", en: "5 Ton Open 17Ft Truck", bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/icons/5ton17feeticon.png" },
     ];
 
     useEffect(() => {
@@ -173,7 +173,10 @@ export function BookingWidget() {
                                                         : "text-gray-700 hover:bg-gray-50 hover:text-primary"
                                                 )}
                                             >
-                                                {lang === 'en' ? type.en : type.bn}
+                                                <div className="flex items-center gap-3">
+                                                    <img src={type.icon} alt="" className="w-8 h-8 object-contain" />
+                                                    {lang === 'en' ? type.en : type.bn}
+                                                </div>
                                                 {truckType === type.value && <div className="w-1.5 h-1.5 rounded-full bg-primary" />}
                                             </div>
                                         ))}

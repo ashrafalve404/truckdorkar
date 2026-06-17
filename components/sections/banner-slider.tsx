@@ -20,7 +20,7 @@ interface Banner {
 const banners: Banner[] = [
     {
         id: 1,
-        image: "/images/image1.png",
+        image: "/images/slidingbanner001.png",
         titleEn: "Nationwide Logistics",
         titleBn: "দেশব্যাপী লজিস্টিকস",
         subtitleEn: "Moving goods across Bangladesh with safety and speed.",
@@ -31,7 +31,7 @@ const banners: Banner[] = [
     },
     {
         id: 2,
-        image: "/images/image2.png",
+        image: "/images/slidingbanner02.png",
         titleEn: "Become a Driver Partner",
         titleBn: "ড্রাইভার পার্টনার হোন",
         subtitleEn: "Join our fleet and start earning daily with Truck Dorkar.",
@@ -39,17 +39,6 @@ const banners: Banner[] = [
         ctaEn: "Join Now",
         ctaBn: "এখনই যোগ দিন",
         color: "from-slate-800 to-black",
-    },
-    {
-        id: 3,
-        image: "/images/image3.png",
-        titleEn: "Enterprise Solutions",
-        titleBn: "এন্টারপ্রাইজ সমাধান",
-        subtitleEn: "Reliable logistics solutions for businesses of all sizes.",
-        subtitleBn: "সব ধরণের ব্যবসার জন্য নির্ভরযোগ্য লজিস্টিক সমাধান।",
-        ctaEn: "Get a Quote",
-        ctaBn: "কোটেশন পান",
-        color: "from-blue-700 to-blue-900",
     },
 ];
 
@@ -67,8 +56,8 @@ export function BannerSlider() {
     const prev = () => setCurrent((prev) => (prev - 1 + banners.length) % banners.length);
 
     return (
-        <section className="relative w-full h-[350px] lg:h-[700px] overflow-hidden bg-white pt-24 pb-8 px-4 sm:px-10">
-            <div className="relative h-full max-w-[1600px] mx-auto rounded-sm md:rounded-md overflow-hidden shadow-2xl border border-slate-100">
+        <section className="relative w-full h-[280px] lg:h-[650px] overflow-hidden bg-white pt-24 pb-2 px-4 sm:px-10">
+            <div className="relative h-full max-w-[1400px] mx-auto rounded-sm md:rounded-md overflow-hidden shadow-2xl border border-slate-100">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={current}
@@ -84,8 +73,9 @@ export function BannerSlider() {
                             alt={banners[current].titleEn}
                             fill
                             sizes="100vw"
-                            className="object-cover"
+                            className="object-fill"
                             priority
+                            unoptimized
                         />
                         {/* Subtle Gradient for depth but no heavy overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />

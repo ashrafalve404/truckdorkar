@@ -28,7 +28,7 @@ const MapComponent = dynamic(() => import("@/components/mapping/MapComponent"), 
 interface CustomSelectProps {
     value: string;
     onChange: (val: string) => void;
-    options: { label: string; value: string }[];
+    options: { label: string; value: string; icon?: string }[];
     placeholder: string;
     label?: string;
 }
@@ -83,7 +83,10 @@ function CustomSelect({ value, onChange, options, placeholder, label }: CustomSe
                                         : "text-slate-700 hover:bg-slate-50 hover:text-primary"
                                 )}
                             >
-                                {opt.label}
+                                <div className="flex items-center gap-3">
+                                    {opt.icon && <img src={opt.icon} alt="" className="w-8 h-8 object-contain" />}
+                                    {opt.label}
+                                </div>
                                 {value === opt.value && <div className="w-1 h-1 rounded-full bg-primary" />}
                             </div>
                         ))}
@@ -170,14 +173,14 @@ function BookingContent() {
     ];
 
     const truckTypes = [
-        { value: "T1_OPEN_7FT", label: t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক") },
-        { value: "T1_COVER_7FT", label: t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক") },
-        { value: "T1_5_OPEN_9FT", label: t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক") },
-        { value: "T1_5_COVER_9FT", label: t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক") },
-        { value: "T2_OPEN_9FT", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক") },
-        { value: "T3_OPEN_12FT", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক") },
-        { value: "T3_COVER_12FT", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক") },
-        { value: "T5_OPEN_17FT", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক") },
+        { value: "T1_OPEN_7FT", label: t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক"), icon: "/icons/1ton7feeticon.png" },
+        { value: "T1_COVER_7FT", label: t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক"), icon: "/icons/1ton7feetcovericon.png" },
+        { value: "T1_5_OPEN_9FT", label: t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক"), icon: "/icons/1.5ton9feeticon.png" },
+        { value: "T1_5_COVER_9FT", label: t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক"), icon: "/icons/1.5on9feetcovericon.png" },
+        { value: "T2_OPEN_9FT", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক"), icon: "/icons/2ton9feeticon.png" },
+        { value: "T3_OPEN_12FT", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক"), icon: "/icons/3ton12feeticon.png" },
+        { value: "T3_COVER_12FT", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক"), icon: "/icons/3ton12feetcovericon.png" },
+        { value: "T5_OPEN_17FT", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক"), icon: "/icons/5ton17feeticon.png" },
     ];
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -418,7 +421,7 @@ function BookingContent() {
             <section className="container mx-auto px-4 lg:px-12 mb-16">
                 <div className="w-full h-auto overflow-hidden rounded-xl border border-slate-100 shadow-sm">
                     <img
-                        src="/images/bookingpagefoto.png"
+                        src="/images/bookingpagephoto.png"
                         alt="Truck on road"
                         className="w-full h-full object-cover"
                     />
