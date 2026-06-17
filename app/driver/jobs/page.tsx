@@ -8,7 +8,8 @@ import {
     Calendar,
     ArrowRight,
     Loader2,
-    Package
+    Package,
+    TrendingUp
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ import { toast } from "react-hot-toast";
 
 export default function DriverJobsPage() {
     const { t } = useLanguage();
-    const [jobs, setJobs] = useState<{ id: string; type?: string; pickupAddress: string; dropAddress: string; status: string; estimatedFare?: number | string; scheduledAt?: string; goodsType?: string }[]>([]);
+    const [jobs, setJobs] = useState<{ id: string; type?: string; pickupAddress: string; dropAddress: string; status: string; estimatedFare?: number | string; scheduledAt?: string; goodsType?: string; distance?: number | null }[]>([]);
     const [loading, setLoading] = useState(true);
 
     const fetchJobs = useCallback(async () => {
@@ -31,7 +32,7 @@ export default function DriverJobsPage() {
         } finally {
             setLoading(false);
         }
-    }, [t, toast]);
+    }, [t]);
 
     useEffect(() => {
         fetchJobs();
@@ -124,6 +125,12 @@ export default function DriverJobsPage() {
                                     <div className="flex items-center gap-2">
                                         <Package className="w-4 h-4 text-slate-400" />
                                         <span className="text-xs font-bold text-slate-700">{job.goodsType}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <TrendingUp className="w-4 h-4 text-primary" />
+                                        <span className="text-xs font-bold text-slate-700">
+                                            {job.distance ? `${job.distance} KM` : t("N/A", "N/A")}
+                                        </span>
                                     </div>
                                 </div>
 

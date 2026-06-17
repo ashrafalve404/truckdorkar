@@ -19,7 +19,7 @@ export default function DriverEarningsPage() {
         total: number;
         thisMonth: number;
         thisWeek: number;
-        history: { id: number; date: string; amount: number; status: string; trip: string }[];
+        history: { id: number; date: string; amount: number; status: string; trip: string; distance?: number | null }[];
     }>({
         total: 0,
         thisMonth: 0,
@@ -52,7 +52,8 @@ export default function DriverEarningsPage() {
                         date: new Date(b.createdAt).toLocaleDateString(),
                         amount: b.finalFare || b.estimatedFare || 0,
                         status: 'PAID',
-                        trip: b.bookingNumber
+                        trip: b.bookingNumber,
+                        distance: b.distance
                     }))
                 });
             } catch (error) {
@@ -113,6 +114,7 @@ export default function DriverEarningsPage() {
                             <thead className="bg-slate-50 border-b border-slate-100">
                                 <tr className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
                                     <th className="px-8 py-4">{t("Trip ID", "ট্রিপ আইডি")}</th>
+                                    <th className="px-8 py-4">{t("Distance", "দূরত্ব")}</th>
                                     <th className="px-8 py-4">{t("Date", "তারিখ")}</th>
                                     <th className="px-8 py-4">{t("Amount", "পরিমাণ")}</th>
                                     <th className="px-8 py-4">{t("Status", "স্ট্যাটাস")}</th>
@@ -121,7 +123,7 @@ export default function DriverEarningsPage() {
                             <tbody className="divide-y divide-slate-50">
                                 {earnings.history.length === 0 ? (
                                     <tr>
-                                        <td colSpan={4} className="px-8 py-20 text-center text-slate-500 font-bold">
+                                        <td colSpan={5} className="px-8 py-20 text-center text-slate-500 font-bold">
                                             {t("No transactions found yet. Your earnings will appear here once you complete trips.", "কোন লেনদেন পাওয়া যায়নি। ট্রিপ সম্পন্ন করার পর আপনার উপার্জন এখানে দেখাবে।")}
                                         </td>
                                     </tr>
@@ -129,6 +131,9 @@ export default function DriverEarningsPage() {
                                     earnings.history.map((tx) => (
                                         <tr key={tx.id} className="hover:bg-slate-50/50 transition-all">
                                             <td className="px-8 py-4 font-black text-primary text-sm">{tx.trip}</td>
+                                            <td className="px-8 py-4 text-sm font-bold text-slate-800">
+                                                {tx.distance ? `${tx.distance} KM` : "—"}
+                                            </td>
                                             <td className="px-8 py-4 text-sm font-bold text-slate-800">{tx.date}</td>
                                             <td className="px-8 py-4 text-sm font-black text-slate-950">৳{tx.amount}</td>
                                             <td className="px-8 py-4">

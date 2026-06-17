@@ -24,6 +24,7 @@ interface BookingRow {
     scheduledAt: string | null;
     status: string;
     estimatedFare: number | null;
+    distance?: number | null;
     user: { name: string | null; phone: string | null } | null;
 }
 
@@ -127,6 +128,7 @@ export default function AdminBookingsPage() {
                                 <tr className="text-[10px] font-black text-slate-950 uppercase tracking-widest">
                                     <th className="px-8 py-4">{t("ID & Customer", "আইডি ও কাস্টমার")}</th>
                                     <th className="px-8 py-4">{t("Route", "রাস্তা")}</th>
+                                    <th className="px-8 py-4">{t("Distance", "দূরত্ব")}</th>
                                     <th className="px-8 py-4">{t("Date", "তারিখ")}</th>
                                     <th className="px-8 py-4">{t("Price", "মূল্য")}</th>
                                     <th className="px-8 py-4">{t("Status", "স্ট্যাটাস")}</th>
@@ -154,6 +156,9 @@ export default function AdminBookingsPage() {
                                                     {booking.dropAddress}
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td className="px-8 py-4 text-xs font-bold text-slate-800">
+                                            {booking.distance ? `${booking.distance} KM` : "—"}
                                         </td>
                                         <td className="px-8 py-4 text-xs font-bold text-slate-800">
                                             <div className="flex items-center gap-2">

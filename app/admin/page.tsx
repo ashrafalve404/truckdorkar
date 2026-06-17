@@ -19,7 +19,7 @@ import Link from "next/link";
 
 interface AdminStats {
     summary: { totalRevenue: number; totalBookings: number; totalUsers: number; totalDrivers: number };
-    recentBookings: { id: string; bookingNumber: string; user: { name: string }; finalFare?: number; estimatedFare?: number; status: string }[];
+    recentBookings: { id: string; bookingNumber: string; user: { name: string }; finalFare?: number; estimatedFare?: number; status: string; distance?: number | null }[];
     pendingDrivers: number;
     pendingTrucks: number;
     openTickets: number;
@@ -143,6 +143,12 @@ export default function AdminDashboard() {
                                     <div>
                                         <p className="font-bold text-sm text-slate-950">#{booking.bookingNumber.slice(-6)}</p>
                                         <p className="text-xs text-slate-700 font-bold">{booking.user?.name || "—"}</p>
+                                        {booking.distance && (
+                                            <p className="text-[10px] text-primary font-black mt-1 flex items-center gap-1">
+                                                <TrendingUp className="w-2.5 h-2.5" />
+                                                {booking.distance} KM
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="text-right">
                                         <p className="font-bold text-sm text-slate-900">৳{booking.finalFare || booking.estimatedFare}</p>

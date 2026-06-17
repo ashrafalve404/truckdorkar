@@ -87,7 +87,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                     <img
                         src={logoMap[role]}
                         alt="Truck Dorkar"
-                        className="w-8 h-8 object-contain"
+                        className="w-11 h-11 object-contain"
                     />
                     <span className="font-black text-xl tracking-tight text-slate-950">Truck Dorkar</span>
                 </Link>

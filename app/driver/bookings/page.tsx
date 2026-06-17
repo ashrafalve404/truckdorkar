@@ -24,6 +24,7 @@ export default function DriverBookingsPage() {
         status: string;
         scheduledAt?: string;
         user?: { name?: string };
+        distance?: number | null;
     }[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -97,6 +98,7 @@ export default function DriverBookingsPage() {
                                 <tr className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
                                     <th className="px-8 py-4">{t("Booking ID", "বুকিং আইডি")}</th>
                                     <th className="px-8 py-4">{t("Route", "রাস্তা")}</th>
+                                    <th className="px-8 py-4">{t("Distance", "দূরত্ব")}</th>
                                     <th className="px-8 py-4">{t("Date", "তারিখ")}</th>
                                     <th className="px-8 py-4">{t("Status", "স্ট্যাটাস")}</th>
                                     <th className="px-8 py-4 text-right">{t("Actions", "অ্যাকশন")}</th>
@@ -120,6 +122,9 @@ export default function DriverBookingsPage() {
                                                     {booking.dropAddress}
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td className="px-8 py-4 text-xs font-bold text-slate-800">
+                                            {booking.distance ? `${booking.distance} KM` : "—"}
                                         </td>
                                         <td className="px-8 py-4 text-xs font-bold text-slate-800">
                                             <div className="flex items-center gap-2">

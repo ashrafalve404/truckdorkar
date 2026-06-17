@@ -9,7 +9,8 @@ import {
     Star,
     MapPin,
     ArrowRight,
-    Loader2
+    Loader2,
+    TrendingUp
 } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import api from "@/lib/api";
@@ -197,6 +198,12 @@ export default function DriverDashboard() {
                                         <div className="flex items-center gap-3 mb-3">
                                             <span className="text-[10px] font-black bg-blue-100 text-blue-600 px-2 py-1 rounded uppercase">#{trip.bookingNumber}</span>
                                             <span className="text-xs font-bold text-slate-900">{trip.user?.name}</span>
+                                            {trip.distance && (
+                                                <span className="text-[10px] font-black bg-primary/5 text-primary px-2 py-1 rounded uppercase flex items-center gap-1">
+                                                    <TrendingUp className="w-3 h-3" />
+                                                    {trip.distance} KM
+                                                </span>
+                                            )}
                                         </div>
                                         <div className="space-y-2">
                                             <div className="flex items-center gap-2 text-xs font-bold text-slate-700">

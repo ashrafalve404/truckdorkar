@@ -94,6 +94,7 @@ export default function AgentBookingsPage() {
                                 <tr className="text-[10px] font-black text-slate-950 uppercase tracking-widest">
                                     <th className="px-8 py-4">{t("Details", "বিস্তারিত")}</th>
                                     <th className="px-8 py-4">{t("Route", "রাস্তা")}</th>
+                                    <th className="px-8 py-4">{t("Distance", "দূরত্ব")}</th>
                                     <th className="px-8 py-4">{t("Date", "তারিখ")}</th>
                                     <th className="px-8 py-4">{t("Status", "স্ট্যাটাস")}</th>
                                     <th className="px-8 py-4 text-right">{t("Actions", "অ্যাকশন")}</th>
@@ -102,7 +103,7 @@ export default function AgentBookingsPage() {
                             <tbody className="divide-y divide-slate-50">
                                 {filteredBookings.length === 0 ? (
                                     <tr>
-                                        <td colSpan={5} className="px-8 py-20 text-center text-slate-500 font-bold italic">
+                                        <td colSpan={6} className="px-8 py-20 text-center text-slate-500 font-bold italic">
                                             {t("No bookings found.", "কোন বুকিং পাওয়া যায়নি।")}
                                         </td>
                                     </tr>
@@ -126,6 +127,9 @@ export default function AgentBookingsPage() {
                                                         {booking.dropoffAddress}
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td className="px-8 py-4 text-xs font-bold text-slate-800">
+                                                {booking.distance ? `${booking.distance} KM` : "—"}
                                             </td>
                                             <td className="px-8 py-4 text-xs font-bold text-slate-800">
                                                 <div className="flex items-center gap-2">
