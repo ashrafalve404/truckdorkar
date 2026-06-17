@@ -120,6 +120,14 @@ function BookingContent() {
     const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
     const [coords, setCoords] = useState<{ pickup?: [number, number], drop?: [number, number] }>({});
 
+    // --- Fare calculation helper ---
+    // Base: 1000 TK for up to 10km; +50 TK per extra km beyond 10km
+    const calcMinFare = (distanceKm: number | string): number => {
+        const km = Number(distanceKm) || 0;
+        if (km <= 10) return 1000;
+        return 1000 + Math.ceil(km - 10) * 50;
+    };
+
     // Auto-detect distance when locations change
     useEffect(() => {
         const timer = setTimeout(async () => {
@@ -145,7 +153,12 @@ function BookingContent() {
 
                         if (osrmData.routes && osrmData.routes[0]) {
                             const distanceKm = Math.round(osrmData.routes[0].distance / 1000);
-                            setFormData(prev => ({ ...prev, distance: distanceKm.toString() }));
+                            const minFare = calcMinFare(distanceKm);
+                            setFormData(prev => ({
+                                ...prev,
+                                distance: distanceKm.toString(),
+                                estimatedFare: minFare.toString(),
+                            }));
                         }
                     }
                 } catch (error) {
@@ -162,7 +175,7 @@ function BookingContent() {
     const bookingTypes = [
         { label: t("Inter City", "আন্তঃশহর"), value: "INTER_CITY" },
         { label: t("Intra City", "শহরের ভিতরে"), value: "INTRA_CITY" },
-        { label: t("Specialized", "বিশেষায়িত"), value: "SPECIALIZED" },
+        { label: t("Specialized", "বিশেষায়িত"), value: "SPECIALIZED" },
     ];
 
     const goodsTypes = [
@@ -199,8 +212,9 @@ function BookingContent() {
             return;
         }
 
-        if (Number(formData.estimatedFare) < 1000) {
-            toast.error(t("Minimum fare is 1000 TK", "সর্বনিম্ন ভাড়া ১০০০ টাকা"));
+        const minFare = calcMinFare(formData.distance);
+        if (Number(formData.estimatedFare) < minFare) {
+            toast.error(t(`Minimum fare for this trip is ${minFare} TK`, `এই ট্রিপের সর্বনিম্ন ভাড়া ${minFare} টাকা`));
             setLoading(false);
             return;
         }
@@ -216,18 +230,20 @@ function BookingContent() {
                 specialNote: formData.specialNote || undefined,
                 truckType: formData.truckType || undefined,
                 estimatedFare: Number(formData.estimatedFare) || undefined,
-                distance: formData.distance ? Number(formData.distance) : 12,
+                distance: formData.distance ? Number(formData.distance) : 0,
             });
 
-            toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
+            toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
             router.push(`/bookings/success?bookingId=${data.data.id}`);
         } catch (error: unknown) {
             const message = error && typeof error === 'object' && 'response' in error && (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
-            toast.error(typeof message === 'string' ? message : t("Booking failed", "বুকিং ব্যর্থ হয়েছে"));
+            toast.error(typeof message === 'string' ? message : t("Booking failed", "বুকিং ব্যর্থ হয়েছে"));
         } finally {
             setLoading(false);
         }
     };
+
+    const minFare = calcMinFare(formData.distance);
 
     return (
         <div className="min-h-screen bg-slate-50">
@@ -240,7 +256,7 @@ function BookingContent() {
                                 {t("Complete Your Booking", "আপনার বুকিং সম্পূর্ণ করুন")}
                             </h1>
                             <p className="text-slate-700 font-bold">
-                                {t("Provide more details to get accurate quotes from our drivers.", "সঠিক ভাড়া পেতে আরও বিস্তারিত তথ্য প্রদান করুন।")}
+                                {t("Provide more details to get accurate quotes from our drivers.", "সঠিক ভাড়া পেতে আরও বিস্তারিত তথ্য প্রদান করুন।")}
                             </p>
                         </header>
 
@@ -293,7 +309,7 @@ function BookingContent() {
                                             placeholder={t("Select Goods", "নির্বাচন করুন")}
                                         />
                                         <CustomSelect
-                                            label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
+                                            label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
                                             value={formData.truckType}
                                             onChange={(val) => setFormData({ ...formData, truckType: val })}
                                             options={truckTypes}
@@ -308,7 +324,15 @@ function BookingContent() {
                                             <input
                                                 type="number"
                                                 value={formData.distance}
-                                                onChange={(e) => setFormData({ ...formData, distance: e.target.value })}
+                                                onChange={(e) => {
+                                                    const newDist = e.target.value;
+                                                    const newMin = calcMinFare(newDist);
+                                                    setFormData(prev => ({
+                                                        ...prev,
+                                                        distance: newDist,
+                                                        estimatedFare: newMin.toString(),
+                                                    }));
+                                                }}
                                                 placeholder={t("Distance in KM (optional)", "কিমি-এ দূরত্ব (ঐচ্ছিক)")}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
@@ -318,10 +342,10 @@ function BookingContent() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <div className="flex justify-between items-center">
-                                                <label className="text-sm font-bold text-slate-950">{t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}</label>
-                                                {Number(formData.estimatedFare) < 1000 && formData.estimatedFare !== "" && (
+                                                <label className="text-sm font-bold text-slate-950">{t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}</label>
+                                                {formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare && (
                                                     <span className="text-[10px] bg-red-50 text-red-500 px-2 py-0.5 rounded-full font-black animate-pulse">
-                                                        Min 1000 TK
+                                                        Min {minFare} TK
                                                     </span>
                                                 )}
                                             </div>
@@ -330,17 +354,17 @@ function BookingContent() {
                                                 required
                                                 value={formData.estimatedFare}
                                                 onChange={(e) => setFormData({ ...formData, estimatedFare: e.target.value })}
-                                                placeholder="e.g. 1500"
+                                                placeholder={`e.g. ${minFare}`}
                                                 className={cn(
                                                     "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500",
-                                                    Number(formData.estimatedFare) < 1000 && formData.estimatedFare !== "" ? "border-red-300" : "border-slate-200"
+                                                    formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare ? "border-red-300" : "border-slate-200"
                                                 )}
                                             />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">{t("Trip Distance (KM)", "ট্রিপের দূরত্ব (কিমি)")}</label>
                                             <div className="w-full h-12 bg-slate-100/50 border border-slate-200 rounded-xl px-4 flex items-center text-slate-500 font-bold">
-                                                {formData.distance} KM
+                                                {formData.distance ? `${formData.distance} KM` : "—"}
                                             </div>
                                         </div>
                                     </div>
@@ -381,7 +405,7 @@ function BookingContent() {
                                     <Button disabled={loading} className="w-full h-14 rounded-xl font-bold text-lg gap-3 text-white">
                                         {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                                             <>
-                                                {t("Confirm Booking Request", "বুকিং রিকোয়েস্ট নিশ্চিত করুন")}
+                                                {t("Confirm Booking Request", "বুকিং রিকোয়েস্ট নিশ্চিত করুন")}
                                                 <ArrowRight className="w-5 h-5" />
                                             </>
                                         )}
@@ -400,7 +424,7 @@ function BookingContent() {
                                     <ul className="space-y-4 text-sm text-slate-700 font-bold">
                                         <li className="flex gap-3">
                                             <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">1</span>
-                                            <span>{t("Submit your request", "আপনার রিকোয়েস্ট জমা দিন")}</span>
+                                            <span>{t("Submit your request", "আপনার রিকোয়েস্ট জমা দিন")}</span>
                                         </li>
                                         <li className="flex gap-3">
                                             <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">2</span>
