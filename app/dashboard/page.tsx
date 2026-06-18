@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
-import { Package, Clock, CheckCircle, AlertCircle, MapPin, Truck as TruckIcon, Loader2 } from "lucide-react";
+import { Package, Clock, CheckCircle, AlertCircle, MapPin, Truck as TruckIcon, Loader2, Phone, Bell } from "lucide-react";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ interface Booking {
     scheduledAt: string;
     status: string;
     distance?: number | null;
+    contactPhone?: string | null;
     truck?: { id: string; name: string; category: string } | null;
     goodsType?: string | null;
     goodsWeight?: number | null;
@@ -26,21 +27,26 @@ export default function DashboardPage() {
     const { t } = useLanguage();
     const router = useRouter();
     const [bookings, setBookings] = useState<Booking[]>([]);
+    const [notifications, setNotifications] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchBookings = async () => {
+        const fetchData = async () => {
             try {
-                const { data } = await api.get("/bookings");
-                setBookings(data.data || []);
+                const [bookingsRes, notifsRes] = await Promise.all([
+                    api.get("/bookings"),
+                    api.get("/notifications")
+                ]);
+                setBookings(bookingsRes.data.data || []);
+                setNotifications(notifsRes.data?.data || notifsRes.data || []);
             } catch (error) {
-                console.error("Failed to fetch bookings", error);
+                console.error("Failed to fetch dashboard data", error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchBookings();
+        fetchData();
     }, []);
 
     const getStatusIcon = (status: string) => {
@@ -69,6 +75,43 @@ export default function DashboardPage() {
                     {t("New Booking Request", "নতুন বুকিং রিকোয়েস্ট")}
                 </Button>
             </header>
+
+            {/* Latest Notifications Card */}
+            {notifications.filter(n => !n.isRead).length > 0 && (
+                <div className="mb-10 bg-primary/5 border border-primary/20 rounded-2xl p-6 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <Bell className="w-24 h-24 text-primary" />
+                    </div>
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center animate-pulse">
+                                <Bell className="w-4 h-4" />
+                            </div>
+                            <h2 className="text-lg font-black text-slate-950 uppercase tracking-tight">
+                                {t("Latest Notifications", "সর্বশেষ নোটিফিকেশন")}
+                            </h2>
+                        </div>
+                        <Button
+                            variant="ghost"
+                            onClick={() => router.push("/notifications")}
+                            className="text-xs font-black text-primary hover:bg-primary/10 transition-all rounded-full h-8"
+                        >
+                            {t("View All", "সব দেখুন")}
+                        </Button>
+                    </div>
+                    <div className="space-y-4">
+                        {notifications.filter(n => !n.isRead).slice(0, 2).map((notif) => (
+                            <div key={notif.id} className="bg-white/60 backdrop-blur-sm border border-white/40 p-4 rounded-xl flex items-start gap-4">
+                                <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
+                                <div>
+                                    <h3 className="font-black text-sm text-slate-900 mb-0.5">{notif.title}</h3>
+                                    <p className="text-xs text-slate-700 font-bold leading-relaxed">{notif.body}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -131,6 +174,12 @@ export default function DashboardPage() {
                                         <td className="px-8 py-6">
                                             <div className="font-bold text-slate-950">{booking.type.replace(/_/g, ' ')}</div>
                                             <div className="text-[10px] uppercase font-bold text-slate-700 tracking-wider mt-1">{booking.goodsType || "—"}</div>
+                                            {booking.contactPhone && (
+                                                <a href={`tel:${booking.contactPhone}`} className="flex items-center gap-1 text-[10px] text-primary font-bold hover:underline mt-1">
+                                                    <Phone className="w-2.5 h-2.5" />
+                                                    {booking.contactPhone}
+                                                </a>
+                                            )}
                                         </td>
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-2 text-sm text-slate-800 font-bold">

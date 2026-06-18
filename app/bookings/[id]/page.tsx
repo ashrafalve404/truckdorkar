@@ -39,6 +39,7 @@ interface BookingDetail {
     goodsWeight: number;
     truckType: string;
     specialNote?: string;
+    contactPhone?: string;
     user: { name: string; phone: string };
     driver?: { user: { name: string; phone: string } };
     statusLogs: { status: string; note: string; createdAt: string }[];
@@ -271,6 +272,15 @@ export default function BookingDetailPage() {
                                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{t("Weight", "ওজন")}</p>
                                     <p className="text-sm font-bold text-slate-900">{booking.goodsWeight} KG</p>
                                 </div>
+                                {booking.contactPhone && (
+                                    <div className="col-span-2">
+                                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight flex items-center gap-1">
+                                            <Phone className="w-3 h-3" />
+                                            {t("Contact Phone", "যোগাযোগ নম্বর")}
+                                        </p>
+                                        <a href={`tel:${booking.contactPhone}`} className="text-sm font-bold text-primary hover:underline">{booking.contactPhone}</a>
+                                    </div>
+                                )}
                             </div>
 
                             {booking.specialNote && (

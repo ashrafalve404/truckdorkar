@@ -8,7 +8,8 @@ import {
     Loader2,
     Filter,
     Calendar,
-    Trash2
+    Trash2,
+    Phone
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ interface BookingRow {
     status: string;
     estimatedFare: number | null;
     distance?: number | null;
+    contactPhone?: string | null;
     user: { name: string | null; phone: string | null } | null;
 }
 
@@ -143,6 +145,12 @@ export default function AdminBookingsPage() {
                                                 <p className="font-black text-primary text-xs mb-1">#{booking.bookingNumber}</p>
                                                 <p className="font-bold text-slate-950">{booking.user?.name || "—"}</p>
                                                 <p className="text-[10px] text-slate-700 font-bold">{booking.user?.phone || "—"}</p>
+                                                {booking.contactPhone && (
+                                                    <a href={`tel:${booking.contactPhone}`} className="flex items-center gap-1 text-[10px] text-primary font-bold hover:underline mt-0.5">
+                                                        <Phone className="w-2.5 h-2.5" />
+                                                        {booking.contactPhone}
+                                                    </a>
+                                                )}
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">

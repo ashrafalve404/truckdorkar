@@ -63,6 +63,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
         USER: [
             { name: "My Bookings", href: "/dashboard", icon: Package, bn: "আমার বুকিং" },
             { name: "New Booking", href: "/bookings/new", icon: LayoutDashboard, bn: "নতুন বুকিং" },
+            { name: "Notifications", href: "/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Profile", href: "/profile", icon: Users, bn: "প্রোফাইল" },
         ]

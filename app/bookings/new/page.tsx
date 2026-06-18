@@ -11,7 +11,8 @@ import {
     Loader2,
     ChevronDown,
     TrendingUp,
-    LocateFixed
+    LocateFixed,
+    Phone
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
@@ -124,6 +125,7 @@ function BookingContent() {
         truckType: searchParams.get("truckType") || "",
         estimatedFare: "",
         distance: searchParams.get("distance") || "",
+        contactPhone: "",
     });
     const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
     const [coords, setCoords] = useState<{ pickup?: [number, number], drop?: [number, number] }>({});
@@ -272,6 +274,12 @@ function BookingContent() {
             return;
         }
 
+        if (!formData.contactPhone) {
+            toast.error(t("Please enter your contact phone number", "অনুগ্রহ করে আপনার যোগাযোগ নম্বর দিন"));
+            setLoading(false);
+            return;
+        }
+
         const minFare = calcMinFare(formData.distance);
         if (Number(formData.estimatedFare) < minFare) {
             toast.error(t(`Minimum fare for this trip is ${minFare} TK`, `এই ট্রিপের সর্বনিম্ন ভাড়া ${minFare} টাকা`));
@@ -291,6 +299,7 @@ function BookingContent() {
                 truckType: formData.truckType || undefined,
                 estimatedFare: Number(formData.estimatedFare) || undefined,
                 distance: formData.distance ? Number(formData.distance) : 0,
+                contactPhone: formData.contactPhone,
             });
 
             toast.success(t("Booking request submitted!", "বুকিং রিকোয়েস্ট জমা দেওয়া হয়েছে!"));
@@ -477,6 +486,22 @@ function BookingContent() {
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                            <Phone className="w-4 h-4 text-primary" />
+                                            {t("Contact Phone Number", "\u09af\u09cb\u0997\u09be\u09af\u09cb\u0997 \u09a8\u09ae\u09cd\u09ac\u09b0")}
+                                            <span className="text-red-500 ml-1">*</span>
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            required
+                                            value={formData.contactPhone}
+                                            onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
+                                            placeholder={t("e.g. 01XXXXXXXXX", "\u09af\u09c7\u09ae\u09a8: 01XXXXXXXXX")}
+                                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                        />
                                     </div>
 
                                     <div className="space-y-2">

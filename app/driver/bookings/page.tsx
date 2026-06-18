@@ -7,7 +7,8 @@ import {
     Search,
     Loader2,
     Calendar,
-    MapPin
+    MapPin,
+    Phone
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ export default function DriverBookingsPage() {
         dropAddress: string;
         status: string;
         scheduledAt?: string;
+        contactPhone?: string | null;
         user?: { name?: string };
         distance?: number | null;
     }[]>([]);
@@ -110,6 +112,12 @@ export default function DriverBookingsPage() {
                                         <td className="px-8 py-4">
                                             <p className="font-black text-primary text-xs mb-1">#{booking.bookingNumber || booking.id.slice(0, 8).toUpperCase()}</p>
                                             <p className="font-bold text-slate-950 text-sm">{booking.user?.name || 'Customer'}</p>
+                                            {booking.contactPhone && (
+                                                <a href={`tel:${booking.contactPhone}`} className="flex items-center gap-1 text-[10px] text-primary font-bold hover:underline mt-0.5">
+                                                    <Phone className="w-2.5 h-2.5" />
+                                                    {booking.contactPhone}
+                                                </a>
+                                            )}
                                         </td>
                                         <td className="px-8 py-4">
                                             <div className="flex flex-col gap-1">
