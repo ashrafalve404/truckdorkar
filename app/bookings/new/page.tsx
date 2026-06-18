@@ -254,9 +254,20 @@ function BookingContent() {
             return;
         }
 
-        setLoading(true);
+        if (!formData.pickupLocation || !formData.dropLocation) {
+            toast.error(t("Please enter both pickup and drop-off addresses", "অনুগ্রহ করে পিকআপ এবং ড্রপ-অফ ঠিকানা উভয়ই লিখুন"));
+            setLoading(false);
+            return;
+        }
+
         if (!formData.truckType) {
-            toast.error(t("Please select a required truck", "অনুগ্রহ করে একটি ট্রাক নির্বাচন করুন"));
+            toast.error(t("Please select a required truck", "অনুগ্রহ করে একটি প্রয়োজনীয় ট্রাক নির্বাচন করুন"));
+            setLoading(false);
+            return;
+        }
+
+        if (!formData.scheduledAt) {
+            toast.error(t("Please select a scheduled date", "অনুগ্রহ করে একটি নির্ধারিত তারিখ নির্বাচন করুন"));
             setLoading(false);
             return;
         }
@@ -319,6 +330,7 @@ function BookingContent() {
                                                 <span className="flex items-center gap-2">
                                                     <MapPin className="w-4 h-4 text-primary" />
                                                     {t("Pickup Address", "পিকআপ ঠিকানা")}
+                                                    <span className="text-red-500 ml-1">*</span>
                                                 </span>
                                                 <button
                                                     type="button"
@@ -346,6 +358,7 @@ function BookingContent() {
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
                                                 <MapPin className="w-4 h-4 text-secondary" />
                                                 {t("Drop-off Address", "ড্রপ-অফ ঠিকানা")}
+                                                <span className="text-red-500 ml-1">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -373,13 +386,18 @@ function BookingContent() {
                                             options={goodsTypes}
                                             placeholder={t("Select Goods", "নির্বাচন করুন")}
                                         />
-                                        <CustomSelect
-                                            label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
-                                            value={formData.truckType}
-                                            onChange={(val) => setFormData({ ...formData, truckType: val })}
-                                            options={truckTypes}
-                                            placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
-                                        />
+                                        <div className="space-y-1">
+                                            <CustomSelect
+                                                label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
+                                                value={formData.truckType}
+                                                onChange={(val) => setFormData({ ...formData, truckType: val })}
+                                                options={truckTypes}
+                                                placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
+                                            />
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-red-500 text-xs ml-1">* {t("Required", "প্রয়োজনীয়")}</span>
+                                            </div>
+                                        </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
                                                 <TrendingUp className="w-4 h-4 text-primary" />
@@ -398,7 +416,7 @@ function BookingContent() {
                                                         estimatedFare: newMin.toString(),
                                                     }));
                                                 }}
-                                                placeholder={t("Distance in KM (optional)", "কিমি-এ দূরত্ব (ঐচ্ছিক)")}
+                                                placeholder={t("Distance in KM", "কিমি-এ দূরত্ব")}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
@@ -447,9 +465,13 @@ function BookingContent() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">{t("Scheduled Date", "তারিখ")}</label>
+                                            <label className="text-sm font-bold text-slate-950">
+                                                {t("Scheduled Date", "তারিখ")}
+                                                <span className="text-red-500 ml-1">*</span>
+                                            </label>
                                             <input
                                                 type="date"
+                                                required
                                                 value={formData.scheduledAt}
                                                 onChange={(e) => setFormData({ ...formData, scheduledAt: e.target.value })}
                                                 className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
