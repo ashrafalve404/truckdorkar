@@ -6,13 +6,12 @@ import { Footer } from "@/components/layout/footer-section";
 import { useLanguage } from "@/context/language-context";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
-    MapPin,
     ArrowRight,
     Loader2,
-    ChevronDown,
-    TrendingUp,
     LocateFixed,
-    Phone
+    TrendingUp,
+    Phone,
+    ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
@@ -21,6 +20,7 @@ import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import { LocationSelector } from "@/components/ui/location-selector";
 
 const MapComponent = dynamic(() => import("@/components/mapping/MapComponent"), {
     ssr: false,
@@ -55,7 +55,7 @@ function CustomSelect({ value, onChange, options, placeholder, label }: CustomSe
             {label && <label className="text-sm font-bold text-slate-950">{label}</label>}
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all font-bold text-slate-950 shadow-sm"
+                className="w-full h-12 bg-white border border-slate-300 rounded-xl px-4 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all font-bold text-slate-950 shadow-sm"
             >
                 <span className={cn(value ? "text-slate-950" : "text-slate-500")}>
                     {selectedOption ? selectedOption.label : placeholder}
@@ -185,12 +185,12 @@ function BookingContent() {
             if (formData.pickupLocation.length > 5 && formData.dropLocation.length > 5) {
                 setIsCalculatingDistance(true);
                 try {
-                    // 1. Geocode Pickup
-                    const pRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.pickupLocation)}&limit=1`);
+                    // 1. Geocode Pickup with country context
+                    const pRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.pickupLocation + ", Bangladesh")}&limit=1`);
                     const pData = await pRes.json();
 
-                    // 2. Geocode Drop
-                    const dRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.dropLocation)}&limit=1`);
+                    // 2. Geocode Drop with country context
+                    const dRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.dropLocation + ", Bangladesh")}&limit=1`);
                     const dData = await dRes.json();
 
                     if (pData[0] && dData[0]) {
@@ -211,9 +211,13 @@ function BookingContent() {
                                 estimatedFare: minFare.toString(),
                             }));
                         }
+                    } else {
+                        // Clear coords if search fails
+                        setCoords({ pickup: undefined, drop: undefined });
                     }
                 } catch (error) {
                     console.error("Distance detection failed", error);
+                    setCoords({ pickup: undefined, drop: undefined });
                 } finally {
                     setIsCalculatingDistance(false);
                 }
@@ -333,14 +337,11 @@ function BookingContent() {
                             {/* Main Form */}
                             <div className="lg:col-span-2">
                                 <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 lg:p-10 shadow-premium border border-gray-100 space-y-6">
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div className="space-y-6">
+                                        {/* Pickup */}
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center justify-between">
-                                                <span className="flex items-center gap-2">
-                                                    <MapPin className="w-4 h-4 text-primary" />
-                                                    {t("Pickup Address", "পিকআপ ঠিকানা")}
-                                                    <span className="text-red-500 ml-1">*</span>
-                                                </span>
+                                            <div className="flex items-center justify-between mb-1">
+                                                <span className="text-xs font-black text-slate-700 uppercase tracking-widest">{t("Pickup Location", "পিকআপ লোকেশন")}</span>
                                                 <button
                                                     type="button"
                                                     onClick={handleUseMyLocation}
@@ -353,31 +354,26 @@ function BookingContent() {
                                                     }
                                                     {t("Use My Location", "আমার লোকেশন")}
                                                 </button>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                required
+                                            </div>
+                                            <LocationSelector
+                                                label="Pickup Address"
+                                                labelBn="পিকআপ ঠিকানা"
                                                 value={formData.pickupLocation}
-                                                onChange={(e) => setFormData({ ...formData, pickupLocation: e.target.value })}
-                                                placeholder={t("From where?", "কোথা থেকে?")}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <MapPin className="w-4 h-4 text-secondary" />
-                                                {t("Drop-off Address", "ড্রপ-অফ ঠিকানা")}
-                                                <span className="text-red-500 ml-1">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
+                                                onChange={(addr) => setFormData(prev => ({ ...prev, pickupLocation: addr }))}
+                                                iconColor="text-primary"
                                                 required
-                                                value={formData.dropLocation}
-                                                onChange={(e) => setFormData({ ...formData, dropLocation: e.target.value })}
-                                                placeholder={t("To where?", "কোথায়?")}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
+
+                                        {/* Drop-off */}
+                                        <LocationSelector
+                                            label="Drop-off Address"
+                                            labelBn="ড্রপ-অফ ঠিকানা"
+                                            value={formData.dropLocation}
+                                            onChange={(addr) => setFormData(prev => ({ ...prev, dropLocation: addr }))}
+                                            iconColor="text-secondary"
+                                            required
+                                        />
                                     </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -455,8 +451,15 @@ function BookingContent() {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">{t("Trip Distance (KM)", "ট্রিপের দূরত্ব (কিমি)")}</label>
-                                            <div className="w-full h-12 bg-slate-100/50 border border-slate-200 rounded-xl px-4 flex items-center text-slate-500 font-bold">
-                                                {formData.distance ? `${formData.distance} KM` : "—"}
+                                            <div className="w-full h-12 bg-slate-100/50 border border-slate-300 rounded-xl px-4 flex items-center text-slate-500 font-bold justify-between">
+                                                {isCalculatingDistance ? (
+                                                    <div className="flex items-center gap-2 text-primary animate-pulse">
+                                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                                        <span className="text-[10px]">{t("Calculating...", "গণনা করা হচ্ছে...")}</span>
+                                                    </div>
+                                                ) : (
+                                                    <span>{formData.distance ? `${formData.distance} KM` : "—"}</span>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

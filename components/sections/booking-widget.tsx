@@ -6,6 +6,7 @@ import { MapPin, Truck, Calendar, Search, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
+import { LocationSelector } from "@/components/ui/location-selector";
 
 import { useRouter } from "next/navigation";
 
@@ -100,55 +101,45 @@ export function BookingWidget() {
                 </div>
 
                 {/* Form Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
-                    <div className="space-y-3">
-                        <label className="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
-                            <MapPin className="w-3 h-3 text-primary" />
-                            {t("Pickup Location", "পিকআপ লোকেশন")}
-                        </label>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={pickup}
-                                onChange={(e) => setPickup(e.target.value)}
-                                placeholder={t("From where?", "কোথা থেকে?")}
-                                className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-600"
-                            />
-                        </div>
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <LocationSelector
+                        label="Pickup Location"
+                        labelBn="পিকআপ লোকেশন"
+                        value={pickup}
+                        onChange={setPickup}
+                        iconColor="text-primary"
+                        compact
+                    />
 
-                    <div className="space-y-3">
-                        <label className="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
-                            <MapPin className="w-3 h-3 text-secondary" />
-                            {t("Drop Location", "ড্রপ লোকেশন")}
-                        </label>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={drop}
-                                onChange={(e) => setDrop(e.target.value)}
-                                placeholder={t("To where?", "কোথায়?")}
-                                className="w-full h-14 bg-gray-200 border-none rounded-md px-6 text-black font-semibold focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-600"
-                            />
-                        </div>
-                    </div>
+                    <LocationSelector
+                        label="Drop Location"
+                        labelBn="ড্রপ লোকেশন"
+                        value={drop}
+                        onChange={setDrop}
+                        iconColor="text-secondary"
+                        compact
+                    />
 
+                </div>
+
+                {/* Second row: Truck Type + Book Now */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 items-end">
                     <div className="space-y-3">
-                        <label className="text-xs font-bold text-gray-600 uppercase tracking-widest flex items-center gap-2">
+                        <label className="text-xs font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
                             <Truck className="w-3 h-3 text-primary" />
                             {t("Truck Type", "ট্রাকের ধরণ")}
                         </label>
                         <div className="relative" ref={dropdownRef}>
                             <div
                                 onClick={() => setIsTruckDropdownOpen(!isTruckDropdownOpen)}
-                                className="w-full h-14 bg-gray-200 rounded-md px-6 flex items-center justify-between cursor-pointer group hover:bg-gray-300/80 transition-all"
+                                className="w-full h-14 bg-white border border-slate-300 rounded-md px-6 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all shadow-sm"
                             >
-                                <span className={cn("font-semibold", truckType ? "text-black" : "text-gray-600")}>
+                                <span className={cn("font-semibold", truckType ? "text-black" : "text-slate-500")}>
                                     {truckType
                                         ? (lang === 'en' ? selectedTruckLabel?.en : selectedTruckLabel?.bn)
                                         : t("Select Truck", "ট্রাক নির্বাচন করুন")}
                                 </span>
-                                <ChevronDown className={cn("w-5 h-5 text-gray-400 transition-transform duration-300", isTruckDropdownOpen && "rotate-180")} />
+                                <ChevronDown className={cn("w-5 h-5 text-slate-400 transition-transform duration-300", isTruckDropdownOpen && "rotate-180")} />
                             </div>
 
                             <AnimatePresence>
