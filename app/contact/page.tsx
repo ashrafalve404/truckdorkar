@@ -167,7 +167,7 @@ export default function ContactPage() {
                                             </div>
                                             <div>
                                                 <div className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-widest mb-0.5">{t("Email Us", "ইমেইল করুন")}</div>
-                                                <div className="text-base md:text-lg font-bold text-black">truckdorkarlimited@gmail.com</div>
+                                                <div className="text-base md:text-lg font-bold text-black">contact@truckdorkar.com</div>
                                             </div>
                                         </div>
 
