@@ -422,7 +422,7 @@ function BookingContent() {
                                                     }));
                                                 }}
                                                 placeholder={t("Distance in KM", "কিমি-এ দূরত্ব")}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
                                     </div>
@@ -445,26 +445,10 @@ function BookingContent() {
                                                 placeholder={`e.g. ${minFare}`}
                                                 className={cn(
                                                     "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500",
-                                                    formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare ? "border-red-300" : "border-slate-200"
+                                                    formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare ? "border-red-300" : "border-slate-300"
                                                 )}
                                             />
                                         </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">{t("Trip Distance (KM)", "ট্রিপের দূরত্ব (কিমি)")}</label>
-                                            <div className="w-full h-12 bg-slate-100/50 border border-slate-300 rounded-xl px-4 flex items-center text-slate-500 font-bold justify-between">
-                                                {isCalculatingDistance ? (
-                                                    <div className="flex items-center gap-2 text-primary animate-pulse">
-                                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                                        <span className="text-[10px]">{t("Calculating...", "গণনা করা হচ্ছে...")}</span>
-                                                    </div>
-                                                ) : (
-                                                    <span>{formData.distance ? `${formData.distance} KM` : "—"}</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">{t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}</label>
                                             <input
@@ -473,9 +457,12 @@ function BookingContent() {
                                                 value={formData.goodsWeight}
                                                 onChange={(e) => setFormData({ ...formData, goodsWeight: e.target.value })}
                                                 placeholder="e.g. 1500"
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">
                                                 {t("Scheduled Date", "তারিখ")}
@@ -486,25 +473,24 @@ function BookingContent() {
                                                 required
                                                 value={formData.scheduledAt}
                                                 onChange={(e) => setFormData({ ...formData, scheduledAt: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
                                             />
                                         </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                            <Phone className="w-4 h-4 text-primary" />
-                                            {t("Contact Phone Number", "\u09af\u09cb\u0997\u09be\u09af\u09cb\u0997 \u09a8\u09ae\u09cd\u09ac\u09b0")}
-                                            <span className="text-red-500 ml-1">*</span>
-                                        </label>
-                                        <input
-                                            type="tel"
-                                            required
-                                            value={formData.contactPhone}
-                                            onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                                            placeholder={t("e.g. 01XXXXXXXXX", "\u09af\u09c7\u09ae\u09a8: 01XXXXXXXXX")}
-                                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
-                                        />
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                <Phone className="w-4 h-4 text-primary" />
+                                                {t("Contact Phone Number", "যোগাযোগ নম্বর")}
+                                                <span className="text-red-500 ml-1">*</span>
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                required
+                                                value={formData.contactPhone}
+                                                onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
+                                                placeholder={t("e.g. 01XXXXXXXXX", "যেমন: 01XXXXXXXXX")}
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                            />
+                                        </div>
                                     </div>
 
                                     <div className="space-y-2">

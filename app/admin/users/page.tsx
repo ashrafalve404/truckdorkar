@@ -28,6 +28,10 @@ export default function AdminUsersPage() {
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
+    // Filter states
+    const [roleFilter, setRoleFilter] = useState("ALL");
+    const [statusFilter, setStatusFilter] = useState("ALL");
+
     const fetchUsers = useCallback(async () => {
         try {
             const response = await api.get("/admin/users");
@@ -73,40 +77,99 @@ export default function AdminUsersPage() {
         }
     };
 
-    const filteredUsers = users.filter(u =>
-        u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        u.phone.includes(searchTerm) ||
-        u.email?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredUsers = users.filter(u => {
+        const matchesSearch =
+            u.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            u.phone.includes(searchTerm) ||
+            u.email?.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesRole = roleFilter === "ALL" || u.role === roleFilter;
+        const matchesStatus = statusFilter === "ALL" ||
+            (statusFilter === "ACTIVE" ? u.isActive : !u.isActive);
+
+        return matchesSearch && matchesRole && matchesStatus;
+    });
 
     return (
         <DashboardLayout requiredRole="ADMIN">
-            <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <header className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-900 mb-2">
+                    <h1 className="text-3xl font-black text-slate-900 mb-1">
                         {t("User Management", "ইউজার ম্যানেজমেন্ট")}
                     </h1>
-                    <p className="text-slate-700 font-bold">
-                        {t("Monitor and manage all registered users on the platform.", "প্ল্যাটফর্মের সকল রেজিস্টার্ড ইউজারদের মনিটর এবং ম্যানেজ করুন।")}
+                    <p className="text-slate-600 font-bold text-sm">
+                        {t("Manage all customers, drivers, and agents.", "কাস্টমার, ড্রাইভার এবং এজেন্টদের ম্যানেজ করুন।")}
                     </p>
                 </div>
-                <div className="flex gap-4">
-                    <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
-                        <input
-                            type="text"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            placeholder={t("Search users...", "ইউজার খুঁজুন...")}
-                            className="bg-white h-12 pl-12 pr-6 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-64 font-black text-sm text-slate-950 placeholder:text-slate-500"
-                        />
-                    </div>
-                    <Button variant="outline" className="h-12 rounded-lg gap-2 font-bold px-6">
-                        <Filter className="w-4 h-4 text-slate-950" />
-                        <span className="text-slate-950">{t("Filter", "ফিল্টার")}</span>
-                    </Button>
+                <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder={t("Search by name, phone...", "নাম বা ফোন দিয়ে খুঁজুন...")}
+                        className="bg-white h-12 pl-12 pr-6 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-full md:w-80 font-bold text-sm text-slate-950 placeholder:text-slate-400 transition-all shadow-sm"
+                    />
                 </div>
             </header>
+
+            {/* Always-on Filter Bar */}
+            <div className="mb-8 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-wrap gap-8 items-end">
+                <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                        <Filter className="w-3 h-3 text-primary" />
+                        {t("User Role", "ইউজার রোল")}
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                        {[
+                            { id: "ALL", label: t("All", "সব") },
+                            { id: "USER", label: t("Customer", "কাস্টমার") },
+                            { id: "DRIVER", label: t("Driver", "ড্রাইভার") },
+                            { id: "AGENT", label: t("Agent", "এজেন্ট") },
+                            { id: "ADMIN", label: t("Admin", "এডমিন") },
+                        ].map((role) => (
+                            <button
+                                key={role.id}
+                                onClick={() => setRoleFilter(role.id)}
+                                className={cn(
+                                    "px-4 py-2 rounded-lg text-xs font-black transition-all border",
+                                    roleFilter === role.id
+                                        ? "bg-primary border-primary text-white shadow-md shadow-primary/20"
+                                        : "bg-slate-50 border-slate-100 text-slate-600 hover:bg-white hover:border-slate-200"
+                                )}
+                            >
+                                {role.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="h-10 w-px bg-slate-100 hidden md:block" />
+
+                <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{t("Account Status", "অ্যাকাউন্ট স্ট্যাটাস")}</label>
+                    <div className="flex gap-2">
+                        {[
+                            { id: "ALL", label: t("All", "সব") },
+                            { id: "ACTIVE", label: t("Active", "সক্রিয়") },
+                            { id: "SUSPENDED", label: t("Suspended", "স্থগিত") },
+                        ].map((status) => (
+                            <button
+                                key={status.id}
+                                onClick={() => setStatusFilter(status.id)}
+                                className={cn(
+                                    "px-4 py-2 rounded-lg text-xs font-black transition-all border",
+                                    statusFilter === status.id
+                                        ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/20"
+                                        : "bg-slate-50 border-slate-100 text-slate-600 hover:bg-white hover:border-slate-200"
+                                )}
+                            >
+                                {status.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </div>
 
             <div className="bg-white rounded-lg border border-slate-100 shadow-sm overflow-hidden text-black">
                 {loading ? (
@@ -144,7 +207,8 @@ export default function AdminUsersPage() {
                                                 "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider",
                                                 user.role === 'ADMIN' ? 'bg-purple-100 text-purple-600' :
                                                     user.role === 'DRIVER' ? 'bg-amber-100 text-amber-600' :
-                                                        'bg-blue-100 text-blue-600'
+                                                        user.role === 'AGENT' ? 'bg-cyan-100 text-cyan-600' :
+                                                            'bg-blue-100 text-blue-600'
                                             )}>
                                                 {user.role}
                                             </span>
