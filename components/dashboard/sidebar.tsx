@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
+import { useNotifications } from "@/store/use-notifications";
+import { useEffect } from "react";
 
 interface SidebarProps {
     role: "ADMIN" | "DRIVER" | "AGENT" | "USER";
@@ -32,6 +34,11 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
     const pathname = usePathname();
     const { logout, user } = useAuth();
     const { lang, setLang } = useLanguage();
+    const { unreadCount, fetchNotifications } = useNotifications();
+
+    useEffect(() => {
+        if (user) fetchNotifications();
+    }, [user]);
 
     const menuItems = {
         ADMIN: [
@@ -41,6 +48,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Trucks", href: "/admin/trucks", icon: Truck, bn: "ট্রাক" },
             { name: "Users", href: "/admin/users", icon: Users, bn: "ইউজার" },
             { name: "Agents", href: "/admin/agents", icon: Users, bn: "এজেন্ট" },
+            { name: "Notifications", href: "/admin/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/admin/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Settings", href: "/admin/settings", icon: Settings, bn: "সেটিংস" },
         ],
@@ -115,7 +123,15 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                             )}
                         >
                             <Icon className={cn("w-5 h-5", isActive ? "text-white" : "text-slate-600 group-hover:text-primary")} />
-                            {lang === "en" ? item.name : item.bn}
+                            <span className="flex-1">{lang === "en" ? item.name : item.bn}</span>
+                            {item.name === "Notifications" && unreadCount > 0 && (
+                                <span className={cn(
+                                    "px-2 py-0.5 rounded-full text-[10px] font-black",
+                                    isActive ? "bg-white text-primary" : "bg-primary text-white shadow-sm"
+                                )}>
+                                    {unreadCount}
+                                </span>
+                            )}
                         </Link>
                     );
                 })}

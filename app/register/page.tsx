@@ -97,19 +97,23 @@ export default function RegisterPage() {
                 role: roleMap[selectedRole],
                 licenseNumber: selectedRole === "driver" ? formData.licenseNumber : undefined,
                 experience: selectedRole === "driver" ? Number(formData.experience) : undefined,
-                companyName: selectedRole === "agent" ? formData.companyName : undefined,
-                agentId: selectedRole === "agent" ? formData.agentId : undefined,
                 nidNumber: selectedRole === "agent" ? formData.nidNumber : undefined,
                 dateOfBirth: selectedRole === "agent" ? formData.dateOfBirth || undefined : undefined,
+                companyName: selectedRole === "agent" ? "Truck Dorkar Limited" : undefined,
             };
 
             const { data } = await api.post("/auth/register", payload);
+
+            if (payload.role === 'AGENT') {
+                toast.success(t("Registration successful! Waiting for admin approval.", "রেজিস্ট্রেশন সফল হয়েছে! এডমিন অনুমোদনের জন্য অপেক্ষা করুন।"), { duration: 6000 });
+                router.push('/login');
+                return;
+            }
 
             setAuth(data.data.user, data.data.accessToken, data.data.refreshToken);
             toast.success(t("Registration successful!", "রেজিস্ট্রেশন সফল হয়েছে!"));
 
             if (payload.role === 'DRIVER') router.push('/driver/dashboard');
-            else if (payload.role === 'AGENT') router.push('/agent/dashboard');
             else router.push('/dashboard');
         } catch (error: any) {
             toast.error(error.response?.data?.message || t("Registration failed", "রেজিস্ট্রেশন ব্যর্থ হয়েছে"));
@@ -247,7 +251,7 @@ export default function RegisterPage() {
 
                                 {selectedRole === "agent" && (
                                     <div className="space-y-4 md:space-y-6">
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 text-black">
                                             <div className="space-y-2">
                                                 <label className="text-sm font-bold text-slate-950">
                                                     {t("NID Number", "এনআইডি নম্বর")} <span className="text-red-500">*</span>
@@ -274,33 +278,10 @@ export default function RegisterPage() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-bold text-slate-950">
-                                                    {t("Company Name", "কোম্পানির নাম")} <span className="text-red-500">*</span>
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    required
-                                                    value={formData.companyName}
-                                                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                                                    placeholder={t("Enter company name", "কোম্পানির নাম লিখুন")}
-                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-bold text-slate-950">
-                                                    {t("Agent ID", "এজেন্ট আইডি")} <span className="text-red-500">*</span>
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    required
-                                                    value={formData.agentId}
-                                                    onChange={(e) => setFormData({ ...formData, agentId: e.target.value })}
-                                                    placeholder={t("Enter agent ID", "এজেন্ট আইডি লিখুন")}
-                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                />
-                                            </div>
+                                        <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                                            <p className="text-xs text-primary font-bold">
+                                                {t("Note: Your Agent ID will be auto-generated by Truck Dorkar Limited. Your account will be activated after admin verification.", "দ্রষ্টব্য: আপনার এজেন্ট আইডি অটো জেনারেট করা হবে। এডমিন ভেরিফিকেশনের পর আপনার অ্যাকাউন্টটি সক্রিয় করা হবে।")}
+                                            </p>
                                         </div>
                                     </div>
                                 )}

@@ -199,6 +199,11 @@ export default function AdminUsersPage() {
                                                 <div>
                                                     <p className="font-bold text-slate-950">{user.name}</p>
                                                     <p className="text-xs text-slate-700 font-bold">{user.phone}</p>
+                                                    {((user as any).driver?.nidNumber || (user as any).agent?.nidNumber) && (
+                                                        <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase">
+                                                            NID: {(user as any).driver?.nidNumber || (user as any).agent?.nidNumber}
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         </td>

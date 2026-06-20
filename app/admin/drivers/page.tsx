@@ -160,6 +160,7 @@ export default function AdminDriversPage() {
                                                 <div>
                                                     <p className="font-bold text-slate-950">{driver.user?.name || "—"}</p>
                                                     <p className="text-xs text-slate-700 font-bold">{driver.user?.phone || "—"}</p>
+                                                    <p className="text-[10px] text-slate-500 font-bold uppercase mt-1">NID: {(driver as any).nidNumber || "N/A"}</p>
                                                 </div>
                                             </div>
                                         </td>

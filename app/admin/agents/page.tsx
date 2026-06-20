@@ -165,6 +165,16 @@ export default function AdminAgentsPage() {
                                         <span className="text-slate-500">{t("Department", "বিভাগ")}:</span>
                                         <span className="text-slate-950">{agent.department || "N/A"}</span>
                                     </div>
+                                    <div className="flex justify-between text-xs font-bold">
+                                        <span className="text-slate-500">{t("NID Number", "এনআইডি নম্বর")}:</span>
+                                        <span className="text-slate-950">{agent.nidNumber || "N/A"}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs font-bold">
+                                        <span className="text-slate-500">{t("Date of Birth", "জন্ম তারিখ")}:</span>
+                                        <span className="text-slate-950">
+                                            {agent.dateOfBirth ? new Date(agent.dateOfBirth).toLocaleDateString() : "N/A"}
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <div className="flex gap-2">
