@@ -204,6 +204,7 @@ export default function DriverDashboard() {
                                                     {trip.distance} KM
                                                 </span>
                                             )}
+                                            <span className="text-xs font-black text-slate-950 ml-auto">৳{trip.finalFare || trip.estimatedFare}</span>
                                         </div>
                                         <div className="space-y-2">
                                             <div className="flex items-center gap-2 text-xs font-bold text-slate-700">

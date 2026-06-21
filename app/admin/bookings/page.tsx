@@ -25,6 +25,10 @@ interface BookingRow {
     scheduledAt: string | null;
     status: string;
     estimatedFare: number | null;
+    finalFare: number | null;
+    companyCommission?: number | null;
+    agentCommission?: number | null;
+    driverEarnings?: number | null;
     distance?: number | null;
     contactPhone?: string | null;
     user: { name: string | null; phone: string | null } | null;
@@ -175,7 +179,15 @@ export default function AdminBookingsPage() {
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <p className="font-black text-slate-950">৳{booking.estimatedFare ?? 0}</p>
+                                            <p className="font-black text-slate-950">৳{booking.finalFare ?? booking.estimatedFare ?? 0}</p>
+                                            {booking.status === 'COMPLETED' && booking.companyCommission != null && (
+                                                <div className="mt-1 space-y-0.5">
+                                                    <p className="text-[10px] font-bold text-green-600">+৳{booking.companyCommission.toFixed(2)} {t("Company", "কোম্পানি")}</p>
+                                                    {booking.agentCommission != null && booking.agentCommission > 0 && (
+                                                        <p className="text-[10px] font-bold text-cyan-600">+৳{booking.agentCommission.toFixed(2)} {t("Agent", "এজেন্ট")}</p>
+                                                    )}
+                                                </div>
+                                            )}
                                         </td>
                                         <td className="px-8 py-4">
                                             <span className={cn(

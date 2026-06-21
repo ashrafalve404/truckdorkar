@@ -70,7 +70,7 @@ export default function AgentEarnings() {
                     {t("Earnings & Commissions", "উপার্জন এবং কমিশন")}
                 </h1>
                 <p className="text-slate-700 font-bold">
-                    {t("Track your 20% commission from every successful trip of trucks you registered.", "আপনার নিবন্ধিত ট্রাকের প্রতিটি সফল ট্রিপ থেকে আপনার ২০% কমিশন ট্র্যাক করুন।")}
+                    {t("Track your earnings (20% of platform commission) from every successful trip of trucks you registered.", "আপনার নিবন্ধিত ট্রাকের প্রতিটি সফল ট্রিপ থেকে আপনার উপার্জন (প্ল্যাটফর্ম কমিশনের ২০%) ট্র্যাক করুন।")}
                 </p>
             </header>
 

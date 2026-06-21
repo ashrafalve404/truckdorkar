@@ -27,6 +27,10 @@ export default function DriverBookingsPage() {
         contactPhone?: string | null;
         user?: { name?: string };
         distance?: number | null;
+        estimatedFare?: number | null;
+        finalFare?: number | null;
+        companyCommission?: number | null;
+        driverEarnings?: number | null;
     }[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -102,6 +106,7 @@ export default function DriverBookingsPage() {
                                     <th className="px-8 py-4">{t("Route", "রাস্তা")}</th>
                                     <th className="px-8 py-4">{t("Distance", "দূরত্ব")}</th>
                                     <th className="px-8 py-4">{t("Date", "তারিখ")}</th>
+                                    <th className="px-8 py-4">{t("Fare / Earnings", "ভাড়া / আয়")}</th>
                                     <th className="px-8 py-4">{t("Status", "স্ট্যাটাস")}</th>
                                     <th className="px-8 py-4 text-right">{t("Actions", "অ্যাকশন")}</th>
                                 </tr>
@@ -138,6 +143,17 @@ export default function DriverBookingsPage() {
                                             <div className="flex items-center gap-2">
                                                 <Calendar className="w-3.5 h-3.5" />
                                                 {booking.scheduledAt ? new Date(booking.scheduledAt).toLocaleDateString() : t("N/A", "N/A")}
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-4">
+                                            <div className="flex flex-col">
+                                                <span className="font-black text-slate-950 text-sm">৳{booking.finalFare || booking.estimatedFare || 0}</span>
+                                                {booking.status === 'COMPLETED' && booking.companyCommission != null && (
+                                                    <div className="flex flex-col mt-1">
+                                                        <span className="text-[10px] text-red-500 font-bold shrink-0">-{t("Fee", "চার্জ")}: ৳{booking.companyCommission}</span>
+                                                        <span className="text-[10px] text-green-600 font-black shrink-0">{t("Net", "নিট")}: ৳{booking.driverEarnings}</span>
+                                                    </div>
+                                                )}
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">

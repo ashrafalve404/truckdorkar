@@ -18,7 +18,13 @@ import api from "@/lib/api";
 import Link from "next/link";
 
 interface AdminStats {
-    summary: { totalRevenue: number; totalBookings: number; totalUsers: number; totalDrivers: number };
+    summary: {
+        totalRevenue: number;
+        companyRevenue: number;
+        totalBookings: number;
+        totalUsers: number;
+        totalDrivers: number
+    };
     recentBookings: { id: string; bookingNumber: string; user: { name: string }; finalFare?: number; estimatedFare?: number; status: string; distance?: number | null }[];
     pendingDrivers: number;
     pendingTrucks: number;
@@ -56,12 +62,21 @@ export default function AdminDashboard() {
 
     const statCards = [
         {
-            label: t("Total Revenue", "মোট রাজস্ব"),
+            label: t("Total Turnover", "মোট লেনদেন"),
             value: `৳${stats?.summary?.totalRevenue?.toLocaleString() || 0}`,
+            icon: TrendingUp,
+            color: "text-slate-600",
+            bg: "bg-slate-50",
+            trend: t("Total Fare", "মোট ভাড়া"),
+            isUp: true
+        },
+        {
+            label: t("Company Earnings", "কোম্পানির আয়"),
+            value: `৳${stats?.summary?.companyRevenue?.toLocaleString() || 0}`,
             icon: TrendingUp,
             color: "text-green-600",
             bg: "bg-green-50",
-            trend: "+12.5%",
+            trend: t("10% Comm.", "১০% কমিশন"),
             isUp: true
         },
         {
@@ -105,7 +120,7 @@ export default function AdminDashboard() {
             </header>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-10">
                 {statCards.map((stat, idx) => {
                     const Icon = stat.icon;
                     return (
