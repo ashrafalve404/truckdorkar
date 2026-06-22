@@ -17,7 +17,8 @@ import {
     Shield,
     FileText,
     Image as ImageIcon,
-    Globe
+    Globe,
+    DollarSign
 } from "lucide-react";
 import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
@@ -50,6 +51,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Agents", href: "/admin/agents", icon: Users, bn: "এজেন্ট" },
             { name: "Notifications", href: "/admin/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/admin/support", icon: MessageSquare, bn: "সাপোর্ট" },
+            { name: "Payments", href: "/admin/payments", icon: DollarSign, bn: "পেমেন্ট" },
             { name: "Settings", href: "/admin/settings", icon: Settings, bn: "সেটিংস" },
         ],
         DRIVER: [
@@ -57,6 +59,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Find Jobs", href: "/driver/jobs", icon: TrendingUp, bn: "কাজ খুঁজুন" },
             { name: "My Trucks", href: "/driver/trucks", icon: Truck, bn: "আমার ট্রাক" },
             { name: "My Bookings", href: "/driver/bookings", icon: Package, bn: "আমার বুকিং" },
+            { name: "Payments", href: "/driver/payments", icon: DollarSign, bn: "পেমেন্ট" },
             { name: "Earnings", href: "/driver/earnings", icon: FileText, bn: "উপার্জন" },
             { name: "Support", href: "/driver/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Settings", href: "/driver/settings", icon: Settings, bn: "সেটিংস" },
