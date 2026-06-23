@@ -14,9 +14,12 @@ import {
     Clock,
     UserX,
     UserCheck,
-    Trash2
+    Trash2,
+    Shield,
+    X,
+    CheckCircle2
 } from "lucide-react";
-import api from "@/lib/api";
+import api, { getFileUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -31,6 +34,7 @@ export default function AdminAgentsPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; name: string }>({ open: false, id: "", name: "" });
     const [statusModal, setStatusModal] = useState<{ open: boolean; id: string; name: string; currentActive: boolean }>({ open: false, id: "", name: "", currentActive: true });
+    const [viewNidModal, setViewNidModal] = useState<{ open: boolean; agent: any | null }>({ open: false, agent: null });
     const [isDeleting, setIsDeleting] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
 
@@ -77,6 +81,17 @@ export default function AdminAgentsPage() {
             toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
         } finally {
             setIsUpdating(false);
+        }
+    };
+
+    const handleVerifyAgent = async (agentId: string, status: 'APPROVED' | 'REJECTED') => {
+        try {
+            await api.patch(`/agents/admin/${agentId}/verify`, { status });
+            toast.success(status === 'APPROVED' ? t("Agent verified", "এজেন্ট ভেরিফাইড") : t("Agent rejected", "এজেন্ট রিজেক্টেড"));
+            setViewNidModal({ open: false, agent: null });
+            fetchAgents();
+        } catch (error) {
+            toast.error(t("Failed to update verification status", "ভেরিফিকেশন স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
         }
     };
 
@@ -131,7 +146,12 @@ export default function AdminAgentsPage() {
                                         <h3 className="font-black text-slate-950 truncate">
                                             {agent.user.name === "Operations Staff" ? "Agent" : agent.user.name}
                                         </h3>
-                                        <p className="text-xs text-slate-500 font-bold">{agent.agentId || "No ID"}</p>
+                                        <div className="flex items-center gap-2">
+                                            <p className="text-xs text-slate-500 font-bold">{agent.agentId || "No ID"}</p>
+                                            {agent.verificationStatus === 'APPROVED' && (
+                                                <CheckCircle2 className="w-3 h-3 text-green-500" />
+                                            )}
+                                        </div>
                                     </div>
                                     <div className={cn(
                                         "px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider",
@@ -162,60 +182,123 @@ export default function AdminAgentsPage() {
                                         <span className="text-slate-950">{agent.user.phone}</span>
                                     </div>
                                     <div className="flex justify-between text-xs font-bold">
-                                        <span className="text-slate-500">{t("Department", "বিভাগ")}:</span>
-                                        <span className="text-slate-950">{agent.department || "N/A"}</span>
+                                        <span className="text-slate-500">{t("Verification", "ভেরিফিকেশন")}:</span>
+                                        <span className={cn(
+                                            "font-black",
+                                            agent.verificationStatus === 'APPROVED' ? "text-green-500" :
+                                                agent.verificationStatus === 'REJECTED' ? "text-red-500" : "text-amber-500"
+                                        )}>
+                                            {agent.verificationStatus || "NOT SUBMITTED"}
+                                        </span>
                                     </div>
                                     <div className="flex justify-between text-xs font-bold">
                                         <span className="text-slate-500">{t("NID Number", "এনআইডি নম্বর")}:</span>
                                         <span className="text-slate-950">{agent.nidNumber || "N/A"}</span>
                                     </div>
-                                    <div className="flex justify-between text-xs font-bold">
-                                        <span className="text-slate-500">{t("Date of Birth", "জন্ম তারিখ")}:</span>
-                                        <span className="text-slate-950">
-                                            {agent.dateOfBirth ? new Date(agent.dateOfBirth).toLocaleDateString() : "N/A"}
-                                        </span>
-                                    </div>
                                 </div>
 
-                                <div className="flex gap-2">
+                                <div className="flex flex-wrap gap-2">
                                     <Button
                                         onClick={() => router.push(`/admin/agents/${agent.id}/trucks`)}
-                                        className="flex-1 h-12 rounded-lg gap-2 font-black text-white"
+                                        className="flex-1 h-10 rounded-lg gap-2 font-black text-white text-xs"
                                     >
-                                        <Truck className="w-5 h-5" />
-                                        {t("View Trucks", "ট্রাক দেখুন")}
+                                        <Truck className="w-4 h-4" />
+                                        {t("Trucks", "ট্রাক")}
                                     </Button>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => {
-                                            if (agent.user.isActive) {
-                                                setStatusModal({ open: true, id: agent.user.id, name: agent.user.name === "Operations Staff" ? "Agent" : agent.user.name, currentActive: true });
-                                            } else {
-                                                api.patch(`/admin/users/${agent.user.id}/status`, { isActive: true }).then(() => {
-                                                    toast.success("Agent activated");
-                                                    fetchAgents();
-                                                });
-                                            }
-                                        }}
-                                        className={cn("h-12 w-12 rounded-lg p-0", agent.user.isActive ? "border-amber-100 text-amber-500 hover:bg-amber-50" : "border-green-100 text-green-500 hover:bg-green-50")}
-                                    >
-                                        {agent.user.isActive ? <UserX className="w-5 h-5" /> : <UserCheck className="w-5 h-5" />}
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => {
-                                            setDeleteModal({ open: true, id: agent.id, name: agent.user.name === "Operations Staff" ? "Agent" : agent.user.name });
-                                        }}
-                                        className="h-12 w-12 rounded-lg p-0 border-red-100 text-red-500 hover:bg-red-50"
-                                    >
-                                        <Trash2 className="w-5 h-5" />
-                                    </Button>
+                                    {(agent.nidFrontUrl || agent.nidBackUrl) && (
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setViewNidModal({ open: true, agent })}
+                                            className="flex-1 h-10 rounded-lg gap-2 font-black text-xs border-primary/20 text-primary"
+                                        >
+                                            <Shield className="w-4 h-4" />
+                                            {t("ID Card", "পরিচয়পত্র")}
+                                        </Button>
+                                    )}
+                                    <div className="flex gap-2 w-full">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => {
+                                                if (agent.user.isActive) {
+                                                    setStatusModal({ open: true, id: agent.user.id, name: agent.user.name === "Operations Staff" ? "Agent" : agent.user.name, currentActive: true });
+                                                } else {
+                                                    api.patch(`/admin/users/${agent.user.id}/status`, { isActive: true }).then(() => {
+                                                        toast.success("Agent activated");
+                                                        fetchAgents();
+                                                    });
+                                                }
+                                            }}
+                                            className={cn("h-10 flex-1 rounded-lg gap-2 font-black text-xs", agent.user.isActive ? "border-amber-100 text-amber-500 hover:bg-amber-50" : "border-green-100 text-green-500 hover:bg-green-50")}
+                                        >
+                                            {agent.user.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
+                                            {agent.user.isActive ? t("Suspend", "স্থগিত") : t("Activate", "সক্রিয়")}
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => {
+                                                setDeleteModal({ open: true, id: agent.id, name: agent.user.name === "Operations Staff" ? "Agent" : agent.user.name });
+                                            }}
+                                            className="h-10 w-10 rounded-lg p-0 border-red-100 text-red-500 hover:bg-red-50 shrink-0"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     ))
                 )}
             </div>
+
+            {/* NID Verification Modal */}
+            {viewNidModal.open && viewNidModal.agent && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+                    <div className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+                        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+                            <div>
+                                <h3 className="text-xl font-black text-slate-950">Verify Agent: {viewNidModal.agent.user.name}</h3>
+                                <p className="text-sm font-bold text-slate-500">NID: {viewNidModal.agent.nidNumber}</p>
+                            </div>
+                            <button onClick={() => setViewNidModal({ open: false, agent: null })} className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 transition-colors">
+                                <X className="w-5 h-5 text-slate-500" />
+                            </button>
+                        </div>
+                        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{t("Front Side", "সামনের দিক")}</p>
+                                    <div className="aspect-[1.6/1] rounded-2xl bg-slate-50 border border-slate-100 overflow-hidden">
+                                        <img src={getFileUrl(viewNidModal.agent.nidFrontUrl)} alt="Front" className="w-full h-full object-contain" />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">{t("Back Side", "পেছনের দিক")}</p>
+                                    <div className="aspect-[1.6/1] rounded-2xl bg-slate-50 border border-slate-100 overflow-hidden">
+                                        <img src={getFileUrl(viewNidModal.agent.nidBackUrl)} alt="Back" className="w-full h-full object-contain" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-6 border-t border-slate-100 bg-slate-50 flex gap-4">
+                            <Button
+                                onClick={() => handleVerifyAgent(viewNidModal.agent.id, 'REJECTED')}
+                                variant="outline"
+                                className="flex-1 h-14 rounded-xl font-black text-red-500 border-red-200 hover:bg-red-50 gap-2"
+                            >
+                                <XCircle className="w-5 h-5" />
+                                {t("Reject Identity", "প্রত্যাখ্যান করুন")}
+                            </Button>
+                            <Button
+                                onClick={() => handleVerifyAgent(viewNidModal.agent.id, 'APPROVED')}
+                                className="flex-1 h-14 rounded-xl font-black text-white gap-2"
+                            >
+                                <CheckCircle className="w-5 h-5" />
+                                {t("Approve & Verify", "অনুমোদন ও যাচাই")}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <DeleteConfirmModal
                 isOpen={statusModal.open}

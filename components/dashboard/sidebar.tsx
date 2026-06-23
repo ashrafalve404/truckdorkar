@@ -69,6 +69,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "My Trucks", href: "/agent/trucks", icon: Truck, bn: "আমার ট্রাক" },
             { name: "Earnings", href: "/agent/earnings", icon: TrendingUp, bn: "উপার্জন" },
             { name: "Support Tickets", href: "/agent/support", icon: MessageSquare, bn: "সাপোর্ট টিকেট" },
+            { name: "Verification", href: "/agent/profile", icon: Shield, bn: "ভেরিফিকেশন" },
             { name: "Notifications", href: "/agent/notifications", icon: Bell, bn: "নোটিফিকেশন" },
         ],
         USER: [

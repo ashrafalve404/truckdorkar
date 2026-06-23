@@ -52,13 +52,15 @@ export default function AdminNotificationsPage() {
     const handleAction = (notif: any) => {
         const data = notif.data || {};
 
-        if (data.truckId) {
+        if (data.truckId && data.agentId) {
             router.push(`/admin/agents/${data.agentId}/trucks`);
+        } else if (data.agentId) {
+            router.push('/admin/agents');
         } else if (data.role === 'AGENT') {
             router.push('/admin/agents');
-        } else if (data.role === 'DRIVER') {
+        } else if (data.role === 'DRIVER' || data.driverId) {
             router.push('/admin/drivers');
-        } else if (data.role === 'USER') {
+        } else if (data.userId) {
             router.push('/admin/users');
         } else {
             router.push('/admin/users');

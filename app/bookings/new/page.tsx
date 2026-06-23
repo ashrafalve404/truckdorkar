@@ -471,6 +471,7 @@ function BookingContent() {
                                             <input
                                                 type="date"
                                                 required
+                                                min={new Date().toISOString().split("T")[0]}
                                                 value={formData.scheduledAt}
                                                 onChange={(e) => setFormData({ ...formData, scheduledAt: e.target.value })}
                                                 className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
