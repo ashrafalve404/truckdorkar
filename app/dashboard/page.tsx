@@ -138,7 +138,7 @@ export default function DashboardPage() {
             {/* Booking List */}
             <div className="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
                 <div className="p-8 border-b border-slate-50 flex items-center justify-between">
-                    <h2 className="text-xl font-bold">{t("Recent Bookings", "সাম্প্রতিক বুকিং")}</h2>
+                    <h2 className="text-xl font-black text-slate-950">{t("Recent Bookings", "সাম্প্রতিক বুকিং")}</h2>
                 </div>
 
                 {loading ? (

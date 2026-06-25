@@ -19,7 +19,8 @@ import {
     Loader2,
     ArrowLeft,
     TrendingUp,
-    Navigation
+    Navigation,
+    XCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
@@ -103,6 +104,23 @@ export default function BookingDetailPage() {
             fetchBooking();
         } catch (error) {
             toast.error(t("Failed to update fare", "ভাড়া আপডেট করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleCancel = async () => {
+        if (!window.confirm(t("Are you sure you want to cancel this booking?", "আপনি কি নিশ্চিত যে আপনি এই বুকিংটি বাতিল করতে চান?"))) {
+            return;
+        }
+
+        setUpdating(true);
+        try {
+            await api.patch(`/bookings/${id}/cancel`, { reason: "Cancelled by user" });
+            toast.success(t("Booking cancelled successfully", "বুকিং সফলভাবে বাতিল করা হয়েছে"));
+            fetchBooking();
+        } catch (error) {
+            toast.error(t("Failed to cancel booking", "বুকিং বাতিল করতে ব্যর্থ হয়েছে"));
         } finally {
             setUpdating(false);
         }
@@ -238,6 +256,17 @@ export default function BookingDetailPage() {
                                         >
                                             {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Update My Offer", "অফার আপডেট করুন")}
                                         </Button>
+
+                                        <Button
+                                            onClick={handleCancel}
+                                            variant="ghost"
+                                            disabled={updating}
+                                            className="w-full h-12 rounded-xl font-bold text-red-500 hover:bg-red-50 hover:text-red-600 gap-2 mt-2"
+                                        >
+                                            <XCircle className="w-4 h-4" />
+                                            {t("Cancel Booking", "বুকিং বাতিল করুন")}
+                                        </Button>
+
                                         <p className="text-[10px] text-slate-500 font-bold text-center">
                                             {t("Increasing your offer might help find a driver faster.", "অফার বাড়ালে দ্রুত ড্রাইভার পাওয়া যেতে পারে।")}
                                         </p>
