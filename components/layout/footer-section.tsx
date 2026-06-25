@@ -124,8 +124,8 @@ export function Footer() {
                                 height={130}
                                 className="h-28 w-auto object-contain"
                             />
-                            <span className="text-3xl md:text-4xl font-bold tracking-tight text-black">
-                                Truck Dorkar
+                            <span className="text-2xl md:text-3xl font-bold italic tracking-tight text-black">
+                                <span className="text-primary">Truck</span> Dorkar
                             </span>
                         </div>
                         <p className="text-gray-500 text-sm leading-relaxed">

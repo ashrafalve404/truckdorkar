@@ -109,10 +109,10 @@ export function Navbar() {
                             priority
                         />
                         <span className={cn(
-                            "text-2xl md:text-3xl font-bold tracking-tight transition-colors",
+                            "text-xl md:text-2xl font-bold italic tracking-tight transition-colors",
                             isDarkBackground ? "text-white" : "text-black"
                         )}>
-                            Truck Dorkar
+                            <span className="text-primary">Truck</span> Dorkar
                         </span>
                     </Link>
 
