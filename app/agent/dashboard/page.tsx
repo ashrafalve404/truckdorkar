@@ -25,7 +25,9 @@ export default function AgentDashboard() {
     const [counts, setCounts] = useState({
         pendingTrucks: 0,
         myTrucksCount: 0,
-        totalCommission: 0,
+        tripCommission: 0,
+        walletBalance: 0,
+        totalEarnings: 0,
         todayBookings: 0,
         totalTrips: 0,
     });
@@ -45,7 +47,9 @@ export default function AgentDashboard() {
                 setCounts({
                     pendingTrucks: dashData.counts?.pendingTrucks || 0,
                     myTrucksCount: dashData.counts?.myTrucksCount || 0,
-                    totalCommission: dashData.counts?.totalCommission || 0,
+                    tripCommission: dashData.counts?.tripCommission || 0,
+                    walletBalance: dashData.counts?.walletBalance || 0,
+                    totalEarnings: dashData.counts?.totalEarnings || 0,
                     todayBookings: dashData.counts?.todayBookings || 0,
                     totalTrips: dashData.counts?.totalTrips || 0,
                 });
@@ -69,7 +73,9 @@ export default function AgentDashboard() {
 
     const stats = [
         { label: t("My Registered Trucks", "আমার নিবন্ধিত ট্রাক"), value: counts.myTrucksCount, icon: Truck, color: "text-blue-500", bg: "bg-blue-50", href: "/agent/trucks" },
-        { label: t("Total Commission", "মোট কমিশন"), value: `৳${counts.totalCommission.toLocaleString()}`, icon: TrendingUp, color: "text-green-500", bg: "bg-green-50", href: "/agent/earnings" },
+        { label: t("Wallet Balance", "ওয়ালেট ব্যালেন্স"), value: `৳${counts.walletBalance.toLocaleString()}`, icon: TrendingUp, color: "text-primary", bg: "bg-primary/5", href: "/agent/earnings" },
+        { label: t("Trip Commission", "ট্রিপ কমিশন"), value: `৳${counts.tripCommission.toLocaleString()}`, icon: TrendingUp, color: "text-green-500", bg: "bg-green-50", href: "/agent/earnings" },
+        { label: t("Total Earnings", "মোট আয়"), value: `৳${counts.totalEarnings.toLocaleString()}`, icon: TrendingUp, color: "text-secondary", bg: "bg-secondary/5", href: "/agent/earnings" },
         { label: t("Successful Trips", "সফল ট্রিপ"), value: counts.totalTrips, icon: Package, color: "text-purple-500", bg: "bg-purple-50", href: "/agent/earnings" },
         { label: t("Pending Trucks", "অপেক্ষমান ট্রাক"), value: counts.pendingTrucks, icon: Clock, color: "text-amber-500", bg: "bg-amber-50", href: "/agent/trucks" },
     ];
@@ -96,7 +102,7 @@ export default function AgentDashboard() {
             </header>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
                 {stats.map((item, idx) => {
                     const Icon = item.icon;
                     return (

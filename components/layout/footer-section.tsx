@@ -114,19 +114,20 @@ export function Footer() {
     return (
         <footer className="bg-light-gray pt-16 md:pt-24 pb-8 md:pb-12 border-t border-gray-200 rounded-t-[32px] md:rounded-t-[64px] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.08)]">
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16 md:mb-20">
-                    <div className="space-y-4 md:space-y-6 text-black">
-                        <div className="flex items-center gap-3 md:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 md:gap-16 lg:gap-8 mb-16 md:mb-20">
+                    <div className="lg:col-span-4 space-y-4 md:space-y-6 text-black pr-0 lg:pr-8">
+                        <div className="flex flex-wrap items-center gap-3 md:gap-4">
                             <Image
                                 src="/logos/mainlogo1.png"
                                 alt="TruckDorkar Logo"
-                                width={450}
-                                height={130}
-                                className="h-28 w-auto object-contain"
+                                width={500}
+                                height={150}
+                                className="h-36 w-auto object-contain"
                             />
-                            <span className="text-2xl md:text-3xl font-bold italic tracking-tight text-black">
-                                <span className="text-primary">Truck</span> Dorkar
-                            </span>
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-2xl md:text-4xl font-black italic tracking-tight text-primary">Truck</span>
+                                <span className="text-2xl md:text-4xl font-black italic tracking-tight text-black">Dorkar</span>
+                            </div>
                         </div>
                         <p className="text-gray-500 text-sm leading-relaxed">
                             {t(
@@ -178,7 +179,7 @@ export function Footer() {
                         </div>
                     </div>
 
-                    <div className="sm:mt-0">
+                    <div className="lg:col-span-2 sm:mt-0">
                         <h4 className="text-lg font-black text-black mb-6 md:mb-8">{t("Quick Links", "কুইক লিঙ্কস")}</h4>
                         <ul className="space-y-3 md:space-y-4">
                             {[
@@ -199,7 +200,7 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    <div>
+                    <div className="lg:col-span-3">
                         <h4 className="text-lg font-black text-black mb-6 md:mb-8">{t("Support", "সাপোর্ট")}</h4>
                         <ul className="space-y-3 md:space-y-4">
                             {[
@@ -219,7 +220,7 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    <div className="sm:col-span-2 lg:col-span-1">
+                    <div className="sm:col-span-2 lg:col-span-3">
                         <h4 className="text-lg font-black text-black mb-6 md:mb-8">{t("Newsletter", "নিউজলেটার")}</h4>
                         <p className="text-sm text-gray-500 mb-4 md:mb-6">{t("Subscribe to get the latest logistics updates.", "সর্বশেষ লজিস্টিক আপডেট পেতে সাবস্ক্রাইব করুন।")}</p>
                         <div className="relative">

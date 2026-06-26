@@ -101,7 +101,7 @@ export function Navbar() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-4">
                         <Image
-                            src="/logos/mainlogo1.png"
+                            src="/logos/truckdorkarlogobangla.png"
                             alt="Truck Dorkar Logo"
                             width={350}
                             height={100}
@@ -109,7 +109,7 @@ export function Navbar() {
                             priority
                         />
                         <span className={cn(
-                            "text-xl md:text-2xl font-bold italic tracking-tight transition-colors",
+                            "text-2xl md:text-3xl font-bold italic tracking-tight transition-colors",
                             isDarkBackground ? "text-white" : "text-black"
                         )}>
                             <span className="text-primary">Truck</span> Dorkar

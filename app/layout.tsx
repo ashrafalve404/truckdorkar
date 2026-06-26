@@ -97,7 +97,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Truck Dorkar Limited",
-              "alternateName": ["TruckDorkar", "truckdorkar.com"],
+              "alternateName": ["Truck Dorkar", "TruckDorkar", "truckdorkar.com"],
               "url": "https://truckdorkar.com",
               "logo": "https://truckdorkar.com/logos/mainlogo1.png",
               "sameAs": [

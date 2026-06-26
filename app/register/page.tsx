@@ -19,7 +19,7 @@ export default function RegisterPage() {
     const setAuth = useAuth((state) => state.setAuth);
 
     const [showPassword, setShowPassword] = useState(false);
-    const [selectedRole, setSelectedRole] = useState<"user" | "driver" | "agent">("user");
+    const [selectedRole, setSelectedRole] = useState<"user" | "driver">("user");
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -53,14 +53,6 @@ export default function RegisterPage() {
             desc_en: "Register as a driver to get booking requests",
             desc_bn: "বুকিং রিকোয়েস্ট পেতে ড্রাইভার হিসেবে রেজিস্টার",
         },
-        {
-            id: "agent" as const,
-            icon: Briefcase,
-            title_en: "Agent",
-            title_bn: "এজেন্ট",
-            desc_en: "Register as a company agent",
-            desc_bn: "কোম্পানির এজেন্ট হিসেবে রেজিস্টার",
-        },
     ];
 
     const validatePhone = (phone: string) => {
@@ -86,7 +78,6 @@ export default function RegisterPage() {
             const roleMap = {
                 user: "USER",
                 driver: "DRIVER",
-                agent: "AGENT",
             };
 
             const payload = {
@@ -94,21 +85,12 @@ export default function RegisterPage() {
                 phone: formData.phone,
                 email: formData.email.trim() === "" ? undefined : formData.email,
                 password: formData.password,
-                role: roleMap[selectedRole],
+                role: roleMap[selectedRole as keyof typeof roleMap],
                 licenseNumber: selectedRole === "driver" ? formData.licenseNumber : undefined,
                 experience: selectedRole === "driver" ? Number(formData.experience) : undefined,
-                nidNumber: selectedRole === "agent" ? formData.nidNumber : undefined,
-                dateOfBirth: selectedRole === "agent" ? formData.dateOfBirth || undefined : undefined,
-                companyName: selectedRole === "agent" ? "Truck Dorkar Limited" : undefined,
             };
 
             const { data } = await api.post("/auth/register", payload);
-
-            if (payload.role === 'AGENT') {
-                toast.success(t("Registration successful! Waiting for admin approval.", "রেজিস্ট্রেশন সফল হয়েছে! এডমিন অনুমোদনের জন্য অপেক্ষা করুন।"), { duration: 6000 });
-                router.push('/login');
-                return;
-            }
 
             setAuth(data.data.user, data.data.accessToken, data.data.refreshToken);
             toast.success(t("Registration successful!", "রেজিস্ট্রেশন সফল হয়েছে!"));
@@ -151,11 +133,11 @@ export default function RegisterPage() {
                             </div>
 
                             {/* Role Selection */}
-                            <div className="space-y-2 mb-6 md:mb-8">
-                                <label className="text-sm font-bold text-gray-600">
+                            <div className="space-y-4 mb-8 text-center max-w-2xl mx-auto">
+                                <label className="text-sm font-black text-slate-500 uppercase tracking-widest text-center block">
                                     {t("Select Your Role", "আপনার ভূমিকা নির্বাচন করুন")}
                                 </label>
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {roles.map((role) => {
                                         const Icon = role.icon;
                                         const isSelected = selectedRole === role.id;
@@ -249,42 +231,6 @@ export default function RegisterPage() {
                                     </div>
                                 )}
 
-                                {selectedRole === "agent" && (
-                                    <div className="space-y-4 md:space-y-6">
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 text-black">
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-bold text-slate-950">
-                                                    {t("NID Number", "এনআইডি নম্বর")} <span className="text-red-500">*</span>
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    required
-                                                    value={formData.nidNumber}
-                                                    onChange={(e) => setFormData({ ...formData, nidNumber: e.target.value })}
-                                                    placeholder={t("Enter NID number", "এনআইডি নম্বর লিখুন")}
-                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-sm font-bold text-slate-950">
-                                                    {t("Date of Birth", "জন্ম তারিখ")} <span className="text-red-500">*</span>
-                                                </label>
-                                                <input
-                                                    type="date"
-                                                    required
-                                                    value={formData.dateOfBirth}
-                                                    onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                                                    className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl">
-                                            <p className="text-xs text-primary font-bold">
-                                                {t("Note: Your Agent ID will be auto-generated by Truck Dorkar Limited. Your account will be activated after admin verification.", "দ্রষ্টব্য: আপনার এজেন্ট আইডি অটো জেনারেট করা হবে। এডমিন ভেরিফিকেশনের পর আপনার অ্যাকাউন্টটি সক্রিয় করা হবে।")}
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
 
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-slate-950">
