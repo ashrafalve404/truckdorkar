@@ -125,8 +125,8 @@ export function Footer() {
                                 className="h-36 w-auto object-contain"
                             />
                             <div className="flex items-baseline gap-2">
-                                <span className="text-2xl md:text-4xl font-black italic tracking-tight text-primary">Truck</span>
-                                <span className="text-2xl md:text-4xl font-black italic tracking-tight text-black">Dorkar</span>
+                                <span className="text-2xl md:text-4xl font-black tracking-tight text-primary">Truck</span>
+                                <span className="text-2xl md:text-4xl font-black tracking-tight text-black">Dorkar</span>
                             </div>
                         </div>
                         <p className="text-gray-500 text-sm leading-relaxed">
@@ -207,7 +207,7 @@ export function Footer() {
                                 { en: "FAQ", bn: "সাধারণ প্রশ্ন", href: "/faq" },
                                 { en: "Privacy Policy", bn: "প্রাইভেসি পলিসি", href: "/privacy-policy" },
                                 { en: "Terms of Service", bn: "টার্মস অফ সার্ভিস", href: "/terms-of-service" },
-                                { en: "Driver Registration", bn: "ড্রাইভার রেজিস্ট্রেশন", href: "/driver-registration" },
+                                { en: "Driver Registration", bn: "ড্রাইভার রেজিস্ট্রেশন", href: "/register?role=driver" },
                                 { en: "Partner with Us", bn: "পার্টনারশিপ", href: "/partner-with-us" }
                             ].map((item, i) => (
                                 <li key={i}>

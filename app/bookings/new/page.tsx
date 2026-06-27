@@ -469,14 +469,14 @@ function BookingContent() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">
-                                                {t("Scheduled Date", "তারিখ")}
+                                                {t("Booking Date", "বুকিংয়ের তারিখ")}
                                                 <span className="text-red-500 ml-1">*</span>
                                             </label>
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <div className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 flex items-center justify-between cursor-pointer focus:ring-2 focus:ring-primary/20 outline-none transition-all">
                                                         <span className={cn("font-bold", formData.scheduledAt ? "text-slate-950" : "text-slate-500")}>
-                                                            {formData.scheduledAt ? format(new Date(formData.scheduledAt), "PPP") : t("Select Date", "তারিখ নির্বাচন করুন")}
+                                                            {formData.scheduledAt ? format(new Date(formData.scheduledAt), "PPP") : t("Select Booking Date", "বুকিংয়ের তারিখ")}
                                                         </span>
                                                         <CalendarIcon className="w-4 h-4 text-slate-400" />
                                                     </div>

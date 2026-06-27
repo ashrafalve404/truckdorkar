@@ -145,7 +145,7 @@ export function LocationSelector({
     if (compact) {
         return (
             <div className="space-y-1.5">
-                <label className="text-xs font-black text-slate-800 uppercase tracking-widest flex items-center gap-1.5">
+                <label className="text-xs font-black text-slate-800 uppercase flex items-center gap-1.5">
                     <MapPin className={cn("w-3 h-3", iconColor)} />
                     {t(label, labelBn)}
                     {required && <span className="text-red-500">*</span>}

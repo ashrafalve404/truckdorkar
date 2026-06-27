@@ -84,14 +84,6 @@ export default function PartnerWithUsPage() {
                     <div className="absolute inset-0 bg-white/50" />
 
                     <div className="container mx-auto px-6 lg:px-12 text-center max-w-4xl relative z-10">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full text-primary font-black text-xs uppercase tracking-wider mb-6"
-                        >
-                            <ShieldCheck className="w-3.5 h-3.5" />
-                            {t("Official Agent Program", "অফিসিয়াল এজেন্ট প্রোগ্রাম")}
-                        </motion.div>
                         <motion.h1
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -177,7 +169,7 @@ export default function PartnerWithUsPage() {
                             </div>
 
                             <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-xl text-center">
-                                <p className="text-xs font-black uppercase tracking-widest text-primary mb-2">{t("Registration Fee", "রেজিস্ট্রেশন ফি")}</p>
+                                <p className="text-xs font-black uppercase text-primary mb-2">{t("Registration Fee", "রেজিস্ট্রেশন ফি")}</p>
                                 <div className="text-4xl md:text-5xl font-black text-white mb-6">৳ ২৫,০০০</div>
                                 <div className="space-y-3">
                                     <a href="tel:01826-110036" className="block">

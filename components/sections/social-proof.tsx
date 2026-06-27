@@ -16,7 +16,7 @@ export function MobileApp() {
                 <div className="bg-light-gray rounded-lg relative overflow-hidden min-h-[500px] flex items-center">
                     <div className="grid lg:grid-cols-2 gap-12 items-center w-full h-full">
                         <div className="relative z-10 text-black p-12 lg:p-24">
-                            <div className="text-primary font-bold mb-4">{t("Mobile Experience", "মোবাইল এক্সপেরিয়েন্স")}</div>
+                            <div className="text-primary font-bold mb-4">{t("Mobile Experience (Coming Soon)", "মোবাইল এক্সপেরিয়েন্স (শীঘ্রই আসছে)")}</div>
                             <h2 className="text-3xl lg:text-4xl font-black text-black mb-6">
                                 {t("Entire Logistics Company", "আপনার পকেটে")} <br /> {t("in Your Pocket", "পুরো লজিস্টিক কোম্পানি")}
                             </h2>

@@ -4,7 +4,7 @@ import React from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
-import { ShieldCheck, Users, Target, Rocket } from "lucide-react";
+import { ShieldCheck, Users, Compass, Zap } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/context/language-context";
 
@@ -31,14 +31,14 @@ export default function AboutPage() {
             bn: "আমাদের লক্ষ্য",
             desc_en: "To digitize and make the logistics sector of Bangladesh affordable.",
             desc_bn: "বাংলাদেশের লজিস্টিক সেক্টরকে ডিজিটালাইজ করা এবং সাশ্রয়ী করা।",
-            icon: Target
+            icon: Compass
         },
         {
             title: "Innovation",
             bn: "উদ্ভাবন",
             desc_en: "Providing modern solutions to transport problems through technology.",
             desc_bn: "প্রযুক্তির মাধ্যমে পরিবহন সমস্যার আধুনিক সমাধান প্রদান।",
-            icon: Rocket
+            icon: Zap
         }
     ];
 
@@ -48,17 +48,23 @@ export default function AboutPage() {
 
             <main className="pt-24 md:pt-32">
                 {/* Hero section */}
-                <section className="py-10 md:py-12 bg-light-gray">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black">
+                <section
+                    className="relative py-24 md:py-40 bg-cover bg-center overflow-hidden"
+                    style={{ backgroundImage: "url('/images/corporate.png')" }}
+                >
+                    {/* Overlay for readability */}
+                    <div className="absolute inset-0 bg-white/70" />
+
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black relative z-10">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h1 className="text-2xl md:text-3xl lg:text-5xl font-black text-black mb-6 md:mb-8">
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-black mb-6 md:mb-8">
                                 {t("About Us", "আমাদের সম্পর্কে জানুন")}
                             </h1>
-                            <p className="text-lg md:text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed">
+                            <p className="text-lg md:text-xl text-black font-bold max-w-4xl mx-auto leading-relaxed">
                                 {t(
                                     "TruckDorkar is working to revolutionize the logistics sector in Bangladesh. We are making product transportation easier and safer through the combination of technology and humanity.",
                                     "ট্রাক দরকার বাংলাদেশের লজিস্টিক সেক্টরে বিপ্লব আনার জন্য কাজ করছে। আমরা প্রযুক্তি এবং মানবতার সমন্বয়ে পণ্য পরিবহনকে করছি আরও সহজ ও নিরাপদ।"

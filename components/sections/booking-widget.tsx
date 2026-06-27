@@ -218,7 +218,7 @@ export function BookingWidget() {
                                             </button>
                                         </>
                                     ) : (
-                                        <span>{t("Pick a date", "তারিখ নির্বাচন করুন")}</span>
+                                        <span>{t("Booking Date", "বুকিংয়ের তারিখ")}</span>
                                     )}
                                 </div>
                             </PopoverTrigger>

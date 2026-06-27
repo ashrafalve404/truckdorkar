@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
@@ -8,19 +8,28 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import Link from "next/link";
 import { Eye, EyeOff, ArrowLeft, User, Truck, Briefcase, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/store/use-auth";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 
-export default function RegisterPage() {
+function RegisterForm() {
     const { t } = useLanguage();
     const router = useRouter();
+    const searchParams = useSearchParams();
     const setAuth = useAuth((state) => state.setAuth);
 
     const [showPassword, setShowPassword] = useState(false);
     const [selectedRole, setSelectedRole] = useState<"user" | "driver">("user");
     const [loading, setLoading] = useState(false);
+
+    // Sync role from URL
+    useEffect(() => {
+        const role = searchParams.get("role");
+        if (role === "driver") {
+            setSelectedRole("driver");
+        }
+    }, [searchParams]);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -306,5 +315,13 @@ export default function RegisterPage() {
 
             <Footer />
         </div>
+    );
+}
+
+export default function RegisterPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+            <RegisterForm />
+        </Suspense>
     );
 }
