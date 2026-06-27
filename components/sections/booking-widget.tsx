@@ -2,7 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Truck, Calendar, Search, X, ChevronDown } from "lucide-react";
+import { MapPin, Truck, Calendar as CalendarIcon, Search, X, ChevronDown } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
@@ -125,7 +128,7 @@ export function BookingWidget() {
                 {/* Second row: Truck Type + Book Now */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 items-end">
                     <div className="space-y-3">
-                        <label className="text-xs font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+                        <label className="text-xs font-black text-slate-800 flex items-center gap-2">
                             <Truck className="w-3 h-3 text-primary" />
                             {t("Truck Type", "ট্রাকের ধরণ")}
                         </label>
@@ -195,33 +198,43 @@ export function BookingWidget() {
 
                 <div className="mt-6 flex flex-wrap gap-6 border-t border-gray-50 pt-6">
                     <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
-                        <Calendar className="w-4 h-4 text-primary" />
+                        <CalendarIcon className="w-4 h-4 text-primary" />
                         {t("Schedule for later?", "পরে বুক করবেন?")}
-                        <div
-                            onClick={handleDateClick}
-                            className="flex items-center gap-1 text-primary hover:underline cursor-pointer bg-transparent"
-                        >
-                            {selectedDate ? (
-                                <>
-                                    <span>{formatDate(selectedDate)}</span>
-                                    <button
-                                        onClick={clearDate}
-                                        className="ml-1 hover:text-red-500 transition-colors"
-                                    >
-                                        <X className="w-3.5 h-3.5" />
-                                    </button>
-                                </>
-                            ) : (
-                                <span>{t("Pick a date", "তারিখ নির্বাচন করুন")}</span>
-                            )}
-                        </div>
-                        <input
-                            ref={dateInputRef}
-                            type="date"
-                            value={selectedDate}
-                            onChange={(e) => setSelectedDate(e.target.value)}
-                            className="sr-only"
-                        />
+
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <div className="flex items-center gap-1 text-primary hover:underline cursor-pointer bg-transparent">
+                                    {selectedDate ? (
+                                        <>
+                                            <span>{formatDate(selectedDate)}</span>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedDate("");
+                                                }}
+                                                className="ml-1 hover:text-red-500 transition-colors"
+                                            >
+                                                <X className="w-3.5 h-3.5" />
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <span>{t("Pick a date", "তারিখ নির্বাচন করুন")}</span>
+                                    )}
+                                </div>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={selectedDate ? new Date(selectedDate) : undefined}
+                                    onSelect={(date) => {
+                                        if (date) {
+                                            setSelectedDate(format(date, "yyyy-MM-dd"));
+                                        }
+                                    }}
+                                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                />
+                            </PopoverContent>
+                        </Popover>
                     </div>
                 </div>
             </div>

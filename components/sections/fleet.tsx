@@ -27,7 +27,7 @@ export function Fleet() {
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div className="text-black">
-                        <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Truck Types", "ট্রাক এর ধরণ")}</div>
+                        <div className="text-primary font-bold mb-4">{t("Truck Types", "ট্রাক এর ধরণ")}</div>
                         <h2 className="text-4xl lg:text-5xl font-black text-black">
                             {t("Modern Logistics", "যেকোনো মালামালের জন্য")} <br /> {t("Trucks", "সঠিক ট্রাক")}
                         </h2>
@@ -90,7 +90,7 @@ export function Fleet() {
                                                 const params = new URLSearchParams({ truckType: truck.value });
                                                 router.push(`/bookings/new?${params.toString()}`);
                                             }}
-                                            className="h-5 md:h-6 text-[7px] md:text-[9px] font-bold uppercase tracking-wider px-1.5 md:px-2 rounded-sm shadow-sm bg-black hover:bg-primary text-white border-none transition-colors"
+                                            className="h-5 md:h-6 text-[7px] md:text-[9px] font-bold px-1.5 md:px-2 rounded-sm shadow-sm bg-black hover:bg-primary text-white border-none transition-colors"
                                         >
                                             {t("Book Now", "বুক করুন")}
                                         </Button>

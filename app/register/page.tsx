@@ -121,7 +121,7 @@ export default function RegisterPage() {
                             <span className="text-sm font-bold">{t("Back to Home", "হোম পেজে ফিরুন")}</span>
                         </Link>
 
-                        <div className="bg-white p-6 md:p-8 lg:p-10 rounded-2xl md:rounded-3xl shadow-premium border border-gray-100">
+                        <div className="bg-white p-6 md:p-8 lg:p-10 rounded-xl md:rounded-2xl shadow-premium border border-gray-100">
                             {/* Header */}
                             <div className="text-center mb-8">
                                 <h1 className="text-2xl md:text-3xl font-black text-black mb-2">
@@ -146,7 +146,7 @@ export default function RegisterPage() {
                                                 key={role.id}
                                                 type="button"
                                                 onClick={() => setSelectedRole(role.id)}
-                                                className={`p-4 md:p-5 rounded-xl md:rounded-2xl border-2 transition-all text-center group ${isSelected
+                                                className={`p-4 md:p-5 rounded-lg md:rounded-xl border-2 transition-all text-center group ${isSelected
                                                     ? "border-primary bg-primary/5 shadow-md"
                                                     : "border-gray-100 hover:border-primary/30 bg-gray-50"
                                                     }`}

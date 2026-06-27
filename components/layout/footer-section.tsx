@@ -32,7 +32,7 @@ export function FAQ() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
                     <div>
-                        <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Questions", "জিজ্ঞাসা")}</div>
+                        <div className="text-primary font-bold mb-4">{t("Questions", "জিজ্ঞাসা")}</div>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-black mb-6 md:mb-8">
                             {t("Commonly Asked Questions", "সাধারণ কিছু প্রশ্ন")}
                         </h2>

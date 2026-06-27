@@ -104,7 +104,7 @@ export default function LoginPage() {
                             <span className="text-sm font-bold">{t("Back to Home", "হোম পেজে ফিরুন")}</span>
                         </Link>
 
-                        <div className="bg-white p-6 md:p-8 lg:p-10 rounded-2xl md:rounded-3xl shadow-premium border border-gray-100">
+                        <div className="bg-white p-6 md:p-8 lg:p-10 rounded-xl md:rounded-2xl shadow-premium border border-gray-100">
                             {/* Header */}
                             <div className="text-center mb-8">
                                 <h1 className="text-2xl md:text-3xl font-black text-black mb-2">

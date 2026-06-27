@@ -73,13 +73,9 @@ export default function DriverEarningsPage() {
                         {t("Earnings", "উপার্জন")}
                     </h1>
                     <p className="text-slate-700 font-bold">
-                        {t("Track your income and withdraw your balance.", "আপনার আয় ট্র্যাক করুন এবং ব্যালেন্স উত্তোলন করুন।")}
+                        {t("Track your income and trip history.", "আপনার আয় এবং ট্রিপের ইতিহাস ট্র্যাক করুন।")}
                     </p>
                 </div>
-                <Button className="h-12 rounded-lg gap-2 font-black px-8 bg-primary text-white shadow-lg shadow-primary/20">
-                    <Download className="w-5 h-5" />
-                    {t("Withdraw Money", "টাকা তুলুন")}
-                </Button>
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">

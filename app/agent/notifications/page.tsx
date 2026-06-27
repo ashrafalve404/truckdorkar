@@ -125,7 +125,7 @@ export default function AgentNotificationsPage() {
                 {notifications.length > 0 && (
                     <div className="p-5 bg-slate-50 flex items-center justify-between">
                         <span className="text-xs text-slate-500 font-bold">
-                            {notifications.filter((n) => !n.isRead).length} {t("unread notifications", "আন্রead নোটিফিকেশন")}
+                            {notifications.filter((n) => !n.isRead).length} {t("unread notifications", "টি অপঠিত নোটিফিকেশন")}
                         </span>
                         <button className="text-sm font-black text-primary hover:underline">
                             {t("Mark all as read", "সব পড়া হিসেবে মার্ক করুন")}

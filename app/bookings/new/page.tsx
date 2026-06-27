@@ -11,8 +11,12 @@ import {
     LocateFixed,
     TrendingUp,
     Phone,
-    ChevronDown
+    ChevronDown,
+    Calendar as CalendarIcon
 } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { useAuth } from "@/store/use-auth";
@@ -24,7 +28,7 @@ import { LocationSelector } from "@/components/ui/location-selector";
 
 const MapComponent = dynamic(() => import("@/components/mapping/MapComponent"), {
     ssr: false,
-    loading: () => <div className="h-full w-full bg-slate-100 animate-pulse rounded-3xl" />
+    loading: () => <div className="h-full w-full bg-slate-100 animate-pulse rounded-2xl" />
 });
 
 interface CustomSelectProps {
@@ -336,7 +340,7 @@ function BookingContent() {
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             {/* Main Form */}
                             <div className="lg:col-span-2">
-                                <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 lg:p-10 shadow-premium border border-gray-100 space-y-6">
+                                <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 lg:p-10 shadow-premium border border-gray-100 space-y-6">
                                     <div className="space-y-6">
                                         {/* Pickup */}
                                         <div className="space-y-2">
@@ -468,14 +472,28 @@ function BookingContent() {
                                                 {t("Scheduled Date", "তারিখ")}
                                                 <span className="text-red-500 ml-1">*</span>
                                             </label>
-                                            <input
-                                                type="date"
-                                                required
-                                                min={new Date().toISOString().split("T")[0]}
-                                                value={formData.scheduledAt}
-                                                onChange={(e) => setFormData({ ...formData, scheduledAt: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 outline-none focus:ring-2 focus:ring-primary/20 text-slate-950 font-bold placeholder:text-slate-500"
-                                            />
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <div className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 flex items-center justify-between cursor-pointer focus:ring-2 focus:ring-primary/20 outline-none transition-all">
+                                                        <span className={cn("font-bold", formData.scheduledAt ? "text-slate-950" : "text-slate-500")}>
+                                                            {formData.scheduledAt ? format(new Date(formData.scheduledAt), "PPP") : t("Select Date", "তারিখ নির্বাচন করুন")}
+                                                        </span>
+                                                        <CalendarIcon className="w-4 h-4 text-slate-400" />
+                                                    </div>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0" align="start">
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={formData.scheduledAt ? new Date(formData.scheduledAt) : undefined}
+                                                        onSelect={(date) => {
+                                                            if (date) {
+                                                                setFormData({ ...formData, scheduledAt: format(date, "yyyy-MM-dd") });
+                                                            }
+                                                        }}
+                                                        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
@@ -517,11 +535,11 @@ function BookingContent() {
 
                             {/* Sidebar Info */}
                             <div className="space-y-6">
-                                <div className="h-80 w-full overflow-hidden rounded-3xl border border-slate-100 shadow-sm relative z-0">
+                                <div className="h-80 w-full overflow-hidden rounded-2xl border border-slate-100 shadow-sm relative z-0">
                                     <MapComponent pickup={coords.pickup} drop={coords.drop} />
                                 </div>
 
-                                <div className="bg-primary/5 border border-primary/20 rounded-3xl p-6">
+                                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6">
                                     <h3 className="font-bold text-primary mb-4">{t("How it works", "কিভাবে কাজ করে")}</h3>
                                     <ul className="space-y-4 text-sm text-slate-700 font-bold">
                                         <li className="flex gap-3">

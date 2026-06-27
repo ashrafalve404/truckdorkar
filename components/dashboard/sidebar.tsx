@@ -83,10 +83,10 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
 
     const currentMenu = menuItems[role] || menuItems.USER;
     const logoMap = {
-        ADMIN: "/logos/bluelogo.png",
-        DRIVER: "/logos/greenlogo.png",
-        AGENT: "/logos/orangelogo.png",
-        USER: "/logos/redlogo.png",
+        ADMIN: "/logos/truckdorkarlogobangla.png",
+        DRIVER: "/logos/truckdorkarlogobangla.png",
+        AGENT: "/logos/truckdorkarlogobangla.png",
+        USER: "/logos/truckdorkarlogobangla.png",
     };
 
     return (

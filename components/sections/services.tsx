@@ -58,7 +58,7 @@ export function Services() {
         <section id="services" className="py-24 bg-light-gray text-black">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="flex flex-col items-center text-center mb-16">
-                    <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">
+                    <div className="text-primary font-bold mb-4">
                         {t("Our Services", "আমাদের সার্ভিস")}
                     </div>
                     <h2 className="text-4xl lg:text-5xl font-black text-black mb-6">
@@ -79,7 +79,7 @@ export function Services() {
                                     y: -10,
                                     transition: { duration: 0.3 }
                                 }}
-                                className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex flex-col h-full"
+                                className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex flex-col h-full"
                             >
                                 {/* Image Container */}
                                 <div className="relative h-56 w-full overflow-hidden">

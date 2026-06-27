@@ -18,7 +18,7 @@ export function HowItWorks() {
         <section id="how-it-works" className="py-24 bg-white text-black relative">
             <div className="container mx-auto px-6 lg:px-12 relative z-10">
                 <div className="flex flex-col items-center text-center mb-20">
-                    <div className="text-primary font-bold uppercase tracking-[0.2em] mb-4">{t("Simple Process", "সহজ প্রক্রিয়া")}</div>
+                    <div className="text-primary font-bold mb-4">{t("Simple Process", "সহজ প্রক্রিয়া")}</div>
                     <h2 className="text-4xl lg:text-5xl font-black text-black mb-6">
                         {t("How Truck Dorkar Works", "কিভাবে কাজ করে ট্রাক দরকার")}
                     </h2>
@@ -37,7 +37,7 @@ export function HowItWorks() {
                             viewport={{ once: true }}
                             className="flex flex-col items-center text-center group"
                         >
-                            <div className="w-24 h-24 bg-light-gray rounded-3xl flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500 relative">
+                            <div className="w-24 h-24 bg-light-gray rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500 relative">
                                 <step.icon className="w-10 h-10 text-primary group-hover:text-white transition-colors" />
                                 <div className="absolute -top-3 -right-3 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-bold text-sm">
                                     0{index + 1}
