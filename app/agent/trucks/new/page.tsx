@@ -23,15 +23,13 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const TRUCK_CATEGORIES = [
-    { value: "T1_OPEN_7FT", label: "1 Ton Open 7Ft", bn: "১ টন ওপেন ৭ ফুট", capacity: 1, length: 7 },
-    { value: "T1_COVER_7FT", label: "1 Ton Cover 7Ft", bn: "১ টন কভার ৭ ফুট", capacity: 1, length: 7 },
-    { value: "T1_5_OPEN_9FT", label: "1.5 Ton Open 9Ft", bn: "১.৫ টন ওপেন ৯ ফুট", capacity: 1.5, length: 9 },
-    { value: "T1_5_COVER_9FT", label: "1.5 Ton Cover 9Ft", bn: "১.৫ টন কভার ৯ ফুট", capacity: 1.5, length: 9 },
-    { value: "T2_OPEN_9FT", label: "2 Ton Open 9Ft", bn: "২ টন ওপেন ৯ ফুট", capacity: 2, length: 9 },
-    { value: "T3_OPEN_12FT", label: "3 Ton Open 12Ft", bn: "৩ টন ওপেন ১২ ফুট", capacity: 3, length: 12 },
-    { value: "T3_COVER_12FT", label: "3 Ton Cover 12Ft", bn: "৩ টন কভার ১২ ফুট", capacity: 3, length: 12 },
-    { value: "T5_OPEN_17FT", label: "5 Ton Open 17Ft Truck", bn: "৫ টন ওপেন ১৭ ফুট ট্রাক", capacity: 5, length: 17 },
+const TRUCK_CATEGORIES_FALLBACK = [
+    { value: "T1_OPEN_7_9FT", label: "1 Ton Open 7/9 Ft", bn: "১ টন খোলা ৭/৯ ফুট", capacity: 1, length: 9 },
+    { value: "T1_COVER_7_9FT", label: "1 Ton Cover 7/9 Ft", bn: "১ টন কাভার ৭/৯ ফুট", capacity: 1, length: 9 },
+    { value: "T1_5_OPEN_10_12FT", label: "1.5 Ton Open 10/12 Ft", bn: "১.৫ টন খোলা ১০/১২ ফুট", capacity: 1.5, length: 12 },
+    { value: "T1_5_COVER_10_12FT", label: "1.5 Ton Cover 10/12 Ft", bn: "১.৫ টন কাভার ১০/১২ ফুট", capacity: 1.5, length: 12 },
+    { value: "T3_OPEN_16_14FT", label: "3 Ton Open 14/16 Ft", bn: "৩ টন খোলা ১৪/১৬ ফুট", capacity: 3, length: 16 },
+    { value: "T3_COVER_16_14FT", label: "3 Ton Cover 14/16 Ft", bn: "৩ টন কাভার ১৪/১৬ ফুট", capacity: 3, length: 16 },
 ];
 
 interface DocUploadProps {
@@ -116,6 +114,32 @@ export default function AgentAddTruckPage() {
     const { t } = useLanguage();
     const router = useRouter();
     const [submitting, setSubmitting] = useState(false);
+    const [categories, setCategories] = useState<any[]>([]);
+
+    React.useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const response = await api.get("/cms/content/SYSTEM_SETTINGS");
+                const meta = response.data?.data?.metaJson || {};
+                const list = meta.truckFares;
+                if (Array.isArray(list) && list.length > 0) {
+                    const active = list.filter((tc: any) => tc.isActive !== false);
+                    setCategories(active.map((tc: any) => ({
+                        value: tc.id,
+                        label: tc.nameEn,
+                        bn: tc.nameBn,
+                        capacity: tc.capacityTon || 1,
+                        length: tc.lengthFt || 9
+                    })));
+                }
+            } catch (err) {
+                console.error("Failed to load settings:", err);
+            }
+        };
+        loadCategories();
+    }, []);
+
+    const displayCategories = categories.length > 0 ? categories : TRUCK_CATEGORIES_FALLBACK;
 
     const [form, setForm] = useState({
         name: "",
@@ -147,7 +171,7 @@ export default function AgentAddTruckPage() {
     });
 
     const handleCategoryChange = (val: string) => {
-        const cat = TRUCK_CATEGORIES.find(c => c.value === val);
+        const cat = displayCategories.find(c => c.value === val);
         if (cat) {
             setForm({
                 ...form,
@@ -167,8 +191,8 @@ export default function AgentAddTruckPage() {
             toast.error(t("Please fill all required fields", "সব প্রয়োজনীয় তথ্য পূরণ করুন"));
             return;
         }
-        if (!files.taxTokenFile || !files.blueBookFile || !files.numberPlateFile || !files.roadPermitFile) {
-            toast.error(t("Please upload all required documents", "সব প্রয়োজনীয় ডকুমেন্ট আপলোড করুন"));
+        if (!files.taxTokenFile || !files.blueBookFile || !files.numberPlateFile || !files.roadPermitFile || !files.drivingLicenseFile) {
+            toast.error(t("Please upload all vehicle documents", "সব প্রয়োজনীয় ভেহিকল ডকুমেন্ট আপলোড করুন"));
             return;
         }
 
@@ -290,7 +314,7 @@ export default function AgentAddTruckPage() {
                                     onChange={e => handleCategoryChange(e.target.value)}
                                 >
                                     <option value="">{t("Select type", "ধরণ বেছে নিন")}</option>
-                                    {TRUCK_CATEGORIES.map(c => (
+                                    {displayCategories.map((c: any) => (
                                         <option key={c.value} value={c.value}>{t(c.label, c.bn)}</option>
                                     ))}
                                 </select>

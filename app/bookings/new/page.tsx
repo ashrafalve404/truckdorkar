@@ -117,6 +117,7 @@ function BookingContent() {
     const { isAuthenticated } = useAuth();
 
     const [loading, setLoading] = useState(false);
+    const [dynamicFares, setDynamicFares] = useState<any[]>([]);
     const [formData, setFormData] = useState({
         pickupLocation: searchParams.get("pickup") || "",
         dropLocation: searchParams.get("drop") || "",
@@ -134,13 +135,45 @@ function BookingContent() {
     const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
     const [coords, setCoords] = useState<{ pickup?: [number, number], drop?: [number, number] }>({});
 
-    // --- Fare calculation helper ---
-    // Base: 1000 TK for up to 10km; +50 TK per extra km beyond 10km
-    const calcMinFare = (distanceKm: number | string): number => {
+    useEffect(() => {
+        const loadFares = async () => {
+            try {
+                const response = await api.get("/cms/content/SYSTEM_SETTINGS");
+                const meta = response.data?.data?.metaJson || {};
+                if (Array.isArray(meta.truckFares) && meta.truckFares.length > 0) {
+                    setDynamicFares(meta.truckFares.filter((f: any) => f.isActive !== false));
+                }
+            } catch { /* use static fallback */ }
+        };
+        loadFares();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // --- Fare calculation helper (dynamic) ---
+    const calcMinFare = (distanceKm: number | string, truckTypeVal?: string): number => {
         const km = Number(distanceKm) || 0;
-        if (km <= 10) return 1000;
-        return 1000 + Math.ceil(km - 10) * 50;
+        const type = truckTypeVal || formData.truckType;
+
+        // Try dynamic fares from CMS first
+        const matched = dynamicFares.find(f => f.id === type);
+        let baseFare: number;
+        let extraPerKm: number;
+
+        if (matched) {
+            baseFare = matched.minFare10km;
+            extraPerKm = matched.farePerKm || Math.ceil(baseFare * 0.05);
+        } else if (type?.startsWith('T1_5')) {
+            baseFare = 1500; extraPerKm = 60;
+        } else if (type?.startsWith('T3')) {
+            baseFare = 3000; extraPerKm = 75;
+        } else {
+            baseFare = 1000; extraPerKm = 50;
+        }
+
+        if (km <= 10) return baseFare;
+        return baseFare + Math.ceil(km - 10) * extraPerKm;
     };
+
 
     // --- Geolocation: Use My Location ---
     const [isGeolocating, setIsGeolocating] = useState(false);
@@ -244,16 +277,32 @@ function BookingContent() {
         { label: t("Construction", "নির্মাণ সামগ্রী"), value: "CONSTRUCTION" },
     ];
 
-    const truckTypes = [
-        { value: "T1_OPEN_7FT", label: t("1 Ton Open 7Ft", "১ টন খোলা ৭ফিট ট্রাক"), icon: "/icons/1ton7feeticon.png" },
-        { value: "T1_COVER_7FT", label: t("1 Ton Cover 7Ft", "১ টন কাভার ৭ফিট ট্রাক"), icon: "/icons/1ton7feetcovericon.png" },
-        { value: "T1_5_OPEN_9FT", label: t("1.5 Ton Open 9Ft", "১.৫ টন খোলা ৯ফিট ট্রাক"), icon: "/icons/1.5ton9feeticon.png" },
-        { value: "T1_5_COVER_9FT", label: t("1.5 Ton Cover 9Ft", "১.৫ টন কাভার ৯ফিট ট্রাক"), icon: "/icons/1.5on9feetcovericon.png" },
-        { value: "T2_OPEN_9FT", label: t("2 Ton Open 9Ft", "২ টন খোলা ৯ফিট ট্রাক"), icon: "/icons/2ton9feeticon.png", upcoming: true },
-        { value: "T3_OPEN_12FT", label: t("3 Ton Open 12Ft", "৩ টন খোলা ১২ফিট ট্রাক"), icon: "/icons/3ton12feeticon.png", upcoming: true },
-        { value: "T3_COVER_12FT", label: t("3 Ton Cover 12Ft", "৩ টন কাভার ১২ফিট ট্রাক"), icon: "/icons/3ton12feetcovericon.png", upcoming: true },
-        { value: "T5_OPEN_17FT", label: t("5 Ton Open 17Ft Truck", "৫ টন খোলা ১৭ফিট ট্রাক"), icon: "/icons/5ton17feeticon.png", upcoming: true },
+    const STATIC_ICONS: Record<string, string> = {
+        T1_OPEN_7_9FT: "/icons/1ton7feeticon.png",
+        T1_COVER_7_9FT: "/icons/1ton7feetcovericon.png",
+        T1_5_OPEN_10_12FT: "/icons/1.5ton9feeticon.png",
+        T1_5_COVER_10_12FT: "/icons/1.5on9feetcovericon.png",
+        T3_OPEN_16_14FT: "/icons/3ton12feeticon.png",
+        T3_COVER_16_14FT: "/icons/3ton12feetcovericon.png",
+    };
+    const getFareIcon = (id: string) => {
+        if (STATIC_ICONS[id]) return STATIC_ICONS[id];
+        return id.toLowerCase().includes("cover") ? "/icons/3ton12feetcovericon.png" : "/icons/3ton12feeticon.png";
+    };
+
+    const FALLBACK_TYPES = [
+        { value: "T1_OPEN_7_9FT", label: t("1 Ton Open 7/9 Ft", "১ টন খোলা ৭/৯ ফিট ট্রাক"), icon: STATIC_ICONS.T1_OPEN_7_9FT },
+        { value: "T1_COVER_7_9FT", label: t("1 Ton Cover 7/9 Ft", "১ টন কাভার ৭/৯ ফিট ট্রাক"), icon: STATIC_ICONS.T1_COVER_7_9FT },
+        { value: "T1_5_OPEN_10_12FT", label: t("1.5 Ton Open 10/12 Ft", "১.৫ টন খোলা ১০/১২ ফিট ট্রাক"), icon: STATIC_ICONS.T1_5_OPEN_10_12FT },
+        { value: "T1_5_COVER_10_12FT", label: t("1.5 Ton Cover 10/12 Ft", "১.৫ টন কাভার ১০/১২ ফিট ট্রাক"), icon: STATIC_ICONS.T1_5_COVER_10_12FT },
+        { value: "T3_OPEN_16_14FT", label: t("3 Ton Open 14/16 Ft", "৩ টন খোলা ১৪/১৬ ফিট ট্রাক"), icon: STATIC_ICONS.T3_OPEN_16_14FT },
+        { value: "T3_COVER_16_14FT", label: t("3 Ton Cover 14/16 Ft", "৩ টন কাভার ১৪/১৬ ফিট ট্রাক"), icon: STATIC_ICONS.T3_COVER_16_14FT },
     ];
+
+    const truckTypes = dynamicFares.length > 0
+        ? dynamicFares.map(f => ({ value: f.id, label: t(f.nameEn, f.nameBn), icon: getFareIcon(f.id) }))
+        : FALLBACK_TYPES;
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -399,7 +448,10 @@ function BookingContent() {
                                             <CustomSelect
                                                 label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
                                                 value={formData.truckType}
-                                                onChange={(val) => setFormData({ ...formData, truckType: val })}
+                                                onChange={(val) => {
+                                                    const newMin = calcMinFare(formData.distance, val);
+                                                    setFormData({ ...formData, truckType: val, estimatedFare: newMin.toString() });
+                                                }}
                                                 options={truckTypes}
                                                 placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
                                             />

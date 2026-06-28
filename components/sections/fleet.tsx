@@ -1,27 +1,81 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShieldCheck, Clock } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import api from "@/lib/api";
 
-const trucks = [
-    { title_en: "1 Ton Open 7Ft Truck", title_bn: "১ টন খোলা ৭ফিট ট্রাক", icon: "/images/1ton7feet.png", value: "T1_OPEN_7FT" },
-    { title_en: "1 Ton Cover 7Ft Truck", title_bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/images/7feet_coveredvan.png", value: "T1_COVER_7FT" },
-    { title_en: "1.5 Ton Open 9Ft Truck", title_bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/images/9feet truck.png", value: "T1_5_OPEN_9FT" },
-    { title_en: "1.5 Ton Cover 9Ft Truck", title_bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/images/9feetcoveredtruck.png", value: "T1_5_COVER_9FT" },
-    { title_en: "2 Ton Open 9Ft Truck", title_bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/images/2ton9feet.png", value: "T2_OPEN_9FT", upcoming: true },
-    { title_en: "3 Ton Open 12Ft Truck", title_bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/images/3ton12feet.png", value: "T3_OPEN_12FT", upcoming: true },
-    { title_en: "3 Ton Cover 12Ft Truck", title_bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/images/12feetcoveredtruck.png", value: "T3_COVER_12FT", upcoming: true },
-    { title_en: "5 Ton Open 17Ft Truck", title_bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/images/5tonopentruck.png", value: "T5_OPEN_17FT", upcoming: true },
-];
+interface TruckFareInfo {
+    id: string;
+    nameEn: string;
+    nameBn: string;
+    minFare10km: number;
+    capacityTon?: number;
+    lengthFt?: number;
+    isActive?: boolean;
+}
 
 export function Fleet() {
     const { t } = useLanguage();
     const router = useRouter();
+    const [fleetTrucks, setFleetTrucks] = useState<TruckFareInfo[]>([]);
+
+    useEffect(() => {
+        const loadFleet = async () => {
+            try {
+                const response = await api.get("/cms/content/SYSTEM_SETTINGS");
+                const meta = response.data?.data?.metaJson || {};
+                const list = meta.truckFares;
+                if (Array.isArray(list) && list.length > 0) {
+                    // Filter active ones
+                    const activeTrucks = list.filter((truck: any) => truck.isActive !== false);
+                    setFleetTrucks(activeTrucks);
+                }
+            } catch (err) {
+                console.error("Failed to load settings:", err);
+            }
+        };
+        loadFleet();
+    }, []);
+
+    const fallbacks: TruckFareInfo[] = [
+        { id: "T1_OPEN_7_9FT", nameEn: "1 Ton Open 7/9 Ft Truck", nameBn: "১ টন খোলা ৭/৯ ফিট ট্রাক", minFare10km: 1000 },
+        { id: "T1_COVER_7_9FT", nameEn: "1 Ton Cover 7/9 Ft Truck", nameBn: "১ টন কাভার ৭/৯ ফিট ট্রাক", minFare10km: 1000 },
+        { id: "T1_5_OPEN_10_12FT", nameEn: "1.5 Ton Open 10/12 Ft Truck", nameBn: "১.৫ টন খোলা ১০/১২ ফিট ট্রাক", minFare10km: 1500 },
+        { id: "T1_5_COVER_10_12FT", nameEn: "1.5 Ton Cover 10/12 Ft Truck", nameBn: "১.৫ টন কাভার ১০/১২ ফিট ট্রাক", minFare10km: 1500 },
+        { id: "T3_OPEN_16_14FT", nameEn: "3 Ton Open 14/16 Ft Truck", nameBn: "৩ টন খোলা ১৪/১৬ ফিট ট্রাক", minFare10km: 3000 },
+        { id: "T3_COVER_16_14FT", nameEn: "3 Ton Cover 14/16 Ft Truck", nameBn: "৩ টন কাভার ১৪/১৬ ফিট ট্রাক", minFare10km: 3000 }
+    ];
+
+    const displayTrucks = fleetTrucks.length > 0 ? fleetTrucks : fallbacks;
+
+    const getTruckImage = (id: string, name: string) => {
+        // Standard matches
+        if (id === "T1_OPEN_7_9FT") return "/images/1ton7feet.png";
+        if (id === "T1_COVER_7_9FT") return "/images/7feet_coveredvan.png";
+        if (id === "T1_5_OPEN_10_12FT") return "/images/9feet truck.png";
+        if (id === "T1_5_COVER_10_12FT") return "/images/9feetcoveredtruck.png";
+        if (id === "T3_OPEN_16_14FT") return "/images/3ton12feet.png";
+        if (id === "T3_COVER_16_14FT") return "/images/12feetcoveredtruck.png";
+
+        // Dynamic matches
+        const idLower = id.toLowerCase();
+        const nameLower = name.toLowerCase();
+
+        const isOpen = idLower.includes("open") || nameLower.includes("open") || nameLower.includes("খোলা");
+        const isCover = idLower.includes("cover") || idLower.includes("covered") || nameLower.includes("cover") || nameLower.includes("কাভার");
+
+        if (isOpen) return "/images/3ton12feet.png";
+        if (isCover) return "/images/12feetcoveredtruck.png";
+
+        // Default fallback
+        return "/images/3ton12feet.png";
+    };
+
     return (
         <section id="fleet" className="py-24 bg-white text-black">
             <div className="container mx-auto px-6 lg:px-12">
@@ -41,62 +95,51 @@ export function Fleet() {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                    {trucks.map((truck, index) => (
+                    {displayTrucks.map((truck, index) => (
                         <motion.div
-                            key={index}
+                            key={truck.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            className={`group bg-light-gray rounded-lg md:rounded-xl overflow-hidden transition-all duration-500 ${truck.upcoming ? "opacity-75" : "hover:shadow-premium"}`}
+                            className="group bg-light-gray rounded-lg md:rounded-xl overflow-hidden transition-all duration-500 hover:shadow-premium"
                         >
                             <div className="relative bg-white m-2 md:m-4 rounded-md md:rounded-lg overflow-hidden aspect-square">
                                 <Image
-                                    src={truck.icon}
-                                    alt={t(truck.title_en, truck.title_bn)}
+                                    src={getTruckImage(truck.id, truck.nameEn)}
+                                    alt={t(truck.nameEn, truck.nameBn)}
                                     fill
                                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     loading={index === 0 ? "eager" : "lazy"}
-                                    className={`object-contain transition-transform duration-700 ${!truck.upcoming && "group-hover:scale-110"}`}
+                                    className="object-contain transition-transform duration-700 group-hover:scale-110"
                                 />
-                                {/* Upcoming overlay */}
-                                {truck.upcoming && (
-                                    <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
-                                        <span className="bg-orange-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg rotate-[-8deg]">
-                                            Upcoming
-                                        </span>
-                                    </div>
-                                )}
                             </div>
                             <div className="p-4 md:p-6 pt-2 md:pt-4 flex flex-col gap-3">
                                 <div className="flex items-center justify-between">
-                                    {truck.upcoming ? (
-                                        <span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-orange-500 bg-orange-50 px-1 md:px-1.5 py-0 rounded-sm">
-                                            <Clock className="w-2.5 h-2.5" />
-                                            {t("Upcoming", "শীঘ্রই আসছে")}
-                                        </span>
-                                    ) : (
-                                        <span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-primary bg-primary/10 px-1 md:px-1.5 py-0 rounded-sm">
-                                            <ShieldCheck className="w-2.5 h-2.5" />
-                                            {t("Verified", "ভেরিফাইড")}
-                                        </span>
-                                    )}
+                                    <span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-primary bg-primary/10 px-1 md:px-1.5 py-0 rounded-sm">
+                                        <ShieldCheck className="w-2.5 h-2.5" />
+                                        {t("Verified", "ভেরিফাইড")}
+                                    </span>
 
-                                    {!truck.upcoming && (
-                                        <Button
-                                            variant="default"
-                                            size="sm"
-                                            onClick={() => {
-                                                const params = new URLSearchParams({ truckType: truck.value });
-                                                router.push(`/bookings/new?${params.toString()}`);
-                                            }}
-                                            className="h-5 md:h-6 text-[7px] md:text-[9px] font-bold px-1.5 md:px-2 rounded-sm shadow-sm bg-black hover:bg-primary text-white border-none transition-colors"
-                                        >
-                                            {t("Book Now", "বুক করুন")}
-                                        </Button>
-                                    )}
+                                    <Button
+                                        variant="default"
+                                        size="sm"
+                                        onClick={() => {
+                                            const params = new URLSearchParams({ truckType: truck.id });
+                                            router.push(`/bookings/new?${params.toString()}`);
+                                        }}
+                                        className="h-5 md:h-6 text-[7px] md:text-[9px] font-bold px-1.5 md:px-2 rounded-sm shadow-sm bg-black hover:bg-primary text-white border-none transition-colors"
+                                    >
+                                        {t("Book Now", "বুক করুন")}
+                                    </Button>
                                 </div>
-                                <h3 className="text-sm md:text-lg font-bold text-black leading-tight">{t(truck.title_en, truck.title_bn)}</h3>
+                                <h3 className="text-sm md:text-lg font-bold text-black leading-tight min-h-[40px] flex items-center">
+                                    {t(truck.nameEn, truck.nameBn)}
+                                </h3>
+                                <div className="flex justify-between items-center border-t border-slate-100 pt-2 mt-1">
+                                    <span className="text-[9px] text-gray-400 font-bold uppercase">{t("Min. Fare (10km)", "ন্যূনতম ভাড়া (১০কিমি)")}</span>
+                                    <span className="text-xs md:text-sm font-black text-primary">৳ {truck.minFare10km}</span>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

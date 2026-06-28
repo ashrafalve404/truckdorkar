@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { LocationSelector } from "@/components/ui/location-selector";
 
 import { useRouter } from "next/navigation";
+import api from "@/lib/api";
 
 export function BookingWidget() {
     const { t, lang } = useLanguage();
@@ -25,16 +26,58 @@ export function BookingWidget() {
     const dateInputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const truckTypes = [
-        { value: "T1_OPEN_7FT", en: "1 Ton Open 7Ft", bn: "১ টন খোলা ৭ফিট ট্রাক", icon: "/icons/1ton7feeticon.png" },
-        { value: "T1_COVER_7FT", en: "1 Ton Cover 7Ft", bn: "১ টন কাভার ৭ফিট ট্রাক", icon: "/icons/1ton7feetcovericon.png" },
-        { value: "T1_5_OPEN_9FT", en: "1.5 Ton Open 9Ft", bn: "১.৫ টন খোলা ৯ফিট ট্রাক", icon: "/icons/1.5ton9feeticon.png" },
-        { value: "T1_5_COVER_9FT", en: "1.5 Ton Cover 9Ft", bn: "১.৫ টন কাভার ৯ফিট ট্রাক", icon: "/icons/1.5on9feetcovericon.png" },
-        { value: "T2_OPEN_9FT", en: "2 Ton Open 9Ft", bn: "২ টন খোলা ৯ফিট ট্রাক", icon: "/icons/2ton9feeticon.png", upcoming: true },
-        { value: "T3_OPEN_12FT", en: "3 Ton Open 12Ft", bn: "৩ টন খোলা ১২ফিট ট্রাক", icon: "/icons/3ton12feeticon.png", upcoming: true },
-        { value: "T3_COVER_12FT", en: "3 Ton Cover 12Ft", bn: "৩ টন কাভার ১২ফিট ট্রাক", icon: "/icons/3ton12feetcovericon.png", upcoming: true },
-        { value: "T5_OPEN_17FT", en: "5 Ton Open 17Ft Truck", bn: "৫ টন খোলা ১৭ফিট ট্রাক", icon: "/icons/5ton17feeticon.png", upcoming: true },
+    const STATIC_TRUCK_ICONS: Record<string, string> = {
+        T1_OPEN_7_9FT: "/icons/1ton7feeticon.png",
+        T1_COVER_7_9FT: "/icons/1ton7feetcovericon.png",
+        T1_5_OPEN_10_12FT: "/icons/1.5ton9feeticon.png",
+        T1_5_COVER_10_12FT: "/icons/1.5on9feetcovericon.png",
+        T3_OPEN_16_14FT: "/icons/3ton12feeticon.png",
+        T3_COVER_16_14FT: "/icons/3ton12feetcovericon.png",
+    };
+
+    const getTruckIcon = (id: string) => {
+        if (STATIC_TRUCK_ICONS[id]) return STATIC_TRUCK_ICONS[id];
+        const lower = id.toLowerCase();
+        if (lower.includes("cover")) return "/icons/3ton12feetcovericon.png";
+        return "/icons/3ton12feeticon.png";
+    };
+
+    const FALLBACK_TRUCKS = [
+        { value: "T1_OPEN_7_9FT", en: "1 Ton Open 7/9 Ft", bn: "১ টন খোলা ৭/৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_OPEN_7_9FT },
+        { value: "T1_COVER_7_9FT", en: "1 Ton Cover 7/9 Ft", bn: "১ টন কাভার ৭/৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_COVER_7_9FT },
+        { value: "T1_5_OPEN_10_12FT", en: "1.5 Ton Open 10/12 Ft", bn: "১.৫ টন খোলা ১০/১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_OPEN_10_12FT },
+        { value: "T1_5_COVER_10_12FT", en: "1.5 Ton Cover 10/12 Ft", bn: "১.৫ টন কাভার ১০/১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_COVER_10_12FT },
+        { value: "T3_OPEN_16_14FT", en: "3 Ton Open 14/16 Ft", bn: "৩ টন খোলা ১৪/১৬ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T3_OPEN_16_14FT },
+        { value: "T3_COVER_16_14FT", en: "3 Ton Cover 14/16 Ft", bn: "৩ টন কাভার ১৪/১৬ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T3_COVER_16_14FT },
     ];
+
+    const [dynamicTrucks, setDynamicTrucks] = useState<any[]>([]);
+
+    useEffect(() => {
+        const loadTrucks = async () => {
+            try {
+                const response = await api.get("/cms/content/SYSTEM_SETTINGS");
+                const meta = response.data?.data?.metaJson || {};
+                const list = meta.truckFares;
+                if (Array.isArray(list) && list.length > 0) {
+                    const active = list.filter((tc: any) => tc.isActive !== false);
+                    setDynamicTrucks(active.map((tc: any) => ({
+                        value: tc.id,
+                        en: tc.nameEn,
+                        bn: tc.nameBn,
+                        icon: getTruckIcon(tc.id)
+                    })));
+                }
+            } catch (err) {
+                /* silently use fallback */
+            }
+        };
+        loadTrucks();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const truckTypes = dynamicTrucks.length > 0 ? dynamicTrucks : FALLBACK_TRUCKS;
+
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
