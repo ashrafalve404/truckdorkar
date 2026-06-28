@@ -47,16 +47,21 @@ export default function ContactPage() {
 
             <main className="pt-24 md:pt-32">
                 {/* Header */}
-                <section className="py-10 md:py-12 bg-slate-50">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black">
+                <section
+                    className="relative py-24 md:py-40 bg-cover bg-center overflow-hidden"
+                    style={{ backgroundImage: "url('/images/contactpageimage.png')" }}
+                >
+                    <div className="absolute inset-0 bg-white/70" />
+
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black relative z-10">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                         >
-                            <h1 className="text-2xl md:text-3xl lg:text-5xl font-black text-black mb-6 md:mb-8">
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-black mb-6 md:mb-8">
                                 {t("Contact Us", "যোগাযোগ করুন")}
                             </h1>
-                            <p className="text-lg md:text-xl text-slate-700 font-bold max-w-2xl mx-auto leading-relaxed">
+                            <p className="text-lg md:text-xl text-black font-bold max-w-2xl mx-auto leading-relaxed">
                                 {t(
                                     "We are always here for any of your inquiries or cooperation.",
                                     "আপনার যেকোনো জিজ্ঞাসা বা সহযোগিতার জন্য আমরা সবসময় পাশে আছি।"
