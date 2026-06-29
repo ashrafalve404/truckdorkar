@@ -202,7 +202,7 @@ export function LocationSelector({
             </label>
 
             {/* Step indicators */}
-            <div className="flex items-center gap-1 mb-2">
+            <div className="flex items-center flex-wrap gap-1 mb-2">
                 {[
                     { step: 1, label: t("Division", "বিভাগ"), done: !!division },
                     { step: 2, label: t("District", "জেলা"), done: !!district },
@@ -217,7 +217,7 @@ export function LocationSelector({
                                 : "bg-slate-100 text-slate-400"
                         )}>
                             <span className={cn(
-                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black",
+                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black shrink-0",
                                 s.done ? "bg-primary text-white" : "bg-slate-300 text-white"
                             )}>{s.step}</span>
                             {s.label}
@@ -227,7 +227,7 @@ export function LocationSelector({
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <NativeSelect
                     value={division}
                     onChange={handleDivisionChange}

@@ -376,7 +376,7 @@ function BookingContent() {
             <Navbar />
             <main className="pt-28 pb-16">
                 <div className="container mx-auto px-4 lg:px-12">
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-6xl mx-auto">
                         <header className="mb-10 text-center">
                             <h1 className="text-3xl lg:text-4xl font-black text-black mb-4">
                                 {t("Complete Your Booking", "আপনার বুকিং সম্পূর্ণ করুন")}
@@ -386,9 +386,9 @@ function BookingContent() {
                             </p>
                         </header>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                             {/* Main Form */}
-                            <div className="lg:col-span-2">
+                            <div className="lg:col-span-3">
                                 <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 lg:p-10 shadow-premium border border-gray-100 space-y-6">
                                     <div className="space-y-6">
                                         {/* Pickup */}
@@ -574,7 +574,7 @@ function BookingContent() {
                                         />
                                     </div>
 
-                                    <Button disabled={loading} className="w-full h-14 rounded-xl font-bold text-lg gap-3 text-white">
+                                    <Button disabled={loading} className="w-full h-14 rounded-xl font-bold text-sm sm:text-base md:text-lg px-2 gap-2 text-white">
                                         {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                                             <>
                                                 {t("Confirm Booking Request", "বুকিং রিকোয়েস্ট নিশ্চিত করুন")}
