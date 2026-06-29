@@ -83,14 +83,14 @@ export function BannerSlider() {
                 </AnimatePresence>
 
                 {/* Navigation Controls */}
-                <div className="absolute inset-y-0 left-4 z-20 flex items-center">
-                    <button onClick={prev} className="w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/40 transition-all border border-white/20">
-                        <ChevronLeft className="w-6 h-6" />
+                <div className="absolute inset-y-0 left-2 sm:left-4 z-20 flex items-center">
+                    <button onClick={prev} className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-black/10 sm:bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/30 transition-all border border-white/10 sm:border-white/20">
+                        <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
                     </button>
                 </div>
-                <div className="absolute inset-y-0 right-4 z-20 flex items-center">
-                    <button onClick={next} className="w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/40 transition-all border border-white/20">
-                        <ChevronRight className="w-6 h-6" />
+                <div className="absolute inset-y-0 right-2 sm:right-4 z-20 flex items-center">
+                    <button onClick={next} className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-black/10 sm:bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/30 transition-all border border-white/10 sm:border-white/20">
+                        <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
                     </button>
                 </div>
 

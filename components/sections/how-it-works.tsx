@@ -7,7 +7,7 @@ import { useLanguage } from "@/context/language-context";
 
 const steps = [
     { title_en: "Find Truck", title_bn: "ট্রাক খুঁজুন", icon: Search, desc_en: "Enter your pickup and drop location to find available trucks.", desc_bn: "আপনার পিকআপ এবং ড্রপ লোকেশন দিয়ে উপযুক্ত ট্রাক খুঁজুন।" },
-    { title_en: "Compare Quotes", title_bn: "ভাড়া যাচাই করুন", icon: ClipboardCheck, desc_en: "Get instant price quotes and compare for the best deal.", desc_bn: "ইনস্ট্যান্ট ভাড়ার কোটেশন পান এবং আপনার জন্য সেরাটি বেছে নিন।" },
+    { title_en: "Instant Fare & Offer", title_bn: "তাৎক্ষণিক ভাড়া ও অফার", icon: ClipboardCheck, desc_en: "See your fare instantly. Want a better deal? Offer your price.", desc_bn: "তাৎক্ষণিক ভাড়া দেখুন। চাইলে নিজের দামও অফার করুন।" },
     { title_en: "Book & Track", title_bn: "বুক ও ট্র্যাক", icon: Truck, desc_en: "Book your truck and track your shipment in real-time.", desc_bn: "সহজেই ট্রাক বুক করুন এবং রিয়েল-টাইমে মালামাল ট্র্যাক করুন।" },
     { title_en: "Safe Delivery", title_bn: "নিরাপদ ডেলিভারি", icon: ThumbsUp, desc_en: "Receive your goods safely and confirm completion.", desc_bn: "নিরাপদ ডেলিভারি বুঝে নিন এবং আপনার ট্রিপ সম্পন্ন করুন।" },
 ];

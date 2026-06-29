@@ -99,17 +99,17 @@ export function Navbar() {
             )}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-4">
+                    <Link href="/" className="flex items-center gap-2 sm:gap-4">
                         <Image
                             src="/logos/truckdorkarlogobangla.png"
                             alt="Truck Dorkar Logo"
                             width={350}
                             height={100}
-                            className="h-20 w-auto object-contain"
+                            className="h-14 sm:h-16 md:h-20 w-auto object-contain"
                             priority
                         />
                         <span className={cn(
-                            "text-2xl md:text-3xl font-bold tracking-tight transition-colors",
+                            "text-xl sm:text-2xl md:text-3xl font-bold tracking-tight transition-colors",
                             isDarkBackground ? "text-white" : "text-black"
                         )}>
                             <span className="text-primary">Truck</span> Dorkar
