@@ -208,7 +208,7 @@ export function Footer() {
                                 { en: "Privacy Policy", bn: "প্রাইভেসি পলিসি", href: "/privacy-policy" },
                                 { en: "Terms of Service", bn: "টার্মস অফ সার্ভিস", href: "/terms-of-service" },
                                 { en: "Driver Registration", bn: "ড্রাইভার রেজিস্ট্রেশন", href: "/register?role=driver" },
-                                { en: "Partner with Us", bn: "পার্টনারশিপ", href: "/partner-with-us" }
+                                { en: "Be an Agent", bn: "এজেন্ট হোন", href: "/partner-with-us" }
                             ].map((item, i) => (
                                 <li key={i}>
                                     <Link href={item.href} className="text-gray-500 hover:text-primary transition-colors flex items-center gap-2 group text-sm md:text-base">

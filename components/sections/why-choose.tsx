@@ -35,7 +35,7 @@ export function WhyChoose() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            className="p-8 bg-black border border-white/5 hover:border-primary/50 transition-colors"
+                            className="p-8 bg-black border border-white/5 hover:border-primary/50 transition-colors rounded-xl"
                         >
                             <feature.icon className="w-10 h-10 text-primary mb-6" />
                             <h3 className="text-xl font-bold mb-2">{t(feature.title_en, feature.title_bn)}</h3>

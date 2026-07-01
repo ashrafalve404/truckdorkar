@@ -3,15 +3,17 @@
 import React from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { useLanguage } from "@/context/language-context";
 
 const stats = [
-    { value: 20000, label: "সফল ডেলিভারি", suffix: "+", subLabel: "Successful Deliveries" },
-    { value: 5000, label: "ভেরিফাইড ট্রাক", suffix: "+", subLabel: "Verified Trucks" },
-    { value: 64, label: "জেলা কভারেজ", suffix: "", subLabel: "District Coverage" },
-    { value: 98, label: "সন্তুষ্ট গ্রাহক", suffix: "%", subLabel: "Customer Satisfaction" },
+    { value: 20000, label_en: "Successful Deliveries", label_bn: "সফল ডেলিভারি", suffix: "+" },
+    { value: 5000, label_en: "Verified Trucks", label_bn: "ভেরিফাইড ট্রাক", suffix: "+" },
+    { value: 64, label_en: "District Coverage", label_bn: "জেলা কভারেজ", suffix: "" },
+    { value: 98, label_en: "Customer Satisfaction", label_bn: "সন্তুষ্ট গ্রাহক", suffix: "%" },
 ];
 
 function Counter({ value, suffix }: { value: number; suffix: string }) {
+    const { lang } = useLanguage();
     const [count, setCount] = useState(0);
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
@@ -39,12 +41,14 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
     return (
         <span ref={ref} className="text-4xl lg:text-6xl font-black text-black">
-            {count.toLocaleString()}{suffix}
+            {lang === "bn" ? count.toLocaleString("bn-BD") : count.toLocaleString("en-US")}{suffix}
         </span>
     );
 }
 
 export function Statistics() {
+    const { t, lang } = useLanguage();
+
     return (
         <section className="py-24 bg-white text-black">
             <div className="container mx-auto px-6 lg:px-12">
@@ -59,8 +63,12 @@ export function Statistics() {
                             className="space-y-2"
                         >
                             <Counter value={stat.value} suffix={stat.suffix} />
-                            <div className="text-lg font-bold text-primary">{stat.label}</div>
-                            <div className="text-sm font-semibold text-gray-400 uppercase tracking-widest">{stat.subLabel}</div>
+                            <div className="text-lg font-bold text-primary">
+                                {t(stat.label_en, stat.label_bn)}
+                            </div>
+                            <div className="text-sm font-semibold text-gray-405 uppercase tracking-widest">
+                                {t(stat.label_bn, stat.label_en)}
+                            </div>
                         </motion.div>
                     ))}
                 </div>

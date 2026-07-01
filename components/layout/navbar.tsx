@@ -15,6 +15,7 @@ import { User as UserIcon, LogOut, LayoutDashboard } from "lucide-react";
 const navLinks = [
     { name: "Home", href: "/", bn: "হোম" },
     { name: "Booking", href: "/bookings/new", bn: "বুকিং" },
+    { name: "Be an Agent", href: "/partner-with-us", bn: "এজেন্ট হোন" },
     { name: "Services", href: "/#services", bn: "সার্ভিস" },
     { name: "Trucks", href: "/#fleet", bn: "ট্রাকসমূহ" },
     { name: "About Us", href: "/about", bn: "আমাদের সম্পর্কে" },
@@ -206,16 +207,45 @@ export function Navbar() {
                         )}
                     </div>
 
-                    {/* Mobile Toggle */}
-                    <button
-                        className={cn(
-                            "lg:hidden p-2 transition-colors",
-                            isDarkBackground ? "text-white" : "text-dark-gray"
+                    {/* Mobile Controls */}
+                    <div className="lg:hidden flex items-center gap-2">
+                        {isAuthenticated ? (
+                            <Link href={
+                                user?.role === "ADMIN" ? "/admin" :
+                                    user?.role === "DRIVER" ? "/driver/dashboard" :
+                                        user?.role === "AGENT" ? "/agent/dashboard" : "/dashboard"
+                            }>
+                                <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center text-primary shadow-sm border border-primary/10">
+                                    <UserIcon className="w-4 h-4" />
+                                </div>
+                            </Link>
+                        ) : (
+                            <Link href="/login">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className={cn(
+                                        "font-black text-xs px-3 h-8 rounded border bg-transparent transition-colors",
+                                        isDarkBackground
+                                            ? "text-white border-white/30 hover:bg-white/10"
+                                            : "text-slate-700 border-slate-300 hover:bg-slate-100"
+                                    )}
+                                >
+                                    {lang === "en" ? "Login" : "লগইন"}
+                                </Button>
+                            </Link>
                         )}
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <X /> : <Menu />}
-                    </button>
+
+                        <button
+                            className={cn(
+                                "p-2 transition-colors rounded-lg",
+                                isDarkBackground ? "text-white hover:bg-white/10" : "text-dark-gray hover:bg-black/5"
+                            )}
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
+                            {isMobileMenuOpen ? <X /> : <Menu />}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}

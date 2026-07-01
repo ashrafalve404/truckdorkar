@@ -16,7 +16,9 @@ import {
     Briefcase,
     ShieldCheck,
     Wallet,
-    Percent
+    Percent,
+    PhoneCall,
+    Truck
 } from "lucide-react";
 import Link from "next/link";
 
@@ -52,18 +54,21 @@ export default function PartnerWithUsPage() {
 
     const steps = [
         {
+            icon: PhoneCall,
             title_en: "Admin Contact",
             title_bn: "অ্যাডমিন যোগাযোগ",
             desc_en: "Call our official number to start your partnership request.",
             desc_bn: "পার্টনারশিপ শুরু করতে আমাদের অফিসিয়াল নম্বরে কল দিন।"
         },
         {
+            icon: Wallet,
             title_en: "Fee Settlement",
             title_bn: "ফি প্রদান",
             desc_en: "Complete the 25,000 TK registration fee to activate your dashboard.",
             desc_bn: "আপনার ড্যাশবোর্ড সক্রিয় করতে ২৫,০০০ টাকা এককালীন ফি পরিশোধ করুন।"
         },
         {
+            icon: Truck,
             title_en: "Fleet Building",
             title_bn: "রিসোর্স ম্যানেজমেন্ট",
             desc_en: "Add trucks and drivers to start receiving daily and trip earnings.",
@@ -89,7 +94,7 @@ export default function PartnerWithUsPage() {
                             animate={{ opacity: 1, y: 0 }}
                             className="text-3xl md:text-5xl font-black text-black mb-6 leading-tight"
                         >
-                            {t("Partner with Truck Dorkar", "ট্রাক দরকার-এর সাথে পার্টনার হোন")}
+                            {t("Become a Truck Dorkar Agent", "ট্রাক দরকার এজেন্ট হোন")}
                         </motion.h1>
                         <motion.p
                             initial={{ opacity: 0, y: 15 }}
@@ -197,8 +202,8 @@ export default function PartnerWithUsPage() {
                         <div className="flex flex-col md:flex-row justify-between gap-10 max-w-5xl mx-auto">
                             {steps.map((step, i) => (
                                 <div key={i} className="flex-1 flex gap-6 md:flex-col md:items-center md:text-center">
-                                    <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-black shrink-0">
-                                        {i + 1}
+                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center shrink-0 shadow-md hover:bg-primary transition-all duration-300">
+                                        <step.icon className="w-5 h-5 text-white" />
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-black text-slate-900 mb-2">{t(step.title_en, step.title_bn)}</h3>

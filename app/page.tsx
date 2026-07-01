@@ -7,6 +7,7 @@ import { Services } from "@/components/sections/services";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { WhyChoose } from "@/components/sections/why-choose";
 import { Fleet } from "@/components/sections/fleet";
+import { PartnerHighlight } from "@/components/sections/partner-highlight";
 import { MobileApp, Testimonials } from "@/components/sections/social-proof";
 import { FAQ, FinalCTA, Footer } from "@/components/layout/footer-section";
 import { FooterBanner } from "@/components/sections/footer-banner";
@@ -24,6 +25,7 @@ export default function Home() {
         <HowItWorks />
         <WhyChoose />
         <Fleet />
+        <PartnerHighlight />
         <MobileApp />
         <Testimonials />
         <FAQ />
