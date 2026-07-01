@@ -25,7 +25,6 @@ export function HowItWorks() {
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
-                    {/* Connection lines for desktop */}
                     <div className="hidden lg:block absolute top-1/4 left-1/4 right-1/4 h-[2px] bg-gray-100 -z-10" />
 
                     {steps.map((step, index) => (
@@ -52,7 +51,6 @@ export function HowItWorks() {
                 </div>
             </div>
 
-            {/* Bottom Graphic */}
             <div className="container mx-auto px-6 lg:px-12 mt-10 md:mt-20">
                 <div className="w-full h-auto overflow-hidden rounded-xl border border-gray-100 shadow-sm">
                     <img

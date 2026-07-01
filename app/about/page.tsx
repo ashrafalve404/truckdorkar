@@ -4,8 +4,7 @@ import React from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
-import { ShieldCheck, Users, Compass, Zap } from "lucide-react";
-import Image from "next/image";
+import { ShieldCheck, Users, Target, Lightbulb } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 export default function AboutPage() {
@@ -31,14 +30,14 @@ export default function AboutPage() {
             bn: "আমাদের লক্ষ্য",
             desc_en: "To digitize and make the logistics sector of Bangladesh affordable.",
             desc_bn: "বাংলাদেশের লজিস্টিক সেক্টরকে ডিজিটালাইজ করা এবং সাশ্রয়ী করা।",
-            icon: Compass
+            icon: Target
         },
         {
             title: "Innovation",
             bn: "উদ্ভাবন",
             desc_en: "Providing modern solutions to transport problems through technology.",
             desc_bn: "প্রযুক্তির মাধ্যমে পরিবহন সমস্যার আধুনিক সমাধান প্রদান।",
-            icon: Zap
+            icon: Lightbulb
         }
     ];
 
@@ -52,7 +51,6 @@ export default function AboutPage() {
                     className="relative py-24 md:py-40 bg-cover bg-center overflow-hidden"
                     style={{ backgroundImage: "url('/images/corporate.png')" }}
                 >
-                    {/* Overlay for readability */}
                     <div className="absolute inset-0 bg-white/70" />
 
                     <div className="container mx-auto px-4 sm:px-6 lg:px-12 text-center text-black relative z-10">
@@ -96,7 +94,7 @@ export default function AboutPage() {
                                     <p>
                                         {t(
                                             "We believe every business's success requires efficient logistics support. Therefore, we guarantee on-time delivery of your goods anywhere in the country.",
-                                            "আমরা বিশ্বাস করি প্রতিটি ব্যবসার সাফল্যের পেছনে দক্ষ লজিস্টিক সাপোর্ট থাকা প্রয়োজন। তাই আমরা দেশব্যাপী বিস্তৃত নেটওয়ার্ক এবং দক্ষ ড্রাইভারদের মাধ্যমে আপনার যেকোনো মালামাল সঠিক সময়ে গন্তব্যে পৌঁছানোর নিশ্চয়তা দেই।"
+                                            "আমরা বিশ্বাস করি প্রতিটি ব্যবসার সাফল্যের পেছনে দক্ষ লজিসিক সাপোর্ট থাকা প্রয়োজন। তাই আমরা দেশব্যাপী বিস্তৃত নেটওয়ার্ক এবং দক্ষ ড্রাইভারদের মাধ্যমে আপনার যেকোনো মালামাল সঠিক সময়ে গন্তব্যে পৌঁছানোর নিশ্চয়তা দেই।"
                                         )}
                                     </p>
                                 </div>
@@ -130,7 +128,7 @@ export default function AboutPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
                                     viewport={{ once: true }}
-                                    className="p-6 md:p-8 bg-black border border-white/5 rounded-xl hover:border-primary/50 transition-all text-center"
+                                    className="p-6 md:p-8 bg-black border border-white/5 hover:border-primary/50 transition-all text-center rounded-md"
                                 >
                                     <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
                                         <v.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
