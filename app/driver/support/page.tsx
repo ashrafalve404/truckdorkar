@@ -33,7 +33,7 @@ export default function DriverSupportPage() {
                         <Phone className="w-7 h-7" />
                     </div>
                     <h3 className="font-bold text-slate-950 mb-2">{t("Call Support", "কল সাপোর্ট")}</h3>
-                    <p className="text-sm text-slate-700 font-bold mb-6">+880 1XXX-XXXXXX</p>
+                    <p className="text-sm text-slate-700 font-bold mb-6">01826-110036</p>
                     <Button variant="outline" className="w-full rounded-lg border-primary text-primary font-bold">
                         {t("Call Now", "কল করুন")}
                     </Button>

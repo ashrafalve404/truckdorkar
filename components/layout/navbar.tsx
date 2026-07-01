@@ -225,7 +225,7 @@ export function Navbar() {
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
-                            className="absolute top-full left-0 right-0 bg-white shadow-xl border-t border-gray-100 p-6 flex flex-col gap-4 lg:hidden overflow-y-auto max-h-[calc(100dvh-5rem)] overscroll-contain rounded-b-[32px]"
+                            className="absolute top-full left-0 right-0 bg-white shadow-xl border-t border-gray-100 p-6 flex flex-col gap-4 lg:hidden overflow-y-auto max-h-[calc(100dvh-5rem)] overscroll-contain rounded-b-2xl"
                         >
                             {navLinks.map((link) => (
                                 <Link

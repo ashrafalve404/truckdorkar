@@ -145,15 +145,13 @@ export default function PartnerWithUsPage() {
 
                 {/* Key Program Info Box */}
                 <section className="pb-20 container mx-auto px-6 lg:px-12">
-                    <div className="bg-slate-900 rounded-2xl p-8 md:p-12 text-white relative overflow-hidden">
-                        <div className="absolute bottom-0 right-0 w-64 h-64 bg-primary/10 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" />
-
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-                            <div>
-                                <h2 className="text-2xl md:text-3xl font-black mb-6">
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div className="grid grid-cols-1 lg:grid-cols-2">
+                            <div className="bg-slate-900 p-8 md:p-10 text-white">
+                                <h2 className="text-2xl font-bold mb-6 tracking-tight">
                                     {t("Investment & Returns", "বিনিয়োগ এবং রিটার্ন")}
                                 </h2>
-                                <div className="space-y-4">
+                                <div className="space-y-3">
                                     {[
                                         { en: "Fixed Registration Fee: 25,000 TK", bn: "স্থায়ী রেজিস্ট্রেশন ফি: ২৫,০০০ টাকা" },
                                         { en: "Daily Recurring Bonus: 25 TK", bn: "প্রতিদিনের বোনাস: ২৫ টাকা" },
@@ -161,27 +159,27 @@ export default function PartnerWithUsPage() {
                                         { en: "Full Digital Dashboard Access", bn: "ডিজিটাল ড্যাশবোর্ড ব্যবহারের সুবিধা" }
                                     ].map((item, i) => (
                                         <div key={i} className="flex items-center gap-3">
-                                            <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
-                                            <span className="text-sm md:text-base font-bold text-slate-300">{t(item.en, item.bn)}</span>
+                                            <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0" />
+                                            <span className="text-sm text-slate-300">{t(item.en, item.bn)}</span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-xl text-center">
-                                <p className="text-xs font-black uppercase text-primary mb-2">{t("Registration Fee", "রেজিস্ট্রেশন ফি")}</p>
-                                <div className="text-4xl md:text-5xl font-black text-white mb-6">৳ ২৫,০০০</div>
-                                <div className="space-y-3">
+                            <div className="bg-white p-8 md:p-10 text-center">
+                                <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">{t("Registration Fee", "রেজিস্ট্রেশন ফি")}</p>
+                                <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">৳{t("25,000", "২৫,০০০")}</div>
+                                <div className="space-y-2">
                                     <a href="tel:01826-110036" className="block">
-                                        <Button variant="secondary" className="w-full h-12 rounded-lg font-black text-sm bg-white text-primary flex items-center justify-center gap-2">
-                                            <Phone className="w-4 h-4" />
+                                        <Button variant="default" className="w-full h-10 rounded-lg font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center gap-2">
+                                            <Phone className="w-3.5 h-3.5" />
                                             {t("Call Admin", "অ্যাডমিনকে কল করুন")}
                                         </Button>
                                     </a>
                                     <a href="mailto:contact@truckdorkar.com" className="block">
-                                        <Button variant="outline" className="w-full h-12 rounded-lg font-black text-sm border-white/20 text-white hover:bg-white/10 flex items-center justify-center gap-2">
-                                            <Mail className="w-4 h-4" />
-                                            contact@truckdorkar.com
+                                        <Button variant="outline" className="w-full h-10 rounded-lg font-bold text-xs border-slate-200 text-slate-700 hover:bg-slate-100 flex items-center justify-center gap-2">
+                                            <Mail className="w-3.5 h-3.5 text-primary" />
+                                            {t("Email Us", "ইমেইল করুন")}
                                         </Button>
                                     </a>
                                 </div>
