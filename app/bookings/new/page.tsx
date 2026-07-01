@@ -386,7 +386,7 @@ function BookingContent() {
                             </p>
                         </header>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                             {/* Main Form */}
                             <div className="lg:col-span-3">
                                 <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 lg:p-10 shadow-premium border border-gray-100 space-y-6">
@@ -394,7 +394,7 @@ function BookingContent() {
                                         {/* Pickup */}
                                         <div className="space-y-2">
                                             <div className="flex items-center justify-between mb-1">
-                                                <span className="text-xs font-black text-slate-700 uppercase tracking-widest">{t("Pickup Location", "পিকআপ লোকেশন")}</span>
+                                                <span className="text-xs font-black text-slate-700 uppercase tracking-normal">{t("Pickup Location", "পিকআপ লোকেশন")}</span>
                                                 <button
                                                     type="button"
                                                     onClick={handleUseMyLocation}
@@ -586,14 +586,14 @@ function BookingContent() {
                             </div>
 
                             {/* Sidebar Info */}
-                            <div className="space-y-6">
-                                <div className="h-80 w-full overflow-hidden rounded-2xl border border-slate-100 shadow-sm relative z-0">
+                            <div className="lg:col-span-2 space-y-3">
+                                <div className="h-[420px] w-full overflow-hidden rounded-2xl border border-slate-100 shadow-sm relative z-0">
                                     <MapComponent pickup={coords.pickup} drop={coords.drop} />
                                 </div>
 
-                                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6">
-                                    <h3 className="font-bold text-primary mb-4">{t("How it works", "কিভাবে কাজ করে")}</h3>
-                                    <ul className="space-y-4 text-sm text-slate-700 font-bold">
+                                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5">
+                                    <h3 className="font-bold text-primary mb-3">{t("How it works", "কিভাবে কাজ করে")}</h3>
+                                    <ul className="space-y-3 text-sm text-slate-700 font-bold">
                                         <li className="flex gap-3">
                                             <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold">1</span>
                                             <span>{t("Submit your request", "আপনার রিকোয়েস্ট জমা দিন")}</span>

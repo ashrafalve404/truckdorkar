@@ -172,7 +172,7 @@ export default function PartnerWithUsPage() {
                             </div>
 
                             <div className="bg-white p-8 md:p-10 text-center">
-                                <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">{t("Registration Fee", "রেজিস্ট্রেশন ফি")}</p>
+                                <p className="text-sm font-bold uppercase tracking-normal text-slate-400 mb-3">{t("Registration Fee", "রেজিস্ট্রেশন ফি")}</p>
                                 <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">৳{t("25,000", "২৫,০০০")}</div>
                                 <div className="space-y-2">
                                     <a href="tel:01826-110036" className="block">

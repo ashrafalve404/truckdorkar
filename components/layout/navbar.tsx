@@ -98,7 +98,7 @@ export function Navbar() {
                     ? "bg-light-gray/95 backdrop-blur-md shadow-premium border-b border-x border-slate-200 py-1"
                     : "bg-transparent py-4"
             )}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between min-h-[60px] lg:min-h-0">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 sm:gap-4">
                         <Image
@@ -106,7 +106,7 @@ export function Navbar() {
                             alt="Truck Dorkar Logo"
                             width={350}
                             height={100}
-                            className="h-14 sm:h-16 md:h-20 w-auto object-contain"
+                            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain"
                             priority
                         />
                         <span className={cn(
@@ -118,7 +118,7 @@ export function Navbar() {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <div className="hidden lg:flex items-center gap-8 h-full">
+                    <div className="hidden lg:flex items-center gap-3 xl:gap-6 h-full">
                         {navLinks.map((link) => {
                             const active = isActive(link.href);
                             return (
@@ -126,7 +126,7 @@ export function Navbar() {
                                     key={link.name}
                                     href={link.href}
                                     className={cn(
-                                        "relative text-sm font-semibold transition-all duration-300 h-full py-2",
+                                        "relative text-xs xl:text-sm font-semibold transition-all duration-300 h-full py-2 whitespace-nowrap",
                                         isDarkBackground
                                             ? (active ? "text-red-500" : "text-white hover:text-red-400")
                                             : (active ? "text-red-600" : "text-dark-gray hover:text-red-600")
@@ -147,7 +147,7 @@ export function Navbar() {
                     </div>
 
                     {/* Right Side */}
-                    <div className="hidden lg:flex items-center gap-4">
+                    <div className="hidden lg:flex items-center gap-2 xl:gap-3">
                         <button
                             onClick={toggleLang}
                             className={cn(
@@ -208,7 +208,7 @@ export function Navbar() {
                     </div>
 
                     {/* Mobile Controls */}
-                    <div className="lg:hidden flex items-center gap-2">
+                    <div className="lg:hidden flex items-center gap-3">
                         {isAuthenticated ? (
                             <Link href={
                                 user?.role === "ADMIN" ? "/admin" :
@@ -225,10 +225,10 @@ export function Navbar() {
                                     variant="outline"
                                     size="sm"
                                     className={cn(
-                                        "font-black text-xs px-3 h-8 rounded border bg-transparent transition-colors",
+                                        "font-semibold text-xs px-4 h-8 rounded bg-transparent transition-colors border",
                                         isDarkBackground
-                                            ? "text-white border-white/30 hover:bg-white/10"
-                                            : "text-slate-700 border-slate-300 hover:bg-slate-100"
+                                            ? "text-white border-white/50 hover:bg-white/10"
+                                            : "text-black border-black hover:bg-slate-50"
                                     )}
                                 >
                                     {lang === "en" ? "Login" : "লগইন"}
