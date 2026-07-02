@@ -4,7 +4,8 @@ import React from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
-import { ShieldCheck, Users, Target, Lightbulb } from "lucide-react";
+import { ShieldCheck, Users } from "lucide-react";
+import Image from "next/image";
 import { useLanguage } from "@/context/language-context";
 
 export default function AboutPage() {
@@ -16,28 +17,28 @@ export default function AboutPage() {
             bn: "নিরাপত্তা সবার আগে",
             desc_en: "We ensure maximum safety of goods on every trip.",
             desc_bn: "আমরা প্রতিটি ট্রিপে মালামালের সর্বোচ্চ নিরাপত্তা নিশ্চিত করি।",
-            icon: ShieldCheck
+            icon: "/icons/productsafety.png"
         },
         {
             title: "Customer Trust",
             bn: "গ্রাহকের আস্থা",
             desc_en: "The trust of thousands of customers is our core strength.",
             desc_bn: "হাজারো গ্রাহকের আস্থাই আমাদের এগিয়ে চলার মূল শক্তি।",
-            icon: Users
+            icon: "/icons/trust.png"
         },
         {
             title: "Our Mission",
             bn: "আমাদের লক্ষ্য",
             desc_en: "To digitize and make the logistics sector of Bangladesh affordable.",
             desc_bn: "বাংলাদেশের লজিস্টিক সেক্টরকে ডিজিটালাইজ করা এবং সাশ্রয়ী করা।",
-            icon: Target
+            icon: "/icons/ourmission.png"
         },
         {
             title: "Innovation",
             bn: "উদ্ভাবন",
             desc_en: "Providing modern solutions to transport problems through technology.",
             desc_bn: "প্রযুক্তির মাধ্যমে পরিবহন সমস্যার আধুনিক সমাধান প্রদান।",
-            icon: Lightbulb
+            icon: "/icons/innovation.png"
         }
     ];
 
@@ -130,9 +131,7 @@ export default function AboutPage() {
                                     viewport={{ once: true }}
                                     className="p-6 md:p-8 bg-black border border-white/5 hover:border-primary/50 transition-all text-center rounded-md"
                                 >
-                                    <div className="w-14 h-14 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
-                                        <v.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-                                    </div>
+                                    <Image src={v.icon} alt={v.title} width={48} height={48} className="w-12 h-12 object-contain mx-auto mb-4 md:mb-6" />
                                     <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">{t(v.title, v.bn)}</h3>
                                     <p className="text-gray-400 text-sm leading-relaxed">{t(v.desc_en, v.desc_bn)}</p>
                                 </motion.div>

@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Search, ClipboardCheck, Truck, ThumbsUp } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 const steps = [
-    { title_en: "Find Truck", title_bn: "ট্রাক খুঁজুন", icon: Search, desc_en: "Enter your pickup and drop location to find available trucks.", desc_bn: "আপনার পিকআপ এবং ড্রপ লোকেশন দিয়ে উপযুক্ত ট্রাক খুঁজুন।" },
-    { title_en: "Instant Fare & Offer", title_bn: "তাৎক্ষণিক ভাড়া ও অফার", icon: ClipboardCheck, desc_en: "See your fare instantly. Want a better deal? Offer your price.", desc_bn: "তাৎক্ষণিক ভাড়া দেখুন। চাইলে নিজের দামও অফার করুন।" },
-    { title_en: "Book & Track", title_bn: "বুক ও ট্র্যাক", icon: Truck, desc_en: "Book your truck and track your shipment in real-time.", desc_bn: "সহজেই ট্রাক বুক করুন এবং রিয়েল-টাইমে মালামাল ট্র্যাক করুন।" },
-    { title_en: "Safe Delivery", title_bn: "নিরাপদ ডেলিভারি", icon: ThumbsUp, desc_en: "Receive your goods safely and confirm completion.", desc_bn: "নিরাপদ ডেলিভারি বুঝে নিন এবং আপনার ট্রিপ সম্পন্ন করুন।" },
+    { title_en: "Find Truck", title_bn: "ট্রাক খুঁজুন", icon: "/icons/findtruck.png", desc_en: "Enter your pickup and drop location to find available trucks.", desc_bn: "আপনার পিকআপ এবং ড্রপ লোকেশন দিয়ে উপযুক্ত ট্রাক খুঁজুন।" },
+    { title_en: "Instant Fare & Offer", title_bn: "তাৎক্ষণিক ভাড়া ও অফার", icon: "/icons/fare&offer.png", desc_en: "See your fare instantly. Want a better deal? Offer your price.", desc_bn: "তাৎক্ষণিক ভাড়া দেখুন। চাইলে নিজের দামও অফার করুন।" },
+    { title_en: "Book & Track", title_bn: "বুক ও ট্র্যাক", icon: "/icons/bookandtrack.png", desc_en: "Book your truck and track your shipment in real-time.", desc_bn: "সহজেই ট্রাক বুক করুন এবং রিয়েল-টাইমে মালামাল ট্র্যাক করুন।" },
+    { title_en: "Safe Delivery", title_bn: "নিরাপদ ডেলিভারি", icon: "/icons/safedelivery.png", desc_en: "Receive your goods safely and confirm completion.", desc_bn: "নিরাপদ ডেলিভারি বুঝে নিন এবং আপনার ট্রিপ সম্পন্ন করুন।" },
 ];
 
 export function HowItWorks() {
@@ -37,7 +37,7 @@ export function HowItWorks() {
                             className="flex flex-col items-center text-center group"
                         >
                             <div className="w-24 h-24 bg-light-gray rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500 relative">
-                                <step.icon className="w-10 h-10 text-primary group-hover:text-white transition-colors" />
+                                <Image src={step.icon} alt={t(step.title_en, step.title_bn)} width={40} height={40} className="w-10 h-10 object-contain" />
                                 <div className="absolute -top-3 -right-3 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-bold text-sm">
                                     0{index + 1}
                                 </div>
