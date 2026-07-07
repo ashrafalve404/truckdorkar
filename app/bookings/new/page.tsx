@@ -348,7 +348,11 @@ function BookingContent() {
             const { data } = await api.post("/bookings", {
                 type: formData.type,
                 pickupAddress: formData.pickupLocation,
+                pickupLat: coords.pickup ? coords.pickup[0] : undefined,
+                pickupLng: coords.pickup ? coords.pickup[1] : undefined,
                 dropAddress: formData.dropLocation,
+                dropLat: coords.drop ? coords.drop[0] : undefined,
+                dropLng: coords.drop ? coords.drop[1] : undefined,
                 scheduledAt: formData.scheduledAt || undefined,
                 goodsType: formData.goodsType,
                 goodsWeight: Number(formData.goodsWeight) || undefined,
