@@ -133,7 +133,7 @@ export default function PartnerWithUsPage() {
                 <section className="py-20 container mx-auto px-6 lg:px-12">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {benefits.map((benefit, idx) => (
-                            <div key={idx} className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm transition-all hover:shadow-md">
+                            <div key={idx} className="bg-white p-8 rounded-lg border border-slate-200 shadow-sm transition-all hover:shadow-md">
                                 <div className={`w-12 h-12 rounded-lg ${benefit.color} text-white flex items-center justify-center mb-6`}>
                                     <benefit.icon className="w-6 h-6" />
                                 </div>
@@ -150,7 +150,7 @@ export default function PartnerWithUsPage() {
 
                 {/* Key Program Info Box */}
                 <section className="pb-20 container mx-auto px-6 lg:px-12">
-                    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                         <div className="grid grid-cols-1 lg:grid-cols-2">
                             <div className="bg-slate-900 p-8 md:p-10 text-white">
                                 <h2 className="text-2xl font-bold mb-6 tracking-tight">
@@ -193,21 +193,36 @@ export default function PartnerWithUsPage() {
                     </div>
                 </section>
 
-                {/* Steps - refined */}
-                <section className="py-20 bg-white border-t border-slate-100">
-                    <div className="container mx-auto px-6 lg:px-12">
-                        <h2 className="text-2xl font-black text-center text-slate-900 mb-12">
+                {/* Steps - refined with brand primary background & SVG shape overlay */}
+                <section className="py-24 bg-primary text-white relative overflow-hidden">
+                    {/* SVG shapes design */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                        {/* Diagonal skew panels */}
+                        <div className="absolute top-0 right-0 w-1/2 h-full bg-white/[0.04] skew-x-[-25deg] translate-x-32" />
+                        <div className="absolute top-0 right-12 w-12 h-full bg-white/[0.02] skew-x-[-25deg] translate-x-32" />
+
+                        {/* Abstract vectors */}
+                        <svg className="absolute -top-24 -left-20 w-80 h-80 text-white/5 opacity-40" viewBox="0 0 100 100" fill="currentColor">
+                            <circle cx="50" cy="50" r="45" />
+                        </svg>
+                        <svg className="absolute -bottom-32 right-1/4 w-96 h-96 text-black/10 opacity-30" viewBox="0 0 100 100" fill="currentColor">
+                            <polygon points="50,15 90,85 10,85" />
+                        </svg>
+                    </div>
+
+                    <div className="container mx-auto px-6 lg:px-12 relative z-10">
+                        <h2 className="text-3xl font-black text-center text-white mb-16">
                             {t("How to Become an Agent", "কিভাবে এজেন্ট হবেন?")}
                         </h2>
-                        <div className="flex flex-col md:flex-row justify-between gap-10 max-w-5xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
                             {steps.map((step, i) => (
-                                <div key={i} className="flex-1 flex gap-6 md:flex-col md:items-center md:text-center">
-                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center shrink-0 shadow-md hover:bg-primary transition-all duration-300">
-                                        <step.icon className="w-5 h-5 text-white" />
+                                <div key={i} className="flex flex-col items-center text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300">
+                                    <div className="w-16 h-16 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0 shadow-lg hover:bg-white hover:text-primary transition-all duration-300 mb-6">
+                                        <step.icon className="w-7 h-7" />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-black text-slate-900 mb-2">{t(step.title_en, step.title_bn)}</h3>
-                                        <p className="text-sm text-slate-600 font-bold">{t(step.desc_en, step.desc_bn)}</p>
+                                        <h3 className="text-xl font-bold text-white mb-3">{t(step.title_en, step.title_bn)}</h3>
+                                        <p className="text-sm text-white leading-relaxed font-semibold">{t(step.desc_en, step.desc_bn)}</p>
                                     </div>
                                 </div>
                             ))}

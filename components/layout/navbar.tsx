@@ -104,13 +104,13 @@ export function Navbar() {
                         <Image
                             src="/logos/truckdorkarlogobangla.png"
                             alt="Truck Dorkar Logo"
-                            width={350}
-                            height={100}
-                            className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain"
+                            width={300}
+                            height={85}
+                            className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
                             priority
                         />
                         <span className={cn(
-                            "text-xl sm:text-2xl md:text-3xl font-bold tracking-tight transition-colors",
+                            "text-lg sm:text-xl md:text-2xl font-bold tracking-tight transition-colors",
                             isDarkBackground ? "text-white" : "text-black"
                         )}>
                             <span className="text-primary">Truck</span> Dorkar

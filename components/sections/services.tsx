@@ -79,7 +79,7 @@ export function Services() {
                                     y: -10,
                                     transition: { duration: 0.3 }
                                 }}
-                                className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex flex-col h-full"
+                                className="bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer group flex flex-col h-full"
                             >
                                 {/* Image Container */}
                                 <div className="relative h-56 w-full overflow-hidden">
