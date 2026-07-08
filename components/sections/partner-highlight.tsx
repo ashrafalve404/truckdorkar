@@ -96,7 +96,7 @@ export function PartnerHighlight() {
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-slate-900/60" />
 
                     <div className="relative z-10 space-y-6">
-                        <div className="text-[10px] font-extrabold uppercase tracking-widest text-primary">
+                        <div className={`text-[10px] font-extrabold text-primary ${lang === 'en' ? 'uppercase tracking-widest' : ''}`}>
                             {t("AGENT BENEFITS SUMMARY", "এজেন্টের সুবিধাসমূহ")}
                         </div>
                         <div className="text-2xl md:text-3xl font-black leading-snug">{t("Low investment, high returns.", "স্বল্প বিনিয়োগে সর্বোচ্চ আয়ের সুযোগ।")}</div>
