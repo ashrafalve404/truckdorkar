@@ -4,8 +4,7 @@ import React from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
-import { ShieldCheck, Users } from "lucide-react";
-import Image from "next/image";
+import { ShieldCheck, HeartHandshake, Target, Lightbulb } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 export default function AboutPage() {
@@ -17,28 +16,28 @@ export default function AboutPage() {
             bn: "নিরাপত্তা সবার আগে",
             desc_en: "We ensure maximum safety of goods on every trip.",
             desc_bn: "আমরা প্রতিটি ট্রিপে মালামালের সর্বোচ্চ নিরাপত্তা নিশ্চিত করি।",
-            icon: "/icons/productsafety.png"
+            icon: ShieldCheck
         },
         {
             title: "Customer Trust",
             bn: "গ্রাহকের আস্থা",
             desc_en: "The trust of thousands of customers is our core strength.",
             desc_bn: "হাজারো গ্রাহকের আস্থাই আমাদের এগিয়ে চলার মূল শক্তি।",
-            icon: "/icons/trust.png"
+            icon: HeartHandshake
         },
         {
             title: "Our Mission",
             bn: "আমাদের লক্ষ্য",
             desc_en: "To digitize and make the logistics sector of Bangladesh affordable.",
             desc_bn: "বাংলাদেশের লজিস্টিক সেক্টরকে ডিজিটালাইজ করা এবং সাশ্রয়ী করা।",
-            icon: "/icons/ourmission.png"
+            icon: Target
         },
         {
             title: "Innovation",
             bn: "উদ্ভাবন",
             desc_en: "Providing modern solutions to transport problems through technology.",
             desc_bn: "প্রযুক্তির মাধ্যমে পরিবহন সমস্যার আধুনিক সমাধান প্রদান।",
-            icon: "/icons/innovation.png"
+            icon: Lightbulb
         }
     ];
 
@@ -95,7 +94,7 @@ export default function AboutPage() {
                                     <p>
                                         {t(
                                             "We believe every business's success requires efficient logistics support. Therefore, we guarantee on-time delivery of your goods anywhere in the country.",
-                                            "আমরা বিশ্বাস করি প্রতিটি ব্যবসার সাফল্যের পেছনে দক্ষ লজিসিক সাপোর্ট থাকা প্রয়োজন। তাই আমরা দেশব্যাপী বিস্তৃত নেটওয়ার্ক এবং দক্ষ ড্রাইভারদের মাধ্যমে আপনার যেকোনো মালামাল সঠিক সময়ে গন্তব্যে পৌঁছানোর নিশ্চয়তা দেই।"
+                                            "আমরা বিশ্বাস করি প্রতিটি ব্যবসার সাফল্যের পেছনে দক্ষ লজিসিক সাপোর্ট থাকা প্রয়োজন। তাই আমরা দেশব্যাপী বিস্তৃত নেটয়ার্ক এবং দক্ষ ড্রাইভারদের মাধ্যমে আপনার যেকোনো মালামাল সঠিক সময়ে গন্তব্যে পৌঁছানোর নিশ্চয়তা দেই।"
                                         )}
                                     </p>
                                 </div>
@@ -129,9 +128,9 @@ export default function AboutPage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     transition={{ delay: i * 0.1 }}
                                     viewport={{ once: true }}
-                                    className="p-6 md:p-8 bg-black border border-white/5 hover:border-primary/50 transition-all text-center rounded-md"
+                                    className="p-6 md:p-8 bg-black border border-white/5 hover:border-primary/50 transition-all text-center rounded-md group"
                                 >
-                                    <Image src={v.icon} alt={v.title} width={48} height={48} className="w-12 h-12 object-contain mx-auto mb-4 md:mb-6" />
+                                    <v.icon className="w-12 h-12 text-primary mx-auto mb-4 md:mb-6 transition-transform group-hover:scale-110 duration-300" />
                                     <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">{t(v.title, v.bn)}</h3>
                                     <p className="text-gray-400 text-sm leading-relaxed">{t(v.desc_en, v.desc_bn)}</p>
                                 </motion.div>
