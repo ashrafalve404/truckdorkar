@@ -261,7 +261,7 @@ export function Navbar() {
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className="text-lg font-bold text-dark-gray border-b border-gray-50 pb-2"
+                                    className="text-sm font-medium text-dark-gray border-b border-gray-100 pb-2"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     {lang === "en" ? link.name : link.bn}

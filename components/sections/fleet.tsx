@@ -20,7 +20,7 @@ interface TruckFareInfo {
 }
 
 export function Fleet() {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     const router = useRouter();
     const [fleetTrucks, setFleetTrucks] = useState<TruckFareInfo[]>([]);
 
@@ -82,7 +82,7 @@ export function Fleet() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div className="text-black">
                         <div className="text-primary font-bold mb-4">{t("Truck Types", "ট্রাক এর ধরণ")}</div>
-                        <h2 className="text-4xl lg:text-5xl font-black text-black">
+                        <h2 className={`font-black text-black ${lang === "bn" ? "text-3xl lg:text-4xl" : "text-4xl lg:text-5xl"}`}>
                             {t("Modern Logistics", "যেকোনো মালামালের জন্য")} <br /> {t("Trucks", "সঠিক ট্রাক")}
                         </h2>
                     </div>

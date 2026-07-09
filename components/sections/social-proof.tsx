@@ -9,15 +9,15 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/language-context";
 
 export function MobileApp() {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     return (
         <section className="py-24 bg-white overflow-hidden text-black">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="bg-light-gray rounded-lg relative overflow-hidden min-h-[500px] flex items-center">
                     <div className="grid lg:grid-cols-2 gap-12 items-center w-full h-full">
                         <div className="relative z-10 text-black p-12 lg:p-24">
-                            <div className="text-primary font-bold mb-4">{t("Mobile Experience (Coming Soon)", "মোবাইল এক্সপেরিয়েন্স (শীঘ্রই আসছে)")}</div>
-                            <h2 className="text-3xl lg:text-4xl font-black text-black mb-6">
+                            <div className="text-primary font-bold mb-4">{t("Mobile Experience (Coming Soon)", "মোবাইল এক্সপেরিয়েন্স (শীঘ্রই আসছে)")}</div>
+                            <h2 className={`font-black text-black mb-6 ${lang === "bn" ? "text-2xl lg:text-3xl" : "text-3xl lg:text-4xl"}`}>
                                 {t("Entire Logistics Company", "আপনার পকেটে")} <br /> {t("in Your Pocket", "পুরো লজিস্টিক কোম্পানি")}
                             </h2>
                             <p className="text-lg text-gray-500 mb-10 max-w-md">
@@ -62,7 +62,7 @@ export function MobileApp() {
 }
 
 export function Testimonials() {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     const [isPaused, setIsPaused] = useState(false);
 
     const reviews = [
@@ -77,7 +77,7 @@ export function Testimonials() {
     return (
         <section className="py-24 bg-white text-black overflow-hidden select-none">
             <div className="container mx-auto px-6 lg:px-12 text-center mb-16">
-                <h2 className="text-4xl font-black text-black">{t("What Our Clients Say", "আমাদের গ্রাহকেরা কি বলছেন")}</h2>
+                <h2 className={`font-black text-black ${lang === "bn" ? "text-3xl" : "text-4xl"}`}>{t("What Our Clients Say", "আমাদের গ্রাহকেরা কি বলছেন")}</h2>
             </div>
 
             <div className="relative flex overflow-hidden">
@@ -123,6 +123,6 @@ export function Testimonials() {
                 <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
                 <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
             </div>
-        </section>
+        </section >
     );
 }

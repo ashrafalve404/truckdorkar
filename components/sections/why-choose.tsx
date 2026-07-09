@@ -51,14 +51,14 @@ const features = [
 ];
 
 export function WhyChoose() {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
 
     return (
         <section className="py-24 bg-dark-gray text-white">
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="flex flex-col items-center text-center mb-16">
                     <div className="text-primary font-bold mb-4">{t("Why Truck Dorkar", "কেন ট্রাক দরকার")}</div>
-                    <h2 className="text-4xl lg:text-5xl font-black mb-6">
+                    <h2 className={`font-black mb-6 ${lang === "bn" ? "text-3xl lg:text-4xl" : "text-4xl lg:text-5xl"}`}>
                         {t("Why Choose Us?", "কেন আমাদের পছন্দ করবেন?")}
                     </h2>
                 </div>

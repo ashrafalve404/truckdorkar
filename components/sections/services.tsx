@@ -52,7 +52,7 @@ const services = [
 ];
 
 export function Services() {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
 
     return (
         <section id="services" className="py-24 bg-light-gray text-black">
@@ -61,7 +61,7 @@ export function Services() {
                     <div className="text-primary font-bold mb-4">
                         {t("Our Services", "আমাদের সার্ভিস")}
                     </div>
-                    <h2 className="text-4xl lg:text-5xl font-black text-black mb-6">
+                    <h2 className={`font-black text-black mb-6 ${lang === "bn" ? "text-3xl lg:text-4xl" : "text-4xl lg:text-5xl"}`}>
                         {t("What We Solve", "আমরা যা সমাধান করি")}
                     </h2>
                     <div className="w-20 h-1.5 bg-primary rounded-full" />

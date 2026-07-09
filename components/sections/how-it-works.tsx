@@ -13,13 +13,13 @@ const steps = [
 ];
 
 export function HowItWorks() {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     return (
         <section id="how-it-works" className="py-24 bg-white text-black relative">
             <div className="container mx-auto px-6 lg:px-12 relative z-10">
                 <div className="flex flex-col items-center text-center mb-20">
                     <div className="text-primary font-bold mb-4">{t("Simple Process", "সহজ প্রক্রিয়া")}</div>
-                    <h2 className="text-4xl lg:text-5xl font-black text-black mb-6">
+                    <h2 className={`font-black text-black mb-6 ${lang === "bn" ? "text-3xl lg:text-4xl" : "text-4xl lg:text-5xl"}`}>
                         {t("How Truck Dorkar Works", "কিভাবে কাজ করে ট্রাক দরকার")}
                     </h2>
                 </div>

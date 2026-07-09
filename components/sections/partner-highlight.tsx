@@ -32,7 +32,7 @@ export function PartnerHighlight() {
                     </div>
 
                     <div className="relative z-10">
-                        <div className="text-white font-bold mb-4 uppercase tracking-wider text-xs">
+                        <div className="text-white font-bold mb-4 uppercase tracking-wider text-sm">
                             {t("Agent Program", "এজেন্ট প্রোগ্রাম")}
                         </div>
                         <h2 className={cn(
@@ -91,12 +91,12 @@ export function PartnerHighlight() {
                     </div>
                 </div>
 
-                <div className="lg:col-span-5 relative min-h-[450px] lg:min-h-full flex flex-col justify-end p-8 md:p-12 lg:p-16 text-white overflow-hidden bg-cover bg-center lg:rounded-l-3xl rounded-t-3xl lg:rounded-tr-none" style={{ backgroundImage: "url('/images/agentpagebg.png')" }}>
+                <div className="lg:col-span-5 relative min-h-[450px] lg:min-h-full flex flex-col justify-end p-8 md:p-12 lg:p-16 text-white overflow-hidden bg-cover bg-right lg:bg-center lg:rounded-l-3xl rounded-t-3xl lg:rounded-tr-none" style={{ backgroundImage: "url('/images/agentpagebg.png')" }}>
                     {/* Gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-slate-900/60" />
 
                     <div className="relative z-10 space-y-6">
-                        <div className={`text-[10px] font-extrabold text-primary ${lang === 'en' ? 'uppercase tracking-widest' : ''}`}>
+                        <div className={`text-xs font-extrabold text-primary ${lang === 'en' ? 'uppercase tracking-widest' : ''}`}>
                             {t("AGENT BENEFITS SUMMARY", "এজেন্টের সুবিধাসমূহ")}
                         </div>
                         <div className="text-2xl md:text-3xl font-black leading-snug">{t("Low investment, high returns.", "স্বল্প বিনিয়োগে সর্বোচ্চ আয়ের সুযোগ।")}</div>

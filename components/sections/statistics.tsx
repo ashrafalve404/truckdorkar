@@ -40,7 +40,7 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
     }, [isInView, value]);
 
     return (
-        <span ref={ref} className="text-4xl lg:text-6xl font-black text-black">
+        <span ref={ref} className="text-3xl lg:text-5xl font-black text-black">
             {lang === "bn" ? count.toLocaleString("bn-BD") : count.toLocaleString("en-US")}{suffix}
         </span>
     );
@@ -60,13 +60,13 @@ export function Statistics() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            className="space-y-2"
+                            className="space-y-1.5"
                         >
                             <Counter value={stat.value} suffix={stat.suffix} />
-                            <div className="text-lg font-bold text-primary">
+                            <div className="text-base font-bold text-primary">
                                 {t(stat.label_en, stat.label_bn)}
                             </div>
-                            <div className={`text-sm font-semibold text-slate-400 ${lang === 'bn' ? 'uppercase tracking-widest' : ''}`}>
+                            <div className={`text-xs font-semibold text-slate-400 ${lang === 'bn' ? 'uppercase tracking-widest' : ''}`}>
                                 {t(stat.label_bn, stat.label_en)}
                             </div>
                         </motion.div>
