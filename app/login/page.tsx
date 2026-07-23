@@ -127,7 +127,7 @@ export default function LoginPage() {
                                         value={formData.identifier}
                                         onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                                         placeholder={t("Enter phone number or email", "ফোন নম্বর বা ইমেইল লিখুন")}
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
@@ -142,7 +142,7 @@ export default function LoginPage() {
                                             value={formData.password}
                                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                             placeholder={t("Enter password", "পাসওয়ার্ড লিখুন")}
-                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 pr-12 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 pr-12 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                         />
                                         <button
                                             type="button"
@@ -160,9 +160,9 @@ export default function LoginPage() {
                                             type="checkbox"
                                             className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
                                         />
-                                        <span className="text-sm text-slate-700 font-bold">{t("Remember me", "মনে রাখুন")}</span>
+                                        <span className="text-sm text-slate-600 font-medium">{t("Remember me", "মনে রাখুন")}</span>
                                     </label>
-                                    <Link href="/forgot-password" className="text-sm font-bold text-primary hover:text-secondary transition-colors">
+                                    <Link href="/forgot-password" className="text-sm font-semibold text-primary hover:text-secondary transition-colors">
                                         {t("Forgot Password?", "পাসওয়ার্ড ভুলে গেছেন?")}
                                     </Link>
                                 </div>
@@ -171,7 +171,7 @@ export default function LoginPage() {
                                     size="lg"
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full h-12 md:h-14 rounded-lg md:rounded-xl font-bold text-base md:text-lg transition-all hover:translate-y-[-2px] text-white"
+                                    className="w-full h-12 md:h-14 rounded-lg md:rounded-xl font-semibold text-base md:text-lg transition-all hover:translate-y-[-2px] text-white"
                                 >
                                     {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("Login", "লগইন")}
                                 </Button>
@@ -183,7 +183,7 @@ export default function LoginPage() {
                                     <div className="w-full border-t border-gray-100"></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-4 bg-white text-slate-600 font-bold">{t("Or continue with", "অথবা এড়িয়ে যান")}</span>
+                                    <span className="px-4 bg-white text-slate-500 font-medium">{t("Or continue with", "অথবা এড়িয়ে যান")}</span>
                                 </div>
                             </div>
 
@@ -194,7 +194,7 @@ export default function LoginPage() {
                                     variant="outline"
                                     onClick={() => googleLogin()}
                                     disabled={loading}
-                                    className="w-full h-11 md:h-12 rounded-lg md:rounded-xl font-bold text-sm md:text-base gap-2 text-black border-gray-200 hover:bg-gray-50"
+                                    className="w-full h-11 md:h-12 rounded-lg md:rounded-xl font-medium text-sm md:text-base gap-2 text-slate-700 border-gray-200 hover:bg-gray-50"
                                 >
                                     <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none">
                                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -202,14 +202,14 @@ export default function LoginPage() {
                                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                                     </svg>
-                                    {t("Continue with Google", "গুগল দিয়ে লগইন করুন")}
+                                    {t("Continue with Google", "গুগল দিয়ে লগইন করুন")}
                                 </Button>
                             </div>
 
                             {/* Register Link */}
-                            <p className="text-center text-sm md:text-base text-slate-700 font-bold mt-6 md:mt-8">
+                            <p className="text-center text-sm md:text-base text-slate-600 font-medium mt-6 md:mt-8">
                                 {t("Don't have an account?", "অ্যাকাউন্ট নেই?")}{" "}
-                                <Link href="/register" className="font-bold text-primary hover:text-secondary transition-colors">
+                                <Link href="/register" className="font-semibold text-primary hover:text-secondary transition-colors">
                                     {t("Register", "রেজিস্টার")}
                                 </Link>
                             </p>

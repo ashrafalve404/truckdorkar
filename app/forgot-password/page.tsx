@@ -63,7 +63,7 @@ export default function ForgotPasswordPage() {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 placeholder={t("Enter your email", "আপনার ইমেইল লিখুন")}
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                                 required
                                             />
                                         </div>

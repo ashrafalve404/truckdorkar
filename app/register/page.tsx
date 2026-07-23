@@ -143,7 +143,7 @@ function RegisterForm() {
 
                             {/* Role Selection */}
                             <div className="space-y-4 mb-8 text-center max-w-2xl mx-auto">
-                                <label className="text-sm font-black text-slate-500 uppercase tracking-widest text-center block">
+                                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider text-center block">
                                     {t("Select Your Role", "আপনার ভূমিকা নির্বাচন করুন")}
                                 </label>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -190,7 +190,7 @@ function RegisterForm() {
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         placeholder={t("Enter your full name", "আপনার পুরো নাম লিখুন")}
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
@@ -204,7 +204,7 @@ function RegisterForm() {
                                         value={formData.phone}
                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                         placeholder="01700-000000"
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
@@ -220,7 +220,7 @@ function RegisterForm() {
                                                 value={formData.licenseNumber}
                                                 onChange={(e) => setFormData({ ...formData, licenseNumber: e.target.value })}
                                                 placeholder={t("Enter license number", "লাইসেন্স নম্বর লিখুন")}
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -234,7 +234,7 @@ function RegisterForm() {
                                                 onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                                                 placeholder="0"
                                                 min="0"
-                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                             />
                                         </div>
                                     </div>
@@ -250,7 +250,7 @@ function RegisterForm() {
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         placeholder={t("Enter your email", "আপনার ইমেইল লিখুন")}
-                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-950 font-bold placeholder:text-slate-500 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                     />
                                 </div>
 
@@ -265,7 +265,7 @@ function RegisterForm() {
                                             value={formData.password}
                                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                             placeholder={t("Create password", "পাসওয়ার্ড তৈরি করুন")}
-                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 pr-12 text-black placeholder:text-gray-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                            className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 pr-12 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
                                         />
                                         <button
                                             type="button"
@@ -285,26 +285,26 @@ function RegisterForm() {
                                         onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
                                         className="w-5 h-5 mt-0.5 rounded border-gray-300 text-primary focus:ring-primary"
                                     />
-                                    <span className="text-sm text-slate-700 font-bold leading-relaxed">
+                                    <span className="text-sm text-slate-600 font-normal leading-relaxed">
                                         {t(
                                             "I agree to the",
                                             "আমি সম্মত হয়েছি"
                                         )}{" "}
-                                        <Link href="/terms-of-service" className="font-bold text-primary hover:text-secondary">{t("Terms of Service", "সেবার শর্তাবলী")}</Link>{" "}
+                                        <Link href="/terms-of-service" className="font-medium text-primary hover:text-secondary">{t("Terms of Service", "সেবার শর্তাবলী")}</Link>{" "}
                                         {t("and", "আর")}{" "}
-                                        <Link href="/privacy-policy" className="font-bold text-primary hover:text-secondary">{t("Privacy Policy", "গোপনীয়তা নীতি")}</Link>
+                                        <Link href="/privacy-policy" className="font-medium text-primary hover:text-secondary">{t("Privacy Policy", "গোপনীয়তা নীতি")}</Link>
                                     </span>
                                 </label>
 
-                                <Button size="lg" disabled={loading} className="w-full h-12 md:h-14 rounded-lg md:rounded-xl font-bold text-base md:text-lg transition-all hover:translate-y-[-2px] text-white">
+                                <Button size="lg" disabled={loading} className="w-full h-12 md:h-14 rounded-lg md:rounded-xl font-semibold text-base md:text-lg transition-all hover:translate-y-[-2px] text-white">
                                     {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("Create Account", "অ্যাকাউন্ট তৈরি করুন")}
                                 </Button>
                             </form>
 
                             {/* Login Link */}
-                            <p className="text-center text-sm md:text-base text-slate-700 font-bold mt-6 md:mt-8">
+                            <p className="text-center text-sm md:text-base text-slate-600 font-medium mt-6 md:mt-8">
                                 {t("Already have an account?", "ইতিমধ্যে অ্যাকাউন্ট আছে?")}{" "}
-                                <Link href="/login" className="font-bold text-primary hover:text-secondary transition-colors">
+                                <Link href="/login" className="font-semibold text-primary hover:text-secondary transition-colors">
                                     {t("Login", "লগইন")}
                                 </Link>
                             </p>

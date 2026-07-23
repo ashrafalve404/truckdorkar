@@ -45,14 +45,14 @@ function NativeSelect({ value, onChange, options, placeholder, disabled, compact
                 disabled={disabled}
                 onClick={() => !disabled && setOpen(o => !o)}
                 className={cn(
-                    "w-full flex items-center justify-between gap-2 font-semibold text-left transition-all border rounded-lg focus:outline-none",
+                    "w-full flex items-center justify-between gap-2 font-medium text-left transition-all border rounded-lg focus:outline-none",
                     compact
                         ? "h-9 px-3 text-xs bg-white border-slate-300 text-slate-800"
                         : "h-11 px-4 text-sm bg-white border-slate-300 text-slate-900",
                     disabled
                         ? "opacity-40 cursor-not-allowed"
                         : "hover:border-primary/50 focus:ring-2 focus:ring-primary/20",
-                    !value && "text-slate-500",
+                    !value && "text-slate-400",
                     open && "border-primary ring-2 ring-primary/20"
                 )}
             >
@@ -67,7 +67,7 @@ function NativeSelect({ value, onChange, options, placeholder, disabled, compact
                             type="button"
                             onClick={() => { onChange(opt); setOpen(false); }}
                             className={cn(
-                                "w-full text-left px-4 py-2.5 text-sm font-semibold transition-all flex items-center justify-between",
+                                "w-full text-left px-4 py-2.5 text-sm font-medium transition-all flex items-center justify-between",
                                 opt === value
                                     ? "bg-primary/10 text-primary"
                                     : "hover:bg-slate-50 text-slate-700"
@@ -180,11 +180,11 @@ export function LocationSelector({
                         onChange={handleAreaChange}
                         disabled={!thana}
                         placeholder={t("Area / Village", "এলাকা / গ্রাম")}
-                        className="h-9 px-3 text-xs bg-white border border-slate-300 rounded-lg font-semibold text-slate-800 placeholder:text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        className="h-9 px-3 text-xs bg-white border border-slate-300 rounded-lg font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                     />
                 </div>
                 {value && (
-                    <p className="text-[10px] text-primary font-bold flex items-center gap-1 mt-0.5">
+                    <p className="text-[10px] text-primary font-medium flex items-center gap-1 mt-0.5">
                         <MapPin className="w-2.5 h-2.5 shrink-0" />
                         <span className="truncate">{value}</span>
                     </p>
@@ -211,13 +211,13 @@ export function LocationSelector({
                 ].map((s, i) => (
                     <React.Fragment key={s.step}>
                         <div className={cn(
-                            "flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black transition-all",
+                            "flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-all",
                             s.done
                                 ? "bg-primary/10 text-primary"
                                 : "bg-slate-100 text-slate-400"
                         )}>
                             <span className={cn(
-                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black shrink-0",
+                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0",
                                 s.done ? "bg-primary text-white" : "bg-slate-300 text-white"
                             )}>{s.step}</span>
                             {s.label}
@@ -255,7 +255,7 @@ export function LocationSelector({
                 onChange={handleAreaChange}
                 disabled={!thana}
                 placeholder={t("Area / Village / Road (optional)", "এলাকা / গ্রাম / রাস্তা (ঐচ্ছিক)")}
-                className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-900 placeholder:text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl text-sm font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
             />
             {value && (
                 <div className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2.5">

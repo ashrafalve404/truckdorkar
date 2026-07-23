@@ -180,7 +180,7 @@ export function BookingWidget() {
                                 onClick={() => setIsTruckDropdownOpen(!isTruckDropdownOpen)}
                                 className="w-full h-14 bg-white border border-slate-300 rounded-md px-6 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all shadow-sm"
                             >
-                                <span className={cn("font-semibold", truckType ? "text-black" : "text-slate-500")}>
+                                <span className={cn("font-medium", truckType ? "text-slate-900" : "text-slate-500")}>
                                     {truckType
                                         ? (lang === 'en' ? selectedTruckLabel?.en : selectedTruckLabel?.bn)
                                         : t("Select Truck", "ট্রাক নির্বাচন করুন")}

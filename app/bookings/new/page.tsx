@@ -59,9 +59,9 @@ function CustomSelect({ value, onChange, options, placeholder, label }: CustomSe
             {label && <label className="text-sm font-bold text-slate-950">{label}</label>}
             <div
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full h-12 bg-white border border-slate-300 rounded-xl px-4 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all font-bold text-slate-950 shadow-sm"
+                className="w-full h-12 bg-white border border-slate-300 rounded-xl px-4 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all font-medium text-slate-900 shadow-sm"
             >
-                <span className={cn(value ? "text-slate-950" : "text-slate-500")}>
+                <span className={cn(value ? "text-slate-900" : "text-slate-500")}>
                     {selectedOption ? selectedOption.label : placeholder}
                 </span>
                 <ChevronDown className={cn("w-4 h-4 text-slate-400 transition-transform duration-300", isOpen && "rotate-180")} />
@@ -84,7 +84,7 @@ function CustomSelect({ value, onChange, options, placeholder, label }: CustomSe
                                     setIsOpen(false);
                                 }}
                                 className={cn(
-                                    "px-4 py-2.5 text-sm font-bold transition-all flex items-center justify-between",
+                                    "px-4 py-2.5 text-sm font-medium transition-all flex items-center justify-between",
                                     opt.upcoming
                                         ? "opacity-50 cursor-not-allowed"
                                         : value === opt.value
@@ -482,7 +482,7 @@ function BookingContent() {
                                                     }));
                                                 }}
                                                 placeholder={t("Distance in KM", "কিমি-এ দূরত্ব")}
-                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
                                             />
                                         </div>
                                     </div>
@@ -504,7 +504,7 @@ function BookingContent() {
                                                 onChange={(e) => setFormData({ ...formData, estimatedFare: e.target.value })}
                                                 placeholder={`e.g. ${minFare}`}
                                                 className={cn(
-                                                    "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500",
+                                                    "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400",
                                                     formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare ? "border-red-300" : "border-slate-300"
                                                 )}
                                             />
@@ -517,7 +517,7 @@ function BookingContent() {
                                                 value={formData.goodsWeight}
                                                 onChange={(e) => setFormData({ ...formData, goodsWeight: e.target.value })}
                                                 placeholder="e.g. 1500"
-                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
                                             />
                                         </div>
                                     </div>
@@ -531,7 +531,7 @@ function BookingContent() {
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <div className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 flex items-center justify-between cursor-pointer focus:ring-2 focus:ring-primary/20 outline-none transition-all">
-                                                        <span className={cn("font-bold", formData.scheduledAt ? "text-slate-950" : "text-slate-500")}>
+                                                        <span className={cn("font-normal", formData.scheduledAt ? "text-slate-900" : "text-slate-400")}>
                                                             {formData.scheduledAt ? format(new Date(formData.scheduledAt), "PPP") : t("Select Booking Date", "বুকিংয়ের তারিখ")}
                                                         </span>
                                                         <CalendarIcon className="w-4 h-4 text-slate-400" />
@@ -563,7 +563,7 @@ function BookingContent() {
                                                 value={formData.contactPhone}
                                                 onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
                                                 placeholder={t("e.g. 01XXXXXXXXX", "যেমন: 01XXXXXXXXX")}
-                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-950 font-bold placeholder:text-slate-500"
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
                                             />
                                         </div>
                                     </div>
@@ -574,7 +574,7 @@ function BookingContent() {
                                             value={formData.specialNote}
                                             onChange={(e) => setFormData({ ...formData, specialNote: e.target.value })}
                                             placeholder={t("Anything else we should know?", "আরও কিছু বলার আছে?")}
-                                            className="w-full h-32 bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none resize-none text-slate-950 font-bold placeholder:text-slate-500"
+                                            className="w-full h-32 bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none resize-none text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
                                         />
                                     </div>
 
