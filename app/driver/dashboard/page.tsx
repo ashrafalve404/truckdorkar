@@ -18,9 +18,11 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
+import { useAuth } from "@/store/use-auth";
 
 export default function DriverDashboard() {
     const { t } = useLanguage();
+    const { updateUser } = useAuth();
     const [stats, setStats] = useState({
         totalTrips: 0,
         earnings: 0,
@@ -49,6 +51,10 @@ export default function DriverDashboard() {
                 const active = allBookings.filter((b: any) =>
                     b.status === 'ACCEPTED' || b.status === 'IN_TRANSIT'
                 );
+
+                if (driver?.user?.avatar) {
+                    updateUser({ avatar: driver.user.avatar });
+                }
 
                 setStats({
                     totalTrips: driver.totalTrips || 0,

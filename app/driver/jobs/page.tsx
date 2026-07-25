@@ -138,15 +138,15 @@ export default function DriverJobsPage() {
 
     const handleAcceptJob = async (id: string) => {
         if (hasCommissionDue) {
-            toast.error(t("Pay your commission first to accept jobs.", "কাজ নিতে আগে কমিশন পরিশোধ করুন।"));
+            toast.error(t("Pay your commission first to accept trips.", "ট্রিপ নিতে আগে কমিশন পরিশোধ করুন।"));
             return;
         }
         try {
             await api.patch(`/bookings/${id}/accept`);
-            toast.success(t("Job accepted successfully!", "কাজটি সফলভাবে গ্রহণ করা হয়েছে!"));
+            toast.success(t("Trip accepted successfully!", "ট্রিপটি সফলভাবে গ্রহণ করা হয়েছে!"));
             fetchJobs();
         } catch (error: any) {
-            const msg = error?.response?.data?.message || t("Failed to accept job", "কাজটি গ্রহণ করতে ব্যর্থ হয়েছে");
+            const msg = error?.response?.data?.message || t("Failed to accept trip", "ট্রিপটি গ্রহণ করতে ব্যর্থ হয়েছে");
             toast.error(msg);
         }
     };
@@ -156,10 +156,10 @@ export default function DriverJobsPage() {
             <header className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 mb-2">
-                        {t("Find New Jobs", "কাজ খুঁজুন")}
+                        {t("Find New Trips", "ট্রিপ খুঁজুন")}
                     </h1>
                     <p className="text-slate-700 font-bold">
-                        {t("Browse available booking requests and accept yours.", "সাভেইলেবল বুকিংগুলো দেখুন এবং আপনার পছন্দমতো গ্রহণ করুন।")}
+                        {t("Browse available booking requests and accept yours.", "অ্যাভেইলেবল বুকিংগুলো দেখুন এবং আপনার পছন্দমতো গ্রহণ করুন।")}
                     </p>
                 </div>
                 <div className="flex gap-4">

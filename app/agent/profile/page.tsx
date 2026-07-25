@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { useAuth } from "@/store/use-auth";
 import {
     Shield,
     Image as ImageIcon,
@@ -11,16 +12,22 @@ import {
     XCircle,
     Loader2,
     Camera,
-    Info
+    Info,
+    User as UserIcon
 } from "lucide-react";
 import api, { getFileUrl } from "@/lib/api";
+import { getAvatarUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 
 export default function AgentProfilePage() {
     const { t } = useLanguage();
+    const { user, updateUser } = useAuth();
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
+    const avatarInputRef = useRef<HTMLInputElement>(null);
+
     const [agentData, setAgentData] = useState<any>(null);
     const [form, setForm] = useState({
         nidNumber: "",
@@ -49,6 +56,37 @@ export default function AgentProfilePage() {
     useEffect(() => {
         fetchProfile();
     }, []);
+
+    const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error(t("Image size should be less than 5MB", "ছবি ৫ মেগাবাইটের কম হতে হবে"));
+            return;
+        }
+
+        setUploadingAvatar(true);
+        try {
+            const formData = new FormData();
+            formData.append("avatar", file);
+
+            const response = await api.post("/users/profile/avatar", formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+
+            const updatedData = response.data?.data || response.data;
+            const newAvatar = updatedData.avatar || updatedData.url;
+
+            updateUser({ avatar: newAvatar });
+            toast.success(t("Profile picture updated successfully", "প্রোফাইল ছবি সফলভাবে আপডেট করা হয়েছে"));
+        } catch (error: any) {
+            console.error("Avatar upload failed", error);
+            toast.error(error.response?.data?.message || t("Failed to upload profile picture", "ছবি আপলোড করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setUploadingAvatar(false);
+        }
+    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, side: 'front' | 'back') => {
         const file = e.target.files?.[0];
@@ -111,13 +149,52 @@ export default function AgentProfilePage() {
                     {t("Profile & Verification", "প্রোফাইল এবং ভেরিফিকেশন")}
                 </h1>
                 <p className="text-slate-700 font-bold">
-                    {t("Verify your identity to increase trust and access more features.", "আরও সুবিধা পেতে আপনার পরিচয় নিশ্চিত করুন।")}
+                    {t("Verify your identity and update your agent profile picture.", "আপনার ছবি আপডেট করুন এবং পরিচয় ভেরিফাই করুন।")}
                 </p>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left: Status Sidebar */}
+                {/* Left: Avatar & Verification Status */}
                 <div className="lg:col-span-1 space-y-6">
+                    {/* Agent Avatar Upload Card */}
+                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm text-center">
+                        <div
+                            className="relative inline-block mb-4 cursor-pointer group"
+                            onClick={() => avatarInputRef.current?.click()}
+                            title={t("Click to change profile picture", "প্রোফাইল ছবি পরিবর্তন করতে ক্লিক করুন")}
+                        >
+                            <input
+                                type="file"
+                                ref={avatarInputRef}
+                                onChange={handleAvatarUpload}
+                                accept="image/*"
+                                className="hidden"
+                            />
+                            <div className="w-28 h-28 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-xl relative mx-auto">
+                                {user?.avatar ? (
+                                    <img src={getAvatarUrl(user.avatar) || ""} alt={user.name || "Agent Avatar"} className="w-full h-full object-cover" />
+                                ) : (
+                                    <UserIcon className="w-10 h-10 text-slate-400" />
+                                )}
+                                {uploadingAvatar && (
+                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                        <Loader2 className="w-6 h-6 text-white animate-spin" />
+                                    </div>
+                                )}
+                            </div>
+                            <button
+                                type="button"
+                                disabled={uploadingAvatar}
+                                className="absolute bottom-0 right-0 w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white shadow-md group-hover:scale-110 transition-transform"
+                            >
+                                {uploadingAvatar ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Camera className="w-3.5 h-3.5" />}
+                            </button>
+                        </div>
+                        <h3 className="font-black text-slate-900 text-base">{user?.name || agentData?.user?.name || "Agent"}</h3>
+                        <p className="text-xs text-slate-500 font-bold">{user?.email || user?.phone}</p>
+                    </div>
+
+                    {/* Verification Status Banner */}
                     <div className={`p-8 rounded-3xl border border-slate-100 shadow-sm ${statusObj.bg}`}>
                         <div className={`w-16 h-16 rounded-2xl ${statusObj.color} bg-white flex items-center justify-center mb-6 shadow-sm`}>
                             <StatusIcon className="w-8 h-8" />
@@ -202,7 +279,7 @@ export default function AgentProfilePage() {
                             {/* Back Side */}
                             <div className="space-y-4">
                                 <label className="text-sm font-black text-slate-950 uppercase tracking-widest leading-none">
-                                    {t("NID Back View", "এনআইডি পেছনের দিক")}
+                                    {t("NID Back View", "এনআইডি পিছনের দিক")}
                                     <span className="text-red-500 ml-1">*</span>
                                 </label>
                                 <div className="relative group">
@@ -234,24 +311,12 @@ export default function AgentProfilePage() {
 
                         {agentData?.verificationStatus !== 'APPROVED' && (
                             <Button
-                                type="submit"
                                 disabled={submitting}
-                                className="w-full h-16 rounded-2xl font-black text-lg shadow-xl shadow-primary/20 gap-3 text-white"
+                                type="submit"
+                                className="w-full h-14 rounded-2xl font-black text-base uppercase tracking-wider bg-slate-950 hover:bg-slate-900 text-white shadow-xl"
                             >
-                                {submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : (
-                                    <>
-                                        <Shield className="w-6 h-6" />
-                                        {t("Submit for Verification", "ভেরিফিকেশনের জন্য পাঠান")}
-                                    </>
-                                )}
+                                {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : t("Submit For Verification", "যাচাইকরণের জন্য জমা দিন")}
                             </Button>
-                        )}
-
-                        {agentData?.verificationStatus === 'APPROVED' && (
-                            <div className="p-6 rounded-2xl bg-green-50 border border-green-100 flex items-center gap-4">
-                                <CheckCircle2 className="w-6 h-6 text-green-500" />
-                                <p className="text-sm font-bold text-green-800">{t("Identity verified on", "ভেরিফাইড হয়েছে")}: {new Date(agentData.updatedAt).toLocaleDateString()}</p>
-                            </div>
                         )}
                     </form>
                 </div>

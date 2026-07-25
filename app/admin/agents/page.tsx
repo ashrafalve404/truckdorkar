@@ -25,7 +25,7 @@ import api, { getFileUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminAgentsPage() {
@@ -184,8 +184,12 @@ export default function AdminAgentsPage() {
                         <div key={agent.id} className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md transition-all">
                             <div className="p-6">
                                 <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-black">
-                                        {(agent.user.name === "Operations Staff" ? "Agent" : agent.user.name).charAt(0)}
+                                    <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-black overflow-hidden shrink-0 border border-slate-200">
+                                        {agent.user?.avatar ? (
+                                            <img src={getAvatarUrl(agent.user.avatar) || ""} alt={agent.user?.name || "Agent"} className="w-full h-full object-cover" />
+                                        ) : (
+                                            (agent.user?.name === "Operations Staff" ? "Agent" : agent.user?.name || "A").charAt(0).toUpperCase()
+                                        )}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <h3 className="font-black text-slate-950 truncate">

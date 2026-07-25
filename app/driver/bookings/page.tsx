@@ -94,7 +94,7 @@ export default function DriverBookingsPage() {
                     <div className="p-20 text-center">
                         <h3 className="text-xl font-bold text-slate-950 mb-2">{t("No Bookings Yet", "কোন বুকিং নেই")}</h3>
                         <p className="text-slate-700 font-bold max-w-sm mx-auto">
-                            {t("You haven't accepted any jobs yet. Go to Find Jobs to get started!", "আপনি এখনও কোন কাজ গ্রহণ করেননি। কাজ খুঁজতে 'কাজ খুঁজুন' এ যান!")}
+                            {t("You haven't accepted any trips yet. Go to Find Trips to get started!", "আপনি এখনও কোনো ট্রিপ গ্রহণ করেননি। ট্রিপ খুঁজতে 'ট্রিপ খুঁজুন' এ যান!")}
                         </p>
                     </div>
                 ) : (

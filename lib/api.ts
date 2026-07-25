@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
-const API_URL = `${BACKEND_URL}/api/v1`;
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 
+    (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/v\d+\/?$/, '') : 'http://localhost:5000');
+const API_URL = process.env.NEXT_PUBLIC_API_URL || `${BACKEND_URL}/api/v1`;
 
 export const getFileUrl = (path?: string) => {
-    if (!path) return '/images/placeholder.png';
-    if (path.startsWith('http')) return path;
-    return `${BACKEND_URL}${path}`;
+    if (!path) return '';
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+    const cleanOrigin = BACKEND_URL.replace(/\/$/, '');
+    return `${cleanOrigin}${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
 const api = axios.create({

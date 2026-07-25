@@ -15,7 +15,7 @@ import {
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminUsersPage() {
@@ -193,8 +193,12 @@ export default function AdminUsersPage() {
                                     <tr key={user.id} className="hover:bg-slate-50/50 transition-all">
                                         <td className="px-8 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-600">
-                                                    {user.name[0]}
+                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-600 overflow-hidden shrink-0 border border-slate-200">
+                                                    {user.avatar ? (
+                                                        <img src={getAvatarUrl(user.avatar) || ""} alt={user.name} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        user.name[0]?.toUpperCase()
+                                                    )}
                                                 </div>
                                                 <div>
                                                     <p className="font-bold text-slate-950">{user.name}</p>

@@ -16,12 +16,14 @@ import {
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
+import { TicketModal } from "@/components/support/ticket-modal";
 
 export default function AgentSupportPage() {
     const { t } = useLanguage();
     const [loading, setLoading] = useState(true);
     const [tickets, setTickets] = useState<any[]>([]);
     const [filter, setFilter] = useState<"all" | "open" | "in_progress" | "resolved">("all");
+    const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
 
     const fetchTickets = async () => {
         try {
@@ -78,22 +80,12 @@ export default function AgentSupportPage() {
                         {t("Handle customer inquiries and resolve issues.", "কাস্টমারদের জিজ্ঞাসা সমাধান করুন এবং সাহায্য করুন।")}
                     </p>
                 </div>
-                <div className="flex gap-4">
-                    <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
-                        <input
-                            type="text"
-                            placeholder={t("Search tickets...", "টিকেট খুঁজুন...")}
-                            className="bg-white h-12 pl-12 pr-6 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-72 font-black text-sm text-slate-950 placeholder:text-slate-500"
-                        />
-                    </div>
-                </div>
             </header>
 
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
                 {[
-                    { label: t("My Assigned", "আমার দায়িত্ব"), value: resolvedCount, icon: User, color: "text-blue-500", bg: "bg-blue-50" },
+                    { label: t("Total Tickets", "মোট টিকেট"), value: tickets.length, icon: User, color: "text-blue-500", bg: "bg-blue-50" },
                     { label: t("Pending", "অপেক্ষমান"), value: openCount, icon: Clock, color: "text-amber-500", bg: "bg-amber-50" },
                     { label: t("In Progress", "চলমান"), value: inProgressCount, icon: AlertCircle, color: "text-purple-500", bg: "bg-purple-50" },
                     { label: t("Resolved", "সমাধান"), value: resolvedCount, icon: CheckCircle, color: "text-green-500", bg: "bg-green-50" },
@@ -120,8 +112,8 @@ export default function AgentSupportPage() {
                         key={f}
                         onClick={() => setFilter(f)}
                         className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${filter === f
-                                ? "bg-primary text-white shadow-lg shadow-primary/20"
-                                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            ? "bg-primary text-white shadow-lg shadow-primary/20"
+                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                             }`}
                     >
                         {f === "all" ? t("All", "সব") :
@@ -147,26 +139,25 @@ export default function AgentSupportPage() {
                         <p className="text-sm text-slate-500 font-bold max-w-sm mx-auto">
                             {t("You have responded to all assigned tickets. Good job!", "আপনার জন্য নির্ধারিত সকল টিকেটের উত্তর দেওয়া হয়েছে। অভিনন্দন!")}
                         </p>
-                        <Button className="mt-6 rounded-lg font-black h-12 px-8 text-white">{t("Browse Queue", "কিউ দেখুন")}</Button>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead className="bg-slate-50 border-b border-slate-100">
                                 <tr>
-                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950">{t("Ticket", "টিকেট")}</th>
+                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950">{t("Ticket ID", "টিকেট আইডি")}</th>
                                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950">{t("Customer", "গ্রাহক")}</th>
                                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950">{t("Subject", "বিষয়")}</th>
                                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950">{t("Priority", "অগ্রাধিকার")}</th>
                                     <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950">{t("Status", "স্ট্যাটাস")}</th>
-                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950 text-right">{t("Date", "তারিখ")}</th>
+                                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-950 text-right">{t("Action", "অ্যাকশন")}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
                                 {filteredTickets.map((ticket) => (
-                                    <tr key={ticket.id} className="hover:bg-slate-50/50 transition-all">
+                                    <tr key={ticket.id} className="hover:bg-slate-50/70 transition-all cursor-pointer" onClick={() => setSelectedTicketId(ticket.id)}>
                                         <td className="px-6 py-4">
-                                            <span className="text-sm font-bold text-slate-950">#{ticket.id?.slice(-6) || "----"}</span>
+                                            <span className="text-sm font-bold text-slate-950">#{ticket.id?.slice(-6).toUpperCase() || "----"}</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className="text-sm font-bold text-slate-700">{ticket.user?.name || "—"}</span>
@@ -185,9 +176,17 @@ export default function AgentSupportPage() {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <span className="text-xs text-slate-500 font-bold">
-                                                {ticket.createdAt ? new Date(ticket.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "—"}
-                                            </span>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedTicketId(ticket.id);
+                                                }}
+                                                className="rounded-lg font-bold px-3 text-primary border-primary/20 hover:bg-primary/5"
+                                            >
+                                                {t("View & Reply", "উত্তর দিন")}
+                                            </Button>
                                         </td>
                                     </tr>
                                 ))}
@@ -196,6 +195,14 @@ export default function AgentSupportPage() {
                     </div>
                 )}
             </div>
+
+            {/* Conversation Dialog */}
+            <TicketModal
+                ticketId={selectedTicketId}
+                onClose={() => setSelectedTicketId(null)}
+                currentRole="AGENT"
+                onUpdated={fetchTickets}
+            />
         </DashboardLayout>
     );
 }

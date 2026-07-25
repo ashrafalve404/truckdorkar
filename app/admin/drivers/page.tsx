@@ -14,7 +14,7 @@ import {
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminDriversPage() {
@@ -154,8 +154,12 @@ export default function AdminDriversPage() {
                                     <tr key={driver.id} className="hover:bg-slate-50/50 transition-all">
                                         <td className="px-8 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center font-black text-primary">
-                                                    <TruckIcon className="w-5 h-5" />
+                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-primary overflow-hidden shrink-0 border border-slate-200">
+                                                    {driver.user?.avatar ? (
+                                                        <img src={getAvatarUrl(driver.user.avatar) || ""} alt={driver.user?.name || "Driver"} className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <TruckIcon className="w-5 h-5 text-slate-400" />
+                                                    )}
                                                 </div>
                                                 <div>
                                                     <p className="font-bold text-slate-950">{driver.user?.name || "—"}</p>

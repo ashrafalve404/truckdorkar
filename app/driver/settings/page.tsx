@@ -21,21 +21,23 @@ import {
     Clock,
     XCircle,
     Plus,
-    ArrowRight
+    ArrowRight,
+    Eye,
+    EyeOff
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/store/use-auth";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 
 type Tab = "profile" | "truck" | "safety" | "notifications";
 type LucideIcon = React.ComponentType<{ className?: string }>;
 
 export default function DriverSettingsPage() {
     const { t } = useLanguage();
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const router = useRouter();
     const [activeTab, setActiveTab] = useState<Tab>("profile");
     const [loading, setLoading] = useState(true);
@@ -58,9 +60,12 @@ export default function DriverSettingsPage() {
         confirmPassword: "",
     });
 
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [notifications, setNotifications] = useState({
         bookingAlerts: true,
-        quotationAlerts: true,
         paymentAlerts: true,
         supportUpdates: false,
     });
@@ -127,9 +132,12 @@ export default function DriverSettingsPage() {
         try {
             const formData = new FormData();
             formData.append("avatar", file);
-            await api.post("/users/profile/avatar", formData, {
+            const res = await api.post("/users/profile/avatar", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
+            const updatedData = res.data?.data || res.data;
+            const newAvatar = updatedData.avatar || updatedData.url;
+            updateUser({ avatar: newAvatar });
             toast.success(t("Profile picture updated", "প্রোফাইল ছবি সফলভাবে পরিবর্তন হয়েছে"));
             fetchProfile();
         } catch {
@@ -225,176 +233,189 @@ export default function DriverSettingsPage() {
 
         switch (activeTab) {
             case "profile":
+                const driverStatusObj = {
+                    VERIFIED: { icon: CheckCircle2, text: t("Verified Driver", "ভেরিফাইড ড্রাইভার"), color: "text-green-500", bg: "bg-green-50" },
+                    REJECTED: { icon: XCircle, text: t("Rejected", "প্রত্যাখ্যান করা হয়েছে"), color: "text-red-500", bg: "bg-red-50" },
+                    PENDING: { icon: Clock, text: t("Pending Verification", "অপেক্ষমান যাচাইকরণ"), color: "text-amber-500", bg: "bg-amber-50" },
+                }[driverData?.status as 'VERIFIED' | 'REJECTED' | 'PENDING'] || { icon: ShieldCheck, text: t("Unverified", "অযাচাইকৃত"), color: "text-slate-400", bg: "bg-slate-50" };
+
+                const StatusIconComp = driverStatusObj.icon;
+
                 return (
-                    <div className="space-y-6">
-                        {/* Profile Header Card */}
-                        <div className="bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-2xl p-6 md:p-8 border border-slate-100">
-                            <div className="flex flex-col sm:flex-row items-center gap-6">
-                                <div className="relative group">
-                                    <div className="w-24 h-24 rounded-2xl bg-white shadow-lg shadow-slate-200/50 relative overflow-hidden ring-4 ring-white">
-                                        {driverData?.user?.avatar ? (
-                                            <picture>
-                                                <img src={driverData.user.avatar} alt="" className="w-full h-full object-cover" />
-                                            </picture>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Left Column: Avatar & Verification Banner */}
+                        <div className="lg:col-span-1 space-y-6">
+                            {/* Avatar Card */}
+                            <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
+                                <div
+                                    className="relative inline-block mb-4 cursor-pointer group"
+                                    onClick={() => {
+                                        const el = document.getElementById("driver-avatar-input");
+                                        if (el) el.click();
+                                    }}
+                                    title={t("Click to change profile picture", "প্রোফাইল ছবি পরিবর্তন করতে ক্লিক করুন")}
+                                >
+                                    <input
+                                        type="file"
+                                        id="driver-avatar-input"
+                                        onChange={handleUploadAvatar}
+                                        accept="image/*"
+                                        className="hidden"
+                                    />
+                                    <div className="w-28 h-28 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-xl relative mx-auto">
+                                        {user?.avatar || driverData?.user?.avatar ? (
+                                            <img src={getAvatarUrl(user?.avatar || driverData?.user?.avatar) || ""} alt="Driver Avatar" className="w-full h-full object-cover" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-3xl font-black text-primary bg-primary/5">
                                                 {profile.name?.charAt(0) || "D"}
                                             </div>
                                         )}
-                                        <label className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                                            <Camera className="w-6 h-6 text-white" />
-                                            <input type="file" onChange={handleUploadAvatar} className="hidden" accept="image/*" />
-                                        </label>
                                     </div>
-                                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white" />
+                                    <button
+                                        type="button"
+                                        className="absolute bottom-0 right-0 w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white shadow-md group-hover:scale-110 transition-transform"
+                                    >
+                                        <Camera className="w-3.5 h-3.5" />
+                                    </button>
                                 </div>
-                                <div className="text-center sm:text-left">
-                                    <h3 className="text-xl font-black text-slate-900">{profile.name || "Driver Name"}</h3>
-                                    <p className="text-sm text-slate-600 font-bold mt-1">{t("Driver ID:", "ড্রাইভার আইডি:")} {user?.id?.slice(0, 8) || "—"}</p>
-                                    <div className="flex flex-wrap gap-3 mt-3 justify-center sm:justify-start">
-                                        <span className={cn(
-                                            "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold",
-                                            driverData?.status === "VERIFIED" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
-                                        )}>
-                                            {driverData?.status === "VERIFIED" ? <UserCheck className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
-                                            {t(driverData?.status || "PENDING", driverData?.status === "VERIFIED" ? "ভেরিফাইড" : driverData?.status === "REJECTED" ? "বাতিলকৃত" : "অপেক্ষমান")}
-                                        </span>
-                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
-                                            <ShieldCheck className="w-3.5 h-3.5" />
-                                            {t("NID/License Document Check", "এনআইডি/লাইসেন্স")}
-                                        </span>
-                                    </div>
+                                <h3 className="font-black text-slate-900 text-lg">{profile.name || "Driver Name"}</h3>
+                                <p className="text-xs text-slate-500 font-bold mt-1">
+                                    {t("Driver ID:", "ড্রাইভার আইডি:")} <span className="font-black text-slate-700">#{user?.id?.slice(0, 8).toUpperCase() || "—"}</span>
+                                </p>
+                            </div>
+
+                            {/* Status Card */}
+                            <div className={`p-8 rounded-3xl border border-slate-100 shadow-sm ${driverStatusObj.bg}`}>
+                                <div className={`w-14 h-14 rounded-2xl ${driverStatusObj.color} bg-white flex items-center justify-center mb-5 shadow-sm`}>
+                                    <StatusIconComp className="w-7 h-7" />
                                 </div>
+                                <h3 className="text-lg font-black text-slate-900 mb-2">{driverStatusObj.text}</h3>
+                                <p className="text-xs font-bold text-slate-600 leading-relaxed">
+                                    {driverData?.status === 'VERIFIED'
+                                        ? t("Your driver profile and documents are fully verified.", "আপনার ড্রাইভার প্রোফাইল এবং ডকুমেন্টস সম্পূর্ণ ভেরিফাইড।")
+                                        : t("Please upload your NID and Driving License documents for admin approval.", "অ্যাডমিন অনুমোদনের জন্য আপনার এনআইডি এবং ড্রাইভিং লাইসেন্স আপলোড করুন।")}
+                                </p>
                             </div>
                         </div>
 
-                        {/* Personal Information */}
-                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50">
-                                <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                        {/* Right Column: Personal Information & Documents Form */}
+                        <div className="lg:col-span-2 space-y-8">
+                            {/* Personal Information Form */}
+                            <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
+                                <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
                                     <User className="w-5 h-5 text-primary" />
                                     {t("Personal Information", "ব্যক্তিগত তথ্য")}
                                 </h4>
-                            </div>
-                            <div className="p-6 space-y-5">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">{t("Full Name", "পুরো নাম")}</label>
-                                        <div className="relative">
-                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                            <input
-                                                type="text"
-                                                value={profile.name}
-                                                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-slate-900 font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all"
-                                            />
-                                        </div>
+                                        <label className="text-xs font-black text-slate-700 uppercase tracking-widest">{t("Full Name", "পুরো নাম")}</label>
+                                        <input
+                                            type="text"
+                                            value={profile.name}
+                                            onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                                            className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-sm font-bold text-slate-950 outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                                        />
                                     </div>
+
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">{t("Phone Number", "ফোন নম্বর")}</label>
-                                        <div className="relative">
-                                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                            <input
-                                                type="text"
-                                                value={profile.phone}
-                                                disabled
-                                                className="w-full h-12 bg-slate-100 border border-slate-200 rounded-xl pl-11 pr-4 text-slate-500 font-bold outline-none cursor-not-allowed"
-                                            />
-                                        </div>
+                                        <label className="text-xs font-black text-slate-700 uppercase tracking-widest">{t("Phone Number", "ফোন নম্বর")}</label>
+                                        <input
+                                            type="text"
+                                            value={profile.phone}
+                                            disabled
+                                            className="w-full h-14 bg-slate-100 border border-slate-200 rounded-2xl px-5 text-sm font-bold text-slate-500 outline-none cursor-not-allowed"
+                                        />
                                     </div>
+
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">{t("Email Address", "ইমেইল")}</label>
-                                        <div className="relative">
-                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                            <input
-                                                type="email"
-                                                value={profile.email}
-                                                onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-slate-900 font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all"
-                                            />
-                                        </div>
+                                        <label className="text-xs font-black text-slate-700 uppercase tracking-widest">{t("Email Address", "ইমেইল অ্যাড্রেস")}</label>
+                                        <input
+                                            type="email"
+                                            value={profile.email}
+                                            onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                                            className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-sm font-bold text-slate-950 outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                                        />
                                     </div>
+
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">{t("License Number", "লাইসেন্স নং")}</label>
-                                        <div className="relative">
-                                            <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                            <input
-                                                type="text"
-                                                value={profile.licenseNumber}
-                                                onChange={(e) => setProfile({ ...profile, licenseNumber: e.target.value })}
-                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 text-slate-900 font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all"
-                                            />
-                                        </div>
+                                        <label className="text-xs font-black text-slate-700 uppercase tracking-widest">{t("Driving License No", "লাইসেন্স নম্বর")}</label>
+                                        <input
+                                            type="text"
+                                            value={profile.licenseNumber}
+                                            onChange={(e) => setProfile({ ...profile, licenseNumber: e.target.value })}
+                                            className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl px-5 text-sm font-bold text-slate-950 outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                                        />
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        {/* Verified Documents */}
-                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50">
-                                <h4 className="font-bold text-slate-900 flex items-center gap-2">
-                                    <ShieldCheck className="w-5 h-5 text-primary" />
-                                    {t("Uploaded Profile Verification Documents", "আপলোডকৃত ভেরিফিকেশন ফাইলসমূহ")}
-                                </h4>
+                                <div className="pt-2 flex justify-end">
+                                    <Button
+                                        onClick={handleSaveProfile}
+                                        disabled={saving}
+                                        className="h-14 px-8 rounded-2xl font-black bg-slate-950 hover:bg-slate-900 text-white shadow-xl gap-2"
+                                    >
+                                        {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                        {t("Update Profile", "প্রোফাইল আপডেট করুন")}
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="p-6 space-y-4">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+
+                            {/* Verification Documents Upload Grid */}
+                            <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
+                                <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
+                                    <ShieldCheck className="w-5 h-5 text-primary" />
+                                    {t("Uploaded Verification Documents", "আপলোডকৃত ভেরিফিকেশন ফাইলসমূহ")}
+                                </h4>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     {[
-                                        { key: "nidFront", label_en: "NID Front", label_bn: "এনআইডি ফ্রন্ট", url: driverData?.nidFront },
-                                        { key: "nidBack", label_en: "NID Back", label_bn: "এনআইডি ব্যাক", url: driverData?.nidBack },
-                                        { key: "licenseFront", label_en: "License Front", label_bn: "লাইসেন্স ফ্রন্ট", url: driverData?.licenseFront },
-                                        { key: "licenseBack", label_en: "License Back", label_bn: "লাইসেন্স ব্যাক", url: driverData?.licenseBack },
+                                        { key: "nidFront", label_en: "NID Front Side", label_bn: "এনআইডি সামনের দিক", url: driverData?.nidFront },
+                                        { key: "nidBack", label_en: "NID Back Side", label_bn: "এনআইডি পিছনের দিক", url: driverData?.nidBack },
+                                        { key: "licenseFront", label_en: "Driving License Front", label_bn: "লাইসেন্স সামনের দিক", url: driverData?.licenseFront },
+                                        { key: "licenseBack", label_en: "Driving License Back", label_bn: "লাইসেন্স পিছনের দিক", url: driverData?.licenseBack },
                                     ].map((doc) => (
-                                        <div key={doc.key} className="relative p-4 rounded-xl border border-slate-100 bg-slate-50 flex flex-col items-center text-center justify-between min-h-[140px]">
-                                            <p className="text-xs font-black text-slate-700 uppercase mb-2">{t(doc.label_en, doc.label_bn)}</p>
-                                            {doc.url ? (
-                                                <div className="flex flex-col items-center">
-                                                    <CheckCircle2 className="w-8 h-8 text-green-500 mb-1" />
-                                                    <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary underline font-bold mt-1">
-                                                        {t("View Uploaded File", "ভিউপত্র দেখুন")}
-                                                    </a>
-                                                </div>
-                                            ) : (
-                                                <div className="flex flex-col items-center">
-                                                    <AlertCircle className="w-8 h-8 text-amber-500 mb-1" />
-                                                    <span className="text-[10px] text-slate-500 font-bold">{t("No File Uploaded", "কোনো ফাইল নেই")}</span>
-                                                </div>
-                                            )}
-                                            <label className="mt-3 cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 shadow-sm transition-all text-xs font-bold text-slate-700">
-                                                <Upload className="w-3.5 h-3.5" />
-                                                {t("Change", "পরিবর্তন")}
-                                                <input
-                                                    type="file"
-                                                    className="hidden"
-                                                    accept=".pdf,image/*"
-                                                    onChange={(e) => {
-                                                        if (e.target.files?.[0]) handleUploadDoc(doc.key, e.target.files[0]);
-                                                    }}
-                                                />
+                                        <div key={doc.key} className="space-y-3">
+                                            <label className="text-xs font-black text-slate-700 uppercase tracking-widest">
+                                                {t(doc.label_en, doc.label_bn)}
                                             </label>
+                                            <div className="relative group">
+                                                <div className="aspect-[1.6/1] rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center overflow-hidden relative p-2">
+                                                    {doc.url ? (
+                                                        <div className="w-full h-full flex flex-col items-center justify-center text-center">
+                                                            <CheckCircle2 className="w-8 h-8 text-green-500 mb-2" />
+                                                            <span className="text-xs font-bold text-slate-900 mb-1">{t("Document Uploaded", "ডকুমেন্ট আপলোড করা হয়েছে")}</span>
+                                                            <a href={getAvatarUrl(doc.url) || doc.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary underline font-bold">
+                                                                {t("View File", "ফাইল দেখুন")}
+                                                            </a>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="flex flex-col items-center justify-center text-center">
+                                                            <Camera className="w-8 h-8 text-slate-300 mb-2 group-hover:text-primary transition-colors" />
+                                                            <p className="text-[10px] font-bold text-slate-400">{t("Click to upload photo", "ডকুমেন্টের ছবি আপলোড করতে ক্লিক করুন")}</p>
+                                                        </div>
+                                                    )}
+                                                    <input
+                                                        type="file"
+                                                        accept=".pdf,image/*"
+                                                        onChange={(e) => {
+                                                            if (e.target.files?.[0]) handleUploadDoc(doc.key, e.target.files[0]);
+                                                        }}
+                                                        className="absolute inset-0 opacity-0 cursor-pointer"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                        </div>
-
-                        <div className="flex justify-end pt-2">
-                            <Button onClick={handleSaveProfile} disabled={saving} className="h-12 px-8 rounded-xl font-bold gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all text-white bg-primary">
-                                {saving ? (
-                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                ) : (
-                                    <Save className="w-4 h-4" />
-                                )}
-                                {t("Update Profile", "প্রোফাইল আপডেট করুন")}
-                            </Button>
                         </div>
                     </div>
                 );
 
             case "truck":
                 return (
-                    <div className="space-y-6 p-6">
+                    <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
                         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                             <div>
                                 <h4 className="text-lg font-black text-slate-900">{t("My Registered Trucks", "আমার নিবন্ধিত ট্রাকসমূহ")}</h4>
@@ -467,45 +488,92 @@ export default function DriverSettingsPage() {
 
             case "safety":
                 return (
-                    <div className="space-y-6">
-                        <form onSubmit={handleUpdatePassword} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50">
-                                <h4 className="font-bold text-slate-900 flex items-center gap-2">
-                                    <Lock className="w-5 h-5 text-primary" />
-                                    {t("Change Password", "পাসওয়ার্ড পরিবর্তন")}
-                                </h4>
-                                <p className="text-xs text-slate-500 font-bold mt-1">{t("Update your password regularly for security", "নিরাপত্তার জন্য নিয়মিত পাসওয়ার্ড আপডেট করুন")}</p>
-                            </div>
-                            <div className="p-6 space-y-4 max-w-lg">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">{t("Current Password", "বর্তমান পাসওয়ার্ড")}</label>
+                    <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
+                        <div className="border-b border-slate-100 pb-6">
+                            <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
+                                <Lock className="w-5 h-5 text-primary" />
+                                {t("Change Password", "পাসওয়ার্ড পরিবর্তন")}
+                            </h4>
+                            <p className="text-xs font-bold text-slate-500 mt-1">
+                                {t("Update your password regularly for security", "নিরাপত্তার জন্য নিয়মিত পাসওয়ার্ড আপডেট করুন")}
+                            </p>
+                        </div>
+
+                        <form onSubmit={handleUpdatePassword} className="space-y-6 max-w-xl">
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-700 uppercase tracking-widest ml-1">
+                                    {t("Current Password", "বর্তমান পাসওয়ার্ড")}
+                                </label>
+                                <div className="relative">
                                     <input
-                                        type="password"
+                                        type={showCurrentPassword ? "text" : "password"}
                                         value={passwords.currentPassword}
                                         onChange={(e) => setPasswords({ ...passwords, currentPassword: e.target.value })}
-                                        className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-slate-900 font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all"
+                                        placeholder="••••••••"
+                                        className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl pl-5 pr-12 text-sm font-bold text-slate-950 outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                                    >
+                                        {showCurrentPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    </button>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">{t("New Password", "নতুন পাসওয়ার্ড")}</label>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-700 uppercase tracking-widest ml-1">
+                                    {t("New Password", "নতুন পাসওয়ার্ড")}
+                                </label>
+                                <div className="relative">
                                     <input
-                                        type="password"
+                                        type={showNewPassword ? "text" : "password"}
                                         value={passwords.newPassword}
                                         onChange={(e) => setPasswords({ ...passwords, newPassword: e.target.value })}
-                                        className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-slate-900 font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all animate-pulse-once"
+                                        placeholder="••••••••"
+                                        className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl pl-5 pr-12 text-sm font-bold text-slate-950 outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowNewPassword(!showNewPassword)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                                    >
+                                        {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    </button>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">{t("Confirm New Password", "নতুন পাসওয়ার্ড নিশ্চিত করুন")}</label>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-xs font-black text-slate-700 uppercase tracking-widest ml-1">
+                                    {t("Confirm New Password", "নতুন পাসওয়ার্ড নিশ্চিত করুন")}
+                                </label>
+                                <div className="relative">
                                     <input
-                                        type="password"
+                                        type={showConfirmPassword ? "text" : "password"}
                                         value={passwords.confirmPassword}
                                         onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
-                                        className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-slate-900 font-bold outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all font-mono"
+                                        placeholder="••••••••"
+                                        className="w-full h-14 bg-slate-50 border border-slate-200 rounded-2xl pl-5 pr-12 text-sm font-bold text-slate-950 outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                                    >
+                                        {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    </button>
                                 </div>
-                                <Button type="submit" disabled={saving} className="rounded-xl font-bold px-8 h-12 shadow bg-primary text-white">
-                                    {saving ? t("Updating...", "আপডেট হচ্ছে...") : t("Update Password", "পাসওয়ার্ড আপডেট করুন")}
+                            </div>
+
+                            <div className="pt-2">
+                                <Button
+                                    type="submit"
+                                    disabled={saving}
+                                    className="h-14 px-8 rounded-2xl font-black bg-slate-950 hover:bg-slate-900 text-white shadow-xl gap-2"
+                                >
+                                    {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                    {t("Update Password", "পাসওয়ার্ড আপডেট করুন")}
                                 </Button>
                             </div>
                         </form>
@@ -514,50 +582,56 @@ export default function DriverSettingsPage() {
 
             case "notifications":
                 return (
-                    <div className="space-y-6">
-                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50">
-                                <h4 className="font-bold text-slate-900 flex items-center gap-2">
-                                    <Bell className="w-5 h-5 text-primary" />
-                                    {t("Notification Preferences", "নোটিফিকেশন পছন্দ")}
-                                </h4>
-                                <p className="text-xs text-slate-500 font-bold mt-1">{t("Manage how you receive notifications", "আপনি কীভাবে নোটিফিকেশন পাবেন তা পরিচালনা করুন")}</p>
-                            </div>
-                            <div className="p-6 space-y-3">
-                                {[
-                                    { key: "bookingAlerts", label_en: "New Booking Alerts", label_bn: "নতুন বুকিং নোটিফিকেশন", desc_en: "Get notified when new booking requests arrive", desc_bn: "নতুন বুকিং রিকোয়েস্ট এলে নোটিফিকেশন পান" },
-                                    { key: "quotationAlerts", label_en: "Quotation Requests", label_bn: "কোটেশন রিকোয়েস্ট", desc_en: "Receive alerts for quotation offers", desc_bn: "কোটেশন অফারের জন্য নোটিফিকেশন পান" },
-                                    { key: "paymentAlerts", label_en: "Payment Updates", label_bn: "পেমেন্ট আপডেট", desc_en: "Get notified about payment status changes", desc_bn: "পেমেন্ট স্ট্যাটাস পরিবর্তনের নোটিফিকেশন পান" },
-                                    { key: "supportUpdates", label_en: "Support Ticket Updates", label_bn: "সাপোর্ট টিকেট আপডেট", desc_en: "Receive updates on your support tickets", desc_bn: "সাপোর্ট টিকেটের আপডেট পান" },
-                                ].map((item) => (
-                                    <div key={item.key} className={cn(
-                                        "flex items-center justify-between p-4 rounded-xl border transition-all",
-                                        notifications[item.key as keyof typeof notifications] ? "bg-primary/5 border-primary/20" : "bg-slate-50 border-slate-100"
-                                    )}>
-                                        <div className="flex-1 min-w-0 mr-4">
-                                            <p className="text-sm font-bold text-slate-900">{t(item.label_en, item.label_bn)}</p>
-                                            <p className="text-xs text-slate-500 font-bold mt-0.5">{t(item.desc_en, item.desc_bn)}</p>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => setNotifications({ ...notifications, [item.key]: !notifications[item.key as keyof typeof notifications] })}
-                                            className={cn(
-                                                "relative w-12 h-7 rounded-full transition-all duration-300 shrink-0",
-                                                notifications[item.key as keyof typeof notifications] ? "bg-primary" : "bg-slate-200"
-                                            )}
-                                        >
-                                            <div className={cn(
-                                                "absolute top-1 w-5 h-5 bg-white rounded-full shadow-md transform transition-all duration-300",
-                                                notifications[item.key as keyof typeof notifications] ? "left-6" : "left-1"
-                                            )} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
+                    <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
+                        <div className="border-b border-slate-100 pb-6">
+                            <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
+                                <Bell className="w-5 h-5 text-primary" />
+                                {t("Notification Preferences", "নোটিফিকেশন পছন্দ")}
+                            </h4>
+                            <p className="text-xs font-bold text-slate-500 mt-1">
+                                {t("Manage how you receive notifications", "আপনি কীভাবে নোটিফিকেশন পাবেন তা পরিচালনা করুন")}
+                            </p>
                         </div>
-                        <div className="flex justify-end">
-                            <Button onClick={handleSaveNotifications} disabled={saving} className="rounded-xl font-bold px-8 h-12 shadow bg-primary text-white">
-                                {saving ? t("Saving...", "সংরক্ষণ হচ্ছে...") : t("Save Preferences", "পছন্দ সংরক্ষণ করুন")}
+
+                        <div className="space-y-4">
+                            {[
+                                { key: "bookingAlerts", label_en: "New Booking Alerts", label_bn: "নতুন বুকিং নোটিফিকেশন", desc_en: "Get notified when new booking requests arrive", desc_bn: "নতুন বুকিং রিকোয়েস্ট এলে নোটিফিকেশন পান" },
+                                { key: "paymentAlerts", label_en: "Payment Updates", label_bn: "পেমেন্ট আপডেট", desc_en: "Get notified about payment status changes", desc_bn: "পেমেন্ট স্ট্যাটাস পরিবর্তনের নোটিফিকেশন পান" },
+                                { key: "supportUpdates", label_en: "Support Ticket Updates", label_bn: "সাপোর্ট টিকেট আপডেট", desc_en: "Receive updates on your support tickets", desc_bn: "সাপোর্ট টিকেটের আপডেট পান" },
+                            ].map((item) => (
+                                <div key={item.key} className={cn(
+                                    "flex items-center justify-between p-5 rounded-2xl border transition-all",
+                                    notifications[item.key as keyof typeof notifications] ? "bg-primary/5 border-primary/20" : "bg-slate-50 border-slate-100"
+                                )}>
+                                    <div className="flex-1 min-w-0 mr-4">
+                                        <p className="text-sm font-black text-slate-900">{t(item.label_en, item.label_bn)}</p>
+                                        <p className="text-xs text-slate-500 font-bold mt-1">{t(item.desc_en, item.desc_bn)}</p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setNotifications({ ...notifications, [item.key]: !notifications[item.key as keyof typeof notifications] })}
+                                        className={cn(
+                                            "relative w-12 h-7 rounded-full transition-all duration-300 shrink-0",
+                                            notifications[item.key as keyof typeof notifications] ? "bg-primary" : "bg-slate-200"
+                                        )}
+                                    >
+                                        <div className={cn(
+                                            "absolute top-1 w-5 h-5 bg-white rounded-full shadow-md transform transition-all duration-300",
+                                            notifications[item.key as keyof typeof notifications] ? "left-6" : "left-1"
+                                        )} />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="pt-2 flex justify-end">
+                            <Button
+                                onClick={handleSaveNotifications}
+                                disabled={saving}
+                                className="h-14 px-8 rounded-2xl font-black bg-slate-950 hover:bg-slate-900 text-white shadow-xl gap-2"
+                            >
+                                {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                {t("Save Preferences", "পছন্দ সংরক্ষণ করুন")}
                             </Button>
                         </div>
                     </div>
@@ -603,9 +677,7 @@ export default function DriverSettingsPage() {
 
                 {/* Content */}
                 <div className="lg:col-span-3">
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                        {renderTabContent()}
-                    </div>
+                    {renderTabContent()}
                 </div>
             </div>
         </DashboardLayout>

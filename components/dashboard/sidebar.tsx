@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn, getAvatarUrl } from "@/lib/utils";
 import {
     LayoutDashboard,
     Package,
@@ -56,11 +56,12 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
         ],
         DRIVER: [
             { name: "Dashboard", href: "/driver/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
-            { name: "Find Jobs", href: "/driver/jobs", icon: TrendingUp, bn: "কাজ খুঁজুন" },
+            { name: "Find Trips", href: "/driver/jobs", icon: TrendingUp, bn: "ট্রিপ খুঁজুন" },
             { name: "My Trucks", href: "/driver/trucks", icon: Truck, bn: "আমার ট্রাক" },
             { name: "My Bookings", href: "/driver/bookings", icon: Package, bn: "আমার বুকিং" },
             { name: "Payments", href: "/driver/payments", icon: DollarSign, bn: "পেমেন্ট" },
             { name: "Earnings", href: "/driver/earnings", icon: FileText, bn: "উপার্জন" },
+            { name: "Notifications", href: "/driver/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/driver/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Settings", href: "/driver/settings", icon: Settings, bn: "সেটিংস" },
         ],
@@ -153,9 +154,9 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                 </button>
 
                 <div className="flex items-center gap-3 px-4 py-3 rounded-lg mb-2">
-                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
+                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
                         {user?.avatar ? (
-                            <img src={user.avatar} alt={user.name || "User"} className="w-full h-full object-cover" />
+                            <img src={getAvatarUrl(user.avatar) || ""} alt={user.name || "User"} className="w-full h-full object-cover" />
                         ) : (
                             <Users className="w-4 h-4 text-slate-400" />
                         )}

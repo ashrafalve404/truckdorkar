@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { DashboardSidebar } from "./sidebar";
 import { useAuth } from "@/store/use-auth";
+import api from "@/lib/api";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "@/context/language-context";
@@ -38,7 +39,7 @@ const getMobileNavItems = (role?: string) => {
     if (role === "DRIVER") {
         return [
             { href: "/driver/dashboard", icon: LayoutDashboard, label_en: "Overview", label_bn: "হোম" },
-            { href: "/driver/jobs", icon: Search, label_en: "Find Jobs", label_bn: "কাজ খুঁজুন" },
+            { href: "/driver/jobs", icon: Search, label_en: "Find Trips", label_bn: "ট্রিপ খুঁজুন" },
             { href: "/driver/bookings", icon: Package, label_en: "My Trips", label_bn: "ট্রিপস" },
             { href: "/driver/earnings", icon: Wallet, label_en: "Earnings", label_bn: "আয়" },
             { href: "/driver/settings", icon: User, label_en: "Profile", label_bn: "প্রোফাইল" },
@@ -56,7 +57,7 @@ const getMobileNavItems = (role?: string) => {
 };
 
 export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps) {
-    const { user, isAuthenticated, isHydrated } = useAuth();
+    const { user, updateUser, isAuthenticated, isHydrated } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
     const { t } = useLanguage();
@@ -67,13 +68,29 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
             router.push("/login");
         }
 
+        if (isHydrated && isAuthenticated) {
+            api.get("/users/profile")
+                .then((res) => {
+                    const p = res.data?.data || res.data;
+                    if (p) {
+                        updateUser({
+                            name: p.name,
+                            email: p.email,
+                            phone: p.phone,
+                            avatar: p.avatar,
+                        });
+                    }
+                })
+                .catch((err) => console.error("Failed to sync user profile", err));
+        }
+
         if (isHydrated && isAuthenticated && requiredRole && user?.role !== requiredRole) {
             if (user?.role === "ADMIN") router.push("/admin");
             else if (user?.role === "DRIVER") router.push("/driver/dashboard");
             else if (user?.role === "AGENT") router.push("/agent/dashboard");
             else router.push("/dashboard");
         }
-    }, [isAuthenticated, isHydrated, user, requiredRole, router]);
+    }, [isAuthenticated, isHydrated, requiredRole, router]);
 
     if (!isHydrated || !isAuthenticated) {
         return (
