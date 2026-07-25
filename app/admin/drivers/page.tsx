@@ -20,7 +20,7 @@ import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 export default function AdminDriversPage() {
     const { t } = useLanguage();
     const [drivers, setDrivers] = useState<{
-        id: string; user?: { name?: string; phone?: string; isActive?: boolean; id?: string }; licenseNumber?: string; status: string
+        id: string; user?: { name?: string; phone?: string; email?: string; avatar?: string; isActive?: boolean; id?: string }; licenseNumber?: string; status: string
     }[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");

@@ -20,7 +20,7 @@ import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminUsersPage() {
     const { t } = useLanguage();
-    const [users, setUsers] = useState<{ id: string; name: string; phone: string; email?: string; role: string; createdAt: string; isActive: boolean }[]>([]);
+    const [users, setUsers] = useState<{ id: string; name: string; phone: string; email?: string; avatar?: string; role: string; createdAt: string; isActive: boolean }[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [statusModal, setStatusModal] = useState<{ open: boolean; id: string; name: string; currentActive: boolean }>({ open: false, id: "", name: "", currentActive: true });
