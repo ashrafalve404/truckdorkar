@@ -30,15 +30,44 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Add a response interceptor to handle token expiration
+let isRefreshing = false;
+let failedQueue: Array<{
+    resolve: (token: string) => void;
+    reject: (error: any) => void;
+}> = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+    failedQueue.forEach((prom) => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token!);
+        }
+    });
+    failedQueue = [];
+};
+
+// Add a response interceptor to handle token expiration with request queuing
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
         if (error.response?.status === 401 && !originalRequest._retry) {
+            if (isRefreshing) {
+                return new Promise((resolve, reject) => {
+                    failedQueue.push({ resolve, reject });
+                })
+                    .then((token) => {
+                        originalRequest.headers.Authorization = `Bearer ${token}`;
+                        return api(originalRequest);
+                    })
+                    .catch((err) => Promise.reject(err));
+            }
+
             originalRequest._retry = true;
-            const refreshToken = localStorage.getItem('truckdorkar-refresh-token');
+            isRefreshing = true;
+            const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('truckdorkar-refresh-token') : null;
 
             if (refreshToken) {
                 try {
@@ -47,15 +76,20 @@ api.interceptors.response.use(
 
                     localStorage.setItem('truckdorkar-access-token', accessToken);
                     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                    originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
+                    processQueue(null, accessToken);
                     return api(originalRequest);
                 } catch (refreshError) {
-                    // If refresh token fails, logout user
+                    processQueue(refreshError, null);
                     localStorage.removeItem('truckdorkar-access-token');
                     localStorage.removeItem('truckdorkar-refresh-token');
                     if (typeof window !== 'undefined') {
                         window.location.href = '/login';
                     }
+                    return Promise.reject(refreshError);
+                } finally {
+                    isRefreshing = false;
                 }
             }
         }

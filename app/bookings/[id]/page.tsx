@@ -20,7 +20,8 @@ import {
     ArrowLeft,
     TrendingUp,
     Navigation,
-    XCircle
+    XCircle,
+    Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
@@ -42,7 +43,8 @@ interface BookingDetail {
     specialNote?: string;
     contactPhone?: string;
     user: { name: string; phone: string };
-    driver?: { user: { name: string; phone: string } };
+    driver?: { id: string; userId: string; user: { name: string; phone: string } };
+    review?: { id: string; rating: number; comment?: string } | null;
     statusLogs: { status: string; note: string; createdAt: string }[];
 }
 
@@ -55,6 +57,11 @@ export default function BookingDetailPage() {
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [newFare, setNewFare] = useState("");
+
+    // Review state
+    const [rating, setRating] = useState(5);
+    const [reviewComment, setReviewComment] = useState("");
+    const [submittingReview, setSubmittingReview] = useState(false);
 
     const fetchBooking = useCallback(async () => {
         try {
@@ -91,7 +98,6 @@ export default function BookingDetailPage() {
         const fareNum = Number(newFare);
         const currentFare = booking?.estimatedFare || 0;
 
-        // Users can ONLY increase fares, never reduce them
         if (fareNum <= currentFare) {
             toast.error(t("You can only increase your fare offer, not reduce it.", "আপনি শুধুমাত্র ভাড়া বাড়াতে পারবেন, কমাতে পারবেন না।"));
             return;
@@ -126,6 +132,24 @@ export default function BookingDetailPage() {
         }
     };
 
+    const handleSubmitReview = async () => {
+        if (!booking) return;
+        setSubmittingReview(true);
+        try {
+            await api.post("/reviews", {
+                bookingId: booking.id,
+                rating,
+                comment: reviewComment,
+            });
+            toast.success(t("Thank you! Review submitted successfully.", "ধন্যবাদ! রিভিউ সফলভাবে সাবমিট করা হয়েছে।"));
+            fetchBooking();
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || t("Failed to submit review", "রিভিউ সাবমিট করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setSubmittingReview(false);
+        }
+    };
+
     if (loading) {
         return (
             <DashboardLayout requiredRole="USER">
@@ -139,6 +163,7 @@ export default function BookingDetailPage() {
     if (!booking) return null;
 
     const isPending = booking.status === "PENDING";
+    const isCompleted = booking.status === "COMPLETED";
     const isUser = user?.role === "USER";
     const isDriver = user?.role === "DRIVER";
 
@@ -150,50 +175,68 @@ export default function BookingDetailPage() {
                     className="flex items-center gap-2 text-slate-500 font-bold hover:text-primary transition-colors mb-6 text-sm"
                 >
                     <ArrowLeft className="w-4 h-4" />
-                    {t("Back to List", "তালিকায় ফিরে যান")}
+                    {t("Back to Bookings", "বুকিং তালিকায় ফিরুন")}
                 </button>
 
-                <div className="bg-white rounded-3xl border border-slate-100 shadow-premium overflow-hidden">
-                    {/* Status Header */}
-                    <div className="bg-slate-50 px-8 py-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    {/* Top Header Banner */}
+                    <div className="p-8 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">{t("Booking ID", "বুকিং আইডি")}</p>
-                            <h1 className="text-xl font-black text-slate-950 uppercase">{booking.bookingNumber}</h1>
+                            <div className="flex items-center gap-3 mb-1">
+                                <h1 className="text-2xl font-black text-slate-950">
+                                    Booking #{booking.bookingNumber}
+                                </h1>
+                                <span className={cn(
+                                    "px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider",
+                                    isCompleted ? "bg-green-100 text-green-700" :
+                                        booking.status === "CANCELLED" ? "bg-red-100 text-red-700" :
+                                            isPending ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                                )}>
+                                    {booking.status}
+                                </span>
+                            </div>
+                            <p className="text-xs text-slate-700 font-bold">
+                                {t("Created on", "তৈরি করা হয়েছে")} {new Date(booking.scheduledAt).toLocaleDateString()}
+                            </p>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <span className={cn(
-                                "px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider",
-                                booking.status === "PENDING" ? "bg-amber-100 text-amber-700" :
-                                    booking.status === "ACCEPTED" ? "bg-blue-100 text-blue-700" :
-                                        booking.status === "COMPLETED" ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-700"
-                            )}>
-                                {booking.status}
-                            </span>
-                        </div>
+
+                        {booking.driver && (
+                            <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black">
+                                    <User className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-slate-700 uppercase tracking-widest">{t("Assigned Driver", "মনোনীত ড্রাইভার")}</p>
+                                    <p className="text-sm font-bold text-slate-900">{booking.driver.user.name}</p>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Trip Info */}
+                    {/* Content Grid */}
+                    <div className="p-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        {/* Route Details */}
                         <div className="space-y-8">
                             <div>
-                                <h3 className="text-sm font-black text-slate-950 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                    <div className="w-1 h-4 bg-primary rounded-full" />
-                                    {t("Route Details", "রুটের বিস্তারিত")}
-                                </h3>
-                                <div className="space-y-6 relative ml-1.5">
-                                    <div className="absolute left-0.5 top-2 bottom-2 w-0.5 bg-slate-100" />
-                                    <div className="flex gap-4 relative">
-                                        <div className="w-2 h-2 rounded-full bg-green-500 mt-1.5 shrink-0 z-10" />
+                                <h3 className="text-xs font-black text-slate-700 uppercase tracking-widest mb-4">{t("Trip Route", "ট্রিপ রুট")}</h3>
+                                <div className="space-y-6 relative before:absolute before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200">
+                                    <div className="flex items-start gap-4 relative">
+                                        <div className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center shrink-0 shadow-md">
+                                            <MapPin className="w-4 h-4" />
+                                        </div>
                                         <div>
-                                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{t("Pickup", "পিকআপ")}</p>
-                                            <p className="text-sm font-bold text-slate-900 mt-0.5">{booking.pickupAddress}</p>
+                                            <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight">{t("Pickup Address", "পিকআপ অ্যাড্রেস")}</p>
+                                            <p className="text-sm font-bold text-slate-900">{booking.pickupAddress}</p>
                                         </div>
                                     </div>
-                                    <div className="flex gap-4 relative">
-                                        <div className="w-2 h-2 rounded-full bg-red-500 mt-1.5 shrink-0 z-10" />
+
+                                    <div className="flex items-start gap-4 relative">
+                                        <div className="w-7 h-7 rounded-full bg-secondary text-white flex items-center justify-center shrink-0 shadow-md">
+                                            <MapPin className="w-4 h-4" />
+                                        </div>
                                         <div>
-                                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{t("Drop", "ড্রপ")}</p>
-                                            <p className="text-sm font-bold text-slate-900 mt-0.5">{booking.dropAddress}</p>
+                                            <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight">{t("Drop-off Address", "ড্রপ-অফ অ্যাড্রেস")}</p>
+                                            <p className="text-sm font-bold text-slate-900">{booking.dropAddress}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -201,14 +244,14 @@ export default function BookingDetailPage() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-slate-50 rounded-2xl p-4">
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight flex items-center gap-1.5 mb-1">
+                                    <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight flex items-center gap-1.5 mb-1">
                                         <Navigation className="w-3 h-3 text-primary" />
                                         {t("Distance", "দূরত্ব")}
                                     </p>
                                     <p className="text-lg font-black text-slate-950">{booking.distance} KM</p>
                                 </div>
                                 <div className="bg-slate-50 rounded-2xl p-4">
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight flex items-center gap-1.5 mb-1">
+                                    <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight flex items-center gap-1.5 mb-1">
                                         <Truck className="w-3 h-3 text-primary" />
                                         {t("Truck Type", "ট্রাকের ধরন")}
                                     </p>
@@ -266,10 +309,6 @@ export default function BookingDetailPage() {
                                             <XCircle className="w-4 h-4" />
                                             {t("Cancel Booking", "বুকিং বাতিল করুন")}
                                         </Button>
-
-                                        <p className="text-[10px] text-slate-500 font-bold text-center">
-                                            {t("Increasing your offer might help find a driver faster.", "অফার বাড়ালে দ্রুত ড্রাইভার পাওয়া যেতে পারে।")}
-                                        </p>
                                     </div>
                                 ) : (
                                     <div className="flex items-center justify-between">
@@ -287,23 +326,110 @@ export default function BookingDetailPage() {
                                 )}
                             </div>
 
+                            {/* Driver Rating Section (For Completed Bookings) */}
+                            {isCompleted && isUser && (
+                                <div>
+                                    {booking.review ? (
+                                        <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
+                                                <h3 className="font-black text-slate-900 text-sm">
+                                                    {t("Your Rating for Driver", "ড্রাইভারকে দেয়া আপনার রেটিং")}
+                                                </h3>
+                                            </div>
+                                            <div className="flex items-center gap-1 my-2">
+                                                {[1, 2, 3, 4, 5].map((s) => (
+                                                    <Star
+                                                        key={s}
+                                                        className={cn(
+                                                            "w-5 h-5",
+                                                            s <= booking.review!.rating
+                                                                ? "fill-amber-400 text-amber-400"
+                                                                : "text-slate-300"
+                                                        )}
+                                                    />
+                                                ))}
+                                                <span className="ml-2 font-black text-slate-900 text-sm">{booking.review.rating}.0 / 5.0</span>
+                                            </div>
+                                            {booking.review.comment && (
+                                                <p className="text-xs text-slate-700 font-bold italic mt-2">"{booking.review.comment}"</p>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/80 rounded-2xl p-6 shadow-sm">
+                                            <div className="flex items-center gap-3 mb-3">
+                                                <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20 shrink-0">
+                                                    <Star className="w-5 h-5 fill-white" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-black text-slate-900 text-sm">
+                                                        {t("Rate Your Driver", "ড্রাইভারকে রেটিং দিন")}
+                                                    </h3>
+                                                    <p className="text-xs font-bold text-slate-600">
+                                                        {t("How was your trip experience?", "আপনার ট্রিপ অভিজ্ঞতা কেমন ছিল?")}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Star Selection */}
+                                            <div className="flex items-center gap-2 my-4">
+                                                {[1, 2, 3, 4, 5].map((star) => (
+                                                    <button
+                                                        key={star}
+                                                        type="button"
+                                                        onClick={() => setRating(star)}
+                                                        className="p-1 hover:scale-125 transition-transform outline-none"
+                                                    >
+                                                        <Star
+                                                            className={cn(
+                                                                "w-7 h-7 transition-colors",
+                                                                star <= rating
+                                                                    ? "fill-amber-400 text-amber-400"
+                                                                    : "text-slate-300 hover:text-amber-300"
+                                                            )}
+                                                        />
+                                                    </button>
+                                                ))}
+                                                <span className="ml-2 font-black text-slate-900 text-sm">{rating}.0 / 5.0</span>
+                                            </div>
+
+                                            <textarea
+                                                value={reviewComment}
+                                                onChange={(e) => setReviewComment(e.target.value)}
+                                                placeholder={t("Write a review for your driver (optional)...", "ড্রাইভার সার্ভিস কেমন লেগেছে লিখুন (ঐচ্ছিক)...")}
+                                                className="w-full p-3 rounded-xl border border-slate-200 text-xs font-bold text-slate-900 bg-white focus:ring-2 focus:ring-amber-500/20 outline-none resize-none mb-4"
+                                                rows={2}
+                                            />
+
+                                            <Button
+                                                onClick={handleSubmitReview}
+                                                disabled={submittingReview}
+                                                className="h-11 px-6 rounded-xl font-black bg-amber-500 hover:bg-amber-600 text-white shadow-md shadow-amber-500/20"
+                                            >
+                                                {submittingReview ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Submit Driver Rating", "রেটিং প্রদান করুন")}
+                                            </Button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                             {/* Trip Info List */}
                             <div className="grid grid-cols-2 gap-y-6">
                                 <div>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{t("Date", "তারিখ")}</p>
+                                    <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight">{t("Date", "তারিখ")}</p>
                                     <p className="text-sm font-bold text-slate-900">{new Date(booking.scheduledAt).toLocaleDateString()}</p>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{t("Goods Type", "পণ্যের ধরন")}</p>
+                                    <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight">{t("Goods Type", "পণ্যের ধরন")}</p>
                                     <p className="text-sm font-bold text-slate-900">{booking.goodsType}</p>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight">{t("Weight", "ওজন")}</p>
+                                    <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight">{t("Weight", "ওজন")}</p>
                                     <p className="text-sm font-bold text-slate-900">{booking.goodsWeight} KG</p>
                                 </div>
                                 {booking.contactPhone && (
                                     <div className="col-span-2">
-                                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight flex items-center gap-1">
+                                        <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight flex items-center gap-1">
                                             <Phone className="w-3 h-3" />
                                             {t("Contact Phone", "যোগাযোগ নম্বর")}
                                         </p>
@@ -314,7 +440,7 @@ export default function BookingDetailPage() {
 
                             {booking.specialNote && (
                                 <div className="bg-slate-50 rounded-2xl p-4">
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-tight shrink-0 mb-1">{t("Special Note", "বিশেষ নোট")}</p>
+                                    <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight shrink-0 mb-1">{t("Special Note", "বিশেষ নোট")}</p>
                                     <p className="text-xs text-slate-700 font-bold italic">"{booking.specialNote}"</p>
                                 </div>
                             )}
@@ -332,7 +458,7 @@ export default function BookingDetailPage() {
                                     </div>
                                     <div>
                                         <p className="text-xs font-bold text-slate-900">{log.note}</p>
-                                        <p className="text-[10px] font-bold text-slate-500">{new Date(log.createdAt).toLocaleString()}</p>
+                                        <p className="text-[10px] font-bold text-slate-700">{new Date(log.createdAt).toLocaleString()}</p>
                                     </div>
                                 </div>
                             ))}

@@ -90,18 +90,21 @@ export default function DriverDashboard() {
 
     return (
         <DashboardLayout requiredRole="DRIVER">
-            <header className="mb-10 flex items-center justify-between">
+            <header className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-900 mb-2">
+                    <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1 sm:mb-2">
                         {t("Driver Dashboard", "ড্রাইভার ড্যাশবোর্ড")}
                     </h1>
-                    <p className="text-slate-700 font-bold">
+                    <p className="text-slate-600 font-medium text-xs sm:text-sm">
                         {t("Manage your bookings, earnings, and vehicle status.", "আপনার বুকিং, উপার্জন এবং যানবাহনের অবস্থা পরিচালনা করুন।")}
                     </p>
                 </div>
-                <div className="flex items-center gap-3 bg-white p-1 rounded-full border border-slate-100 shadow-sm">
-                    <div className="bg-green-500 w-3 h-3 rounded-full ml-4 animate-pulse"></div>
-                    <span className="text-sm font-bold pr-4 text-slate-900">{t("Available for Jobs", "কাজের জন্য প্রস্তুত")}</span>
+                <div className="self-start sm:self-auto flex items-center gap-2.5 bg-white px-3.5 py-2 rounded-full border border-slate-200 shadow-sm shrink-0">
+                    <span className="relative flex h-3 w-3 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 whitespace-nowrap">{t("Available for Jobs", "কাজের জন্য প্রস্তুত")}</span>
                 </div>
             </header>
 

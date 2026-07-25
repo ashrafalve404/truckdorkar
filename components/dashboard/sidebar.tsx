@@ -73,8 +73,9 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Notifications", href: "/agent/notifications", icon: Bell, bn: "নোটিফিকেশন" },
         ],
         USER: [
-            { name: "My Bookings", href: "/dashboard", icon: Package, bn: "আমার বুকিং" },
-            { name: "New Booking", href: "/bookings/new", icon: LayoutDashboard, bn: "নতুন বুকিং" },
+            { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
+            { name: "My Trips", href: "/bookings", icon: Package, bn: "আমার ট্রিপস" },
+            { name: "New Booking", href: "/bookings/new", icon: FileText, bn: "নতুন বুকিং" },
             { name: "Notifications", href: "/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Profile", href: "/profile", icon: Users, bn: "প্রোফাইল" },

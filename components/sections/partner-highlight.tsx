@@ -53,8 +53,8 @@ export function PartnerHighlight() {
 
                         {/* Features list inline with glassmorphism */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                            <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
-                                <div className="w-12 h-12 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0 border border-white/10 shadow-sm">
+                            <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
+                                <div className="w-12 h-12 rounded-xl bg-white/20 group-hover:bg-slate-950 group-hover:border-slate-950 text-white flex items-center justify-center shrink-0 border border-white/10 shadow-sm transition-all duration-300 group-hover:scale-110">
                                     <Gift className="w-6 h-6" />
                                 </div>
                                 <div className="space-y-1">
@@ -62,8 +62,8 @@ export function PartnerHighlight() {
                                     <p className={cn("font-medium text-white", lang === "bn" ? "text-[10px]" : "text-xs")}>{t("Earn 25 TK daily top-up active bonus", "সক্রিয় এজেন্ট হিসেবে প্রতিদিন ২৫ টাকা টপ-আপ")}</p>
                                 </div>
                             </div>
-                            <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300">
-                                <div className="w-12 h-12 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0 border border-white/10 shadow-sm">
+                            <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
+                                <div className="w-12 h-12 rounded-xl bg-white/20 group-hover:bg-slate-950 group-hover:border-slate-950 text-white flex items-center justify-center shrink-0 border border-white/10 shadow-sm transition-all duration-300 group-hover:scale-110">
                                     <Percent className="w-6 h-6" />
                                 </div>
                                 <div className="space-y-1">
@@ -99,9 +99,9 @@ export function PartnerHighlight() {
                         <div className={`text-xs font-extrabold text-primary ${lang === 'en' ? 'uppercase tracking-widest' : ''}`}>
                             {t("AGENT BENEFITS SUMMARY", "এজেন্টের সুবিধাসমূহ")}
                         </div>
-                        <div className="text-2xl md:text-3xl font-black leading-snug">{t("Low investment, high returns.", "স্বল্প বিনিয়োগে সর্বোচ্চ আয়ের সুযোগ।")}</div>
+                        <div className="text-xl md:text-2xl font-bold leading-snug text-white">{t("Low investment, high returns.", "স্বল্প বিনিয়োগে সর্বোচ্চ আয়ের সুযোগ।")}</div>
                         <div className="h-0.5 w-12 bg-primary rounded" />
-                        <ul className="space-y-4 text-xs md:text-sm text-slate-200 font-bold">
+                        <ul className="space-y-4 text-xs md:text-sm text-slate-200 font-medium">
                             <li className="flex items-center gap-3">
                                 <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
                                 <span>{t("Complete Digital Dashboard Access", "ডিজিটাল ড্যাশবোর্ড ব্যবহারের সুবিধা")}</span>

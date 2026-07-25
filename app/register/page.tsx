@@ -143,7 +143,7 @@ function RegisterForm() {
 
                             {/* Role Selection */}
                             <div className="space-y-4 mb-8 text-center max-w-2xl mx-auto">
-                                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider text-center block">
+                                <label className="text-xs font-bold text-slate-700 text-center block">
                                     {t("Select Your Role", "আপনার ভূমিকা নির্বাচন করুন")}
                                 </label>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

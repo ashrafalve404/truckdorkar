@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import { useAuth } from "@/store/use-auth";
@@ -16,7 +16,7 @@ import {
     Save
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import api from "@/lib/api";
+import api, { getFileUrl } from "@/lib/api";
 import { toast } from "react-hot-toast";
 
 export default function ProfilePage() {
@@ -24,6 +24,9 @@ export default function ProfilePage() {
     const { user, updateUser } = useAuth();
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     const [profileData, setProfileData] = useState({
         name: "",
         email: "",
@@ -40,6 +43,9 @@ export default function ProfilePage() {
                     email: data.email || "",
                     phone: data.phone || "",
                 });
+                if (data.avatar) {
+                    updateUser({ avatar: data.avatar });
+                }
             } catch (error) {
                 console.error("Failed to fetch profile", error);
             } finally {
@@ -63,6 +69,43 @@ export default function ProfilePage() {
         }
     };
 
+    const handleAvatarClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error(t("Image size should be less than 5MB", "ছবি ৫ মেগাবাইটের কম হতে হবে"));
+            return;
+        }
+
+        setUploadingAvatar(true);
+        try {
+            const formData = new FormData();
+            formData.append("avatar", file);
+
+            const response = await api.post("/users/profile/avatar", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            const updatedData = response.data?.data || response.data;
+            const newAvatar = updatedData.avatar || updatedData.url;
+            
+            updateUser({ avatar: newAvatar });
+            toast.success(t("Profile picture updated successfully", "প্রোফাইল ছবি সফলভাবে পরিবর্তন হয়েছে"));
+        } catch (error: any) {
+            console.error("Avatar upload failed", error);
+            toast.error(error.response?.data?.message || t("Failed to upload avatar", "প্রোফাইল ছবি আপলোড ব্যর্থ হয়েছে"));
+        } finally {
+            setUploadingAvatar(false);
+        }
+    };
+
     if (fetching) {
         return (
             <DashboardLayout requiredRole="USER">
@@ -79,7 +122,7 @@ export default function ProfilePage() {
                 <h1 className="text-3xl font-black text-black">
                     {t("Account Profile", "অ্যাকাউন্ট প্রোফাইল")}
                 </h1>
-                <p className="text-gray-500 font-medium font-bold">
+                <p className="text-gray-500 font-bold">
                     {t("Manage your personal information and security settings.", "আপনার ব্যক্তিগত তথ্য এবং নিরাপত্তা সেটিংস পরিচালনা করুন।")}
                 </p>
             </header>
@@ -88,16 +131,32 @@ export default function ProfilePage() {
                 {/* Left Column: Avatar & Basic Info */}
                 <div className="lg:col-span-1 space-y-8">
                     <div className="bg-white p-8 rounded-xl border border-slate-100 shadow-sm text-center">
-                        <div className="relative inline-block mb-6">
-                            <div className="w-32 h-32 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-xl">
+                        <div className="relative inline-block mb-6 cursor-pointer group" onClick={handleAvatarClick}>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleAvatarChange}
+                                accept="image/*"
+                                className="hidden"
+                            />
+                            <div className="w-32 h-32 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-xl relative">
                                 {user?.avatar ? (
-                                    <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                                    <img src={getFileUrl(user.avatar)} alt={user.name || "User Avatar"} className="w-full h-full object-cover" />
                                 ) : (
                                     <User className="w-12 h-12 text-slate-300" />
                                 )}
+                                {uploadingAvatar && (
+                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                        <Loader2 className="w-8 h-8 text-white animate-spin" />
+                                    </div>
+                                )}
                             </div>
-                            <button className="absolute bottom-1 right-1 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white shadow-lg hover:scale-110 transition-transform">
-                                <Camera className="w-4 h-4" />
+                            <button
+                                type="button"
+                                disabled={uploadingAvatar}
+                                className="absolute bottom-1 right-1 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white shadow-lg group-hover:scale-110 transition-transform"
+                            >
+                                {uploadingAvatar ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
                             </button>
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 mb-1">{user?.name}</h3>

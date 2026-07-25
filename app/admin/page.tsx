@@ -10,12 +10,15 @@ import {
     ArrowUpRight,
     Clock,
     CheckCircle,
-    Loader2
+    Loader2,
+    Briefcase,
+    Bell
 } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
 import api from "@/lib/api";
 import Link from "next/link";
+import { useNotifications } from "@/store/use-notifications";
 
 interface AdminStats {
     summary: {
@@ -23,7 +26,9 @@ interface AdminStats {
         companyRevenue: number;
         totalBookings: number;
         totalUsers: number;
-        totalDrivers: number
+        totalDrivers: number;
+        totalTrucks: number;
+        totalAgents: number;
     };
     recentBookings: { id: string; bookingNumber: string; user: { name: string }; finalFare?: number; estimatedFare?: number; status: string; distance?: number | null }[];
     pendingDrivers: number;
@@ -35,8 +40,10 @@ export default function AdminDashboard() {
     const { t } = useLanguage();
     const [stats, setStats] = useState<AdminStats | null>(null);
     const [loading, setLoading] = useState(true);
+    const { unreadCount, fetchNotifications } = useNotifications();
 
     useEffect(() => {
+        fetchNotifications();
         const fetchStats = async () => {
             try {
                 const response = await api.get("/admin/dashboard/stats");
@@ -85,7 +92,7 @@ export default function AdminDashboard() {
             icon: Package,
             color: "text-blue-600",
             bg: "bg-blue-50",
-            trend: "+8.2%",
+            trend: t("Bookings", "বুকিং"),
             isUp: true
         },
         {
@@ -94,7 +101,7 @@ export default function AdminDashboard() {
             icon: Users,
             color: "text-purple-600",
             bg: "bg-purple-50",
-            trend: "+5.1%",
+            trend: t("Registered Users", "নিবন্ধিত ইউজার"),
             isUp: true
         },
         {
@@ -103,31 +110,68 @@ export default function AdminDashboard() {
             icon: Truck,
             color: "text-amber-600",
             bg: "bg-amber-50",
-            trend: "Active",
+            trend: t("Active", "সক্রিয়"),
+            isUp: true
+        },
+        {
+            label: t("Registered Trucks", "নিবন্ধিত ট্রাক"),
+            value: stats?.summary?.totalTrucks || 0,
+            icon: Truck,
+            color: "text-indigo-600",
+            bg: "bg-indigo-50",
+            trend: t("Trucks", "ট্রাক"),
+            isUp: true
+        },
+        {
+            label: t("Registered Agents", "নিবন্ধিত এজেন্ট"),
+            value: stats?.summary?.totalAgents || 0,
+            icon: Briefcase,
+            color: "text-emerald-600",
+            bg: "bg-emerald-50",
+            trend: t("Agents", "এজেন্ট"),
             isUp: true
         }
     ];
 
     return (
         <DashboardLayout requiredRole="ADMIN">
-            <header className="mb-10">
-                <h1 className="text-3xl font-black text-slate-900 mb-2">
-                    {t("Admin Command Center", "অ্যাডমিন কমান্ড সেন্টার")}
-                </h1>
-                <p className="text-slate-700 font-bold">
-                    {t("Real-time overview of TruckDorkar's performance and operations.", "ট্রাক দরকারের পারফরম্যান্স এবং অপারেশনগুলোর রিয়েল-টাইম ওভারভিউ।")}
-                </p>
+            <header className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1 sm:mb-2">
+                        {t("Admin Command Center", "অ্যাডমিন কমান্ড সেন্টার")}
+                    </h1>
+                    <p className="text-slate-600 font-bold text-xs sm:text-sm">
+                        {t("Real-time overview of TruckDorkar's performance and operations.", "ট্রাক দরকারের পারফরম্যান্স এবং অপারেশনগুলোর রিয়েল-টাইম ওভারভিউ।")}
+                    </p>
+                </div>
+
+                {/* Quick Notification View Icon Button */}
+                <Link
+                    href="/admin/notifications"
+                    className="self-start sm:self-auto relative p-3.5 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group shrink-0"
+                    title={t("View Notifications", "নোটিফিকেশন দেখুন")}
+                >
+                    <Bell className="w-5 h-5 text-slate-700 group-hover:text-primary transition-colors" />
+                    {unreadCount > 0 && (
+                        <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 text-[9px] font-black text-white items-center justify-center">
+                                {unreadCount > 9 ? "9+" : unreadCount}
+                            </span>
+                        </span>
+                    )}
+                </Link>
             </header>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 mb-10">
                 {statCards.map((stat, idx) => {
                     const Icon = stat.icon;
                     return (
-                        <div key={idx} className="bg-white p-6 rounded-lg border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                        <div key={idx} className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
                             <div className="flex justify-between items-start mb-4">
-                                <div className={`w-12 h-12 rounded-lg ${stat.bg} ${stat.color} flex items-center justify-center`}>
-                                    <Icon className="w-6 h-6" />
+                                <div className={`w-11 h-11 rounded-lg ${stat.bg} ${stat.color} flex items-center justify-center shrink-0`}>
+                                    <Icon className="w-5 h-5" />
                                 </div>
                                 <div className={cn(
                                     "flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-md",
@@ -137,7 +181,7 @@ export default function AdminDashboard() {
                                     {stat.trend}
                                 </div>
                             </div>
-                            <p className="text-slate-600 text-[10px] font-bold uppercase tracking-wider mb-1">{stat.label}</p>
+                            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1 truncate">{stat.label}</p>
                             <p className="text-2xl font-black text-slate-950">{stat.value}</p>
                         </div>
                     );

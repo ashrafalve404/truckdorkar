@@ -79,10 +79,10 @@ export default function DashboardPage() {
             {/* Latest Notifications Card */}
             {notifications.filter(n => !n.isRead).length > 0 && (
                 <div className="mb-10 bg-primary/5 border border-primary/20 rounded-2xl p-6 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
                         <Bell className="w-24 h-24 text-primary" />
                     </div>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-4 relative z-10">
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center animate-pulse">
                                 <Bell className="w-4 h-4" />
@@ -92,9 +92,10 @@ export default function DashboardPage() {
                             </h2>
                         </div>
                         <Button
+                            type="button"
                             variant="ghost"
                             onClick={() => router.push("/notifications")}
-                            className="text-xs font-black text-primary hover:bg-primary/10 transition-all rounded-full h-8"
+                            className="text-xs font-black text-primary hover:bg-primary/10 transition-all rounded-full h-8 cursor-pointer relative z-20"
                         >
                             {t("View All", "সব দেখুন")}
                         </Button>

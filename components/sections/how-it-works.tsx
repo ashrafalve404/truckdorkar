@@ -36,9 +36,9 @@ export function HowItWorks() {
                             viewport={{ once: true }}
                             className="flex flex-col items-center text-center group"
                         >
-                            <div className="w-24 h-24 bg-light-gray rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary transition-all duration-500 relative">
-                                <Image src={step.icon} alt={t(step.title_en, step.title_bn)} width={40} height={40} className="w-10 h-10 object-contain" />
-                                <div className="absolute -top-3 -right-3 w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-bold text-sm">
+                            <div className="w-24 h-24 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-slate-950 group-hover:border-slate-950 group-hover:shadow-xl group-hover:shadow-slate-950/15 group-hover:-translate-y-1 transition-all duration-300 relative">
+                                <Image src={step.icon} alt={t(step.title_en, step.title_bn)} width={40} height={40} className="w-10 h-10 object-contain group-hover:scale-110 transition-all duration-300" />
+                                <div className="absolute -top-3 -right-3 w-8 h-8 bg-slate-950 text-white rounded-full flex items-center justify-center font-bold text-sm border-2 border-white group-hover:bg-primary transition-colors duration-300">
                                     0{index + 1}
                                 </div>
                             </div>
