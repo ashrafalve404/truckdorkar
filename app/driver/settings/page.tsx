@@ -23,7 +23,8 @@ import {
     Plus,
     ArrowRight,
     Eye,
-    EyeOff
+    EyeOff,
+    Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/store/use-auth";
