@@ -10,12 +10,14 @@ import {
     MapPin,
     ArrowRight,
     Loader2,
-    TrendingUp
+    TrendingUp,
+    Bell
 } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { toast } from "react-hot-toast";
 import { useAuth } from "@/store/use-auth";
@@ -31,6 +33,7 @@ export default function DriverDashboard() {
     });
     const [trucks, setTrucks] = useState<any[]>([]);
     const [activeTrips, setActiveTrips] = useState<any[]>([]);
+    const [unreadCount, setUnreadCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
     const router = useRouter();
@@ -38,11 +41,12 @@ export default function DriverDashboard() {
     useEffect(() => {
         const fetchDriverData = async () => {
             try {
-                // Fetch driver profile, trucks, and active bookings
-                const [profileRes, trucksRes, bookingsRes] = await Promise.all([
+                // Fetch driver profile, trucks, active bookings, and notifications
+                const [profileRes, trucksRes, bookingsRes, notifRes] = await Promise.all([
                     api.get("/drivers/profile"),
                     api.get("/trucks/mine"),
-                    api.get("/bookings")
+                    api.get("/bookings"),
+                    api.get("/notifications").catch(() => ({ data: { data: [] } }))
                 ]);
 
                 const driver = profileRes.data.data;
@@ -51,6 +55,10 @@ export default function DriverDashboard() {
                 const active = allBookings.filter((b: any) =>
                     b.status === 'ACCEPTED' || b.status === 'IN_TRANSIT'
                 );
+
+                const notifs = notifRes.data?.data || [];
+                const unread = notifs.filter((n: any) => !n.isRead).length;
+                setUnreadCount(unread);
 
                 if (driver?.user?.avatar) {
                     updateUser({ avatar: driver.user.avatar });
@@ -105,12 +113,28 @@ export default function DriverDashboard() {
                         {t("Manage your bookings, earnings, and vehicle status.", "আপনার বুকিং, উপার্জন এবং যানবাহনের অবস্থা পরিচালনা করুন।")}
                     </p>
                 </div>
-                <div className="self-start sm:self-auto flex items-center gap-2.5 bg-white px-3.5 py-2 rounded-full border border-slate-200 shadow-sm shrink-0">
-                    <span className="relative flex h-3 w-3 shrink-0">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                    </span>
-                    <span className="text-xs sm:text-sm font-bold text-slate-900 whitespace-nowrap">{t("Available for Jobs", "কাজের জন্য প্রস্তুত")}</span>
+                <div className="self-start sm:self-auto flex items-center gap-3 shrink-0">
+                    <div className="flex items-center gap-2.5 bg-white px-3.5 py-2 rounded-full border border-slate-200 shadow-sm">
+                        <span className="relative flex h-3 w-3 shrink-0">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                        </span>
+                        <span className="text-xs sm:text-sm font-bold text-slate-900 whitespace-nowrap">{t("Available for Jobs", "কাজের জন্য প্রস্তুত")}</span>
+                    </div>
+
+                    <Link
+                        href="/driver/notifications"
+                        className="relative w-10 h-10 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-700 hover:text-primary hover:border-primary/30 transition-all shadow-sm group shrink-0"
+                        title={t("Notifications", "নোটিফিকেশন")}
+                    >
+                        <Bell className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-700" />
+                        {unreadCount > 0 && (
+                            <span className="absolute top-0 right-0 flex h-3 w-3">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white"></span>
+                            </span>
+                        )}
+                    </Link>
                 </div>
             </header>
 

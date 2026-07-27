@@ -12,7 +12,9 @@ import {
     Trash2,
     Truck,
     UserPlus,
-    Key
+    Key,
+    Eye,
+    EyeOff
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -37,6 +39,9 @@ export default function AdminSettingsPage() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
     const [changingPassword, setChangingPassword] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     // Create admin states
     const [newAdminName, setNewAdminName] = useState("");
@@ -44,6 +49,7 @@ export default function AdminSettingsPage() {
     const [newAdminPhone, setNewAdminPhone] = useState("");
     const [newAdminPassword, setNewAdminPassword] = useState("");
     const [creatingAdmin, setCreatingAdmin] = useState(false);
+    const [showAdminPassword, setShowAdminPassword] = useState(false);
 
     useEffect(() => {
         const fetchSettings = async () => {
@@ -405,51 +411,86 @@ export default function AdminSettingsPage() {
                     ) : (
                         <div className="space-y-8">
                             {/* Change Password Form */}
-                            <div className="bg-white rounded-lg border border-slate-100 shadow-sm overflow-hidden">
-                                <div className="p-8 border-b border-slate-50 flex items-center gap-3">
-                                    <Key className="w-6 h-6 text-primary" />
-                                    <h3 className="text-xl font-bold text-slate-950">{t("Change Admin Password", "এডমিন পাসওয়ার্ড পরিবর্তন করুন")}</h3>
+                            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden p-8 space-y-6">
+                                <div className="flex items-center gap-3 border-b border-slate-100 pb-5">
+                                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                        <Key className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-black text-slate-900">{t("Change Admin Password", "এডমিন পাসওয়ার্ড পরিবর্তন করুন")}</h3>
+                                        <p className="text-xs text-slate-500 font-medium">{t("Update your administrator account password", "আপনার পাসওয়ার্ড আপডেট করুন")}</p>
+                                    </div>
                                 </div>
-                                <form onSubmit={handleChangePassword} className="p-8 space-y-6">
+                                <form onSubmit={handleChangePassword} className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 ml-1">{t("Current Password", "বর্তমান পাসওয়ার্ড")}</label>
-                                            <input
-                                                type="password"
-                                                required
-                                                value={currentPassword}
-                                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                                className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2"
-                                            />
+                                            <label className="text-xs font-bold text-slate-700 ml-1">{t("Current Password", "বর্তমান পাসওয়ার্ড")}</label>
+                                            <div className="relative">
+                                                <input
+                                                    type={showCurrentPassword ? "text" : "password"}
+                                                    required
+                                                    value={currentPassword}
+                                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                                    placeholder="••••••••"
+                                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-11 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-slate-400 placeholder:font-normal"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                                                >
+                                                    {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 ml-1">{t("New Password", "নতুন পাসওয়ার্ড")}</label>
-                                            <input
-                                                type="password"
-                                                required
-                                                value={newPassword}
-                                                onChange={(e) => setNewPassword(e.target.value)}
-                                                className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2"
-                                            />
+                                            <label className="text-xs font-bold text-slate-700 ml-1">{t("New Password", "নতুন পাসওয়ার্ড")}</label>
+                                            <div className="relative">
+                                                <input
+                                                    type={showNewPassword ? "text" : "password"}
+                                                    required
+                                                    value={newPassword}
+                                                    onChange={(e) => setNewPassword(e.target.value)}
+                                                    placeholder="••••••••"
+                                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-11 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-slate-400 placeholder:font-normal"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowNewPassword(!showNewPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                                                >
+                                                    {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 ml-1">{t("Confirm New Password", "নতুন পাসওয়ার্ড নিশ্চিত করুন")}</label>
-                                            <input
-                                                type="password"
-                                                required
-                                                value={confirmNewPassword}
-                                                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                                                className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2"
-                                            />
+                                            <label className="text-xs font-bold text-slate-700 ml-1">{t("Confirm New Password", "নতুন পাসওয়ার্ড নিশ্চিত করুন")}</label>
+                                            <div className="relative">
+                                                <input
+                                                    type={showConfirmPassword ? "text" : "password"}
+                                                    required
+                                                    value={confirmNewPassword}
+                                                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                                    placeholder="••••••••"
+                                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-11 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-slate-400 placeholder:font-normal"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                                                >
+                                                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="pt-2">
                                         <Button
                                             type="submit"
                                             disabled={changingPassword}
-                                            className="h-12 rounded-lg px-8 font-black gap-2 shadow-lg shadow-primary/20 text-white"
+                                            className="h-12 rounded-xl px-8 font-bold gap-2 shadow-lg shadow-primary/20 bg-slate-950 hover:bg-slate-900 text-white"
                                         >
-                                            {changingPassword ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                            {changingPassword ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                                             {t("Update Password", "পাসওয়ার্ড আপডেট করুন")}
                                         </Button>
                                     </div>
@@ -457,64 +498,79 @@ export default function AdminSettingsPage() {
                             </div>
 
                             {/* Create New Admin Form */}
-                            <div className="bg-white rounded-lg border border-slate-100 shadow-sm overflow-hidden">
-                                <div className="p-8 border-b border-slate-50 flex items-center gap-3">
-                                    <UserPlus className="w-6 h-6 text-primary" />
-                                    <h3 className="text-xl font-bold text-slate-950">{t("Create New Admin Account", "নতুন এডমিন অ্যাকাউন্ট তৈরি করুন")}</h3>
+                            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden p-8 space-y-6">
+                                <div className="flex items-center gap-3 border-b border-slate-100 pb-5">
+                                    <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                                        <UserPlus className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-black text-slate-900">{t("Create New Admin Account", "নতুন এডমিন অ্যাকাউন্ট তৈরি করুন")}</h3>
+                                        <p className="text-xs text-slate-500 font-medium">{t("Grant admin access to a new team member", "নতুন টিম মেম্বারকে এডমিন অ্যাক্সেস দিন")}</p>
+                                    </div>
                                 </div>
-                                <form onSubmit={handleCreateAdmin} className="p-8 space-y-6">
+                                <form onSubmit={handleCreateAdmin} className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 ml-1">{t("Full Name", "পূর্ণ নাম")}</label>
+                                            <label className="text-xs font-semibold text-slate-700 ml-1">{t("Full Name", "পূর্ণ নাম")}</label>
                                             <input
                                                 type="text"
                                                 required
                                                 value={newAdminName}
                                                 onChange={(e) => setNewAdminName(e.target.value)}
                                                 placeholder="e.g. John Doe"
-                                                className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2 placeholder:text-slate-400"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-slate-400 placeholder:font-normal"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 ml-1">{t("Email Address", "ইমেইল ঠিকানা")}</label>
+                                            <label className="text-xs font-semibold text-slate-700 ml-1">{t("Email Address", "ইমেইল ঠিকানা")}</label>
                                             <input
                                                 type="email"
                                                 required
                                                 value={newAdminEmail}
                                                 onChange={(e) => setNewAdminEmail(e.target.value)}
                                                 placeholder="admin2@truckdorkar.com"
-                                                className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2 placeholder:text-slate-400"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-slate-400 placeholder:font-normal"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 ml-1">{t("Phone Number", "মোবাইল নম্বর")}</label>
+                                            <label className="text-xs font-semibold text-slate-700 ml-1">{t("Phone Number", "মোবাইল নম্বর")}</label>
                                             <input
                                                 type="tel"
                                                 required
                                                 value={newAdminPhone}
                                                 onChange={(e) => setNewAdminPhone(e.target.value)}
                                                 placeholder="017xxxxxxxx"
-                                                className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2 placeholder:text-slate-400"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-slate-400 placeholder:font-normal"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 ml-1">{t("Password", "পাসওয়ার্ড")}</label>
-                                            <input
-                                                type="password"
-                                                required
-                                                value={newAdminPassword}
-                                                onChange={(e) => setNewAdminPassword(e.target.value)}
-                                                className="w-full h-12 bg-slate-50 border-none rounded-lg px-6 text-slate-950 font-bold outline-none ring-primary/10 focus:ring-2"
-                                            />
+                                            <label className="text-xs font-semibold text-slate-700 ml-1">{t("Password", "পাসওয়ার্ড")}</label>
+                                            <div className="relative">
+                                                <input
+                                                    type={showAdminPassword ? "text" : "password"}
+                                                    required
+                                                    value={newAdminPassword}
+                                                    onChange={(e) => setNewAdminPassword(e.target.value)}
+                                                    placeholder="••••••••"
+                                                    className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-11 text-sm font-medium text-slate-800 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all placeholder:text-slate-400 placeholder:font-normal"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowAdminPassword(!showAdminPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                                                >
+                                                    {showAdminPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="pt-2">
                                         <Button
                                             type="submit"
                                             disabled={creatingAdmin}
-                                            className="h-12 rounded-lg px-8 font-black gap-2 shadow-lg shadow-emerald-500/20 bg-emerald-600 hover:bg-emerald-700 text-white"
+                                            className="h-12 rounded-xl px-8 font-bold gap-2 shadow-lg shadow-emerald-500/20 bg-emerald-600 hover:bg-emerald-700 text-white"
                                         >
-                                            {creatingAdmin ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
+                                            {creatingAdmin ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
                                             {t("Register Admin Account", "এডমিন রেজিস্টার করুন")}
                                         </Button>
                                     </div>
