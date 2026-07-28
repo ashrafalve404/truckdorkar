@@ -66,14 +66,19 @@ export default function AgentTrucksPage() {
             {/* Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                 {[
-                    { label: t("Total", "মোট"), value: stats.total, color: "text-slate-900", bg: "bg-slate-50" },
-                    { label: t("Pending", "অপেক্ষমান"), value: stats.pending, color: "text-amber-600", bg: "bg-amber-50" },
-                    { label: t("Approved", "অনুমোদিত"), value: stats.approved, color: "text-green-600", bg: "bg-green-50" },
-                    { label: t("Rejected", "প্রত্যাখ্যাত"), value: stats.rejected, color: "text-red-600", bg: "bg-red-50" },
+                    { label: t("Total Registered", "মোট ট্রাক"), value: stats.total, color: "text-slate-900", iconBg: "bg-slate-100 text-slate-700", icon: Truck },
+                    { label: t("Pending Review", "অপেক্ষমান"), value: stats.pending, color: "text-amber-600", iconBg: "bg-amber-50 text-amber-600", icon: Clock },
+                    { label: t("Approved", "অনুমোদিত"), value: stats.approved, color: "text-emerald-600", iconBg: "bg-emerald-50 text-emerald-600", icon: CheckCircle },
+                    { label: t("Rejected", "প্রত্যাখ্যাত"), value: stats.rejected, color: "text-red-600", iconBg: "bg-red-50 text-red-600", icon: XCircle },
                 ].map((s, i) => (
-                    <div key={i} className={cn("rounded-xl p-5 text-center", s.bg)}>
-                        <p className={cn("text-3xl font-black", s.color)}>{s.value}</p>
-                        <p className="text-xs font-bold text-slate-600 mt-1 uppercase tracking-wider">{s.label}</p>
+                    <div key={i} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-all">
+                        <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold shadow-sm", s.iconBg)}>
+                            <s.icon className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-0.5">{s.label}</p>
+                            <p className={cn("text-2xl font-black", s.color)}>{s.value}</p>
+                        </div>
                     </div>
                 ))}
             </div>

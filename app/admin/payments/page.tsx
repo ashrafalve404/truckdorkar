@@ -12,7 +12,8 @@ import {
     Filter,
     User,
     ArrowRight,
-    Building
+    Building,
+    Clock
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -33,11 +34,11 @@ export default function AdminPaymentsPage() {
                 api.get("/admin/drivers"),
                 api.get("/admin/dashboard/stats")
             ]);
-            setPendingPayments(paymentsRes.data.data);
-            setDrivers(driversRes.data.data.drivers);
+            setPendingPayments(paymentsRes.data?.data || []);
+            setDrivers(driversRes.data?.data?.drivers || []);
             setStats({
-                totalCompanyRevenue: statsRes.data.data.summary.companyRevenue,
-                pendingPayouts: paymentsRes.data.data.length
+                totalCompanyRevenue: statsRes.data?.data?.summary?.companyRevenue || 0,
+                pendingPayouts: paymentsRes.data?.data?.length || 0
             });
         } catch (error) {
             console.error("Failed to fetch admin financial data", error);
@@ -96,7 +97,7 @@ export default function AdminPaymentsPage() {
                     </div>
                     <div className="px-6 py-2">
                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{t("Pending Verification", "অপেক্ষমান যাচাইকরণ")}</p>
-                        <p className="text-xl font-black text-orange-600">{stats.pendingPayouts}</p>
+                        <p className="text-xl font-black text-amber-600">{stats.pendingPayouts}</p>
                     </div>
                 </div>
             </header>
@@ -104,10 +105,10 @@ export default function AdminPaymentsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Section 1: Pending Approvals */}
                 <div className="space-y-6">
-                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden min-h-[400px]">
-                        <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+                    <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden min-h-[400px]">
+                        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                             <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
-                                <Clock className="w-5 h-5 text-orange-500" />
+                                <Clock className="w-5 h-5 text-amber-500" />
                                 {t("Pending Commission Payments", "অপেক্ষমান কমিশন পেমেন্ট")}
                             </h3>
                         </div>
@@ -163,8 +164,8 @@ export default function AdminPaymentsPage() {
 
                 {/* Section 2: Driver Debt Leaderboard */}
                 <div className="space-y-6">
-                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden h-full flex flex-col">
-                        <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+                    <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden h-full flex flex-col">
+                        <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                             <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
                                 <Building className="w-5 h-5 text-primary" />
                                 {t("Driver Ledger", "ড্রাইভার লেজার")}
@@ -215,7 +216,3 @@ export default function AdminPaymentsPage() {
         </DashboardLayout>
     );
 }
-
-const Clock = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-);

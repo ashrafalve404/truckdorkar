@@ -225,17 +225,7 @@ export default function DriverJobsPage() {
                                     <div className="bg-primary/5 text-primary text-[10px] font-black px-2.5 py-1 rounded uppercase tracking-wider">
                                         {job.type?.replace("_", " ") || "DELIVERY"}
                                     </div>
-                                    <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 text-right">
-                                        <div className="text-sm font-black text-slate-900">
-                                            {t("Actual Fare", "মূল ভাড়া")}: ৳{Number(job.estimatedFare || 0).toLocaleString()}
-                                        </div>
-                                        <div className="text-[11px] font-medium text-amber-600 mt-0.5">
-                                            {t("10% Commission", "১০% কমিশন")}: -৳{Math.round(Number(job.estimatedFare || 0) * 0.1).toLocaleString()}
-                                        </div>
-                                        <div className="text-xs font-medium text-emerald-600 border-t border-slate-200/60 pt-1 mt-1">
-                                            {t("Driver Net Amount", "ড্রাইভার প্রাপ্য")}: ৳{Math.round(Number(job.estimatedFare || 0) * 0.9).toLocaleString()}
-                                        </div>
-                                    </div>
+                                    <div className="font-black text-slate-950 text-lg">৳{job.estimatedFare || "Negotiable"}</div>
                                 </div>
 
                                 <div className="space-y-4 mb-6">
@@ -319,12 +309,8 @@ export default function DriverJobsPage() {
                                 <h3 className="text-xl font-black text-slate-900">
                                     {t("Trip Route & Details", "ট্রিপ রুট ও বিস্তারিত বিবরণ")}
                                 </h3>
-                                <p className="text-xs text-slate-500 mt-1">
-                                    <span className="text-slate-950 font-black text-sm">{t("Actual Fare", "মূল ভাড়া")}: ৳{Number(activeMapJob.estimatedFare || 0).toLocaleString()}</span>
-                                    {" | "}
-                                    <span className="text-amber-600 font-medium">{t("10% Commission", "১০% কমিশন")}: -৳{Math.round(Number(activeMapJob.estimatedFare || 0) * 0.1).toLocaleString()}</span>
-                                    {" | "}
-                                    <span className="text-emerald-600 font-medium">{t("Driver Net Amount", "ড্রাইভার প্রাপ্য")}: ৳{Math.round(Number(activeMapJob.estimatedFare || 0) * 0.9).toLocaleString()}</span>
+                                <p className="text-xs font-bold text-slate-500 mt-1">
+                                    {t("Booking Fare", "বুকিং ভাড়া")}: <span className="text-primary font-black">৳{activeMapJob.estimatedFare || "Negotiable"}</span>
                                     {activeMapJob.distance && ` | ${t("Distance", "দূরত্ব")}: ${activeMapJob.distance} KM`}
                                 </p>
                             </div>

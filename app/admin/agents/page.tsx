@@ -152,7 +152,7 @@ export default function AdminAgentsPage() {
                     </p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Button onClick={() => setRegisterModal(true)} className="h-12 px-6 rounded-xl font-black gap-2 text-white">
+                    <Button onClick={() => router.push("/admin/agents/new")} className="h-12 px-6 rounded-xl font-black gap-2 text-white shadow-md shadow-primary/20 hover:scale-[1.02] transition-transform">
                         <Plus className="w-5 h-5" />
                         {t("Register New Agent", "নতুন এজেন্ট নিবন্ধন")}
                     </Button>
@@ -520,7 +520,7 @@ export default function AdminAgentsPage() {
                                         <Shield className="w-5 h-5 text-amber-500" />
                                     </div>
                                     <p className="text-xs text-amber-900 font-bold leading-relaxed">
-                                        {t("By registering this agent, they will gain immediate administrative access to truck registrations and booking monitoring. Please ensure all details are verified.", "এই এজেন্টকে নিবন্ধন করার মাধ্যমে, তারা ট্রাক নিবন্ধন এবং বুকিং পর্যবেক্ষণে সরাসরি অ্যাডমিন অ্যাক্সেস পাবে। দয়া করে নিশ্চিত হন যে সমস্ত তথ্য যাচাই করা হয়েছে।")}
+                                        {t("By registering this agent, they will be granted access to onboard trucks and monitor trip activities. Please double-check all details before submitting.", "এই এজেন্টকে নিবন্ধনের মাধ্যমে, তারা নতুন ট্রাক সংযোজন ও ট্রিপ কার্যক্রম পর্যবেক্ষণ করতে পারবে। দয়া করে সঠিক তথ্য নিশ্চিত করুন।")}
                                     </p>
                                 </div>
                             </div>

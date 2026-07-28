@@ -18,7 +18,8 @@ import {
     FileText,
     Image as ImageIcon,
     Globe,
-    DollarSign
+    DollarSign,
+    Wallet
 } from "lucide-react";
 import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
@@ -49,6 +50,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Trucks", href: "/admin/trucks", icon: Truck, bn: "ট্রাক" },
             { name: "Users", href: "/admin/users", icon: Users, bn: "ইউজার" },
             { name: "Agents", href: "/admin/agents", icon: Users, bn: "এজেন্ট" },
+            { name: "Agent Withdrawals", href: "/admin/agent-withdrawals", icon: Wallet, bn: "এজেন্ট উত্তোলন" },
             { name: "Notifications", href: "/admin/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/admin/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Payments", href: "/admin/payments", icon: DollarSign, bn: "পেমেন্ট" },
@@ -69,6 +71,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Dashboard", href: "/agent/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
             { name: "My Trucks", href: "/agent/trucks", icon: Truck, bn: "আমার ট্রাক" },
             { name: "Earnings", href: "/agent/earnings", icon: TrendingUp, bn: "উপার্জন" },
+            { name: "Withdraw Money", href: "/agent/withdraw", icon: DollarSign, bn: "টাকা উত্তোলন" },
             { name: "Support Tickets", href: "/agent/support", icon: MessageSquare, bn: "সাপোর্ট টিকেট" },
             { name: "Verification", href: "/agent/profile", icon: Shield, bn: "ভেরিফিকেশন" },
             { name: "Notifications", href: "/agent/notifications", icon: Bell, bn: "নোটিফিকেশন" },
