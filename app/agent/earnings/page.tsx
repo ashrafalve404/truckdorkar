@@ -387,7 +387,7 @@ export default function AgentEarnings() {
 
                 <Link href="/agent/withdraw">
                     <Button
-                        className="h-13 px-8 rounded-2xl font-black text-white bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-600/25 transition-all text-sm gap-2 shrink-0"
+                        className="h-13 px-8 rounded-2xl font-black text-white bg-emerald-600 hover:bg-emerald-700 shadow-md hover:shadow-lg transition-all text-sm gap-2 shrink-0"
                     >
                         <ArrowUpRight className="w-5 h-5" />
                         {t("Money Withdraw Page", "টাকা উত্তোলন পেজ")}
@@ -567,7 +567,7 @@ export default function AgentEarnings() {
             </div>
 
             {/* AGENT COMMISSION GRAPH CHART */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
                     <div>
                         <div className="flex items-center gap-2.5 mb-1">

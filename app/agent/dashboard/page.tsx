@@ -303,9 +303,9 @@ export default function AgentDashboard() {
                         <div
                             key={idx}
                             onClick={() => router.push(item.href)}
-                            className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center gap-5"
+                            className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center gap-5"
                         >
-                            <div className={`w-13 h-13 rounded-2xl ${item.bg} ${item.color} flex items-center justify-center shrink-0 shadow-sm`}>
+                            <div className={`w-13 h-13 rounded-xl ${item.bg} ${item.color} flex items-center justify-center shrink-0 shadow-sm`}>
                                 <Icon className="w-6 h-6" />
                             </div>
                             <div>
@@ -319,7 +319,7 @@ export default function AgentDashboard() {
 
             {/* 2. MIDDLE SECTION: Support Tickets */}
             <div className="grid grid-cols-1 gap-8 mb-10">
-                <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+                <div className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-lg font-bold text-slate-900">{t("Recent Tickets", "সাম্প্রতিক টিকেট")}</h3>
                         <button onClick={() => router.push("/agent/support")} className="text-primary text-sm font-bold hover:underline">{t("View All", "সব দেখুন")}</button>
@@ -351,7 +351,7 @@ export default function AgentDashboard() {
             </div>
 
             {/* 3. VERY BOTTOM SECTION: OVERALL PERFORMANCE & COMMISSION ANALYTICS CHART */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
                 {/* Chart Top Header & Time Tabs */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
                     <div>

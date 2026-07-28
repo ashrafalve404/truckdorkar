@@ -306,7 +306,7 @@ export default function DriverEarningsPage() {
                     { label: t("This Week", "এই সপ্তাহের আয়"), value: `৳${stats.thisWeek.toLocaleString()}`, icon: Calendar, color: "bg-indigo-500 text-white" },
                     { label: t("Total Completed Trips", "সম্পন্ন ট্রিপ"), value: `${stats.totalTrips}`, icon: Award, color: "bg-amber-500 text-white" },
                 ].map((stat, idx) => (
-                    <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
+                    <div key={idx} className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
                         <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-md", stat.color)}>
                             <stat.icon className="w-6 h-6" />
                         </div>
@@ -319,7 +319,7 @@ export default function DriverEarningsPage() {
             </div>
 
             {/* ── PROFESSIONAL EARNINGS GRAPH CHART ───────────────────────────────── */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 mb-8 space-y-6">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-8 space-y-6">
                 {/* Chart Top Header & Filter Tabs */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
                     <div>

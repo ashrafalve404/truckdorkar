@@ -154,7 +154,7 @@ export default function AdminAgentWithdrawalsPage() {
 
             {/* KPI Summary Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm">
                         <Clock className="w-6 h-6" />
                     </div>
@@ -164,7 +164,7 @@ export default function AdminAgentWithdrawalsPage() {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm">
                         <DollarSign className="w-6 h-6" />
                     </div>
@@ -174,7 +174,7 @@ export default function AdminAgentWithdrawalsPage() {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
                         <CheckCircle2 className="w-6 h-6" />
                     </div>
@@ -184,7 +184,7 @@ export default function AdminAgentWithdrawalsPage() {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 shadow-sm">
                         <Wallet className="w-6 h-6" />
                     </div>
@@ -196,7 +196,7 @@ export default function AdminAgentWithdrawalsPage() {
             </div>
 
             {/* WITHDRAWAL REQUESTS TABLE SECTION */}
-            <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden space-y-4">
+            <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden space-y-4">
                 {/* Header & Filter Controls */}
                 <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-center gap-3">

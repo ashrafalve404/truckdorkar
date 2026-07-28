@@ -130,7 +130,7 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
             {/* Overlay for mobile drawer */}
             {isSidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-slate-950/30 backdrop-blur-sm z-30 lg:hidden"
+                    className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-40 lg:hidden"
                     onClick={() => setIsSidebarOpen(false)}
                 />
             )}

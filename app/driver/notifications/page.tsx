@@ -117,7 +117,7 @@ export default function DriverNotificationsPage() {
                 )}
             </header>
 
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6 md:p-8">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden p-6 md:p-8">
                 {loading ? (
                     <div className="p-20 flex justify-center">
                         <Loader2 className="w-10 h-10 animate-spin text-primary" />

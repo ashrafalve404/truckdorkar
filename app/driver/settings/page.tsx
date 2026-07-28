@@ -247,7 +247,7 @@ export default function DriverSettingsPage() {
                         {/* Left Column: Avatar & Verification Banner */}
                         <div className="lg:col-span-1 space-y-6">
                             {/* Avatar Card */}
-                            <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
+                            <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm text-center">
                                 <div
                                     className="relative inline-block mb-4 cursor-pointer group"
                                     onClick={() => {
@@ -286,8 +286,8 @@ export default function DriverSettingsPage() {
                             </div>
 
                             {/* Status Card */}
-                            <div className={`p-8 rounded-3xl border border-slate-100 shadow-sm ${driverStatusObj.bg}`}>
-                                <div className={`w-14 h-14 rounded-2xl ${driverStatusObj.color} bg-white flex items-center justify-center mb-5 shadow-sm`}>
+                            <div className={`p-8 rounded-2xl border border-slate-100 shadow-sm ${driverStatusObj.bg}`}>
+                                <div className={`w-14 h-14 rounded-xl ${driverStatusObj.color} bg-white flex items-center justify-center mb-5 shadow-sm`}>
                                     <StatusIconComp className="w-7 h-7" />
                                 </div>
                                 <h3 className="text-lg font-black text-slate-900 mb-2">{driverStatusObj.text}</h3>
@@ -302,7 +302,7 @@ export default function DriverSettingsPage() {
                         {/* Right Column: Personal Information & Documents Form */}
                         <div className="lg:col-span-2 space-y-8">
                             {/* Personal Information Form */}
-                            <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
+                            <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm space-y-6">
                                 <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
                                     <User className="w-5 h-5 text-primary" />
                                     {t("Personal Information", "ব্যক্তিগত তথ্য")}
@@ -489,7 +489,7 @@ export default function DriverSettingsPage() {
 
             case "safety":
                 return (
-                    <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
+                    <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm space-y-6">
                         <div className="border-b border-slate-100 pb-6">
                             <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
                                 <Lock className="w-5 h-5 text-primary" />

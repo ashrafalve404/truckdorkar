@@ -105,7 +105,7 @@ export default function AdminPaymentsPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Section 1: Pending Approvals */}
                 <div className="space-y-6">
-                    <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden min-h-[400px]">
+                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden min-h-[400px]">
                         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                             <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
                                 <Clock className="w-5 h-5 text-amber-500" />
@@ -164,7 +164,7 @@ export default function AdminPaymentsPage() {
 
                 {/* Section 2: Driver Debt Leaderboard */}
                 <div className="space-y-6">
-                    <div className="bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden h-full flex flex-col">
+                    <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden h-full flex flex-col">
                         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                             <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
                                 <Building className="w-5 h-5 text-primary" />

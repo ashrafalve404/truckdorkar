@@ -21,7 +21,9 @@ import {
     ExternalLink,
     FileText,
     CheckCircle2,
-    XCircle
+    XCircle,
+    Phone,
+    Mail
 } from "lucide-react";
 import api, { getFileUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -357,8 +359,16 @@ export default function AdminDriversPage() {
                                             {selectedDriver.status}
                                         </span>
                                     </div>
-                                    <p className="text-xs text-slate-300 font-medium mt-1">
-                                        📞 {selectedDriver.user?.phone || "—"} | ✉️ {selectedDriver.user?.email || "No email"}
+                                    <p className="text-xs text-slate-300 font-medium mt-1 flex items-center gap-3 flex-wrap">
+                                        <span className="inline-flex items-center gap-1">
+                                            <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                                            {selectedDriver.user?.phone || "—"}
+                                        </span>
+                                        <span className="text-slate-600">•</span>
+                                        <span className="inline-flex items-center gap-1">
+                                            <Mail className="w-3.5 h-3.5 text-blue-400" />
+                                            {selectedDriver.user?.email || "No email"}
+                                        </span>
                                     </p>
                                     <p className="text-[11px] text-slate-400 font-medium mt-0.5">
                                         Driver ID: <span className="text-slate-200 font-mono">{selectedDriver.id}</span>
@@ -385,8 +395,10 @@ export default function AdminDriversPage() {
                             </div>
                             <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{t("Rating & Trips", "রেটিং ও ট্রিপ")}</p>
-                                <p className="text-xl font-black text-slate-900 flex items-center gap-1">
-                                    ⭐ {(selectedDriver.rating || 5.0).toFixed(1)} <span className="text-xs text-slate-400 font-medium">({selectedDriver.totalTrips || selectedDriver.bookings?.length || 0} {t("trips", "ট্রিপ")})</span>
+                                <p className="text-xl font-black text-slate-900 flex items-center gap-1.5">
+                                    <Star className="w-4 h-4 text-amber-400 fill-amber-400 shrink-0" />
+                                    <span>{(selectedDriver.rating || 5.0).toFixed(1)}</span>
+                                    <span className="text-xs text-slate-400 font-medium">({selectedDriver.totalTrips || selectedDriver.bookings?.length || 0} {t("trips", "ট্রিপ")})</span>
                                 </p>
                             </div>
                         </div>

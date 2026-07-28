@@ -178,7 +178,7 @@ export default function BookingDetailPage() {
                     {t("Back to Bookings", "বুকিং তালিকায় ফিরুন")}
                 </button>
 
-                <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                     {/* Top Header Banner */}
                     <div className="p-8 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
                         <div>

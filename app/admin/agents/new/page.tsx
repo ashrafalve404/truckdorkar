@@ -128,7 +128,7 @@ export default function RegisterAgentPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-8">
                     {/* SECTION 1: Personal & Verification Info */}
-                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+                    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
                         <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
                             <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                                 <User className="w-5 h-5" />
@@ -206,7 +206,7 @@ export default function RegisterAgentPage() {
                     </div>
 
                     {/* SECTION 2: Account & Security */}
-                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+                    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
                         <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
                             <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
                                 <Lock className="w-5 h-5" />
@@ -262,7 +262,7 @@ export default function RegisterAgentPage() {
                     </div>
 
                     {/* SECTION 3: Professional Info */}
-                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+                    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
                         <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
                             <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                                 <Briefcase className="w-5 h-5" />
@@ -307,7 +307,7 @@ export default function RegisterAgentPage() {
                     </div>
 
                     {/* SECTION 4: OPTIONAL DOCUMENTS & IDENTITY UPLOAD */}
-                    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6">
+                    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm space-y-6">
                         <div className="flex items-center justify-between pb-4 border-b border-slate-100 flex-wrap gap-2">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
@@ -453,8 +453,8 @@ export default function RegisterAgentPage() {
                     </div>
 
                     {/* Security Access Banner */}
-                    <div className="p-6 bg-amber-50/80 border border-amber-200/60 rounded-3xl flex gap-4 items-start shadow-sm">
-                        <div className="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shrink-0">
+                    <div className="p-6 bg-amber-50/80 border border-amber-200/60 rounded-2xl flex gap-4 items-start shadow-sm">
+                        <div className="w-11 h-11 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-md shrink-0">
                             <Shield className="w-6 h-6" />
                         </div>
                         <div>

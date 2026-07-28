@@ -134,8 +134,8 @@ export default function AgentWithdrawPage() {
 
             {/* Summary Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
-                    <div className="w-13 h-13 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
+                    <div className="w-13 h-13 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
                         <Wallet className="w-6 h-6" />
                     </div>
                     <div>
@@ -144,8 +144,8 @@ export default function AgentWithdrawPage() {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
-                    <div className="w-13 h-13 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
+                    <div className="w-13 h-13 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm">
                         <CheckCircle2 className="w-6 h-6" />
                     </div>
                     <div>
@@ -154,8 +154,8 @@ export default function AgentWithdrawPage() {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
-                    <div className="w-13 h-13 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm">
+                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
+                    <div className="w-13 h-13 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm">
                         <Clock className="w-6 h-6" />
                     </div>
                     <div>
@@ -168,7 +168,7 @@ export default function AgentWithdrawPage() {
             {/* Request Withdrawal Form & Info Card Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
                 {/* Form Card */}
-                <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
+                <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
                     <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
                         <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                             <ArrowUpRight className="w-6 h-6" />
@@ -181,7 +181,7 @@ export default function AgentWithdrawPage() {
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Minimum Withdrawal Notice */}
-                        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold flex items-center gap-3">
+                        <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold flex items-center gap-3">
                             <span className="px-2.5 py-1 rounded-lg bg-amber-500 text-white font-black text-[10px] shrink-0">
                                 {t("NOTICE", "সতর্কতা")}
                             </span>
@@ -229,7 +229,7 @@ export default function AgentWithdrawPage() {
                             <Button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full sm:w-auto h-13 px-10 rounded-2xl font-black text-white bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-600/25 transition-all text-sm gap-2"
+                                className="w-full sm:w-auto h-13 px-10 rounded-xl font-black text-white bg-emerald-600 hover:bg-emerald-700 shadow-md hover:shadow-lg transition-all text-sm gap-2"
                             >
                                 {isSubmitting ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -242,9 +242,9 @@ export default function AgentWithdrawPage() {
                 </div>
 
                 {/* Instructions Card */}
-                <div className="bg-slate-900 text-white rounded-3xl p-8 flex flex-col justify-between space-y-6 shadow-xl">
+                <div className="bg-slate-900 text-white rounded-2xl p-8 flex flex-col justify-between space-y-6 shadow-xl">
                     <div className="space-y-4">
-                        <div className="w-12 h-12 rounded-2xl bg-pink-500/20 text-pink-400 flex items-center justify-center font-black text-xl">
+                        <div className="w-12 h-12 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center font-black text-xl">
                             ৳
                         </div>
                         <h4 className="text-xl font-black">{t("Withdrawal Policy", "টাকা উত্তোলনের নিয়মাবলী")}</h4>
@@ -268,7 +268,7 @@ export default function AgentWithdrawPage() {
                         </ul>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700">
+                    <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700">
                         <p className="text-[11px] text-slate-400 font-medium mb-1">{t("Available Total Earnings", "উপলব্ধ মোট আয়")}</p>
                         <p className="text-2xl font-black text-emerald-400">৳{agentTotalEarnings.toLocaleString()}</p>
                     </div>
@@ -276,7 +276,7 @@ export default function AgentWithdrawPage() {
             </div>
 
             {/* WITHDRAWAL HISTORY LIST TABLE */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">

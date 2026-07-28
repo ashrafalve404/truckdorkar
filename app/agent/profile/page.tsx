@@ -157,7 +157,7 @@ export default function AgentProfilePage() {
                 {/* Left: Avatar & Verification Status */}
                 <div className="lg:col-span-1 space-y-6">
                     {/* Agent Avatar Upload Card */}
-                    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm text-center">
+                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm text-center">
                         <div
                             className="relative inline-block mb-4 cursor-pointer group"
                             onClick={() => avatarInputRef.current?.click()}
@@ -195,8 +195,8 @@ export default function AgentProfilePage() {
                     </div>
 
                     {/* Verification Status Banner */}
-                    <div className={`p-8 rounded-3xl border border-slate-100 shadow-sm ${statusObj.bg}`}>
-                        <div className={`w-16 h-16 rounded-2xl ${statusObj.color} bg-white flex items-center justify-center mb-6 shadow-sm`}>
+                    <div className={`p-8 rounded-2xl border border-slate-100 shadow-sm ${statusObj.bg}`}>
+                        <div className={`w-16 h-16 rounded-xl ${statusObj.color} bg-white flex items-center justify-center mb-6 shadow-sm`}>
                             <StatusIcon className="w-8 h-8" />
                         </div>
                         <h3 className="text-xl font-black text-slate-900 mb-2">{statusObj.text}</h3>
@@ -207,7 +207,7 @@ export default function AgentProfilePage() {
                         </p>
                     </div>
 
-                    <div className="p-8 rounded-3xl bg-white border border-slate-100 shadow-sm">
+                    <div className="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm">
                         <h4 className="font-black text-slate-950 mb-4 flex items-center gap-2">
                             <Info className="w-4 h-4 text-primary" />
                             {t("Personal Details", "ব্যক্তিগত তথ্য")}
@@ -227,7 +227,7 @@ export default function AgentProfilePage() {
 
                 {/* Right: Upload Form */}
                 <div className="lg:col-span-2">
-                    <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-8 lg:p-10 border border-slate-100 shadow-sm space-y-8">
+                    <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 lg:p-10 border border-slate-100 shadow-sm space-y-8">
                         <div className="space-y-4">
                             <label className="text-sm font-black text-slate-950 uppercase tracking-widest leading-none">
                                 {t("NID Number", "এনআইডি নম্বর")}

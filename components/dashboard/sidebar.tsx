@@ -96,11 +96,11 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
 
     return (
         <div className={cn(
-            "w-64 bg-white border-r border-gray-100 flex flex-col h-screen fixed left-0 top-0 z-40 transition-transform duration-300 transform lg:translate-x-0 shadow-xl lg:shadow-none",
+            "w-64 bg-white border-r border-gray-100 flex flex-col h-[100dvh] fixed left-0 top-0 z-50 transition-transform duration-300 transform lg:translate-x-0 shadow-2xl lg:shadow-none overflow-hidden",
             isOpen ? "translate-x-0" : "-translate-x-full"
         )}>
             {/* Header */}
-            <div className="p-6 border-b border-gray-50">
+            <div className="p-6 border-b border-gray-50 shrink-0">
                 <Link href="/" className="flex items-center gap-2">
                     <img
                         src={logoMap[role]}
@@ -115,7 +115,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             </div>
 
             {/* Nav Items */}
-            <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+            <nav className="flex-1 min-h-0 p-4 space-y-1 overflow-y-auto">
                 {currentMenu.map((item) => {
                     const Icon = item.icon;
                     const isActive = pathname === item.href;
@@ -146,8 +146,8 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                 })}
             </nav>
 
-            {/* Footer */}
-            <div className="p-4 border-t border-gray-50 space-y-2">
+            {/* Footer with mobile bottom navbar clearance */}
+            <div className="p-4 border-t border-gray-50 space-y-2 shrink-0 bg-white pb-24 lg:pb-4">
                 <button
                     onClick={() => setLang(lang === "en" ? "bn" : "en")}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all border border-slate-100"
@@ -171,8 +171,12 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                         <p className="text-[10px] text-slate-600 font-bold truncate">{user?.email || user?.phone}</p>
                     </div>
                 </div>
+
                 <button
-                    onClick={logout}
+                    onClick={() => {
+                        if (onClose) onClose();
+                        logout();
+                    }}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold text-red-500 hover:bg-red-50 transition-all"
                 >
                     <LogOut className="w-5 h-5" />
