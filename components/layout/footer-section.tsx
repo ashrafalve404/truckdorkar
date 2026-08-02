@@ -170,7 +170,7 @@ export function Footer() {
                                     href={social.href}
                                     target={social.href.startsWith("http") ? "_blank" : undefined}
                                     rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                                    className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white hover:border-primary transition-all"
+                                    className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all shadow-xs"
                                     aria-label={social.label}
                                 >
                                     {social.icon}

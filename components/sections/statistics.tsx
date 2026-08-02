@@ -66,9 +66,6 @@ export function Statistics() {
                             <div className="text-base font-bold text-primary">
                                 {t(stat.label_en, stat.label_bn)}
                             </div>
-                            <div className={`text-xs font-semibold text-slate-400 ${lang === 'bn' ? 'uppercase tracking-widest' : ''}`}>
-                                {t(stat.label_bn, stat.label_en)}
-                            </div>
                         </motion.div>
                     ))}
                 </div>

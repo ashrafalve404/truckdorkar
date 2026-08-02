@@ -47,17 +47,17 @@ function NativeSelect({ value, onChange, options, placeholder, disabled, compact
                 className={cn(
                     "w-full flex items-center justify-between gap-2 font-medium text-left transition-all border rounded-lg focus:outline-none",
                     compact
-                        ? "h-9 px-3 text-xs bg-white border-slate-300 text-slate-800"
+                        ? "h-9 px-3 text-xs bg-white border-slate-300 text-slate-900"
                         : "h-11 px-4 text-sm bg-white border-slate-300 text-slate-900",
                     disabled
                         ? "opacity-40 cursor-not-allowed"
                         : "hover:border-primary/50 focus:ring-2 focus:ring-primary/20",
-                    !value && "text-slate-400",
+                    !value ? "text-slate-700" : "text-slate-900 font-medium",
                     open && "border-primary ring-2 ring-primary/20"
                 )}
             >
                 <span className="truncate">{value || placeholder}</span>
-                <ChevronDown className={cn("w-4 h-4 shrink-0 text-slate-400 transition-transform duration-200", open && "rotate-180")} />
+                <ChevronDown className={cn("w-4 h-4 shrink-0 text-slate-500 transition-transform duration-200", open && "rotate-180")} />
             </button>
             {open && (
                 <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white border border-slate-100 rounded-xl shadow-2xl overflow-y-auto max-h-52 scrollbar-hide">
@@ -180,7 +180,7 @@ export function LocationSelector({
                         onChange={handleAreaChange}
                         disabled={!thana}
                         placeholder={t("Area / Village", "এলাকা / গ্রাম")}
-                        className="h-9 px-3 text-xs bg-white border border-slate-300 rounded-lg font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        className="h-9 px-3 text-xs bg-white border border-slate-300 rounded-lg font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                     />
                 </div>
                 {value && (
@@ -214,15 +214,15 @@ export function LocationSelector({
                             "flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-all",
                             s.done
                                 ? "bg-primary/10 text-primary"
-                                : "bg-slate-100 text-slate-400"
+                                : "bg-slate-100 text-slate-700"
                         )}>
                             <span className={cn(
                                 "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0",
-                                s.done ? "bg-primary text-white" : "bg-slate-300 text-white"
+                                s.done ? "bg-primary text-white" : "bg-slate-600 text-white"
                             )}>{s.step}</span>
                             {s.label}
                         </div>
-                        {i < 3 && <div className="w-2 h-px bg-slate-200 flex-shrink-0" />}
+                        {i < 3 && <div className="w-2 h-px bg-slate-300 flex-shrink-0" />}
                     </React.Fragment>
                 ))}
             </div>
@@ -254,8 +254,8 @@ export function LocationSelector({
                 value={area}
                 onChange={handleAreaChange}
                 disabled={!thana}
-                placeholder={t("Area / Village / Road (optional)", "এলাকা / গ্রাম / রাস্তা (ঐচ্ছিক)")}
-                className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl text-sm font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-400 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                placeholder={t("Area / Village / Road", "এলাকা / গ্রাম / রাস্তা")}
+                className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl text-sm font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
             />
             {value && (
                 <div className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2.5">
