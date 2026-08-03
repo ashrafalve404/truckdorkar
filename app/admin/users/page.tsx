@@ -5,12 +5,15 @@ import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
     Search,
-    MoreVertical,
     UserX,
     UserCheck,
     Loader2,
     Filter,
-    Trash2
+    Trash2,
+    UserPlus,
+    X,
+    Eye,
+    EyeOff
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -27,6 +30,18 @@ export default function AdminUsersPage() {
     const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; name: string }>({ open: false, id: "", name: "" });
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+
+    // Create User Modal State
+    const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [createFormData, setCreateFormData] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        password: "",
+        role: "USER",
+    });
 
     // Filter states
     const [roleFilter, setRoleFilter] = useState("ALL");
@@ -46,6 +61,34 @@ export default function AdminUsersPage() {
     useEffect(() => {
         fetchUsers();
     }, [fetchUsers]);
+
+    const handleCreateUser = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!createFormData.name || !createFormData.phone || !createFormData.password) {
+            toast.error(t("Please fill all required fields", "সব প্রয়োজনীয় ঘর পূরণ করুন"));
+            return;
+        }
+
+        setIsCreating(true);
+        try {
+            await api.post("/admin/users", {
+                name: createFormData.name,
+                phone: createFormData.phone,
+                email: createFormData.email.trim() || undefined,
+                password: createFormData.password,
+                role: createFormData.role,
+            });
+
+            toast.success(t("User created successfully (No OTP required)", "ইউজার সফলভাবে তৈরি হয়েছে (OTP প্রয়োজন নেই)"));
+            setCreateModalOpen(false);
+            setCreateFormData({ name: "", phone: "", email: "", password: "", role: "USER" });
+            fetchUsers();
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || t("Failed to create user", "ইউজার তৈরি করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setIsCreating(false);
+        }
+    };
 
     const toggleStatus = async () => {
         if (!statusModal.id) return;
@@ -101,15 +144,26 @@ export default function AdminUsersPage() {
                         {t("Manage all customers, drivers, and agents.", "কাস্টমার, ড্রাইভার এবং এজেন্টদের ম্যানেজ করুন।")}
                     </p>
                 </div>
-                <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder={t("Search by name, phone...", "নাম বা ফোন দিয়ে খুঁজুন...")}
-                        className="bg-white h-12 pl-12 pr-6 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-full md:w-80 font-bold text-sm text-slate-950 placeholder:text-slate-400 transition-all shadow-sm"
-                    />
+
+                <div className="flex flex-wrap items-center gap-4">
+                    <div className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            placeholder={t("Search by name, phone...", "নাম বা ফোন দিয়ে খুঁজুন...")}
+                            className="bg-white h-12 pl-12 pr-6 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-full md:w-72 font-bold text-sm text-slate-950 placeholder:text-slate-400 transition-all shadow-sm"
+                        />
+                    </div>
+
+                    <Button
+                        onClick={() => setCreateModalOpen(true)}
+                        className="h-12 px-6 rounded-xl font-bold gap-2 text-white bg-primary hover:bg-primary/90 shadow-md shadow-primary/20"
+                    >
+                        <UserPlus className="w-5 h-5" />
+                        {t("Add New User", "নতুন ইউজার যোগ করুন")}
+                    </Button>
                 </div>
             </header>
 
@@ -226,10 +280,15 @@ export default function AdminUsersPage() {
                                             {new Date(user.createdAt).toLocaleDateString()}
                                         </td>
                                         <td className="px-8 py-4">
-                                            <div className="flex items-center gap-2">
-                                                <div className={cn("w-2 h-2 rounded-full", user.isActive ? "bg-green-500" : "bg-red-500")} />
-                                                <span className={cn("text-xs font-bold", user.isActive ? "text-green-600" : "text-red-600")}>
-                                                    {user.isActive ? t("Active", "সক্রিয়") : t("Suspended", "সাময়িক স্থগিত")}
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex items-center gap-2">
+                                                    <div className={cn("w-2 h-2 rounded-full", user.isActive ? "bg-green-500" : "bg-red-500")} />
+                                                    <span className={cn("text-xs font-bold", user.isActive ? "text-green-600" : "text-red-600")}>
+                                                        {user.isActive ? t("Active", "সক্রিয়") : t("Suspended", "সাময়িক স্থগিত")}
+                                                    </span>
+                                                </div>
+                                                <span className={cn("text-[10px] font-black px-2 py-0.5 rounded w-fit uppercase tracking-wider", (user as any).isPhoneVerified !== false ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600")}>
+                                                    {(user as any).isPhoneVerified !== false ? t("Phone Verified", "ফোন ভেরিফাইড") : t("Pending OTP", "পেন্ডিং OTP")}
                                                 </span>
                                             </div>
                                         </td>
@@ -243,10 +302,6 @@ export default function AdminUsersPage() {
                                                         if (user.isActive) {
                                                             setStatusModal({ open: true, id: user.id, name: user.name, currentActive: user.isActive });
                                                         } else {
-                                                            // For activating, we can just do it directly or show a modal. 
-                                                            // User specifically asked for alert on delete/remove, activation is positive.
-                                                            // But let's be consistent and use modal for both or just suspension.
-                                                            // user said "delete or remove anything", suspension is like removal.
                                                             api.patch(`/admin/users/${user.id}/status`, { isActive: true }).then(() => {
                                                                 toast.success("User activated");
                                                                 fetchUsers();
@@ -274,13 +329,146 @@ export default function AdminUsersPage() {
                 )}
             </div>
 
+            {/* ── CREATE USER MODAL (NO OTP REQUIRED) ── */}
+            {createModalOpen && (
+                <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-slate-100 relative animate-in fade-in zoom-in-95 duration-200">
+                        <button
+                            onClick={() => setCreateModalOpen(false)}
+                            className="absolute right-5 top-5 text-slate-400 hover:text-slate-700 transition-colors p-1"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
+                                <UserPlus className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-black text-slate-900">
+                                    {t("Create New User", "নতুন ইউজার তৈরি করুন")}
+                                </h3>
+                                <p className="text-xs text-slate-500 font-bold">
+                                    {t("Direct Creation (No OTP Verification Needed)", "সরাসরি তৈরি করুন (OTP ভেরিফিকেশন লাগবে না)")}
+                                </p>
+                            </div>
+                        </div>
+
+                        <form onSubmit={handleCreateUser} className="space-y-4">
+                            <div>
+                                <label className="text-xs font-bold text-slate-700 block mb-1">
+                                    {t("Full Name", "পুরো নাম")} <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={createFormData.name}
+                                    onChange={(e) => setCreateFormData({ ...createFormData, name: e.target.value })}
+                                    placeholder={t("Enter full name", "পুরো নাম লিখুন")}
+                                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm font-bold text-slate-900 outline-none focus:border-primary focus:bg-white transition-all"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-bold text-slate-700 block mb-1">
+                                    {t("Phone Number", "ফোন নম্বর")} <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="tel"
+                                    required
+                                    value={createFormData.phone}
+                                    onChange={(e) => setCreateFormData({ ...createFormData, phone: e.target.value })}
+                                    placeholder="017XXXXXXXX"
+                                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm font-bold text-slate-900 outline-none focus:border-primary focus:bg-white transition-all"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-bold text-slate-700 block mb-1">
+                                    {t("Role", "ভূমিকা / রোল")} <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    value={createFormData.role}
+                                    onChange={(e) => setCreateFormData({ ...createFormData, role: e.target.value })}
+                                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm font-bold text-slate-900 outline-none focus:border-primary focus:bg-white transition-all"
+                                >
+                                    <option value="USER">{t("Customer (Normal User)", "কাস্টমার (সাধারণ ইউজার)")}</option>
+                                    <option value="DRIVER">{t("Truck Driver", "ট্রাক ড্রাইভার")}</option>
+                                    <option value="AGENT">{t("Truck Dorkar Agent", "ট্রাক দরকার এজেন্ট")}</option>
+                                    <option value="ADMIN">{t("System Administrator", "সিস্টেম অ্যাডমিন")}</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-bold text-slate-700 block mb-1">
+                                    {t("Email (Optional)", "ইমেইল (ঐচ্ছিক)")}
+                                </label>
+                                <input
+                                    type="email"
+                                    value={createFormData.email}
+                                    onChange={(e) => setCreateFormData({ ...createFormData, email: e.target.value })}
+                                    placeholder="user@example.com"
+                                    className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 text-sm font-bold text-slate-900 outline-none focus:border-primary focus:bg-white transition-all"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-bold text-slate-700 block mb-1">
+                                    {t("Password", "পাসওয়ার্ড")} <span className="text-red-500">*</span>
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        required
+                                        value={createFormData.password}
+                                        onChange={(e) => setCreateFormData({ ...createFormData, password: e.target.value })}
+                                        placeholder={t("Set user password", "পাসওয়ার্ড সেট করুন")}
+                                        className="w-full h-11 bg-slate-50 border border-slate-200 rounded-xl px-4 pr-10 text-sm font-bold text-slate-900 outline-none focus:border-primary focus:bg-white transition-all"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                    >
+                                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="pt-3 flex items-center justify-end gap-3">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => setCreateModalOpen(false)}
+                                    className="h-11 px-5 rounded-xl font-bold text-slate-700"
+                                >
+                                    {t("Cancel", "বাতিল")}
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    disabled={isCreating}
+                                    className="h-11 px-6 rounded-xl font-bold text-white bg-primary hover:bg-primary/90 shadow-md shadow-primary/20"
+                                >
+                                    {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Create User", "ইউজার তৈরি করুন")}
+                                </Button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             <DeleteConfirmModal
                 isOpen={statusModal.open}
                 onClose={() => setStatusModal({ open: false, id: "", name: "", currentActive: true })}
                 onConfirm={toggleStatus}
                 isLoading={isUpdating}
-                title={t("Suspend User", "ইউজার স্থগিত করুন")}
-                description={`${t("Are you sure you want to suspend", "আপনি কি নিশ্চিত যে আপনি স্থগিত করতে চান")} ${statusModal.name}? ${t("This will revoke their access to the platform until reactivated.", "এটি পুনরায় সক্রিয় না করা পর্যন্ত প্ল্যাটফর্মে তাদের অ্যাক্সেস বাতিল করবে।")}`}
+                title={t("Suspend User Account", "ইউজার অ্যাকাউন্ট স্থগিত করুন")}
+                description={t(
+                    `Are you sure you want to suspend ${statusModal.name}? This will revoke their access to the platform until reactivated.`,
+                    `আপনি কি নিশ্চিত যে আপনি ${statusModal.name}-কে স্থগিত করতে চান? এটি পুনরায় সক্রিয় না করা পর্যন্ত প্ল্যাটফর্মে তাদের অ্যাক্সেস বাতিল থাকবে।`
+                )}
+                confirmText={t("Suspend User", "স্থগিত করুন")}
+                cancelText={t("Cancel", "বাতিল")}
             />
 
             <DeleteConfirmModal
@@ -289,7 +477,12 @@ export default function AdminUsersPage() {
                 onConfirm={handleHardDelete}
                 isLoading={isDeleting}
                 title={t("Permanently Delete User", "ইউজার চিরতরে মুছুন")}
-                description={`${t("Are you sure you want to permanently delete", "আপনি কি নিশ্চিত যে আপনি চিরতরে মুছে ফেলতে চান")} ${deleteModal.name}? ${t("This action is irreversible and will remove all their data from the system.", "এই ক্রিয়াটি অপরিবর্তনীয় এবং সিস্টেম থেকে তাদের সমস্ত ডেটা সরিয়ে দেবে।")}`}
+                description={t(
+                    `Are you sure you want to permanently delete ${deleteModal.name}? This action is irreversible and will remove all their data from the system.`,
+                    `আপনি কি নিশ্চিত যে আপনি ${deleteModal.name}-কে চিরতরে মুছে ফেলতে চান? এই প্রক্রিয়াটি অপরিবর্তনীয় এবং সিস্টেম থেকে তাদের সমস্ত তথ্য সরিয়ে দেবে।`
+                )}
+                confirmText={t("Delete Permanently", "চিরতরে মুছুন")}
+                cancelText={t("Cancel", "বাতিল")}
             />
         </DashboardLayout>
     );
