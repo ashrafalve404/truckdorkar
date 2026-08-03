@@ -24,12 +24,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const TRUCK_CATEGORIES = [
-    { value: "T1_OPEN_7_9FT", label: "1 Ton Open 7/9 Ft", bn: "১ টন খোলা ৭/৯ ফুট", capacity: 1, length: 9 },
-    { value: "T1_COVER_7_9FT", label: "1 Ton Cover 7/9 Ft", bn: "১ টন কাভার ৭/৯ ফুট", capacity: 1, length: 9 },
-    { value: "T1_5_OPEN_10_12FT", label: "1.5 Ton Open 10/12 Ft", bn: "১.৫ টন খোলা ১০/১২ ফুট", capacity: 1.5, length: 12 },
-    { value: "T1_5_COVER_10_12FT", label: "1.5 Ton Cover 10/12 Ft", bn: "১.৫ টন কাভার ১০/১২ ফুট", capacity: 1.5, length: 12 },
-    { value: "T3_OPEN_16_14FT", label: "3 Ton Open 14/16 Ft", bn: "৩ টন খোলা ১৪/১৬ ফুট", capacity: 3, length: 16 },
-    { value: "T3_COVER_16_14FT", label: "3 Ton Cover 14/16 Ft", bn: "৩ টন কাভার ১৪/১৬ ফুট", capacity: 3, length: 16 },
+    { value: "T1_OPEN_7FT", label: "1 Ton Open 7 Ft", bn: "১ টন খোলা ৭ ফুট", capacity: 1, length: 7 },
+    { value: "T1_COVER_7FT", label: "1 Ton Cover 7 Ft", bn: "১ টন কাভার ৭ ফুট", capacity: 1, length: 7 },
+    { value: "T1_OPEN_9FT", label: "1 Ton Open 9 Ft", bn: "১ টন খোলা ৯ ফুট", capacity: 1, length: 9 },
+    { value: "T1_COVER_9FT", label: "1 Ton Cover 9 Ft", bn: "১ টন কাভার ৯ ফুট", capacity: 1, length: 9 },
+    { value: "T1_5_OPEN_12FT", label: "1.5 Ton Open 12 Ft", bn: "১.৫ টন খোলা ১২ ফুট", capacity: 1.5, length: 12 },
+    { value: "T1_5_COVER_12FT", label: "1.5 Ton Cover 12 Ft", bn: "১.৫ টন কাভার ১২ ফুট", capacity: 1.5, length: 12 },
 ];
 
 interface DocUploadProps {

@@ -27,12 +27,12 @@ export function BookingWidget() {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const STATIC_TRUCK_ICONS: Record<string, string> = {
-        T1_OPEN_7_9FT: "/icons/1ton7feeticon.png",
-        T1_COVER_7_9FT: "/icons/1ton7feetcovericon.png",
-        T1_5_OPEN_10_12FT: "/icons/1.5ton9feeticon.png",
-        T1_5_COVER_10_12FT: "/icons/1.5on9feetcovericon.png",
-        T3_OPEN_16_14FT: "/icons/3ton12feeticon.png",
-        T3_COVER_16_14FT: "/icons/3ton12feetcovericon.png",
+        T1_OPEN_7FT: "/icons/1ton7feeticon.png",
+        T1_COVER_7FT: "/icons/1ton7feetcovericon.png",
+        T1_OPEN_9FT: "/icons/1ton7feeticon.png",
+        T1_COVER_9FT: "/icons/1ton7feetcovericon.png",
+        T1_5_OPEN_12FT: "/icons/1.5ton9feeticon.png",
+        T1_5_COVER_12FT: "/icons/1.5on9feetcovericon.png",
     };
 
     const getTruckIcon = (id: string) => {
@@ -43,12 +43,12 @@ export function BookingWidget() {
     };
 
     const FALLBACK_TRUCKS = [
-        { value: "T1_OPEN_7_9FT", en: "1 Ton Open 7/9 Ft", bn: "১ টন খোলা ৭/৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_OPEN_7_9FT },
-        { value: "T1_COVER_7_9FT", en: "1 Ton Cover 7/9 Ft", bn: "১ টন কাভার ৭/৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_COVER_7_9FT },
-        { value: "T1_5_OPEN_10_12FT", en: "1.5 Ton Open 10/12 Ft", bn: "১.৫ টন খোলা ১০/১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_OPEN_10_12FT },
-        { value: "T1_5_COVER_10_12FT", en: "1.5 Ton Cover 10/12 Ft", bn: "১.৫ টন কাভার ১০/১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_COVER_10_12FT },
-        { value: "T3_OPEN_16_14FT", en: "3 Ton Open 14/16 Ft", bn: "৩ টন খোলা ১৪/১৬ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T3_OPEN_16_14FT },
-        { value: "T3_COVER_16_14FT", en: "3 Ton Cover 14/16 Ft", bn: "৩ টন কাভার ১৪/১৬ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T3_COVER_16_14FT },
+        { value: "T1_OPEN_7FT", en: "1 Ton Open 7 Ft", bn: "১ টন খোলা ৭ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_OPEN_7FT },
+        { value: "T1_COVER_7FT", en: "1 Ton Cover 7 Ft", bn: "১ টন কাভার ৭ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_COVER_7FT },
+        { value: "T1_OPEN_9FT", en: "1 Ton Open 9 Ft", bn: "১ টন খোলা ৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_OPEN_9FT },
+        { value: "T1_COVER_9FT", en: "1 Ton Cover 9 Ft", bn: "১ টন কাভার ৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_COVER_9FT },
+        { value: "T1_5_OPEN_12FT", en: "1.5 Ton Open 12 Ft", bn: "১.৫ টন খোলা ১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_OPEN_12FT },
+        { value: "T1_5_COVER_12FT", en: "1.5 Ton Cover 12 Ft", bn: "১.৫ টন কাভার ১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_COVER_12FT },
     ];
 
     const [dynamicTrucks, setDynamicTrucks] = useState<any[]>([]);

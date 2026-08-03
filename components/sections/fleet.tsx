@@ -43,24 +43,24 @@ export function Fleet() {
     }, []);
 
     const fallbacks: TruckFareInfo[] = [
-        { id: "T1_OPEN_7_9FT", nameEn: "1 Ton Open 7/9 Ft Truck", nameBn: "১ টন খোলা ৭/৯ ফিট ট্রাক", minFare10km: 1000 },
-        { id: "T1_COVER_7_9FT", nameEn: "1 Ton Cover 7/9 Ft Truck", nameBn: "১ টন কাভার ৭/৯ ফিট ট্রাক", minFare10km: 1000 },
-        { id: "T1_5_OPEN_10_12FT", nameEn: "1.5 Ton Open 10/12 Ft Truck", nameBn: "১.৫ টন খোলা ১০/১২ ফিট ট্রাক", minFare10km: 1500 },
-        { id: "T1_5_COVER_10_12FT", nameEn: "1.5 Ton Cover 10/12 Ft Truck", nameBn: "১.৫ টন কাভার ১০/১২ ফিট ট্রাক", minFare10km: 1500 },
-        { id: "T3_OPEN_16_14FT", nameEn: "3 Ton Open 14/16 Ft Truck", nameBn: "৩ টন খোলা ১৪/১৬ ফিট ট্রাক", minFare10km: 3000 },
-        { id: "T3_COVER_16_14FT", nameEn: "3 Ton Cover 14/16 Ft Truck", nameBn: "৩ টন কাভার ১৪/১৬ ফিট ট্রাক", minFare10km: 3000 }
+        { id: "T1_OPEN_7FT", nameEn: "1 Ton Open 7 Ft Truck", nameBn: "১ টন খোলা ৭ ফিট ট্রাক", minFare10km: 1000 },
+        { id: "T1_COVER_7FT", nameEn: "1 Ton Cover 7 Ft Truck", nameBn: "১ টন কাভার ৭ ফিট ট্রাক", minFare10km: 1000 },
+        { id: "T1_OPEN_9FT", nameEn: "1 Ton Open 9 Ft Truck", nameBn: "১ টন খোলা ৯ ফিট ট্রাক", minFare10km: 1200 },
+        { id: "T1_COVER_9FT", nameEn: "1 Ton Cover 9 Ft Truck", nameBn: "১ টন কাভার ৯ ফিট ট্রাক", minFare10km: 1200 },
+        { id: "T1_5_OPEN_12FT", nameEn: "1.5 Ton Open 12 Ft Truck", nameBn: "১.৫ টন খোলা ১২ ফিট ট্রাক", minFare10km: 1500 },
+        { id: "T1_5_COVER_12FT", nameEn: "1.5 Ton Cover 12 Ft Truck", nameBn: "১.৫ টন কাভার ১২ ফিট ট্রাক", minFare10km: 1500 },
     ];
 
     const displayTrucks = fleetTrucks.length > 0 ? fleetTrucks : fallbacks;
 
     const getTruckImage = (id: string, name: string) => {
         // Standard matches
-        if (id === "T1_OPEN_7_9FT") return "/images/1ton7feet.png";
-        if (id === "T1_COVER_7_9FT") return "/images/7feet_coveredvan.png";
-        if (id === "T1_5_OPEN_10_12FT") return "/images/9feet truck.png";
-        if (id === "T1_5_COVER_10_12FT") return "/images/9feetcoveredtruck.png";
-        if (id === "T3_OPEN_16_14FT") return "/images/3ton12feet.png";
-        if (id === "T3_COVER_16_14FT") return "/images/12feetcoveredtruck.png";
+        if (id === "T1_OPEN_7FT" || id === "T1_OPEN_7_9FT") return "/images/1ton7feet.png";
+        if (id === "T1_COVER_7FT" || id === "T1_COVER_7_9FT") return "/images/7feet_coveredvan.png";
+        if (id === "T1_OPEN_9FT" || id === "T1_5_OPEN_10_12FT") return "/images/9feet truck.png";
+        if (id === "T1_COVER_9FT" || id === "T1_5_COVER_10_12FT") return "/images/9feetcoveredtruck.png";
+        if (id === "T1_5_OPEN_12FT" || id === "T3_OPEN_16_14FT") return "/images/3ton12feet.png";
+        if (id === "T1_5_COVER_12FT" || id === "T3_COVER_16_14FT") return "/images/12feetcoveredtruck.png";
 
         // Dynamic matches
         const idLower = id.toLowerCase();
