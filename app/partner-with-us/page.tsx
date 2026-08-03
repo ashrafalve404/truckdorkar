@@ -30,8 +30,8 @@ export default function PartnerWithUsPage() {
             icon: Gift,
             title_en: "Daily Bonus",
             title_bn: "প্রতিদিন বোনাস",
-            desc_en: "Receive 25 TK direct balance top-up every day as an active Truck Dorkar agent.",
-            desc_bn: "সক্রিয় এজেন্ট হিসেবে প্রতিদিন ২৫ টাকা সরাসরি ব্যালেন্স টপ-আপ উপভোগ করুন।",
+            desc_en: "Receive 200 TK direct balance top-up every day as an active Truck Dorkar agent.",
+            desc_bn: "সক্রিয় এজেন্ট হিসেবে প্রতিদিন ২০০ টাকা সরাসরি ব্যালেন্স টপ-আপ উপভোগ করুন।",
             color: "bg-blue-600"
         },
         {
@@ -64,8 +64,8 @@ export default function PartnerWithUsPage() {
             icon: Wallet,
             title_en: "Fee Settlement",
             title_bn: "ফি প্রদান",
-            desc_en: "Complete the 25,000 TK registration fee to activate your dashboard.",
-            desc_bn: "আপনার ড্যাশবোর্ড সক্রিয় করতে ২৫,০০০ টাকা এককালীন ফি পরিশোধ করুন।"
+            desc_en: "Complete the 100,000 TK registration fee to activate your dashboard.",
+            desc_bn: "আপনার ড্যাশবোর্ড সক্রিয় করতে ১,০০,০০০ টাকা এককালীন ফি পরিশোধ করুন।"
         },
         {
             icon: Truck,
@@ -158,8 +158,8 @@ export default function PartnerWithUsPage() {
                                 </h2>
                                 <div className="space-y-3">
                                     {[
-                                        { en: "Fixed Registration Fee: 25,000 TK", bn: "স্থায়ী রেজিস্ট্রেশন ফি: ২৫,০০০ টাকা" },
-                                        { en: "Daily Recurring Bonus: 25 TK", bn: "প্রতিদিনের বোনাস: ২৫ টাকা" },
+                                        { en: "Fixed Registration Fee: 100,000 TK", bn: "স্থায়ী রেজিস্ট্রেশন ফি: ১,০০,০০০ টাকা" },
+                                        { en: "Daily Recurring Bonus: 200 TK", bn: "প্রতিদিনের বোনাস: ২০০ টাকা" },
                                         { en: "Trip Commission from Company", bn: "কোম্পানি থেকে প্রতি ট্রিপে কমিশন" },
                                         { en: "Full Digital Dashboard Access", bn: "ডিজিটাল ড্যাশবোর্ড ব্যবহারের সুবিধা" }
                                     ].map((item, i) => (
@@ -173,7 +173,7 @@ export default function PartnerWithUsPage() {
 
                             <div className="bg-white p-8 md:p-10 text-center">
                                 <p className="text-sm font-bold uppercase tracking-normal text-slate-400 mb-3">{t("Registration Fee", "রেজিস্ট্রেশন ফি")}</p>
-                                <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">৳{t("25,000", "২৫,০০০")}</div>
+                                <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">৳{t("100,000", "১,০০,০০০")}</div>
                                 <div className="space-y-2">
                                     <a href="tel:01826-110036" className="block">
                                         <Button variant="default" className="w-full h-10 rounded-lg font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center gap-2">

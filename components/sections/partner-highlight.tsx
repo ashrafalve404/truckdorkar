@@ -59,7 +59,7 @@ export function PartnerHighlight() {
                                 </div>
                                 <div className="space-y-1">
                                     <h4 className={cn("font-bold text-white", lang === "bn" ? "text-xs" : "text-sm")}>{t("Daily Bonus", "প্রতিদিন বোনাস")}</h4>
-                                    <p className={cn("font-medium text-white", lang === "bn" ? "text-[10px]" : "text-xs")}>{t("Earn 25 TK daily top-up active bonus", "সক্রিয় এজেন্ট হিসেবে প্রতিদিন ২৫ টাকা টপ-আপ")}</p>
+                                    <p className={cn("font-medium text-white", lang === "bn" ? "text-[10px]" : "text-xs")}>{t("Earn 200 TK daily top-up active bonus", "সক্রিয় এজেন্ট হিসেবে প্রতিদিন ২০০ টাকা টপ-আপ")}</p>
                                 </div>
                             </div>
                             <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
