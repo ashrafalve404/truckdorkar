@@ -71,7 +71,7 @@ export function Services() {
                     {services.map((service, index) => (
                         <Link href="/bookings/new" key={index} className="block h-full">
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={false}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                                 viewport={{ once: true }}

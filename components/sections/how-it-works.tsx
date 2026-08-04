@@ -30,7 +30,7 @@ export function HowItWorks() {
                     {steps.map((step, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={false}
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.1 }}
                             viewport={{ once: true }}
