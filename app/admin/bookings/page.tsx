@@ -42,6 +42,8 @@ export default function AdminBookingsPage() {
     const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; num: string }>({ open: false, id: "", num: "" });
     const [isDeleting, setIsDeleting] = useState(false);
 
+    const [statusFilter, setStatusFilter] = useState("ALL");
+
     const fetchBookings = useCallback(async () => {
         try {
             const response = await api.get("/admin/bookings");
@@ -75,12 +77,17 @@ export default function AdminBookingsPage() {
         }
     };
 
-    const filteredBookings = bookings.filter(b =>
-        b.bookingNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.pickupAddress?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        b.dropAddress?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredBookings = bookings.filter(b => {
+        const matchesSearch =
+            b.bookingNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            b.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            b.pickupAddress?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            b.dropAddress?.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesStatus = statusFilter === "ALL" || b.status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+    });
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -97,28 +104,39 @@ export default function AdminBookingsPage() {
         <DashboardLayout requiredRole="ADMIN">
             <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-900 mb-2">
+                    <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1 sm:mb-2">
                         {t("All Bookings", "সকল বুকিং")}
                     </h1>
-                    <p className="text-slate-700 font-bold">
+                    <p className="text-slate-600 font-bold text-xs sm:text-sm">
                         {t("Track and manage all logistics requests across the country.", "সারা দেশের সকল লজিস্টিক রিকোয়েস্ট ট্র্যাক এবং ম্যানেজ করুন।")}
                     </p>
                 </div>
-                <div className="flex gap-4">
-                    <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                    <div className="relative flex-1 sm:w-64">
+                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                         <input
                             type="text"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder={t("Search booking ID...", "বুকিং আইডি খুঁজুন...")}
-                            className="bg-white h-12 pl-12 pr-6 rounded-lg border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-64 font-black text-sm text-slate-950 placeholder:text-slate-500"
+                            className="bg-white h-11 pl-10 pr-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-full font-bold text-xs sm:text-sm text-slate-950 placeholder:text-slate-400"
                         />
                     </div>
-                    <Button variant="outline" className="h-12 rounded-lg gap-2 font-bold px-6 text-slate-950">
-                        <Filter className="w-4 h-4 text-slate-950" />
-                        {t("Filter", "ফিল্টার")}
-                    </Button>
+                    <div className="relative">
+                        <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className="bg-white h-11 pl-4 pr-10 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/10 outline-none w-full sm:w-auto font-bold text-xs sm:text-sm text-slate-950 cursor-pointer appearance-none shrink-0"
+                        >
+                            <option value="ALL">{t("All Statuses", "সকল স্ট্যাটাস")}</option>
+                            <option value="PENDING">{t("Pending", "পেন্ডিং")}</option>
+                            <option value="ACCEPTED">{t("Accepted", "গৃহীত")}</option>
+                            <option value="IN_TRANSIT">{t("In Transit", "চলমান")}</option>
+                            <option value="COMPLETED">{t("Completed", "সম্পন্ন")}</option>
+                            <option value="CANCELLED">{t("Cancelled", "বাতিল")}</option>
+                        </select>
+                        <Filter className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    </div>
                 </div>
             </header>
 
