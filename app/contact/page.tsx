@@ -161,7 +161,7 @@ export default function ContactPage() {
                                                 <Phone className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-widest mb-0.5">{t("Call Us", "ফোন করুন")}</div>
+                                                <div className="text-[10px] md:text-xs font-semibold text-slate-400 mb-0.5">{t("Call Us", "ফোন করুন")}</div>
                                                 <div className="text-base md:text-lg font-bold text-black">{t("01826-110036", "০১৮২৬-১১০০৩৬")}</div>
                                             </div>
                                         </div>
@@ -171,7 +171,7 @@ export default function ContactPage() {
                                                 <Mail className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-widest mb-0.5">{t("Email Us", "ইমেইল করুন")}</div>
+                                                <div className="text-[10px] md:text-xs font-semibold text-gray-400 mb-0.5">{t("Email Us", "ইমেইল করুন")}</div>
                                                 <div className="text-base md:text-lg font-bold text-black">contact@truckdorkar.com</div>
                                             </div>
                                         </div>
@@ -181,7 +181,7 @@ export default function ContactPage() {
                                                 <MapPin className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
-                                                <div className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-widest mb-0.5">{t("Office Address", "অফিস ঠিকানা")}</div>
+                                                <div className="text-[10px] md:text-xs font-semibold text-gray-400 mb-0.5">{t("Office Address", "অফিস ঠিকানা")}</div>
                                                 <div className="text-base md:text-lg font-bold text-black">{t("Navana Shopping Centre, Gulshan Avenue 01, Gulshan, Dhaka, Bangladesh", "নাভানা শপিং সেন্টার, গুলশান অ্যাভিনিউ ০১, গুলশান, ঢাকা, বাংলাদেশ")}</div>
                                             </div>
                                         </div>

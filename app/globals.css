@@ -81,8 +81,8 @@ p, span, div, h1, h2, h3, h4, h5, h6, td, th, label, a {
 /* Override ALL Tailwind tracking utilities for Bengali text */
 .tracking-tighter, .tracking-tight, .tracking-normal,
 .tracking-wide, .tracking-wider, .tracking-widest {
-  --tw-tracking: 0em;
-  letter-spacing: 0em;
+  --tw-tracking: 0em !important;
+  letter-spacing: 0em !important;
 }
 
 /* Re-apply reasonable tracking only for pure Latin/English contexts */
