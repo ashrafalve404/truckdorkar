@@ -181,7 +181,7 @@ export default function AdminDashboard() {
                                     {stat.trend}
                                 </div>
                             </div>
-                            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1 truncate">{stat.label}</p>
+                            <p className="text-slate-500 text-[10px] font-bold mb-1 truncate">{stat.label}</p>
                             <p className="text-2xl font-black text-slate-950">{stat.value}</p>
                         </div>
                     );

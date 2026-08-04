@@ -7,7 +7,7 @@
   --color-dark-gray: #1F1F1F;
   --color-light-gray: #F1F5F9;
 
-  --font-sans: "Inter", var(--font-geist-sans), "Hind Siliguri", var(--font-hind-siliguri), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-geist-sans), "Hind Siliguri", var(--font-hind-siliguri), system-ui, -apple-system, sans-serif;
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -49,19 +49,49 @@ body {
   touch-action: pan-y pinch-zoom;
 }
 
-/* Bangla text fix: use Hind Siliguri for proper Bengali glyph rendering */
-:lang(bn),
-[lang="bn"] {
-  font-family: var(--font-hind-siliguri), "Hind Siliguri", sans-serif;
-  letter-spacing: 0;
-  word-spacing: 0;
+/* Bengali Unicode range-only font face: numbers stay Western (Geist) */
+@font-face {
+  font-family: 'BengaliOnly';
+  src: local('Hind Siliguri');
+  unicode-range: U+0980-U+09FF; /* Bengali script only, NOT numerals */
 }
 
-/* Apply Hind Siliguri for any element containing Bengali Unicode characters */
-.bangla-text,
-*:not(code):not(pre) {
-  font-family: var(--font-geist-sans), "Hind Siliguri", var(--font-hind-siliguri), system-ui, sans-serif;
+body {
+  font-family: var(--font-geist-sans), 'BengaliOnly', var(--font-hind-siliguri), system-ui, sans-serif;
 }
+
+/* Force numerals to always use Western (Geist) font */
+[class*="text-"],
+p, span, h1, h2, h3, h4, h5, h6, td, th, label, button, input, a {
+  font-family: var(--font-geist-sans), 'BengaliOnly', var(--font-hind-siliguri), system-ui, sans-serif;
+}
+
+/*
+ * GLOBAL BENGALI LETTER-GAP FIX
+ * Bengali (Bangla) script uses conjunct characters and ligatures.
+ * letter-spacing breaks these ligatures causing visible gaps between letters.
+ * This resets letter-spacing to 0 for all Bengali Unicode characters (U+0980-U+09FF)
+ * across every element globally — no need to edit each component individually.
+ */
+@supports (font-variant-ligatures: common-ligatures) {
+  * {
+    /* Ensure ligatures are always enabled for proper Bengali rendering */
+    font-variant-ligatures: common-ligatures contextual;
+  }
+}
+
+/* Override ALL Tailwind tracking utilities for Bengali text */
+.tracking-tighter, .tracking-tight, .tracking-normal,
+.tracking-wide, .tracking-wider, .tracking-widest {
+  --tw-tracking: 0em;
+  letter-spacing: 0em;
+}
+
+/* Re-apply reasonable tracking only for pure Latin/English contexts */
+/* (English text doesn't contain Bengali chars so they won't be affected in mixed pages) */
+:lang(en) .tracking-wider { letter-spacing: 0.05em; }
+:lang(en) .tracking-widest { letter-spacing: 0.1em; }
+:lang(en) .tracking-wide { letter-spacing: 0.025em; }
 
 h1,
 h2,
