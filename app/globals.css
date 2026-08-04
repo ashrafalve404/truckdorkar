@@ -7,7 +7,7 @@
   --color-dark-gray: #1F1F1F;
   --color-light-gray: #F1F5F9;
 
-  --font-sans: var(--font-geist-sans), "Hind Siliguri", var(--font-hind-siliguri), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-geist-sans), var(--font-hind-siliguri), system-ui, -apple-system, sans-serif;
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -49,21 +49,20 @@ body {
   touch-action: pan-y pinch-zoom;
 }
 
-/* Bengali Unicode range-only font face: numbers stay Western (Geist) */
-@font-face {
-  font-family: 'BengaliOnly';
-  src: local('Hind Siliguri');
-  unicode-range: U+0980-U+09FF; /* Bengali script only, NOT numerals */
-}
-
-body {
-  font-family: var(--font-geist-sans), 'BengaliOnly', var(--font-hind-siliguri), system-ui, sans-serif;
-}
-
-/* Force numerals to always use Western (Geist) font */
-[class*="text-"],
-p, span, h1, h2, h3, h4, h5, h6, td, th, label, button, input, a {
-  font-family: var(--font-geist-sans), 'BengaliOnly', var(--font-hind-siliguri), system-ui, sans-serif;
+/* 
+ * UNIFIED FONT STACK FOR ALL ELEMENTS
+ * Uses Geist for Latin/Western text and Next.js loaded Hind Siliguri for Bengali text & numerals.
+ * Applied globally to all text elements, inputs, selects, and options for 100% visual consistency.
+ */
+body,
+button,
+input,
+select,
+textarea,
+optgroup,
+option,
+p, span, div, h1, h2, h3, h4, h5, h6, td, th, label, a {
+  font-family: var(--font-geist-sans), var(--font-hind-siliguri), system-ui, -apple-system, sans-serif;
 }
 
 /*
