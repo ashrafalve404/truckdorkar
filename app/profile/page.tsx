@@ -87,11 +87,7 @@ export default function ProfilePage() {
             const formData = new FormData();
             formData.append("avatar", file);
 
-            const response = await api.post("/users/profile/avatar", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+            const response = await api.post("/users/profile/avatar", formData);
 
             const updatedData = response.data?.data || response.data;
             const newAvatar = updatedData.avatar || updatedData.url;
