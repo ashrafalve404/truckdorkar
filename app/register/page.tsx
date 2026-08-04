@@ -238,9 +238,9 @@ function RegisterForm() {
                                                             : "border-gray-100 hover:border-primary/30 bg-gray-50"
                                                             }`}
                                                     >
-                                                        <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all ${isSelected
-                                                            ? "bg-primary text-white"
-                                                            : "bg-white text-gray-400 group-hover:text-primary"
+                                                        <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all border-2 ${isSelected
+                                                            ? "bg-primary text-white border-primary shadow-sm"
+                                                            : "bg-white text-slate-500 border-slate-300 group-hover:border-primary/50 group-hover:text-primary"
                                                             }`}>
                                                             <Icon className="w-5 h-5 md:w-6 md:h-6" />
                                                         </div>

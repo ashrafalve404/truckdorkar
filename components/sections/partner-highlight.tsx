@@ -91,7 +91,7 @@ export function PartnerHighlight() {
                     </div>
                 </div>
 
-                <div className="lg:col-span-5 relative min-h-[450px] lg:min-h-full flex flex-col justify-end p-8 md:p-12 lg:p-16 text-white overflow-hidden bg-cover bg-right lg:bg-center lg:rounded-l-3xl rounded-t-3xl lg:rounded-tr-none" style={{ backgroundImage: "url('/images/agentpagebg.png')" }}>
+                <div className="lg:col-span-5 relative min-h-[450px] lg:min-h-full flex flex-col justify-end p-8 md:p-12 lg:p-16 text-white overflow-hidden bg-cover bg-right lg:bg-center lg:rounded-l-3xl rounded-t-3xl lg:rounded-tr-none" style={{ backgroundImage: "url('/images/agentpagebg.webp')" }}>
                     {/* Gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-slate-900/60" />
 

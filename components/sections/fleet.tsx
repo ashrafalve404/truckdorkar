@@ -56,7 +56,7 @@ export function Fleet() {
     const getTruckImage = (id: string, name: string) => {
         // Standard matches
         if (id === "T1_OPEN_7FT" || id === "T1_OPEN_7_9FT") return "/images/1ton7feet.png";
-        if (id === "T1_COVER_7FT" || id === "T1_COVER_7_9FT") return "/images/7feet_coveredvan.png";
+        if (id === "T1_COVER_7FT" || id === "T1_COVER_7_9FT") return "/images/1ton7feetcover.png";
         if (id === "T1_OPEN_9FT" || id === "T1_5_OPEN_10_12FT") return "/images/9feet truck.png";
         if (id === "T1_COVER_9FT" || id === "T1_5_COVER_10_12FT") return "/images/9feetcoveredtruck.png";
         if (id === "T1_5_OPEN_12FT" || id === "T3_OPEN_16_14FT") return "/images/3ton12feet.png";
@@ -113,22 +113,20 @@ export function Fleet() {
                                     loading={index === 0 ? "eager" : "lazy"}
                                     className="object-contain transition-transform duration-700 group-hover:scale-110"
                                 />
+                                <span className="absolute top-2 left-2 z-10 flex items-center gap-1 text-[8px] md:text-[10px] font-bold text-primary bg-primary/10 backdrop-blur-md border border-primary/20 px-1.5 py-0.5 rounded-md shadow-xs">
+                                    <ShieldCheck className="w-2.5 h-2.5 md:w-3 md:h-3" />
+                                    {t("Verified", "ভেরিফাইড")}
+                                </span>
                             </div>
                             <div className="p-4 md:p-6 pt-2 md:pt-4 flex flex-col gap-3">
-                                <div className="flex items-center justify-between">
-                                    <span className="flex items-center gap-1 text-[8px] md:text-[10px] font-semibold text-primary bg-primary/10 px-1 md:px-1.5 py-0 rounded-sm">
-                                        <ShieldCheck className="w-2.5 h-2.5" />
-                                        {t("Verified", "ভেরিফাইড")}
-                                    </span>
-
+                                <div className="flex items-center justify-end">
                                     <Button
                                         variant="default"
-                                        size="sm"
                                         onClick={() => {
                                             const params = new URLSearchParams({ truckType: truck.id });
                                             router.push(`/bookings/new?${params.toString()}`);
                                         }}
-                                        className="h-5 md:h-6 text-[7px] md:text-[9px] font-bold px-1.5 md:px-2 rounded-sm shadow-sm bg-black hover:bg-primary text-white border-none transition-colors"
+                                        className="h-6 md:h-9 text-[9px] md:text-sm font-bold md:font-black px-2.5 md:px-4 rounded-sm md:rounded-md shadow-sm md:shadow-md bg-black hover:bg-primary text-white border-none transition-all active:scale-95 shrink-0"
                                     >
                                         {t("Book Now", "বুক করুন")}
                                     </Button>

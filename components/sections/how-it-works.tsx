@@ -54,7 +54,7 @@ export function HowItWorks() {
             <div className="container mx-auto px-6 lg:px-12 mt-10 md:mt-20">
                 <div className="w-full h-auto overflow-hidden rounded-xl border border-gray-100 shadow-sm">
                     <img
-                        src="/images/howitworksimage.png"
+                        src="/images/howitworksimage.webp"
                         alt="How Truck Dorkar Works Graphic"
                         className="w-full h-auto block"
                     />

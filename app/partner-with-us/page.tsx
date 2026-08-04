@@ -83,7 +83,7 @@ export default function PartnerWithUsPage() {
             <main className="pt-20">
                 <section
                     className="relative py-20 md:py-32 border-b border-slate-100 bg-cover bg-center overflow-hidden"
-                    style={{ backgroundImage: "url('/images/agentpagebg.png')" }}
+                    style={{ backgroundImage: "url('/images/agentpagebg.webp')" }}
                 >
                     {/* Overlay for readability */}
                     <div className="absolute inset-0 bg-white/50" />

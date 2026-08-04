@@ -130,20 +130,12 @@ export function BookingWidget() {
             className="w-full max-w-5xl mx-auto mt-12 lg:-mt-32 relative z-30 px-4 lg:px-0"
         >
             <div className="bg-white rounded-md shadow-premium p-4 lg:p-8 border border-gray-100">
-                {/* Tabs */}
-                <div className="flex gap-3 mb-6 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
-                    {["Inter-City", "Intra-City", "Specialized"].map((tab) => (
-                        <button
-                            key={tab}
-                            onClick={() => setActiveTab(tab.toLowerCase())}
-                            className={`px-4 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all snap-start ${activeTab === tab.toLowerCase()
-                                ? "bg-primary text-white shadow-lg shadow-primary/20"
-                                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                                }`}
-                        >
-                            {t(tab, tab === "Inter-City" ? "আন্তঃশহর" : tab === "Intra-City" ? "শহরের ভিতরে" : "বিশেষায়িত")}
-                        </button>
-                    ))}
+                {/* Heading */}
+                <div className="mb-6 flex items-center gap-3">
+                    <div className="w-2 h-6 sm:w-2.5 sm:h-7 bg-primary rounded-full shrink-0" />
+                    <h2 className="text-lg sm:text-2xl font-black text-slate-950 tracking-tight">
+                        {t("Book Your Truck", "ট্রাক বুক করুন")}
+                    </h2>
                 </div>
 
                 {/* Form Grid */}

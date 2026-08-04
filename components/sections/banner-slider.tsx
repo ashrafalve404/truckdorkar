@@ -20,7 +20,7 @@ interface Banner {
 const banners: Banner[] = [
     {
         id: 1,
-        image: "/images/slidingbanner001.png",
+        image: "/images/slidingbanner001.webp",
         titleEn: "Nationwide Logistics",
         titleBn: "দেশব্যাপী লজিস্টিকস",
         subtitleEn: "Moving goods across Bangladesh with safety and speed.",
@@ -31,7 +31,7 @@ const banners: Banner[] = [
     },
     {
         id: 2,
-        image: "/images/slidingbanner02.png",
+        image: "/images/slidingbanner02.webp",
         titleEn: "Become a Driver Partner",
         titleBn: "ড্রাইভার পার্টনার হোন",
         subtitleEn: "Join our fleet and start earning daily with Truck Dorkar.",

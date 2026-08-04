@@ -49,7 +49,7 @@ export default function ContactPage() {
                 {/* Header */}
                 <section
                     className="relative py-24 md:py-40 bg-cover bg-center overflow-hidden"
-                    style={{ backgroundImage: "url('/images/contactpageimage.png')" }}
+                    style={{ backgroundImage: "url('/images/contactpageimage.webp')" }}
                 >
                     <div className="absolute inset-0 bg-white/70" />
 

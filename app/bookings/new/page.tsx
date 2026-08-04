@@ -621,7 +621,7 @@ function BookingContent() {
             <section className="container mx-auto px-4 lg:px-12 mb-16">
                 <div className="w-full h-auto overflow-hidden rounded-xl border border-slate-100 shadow-sm">
                     <img
-                        src="/images/bookingpagephoto.png"
+                        src="/images/bookingpagephoto.webp"
                         alt="Truck on road"
                         className="w-full h-full object-cover"
                     />

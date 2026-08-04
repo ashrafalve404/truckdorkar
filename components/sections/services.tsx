@@ -10,42 +10,42 @@ const services = [
     {
         title: "Truck Booking",
         bn: "ট্রাক বুকিং",
-        image: "/images/truckbooking.png",
+        image: "/images/truckbooking.webp",
         description: "Book trucks of various sizes for local or long-distance haulage.",
         descBn: "স্থানীয় বা দূরপাল্লার পরিবহনের জন্য বিভিন্ন আকারের ট্রাক বুক করুন।"
     },
     {
         title: "Mini Truck Rental",
         bn: "মিনি ট্রাক রেন্টাল",
-        image: "/images/minipickup.png",
+        image: "/images/minipickup.webp",
         description: "Perfect for shifting small furniture or moving within the city.",
         descBn: "শহরের মধ্যে ছোট আসবাবপত্র বা মালামাল স্থানান্তরের জন্য উপযুক্ত।"
     },
     {
         title: "Container Transport",
         bn: "কন্টেইনার ট্রান্সপোর্ট",
-        image: "/images/containers.png",
+        image: "/images/containers.webp",
         description: "Reliable movement of containers between ports and warehouses.",
         descBn: "বন্দর এবং গুদামের মধ্যে কন্টেইনার পরিবহনের নির্ভরযোগ্য মাধ্যম।"
     },
     {
         title: "Industrial Logistics",
         bn: "ইন্ডাস্ট্রিয়াল লজিস্টিকস",
-        image: "/images/industriallogistics.png",
+        image: "/images/industriallogistics.webp",
         description: "Specialized logistics solutions for large-scale industrial goods.",
         descBn: "বৃহৎ মাপের শিল্প পণ্যের জন্য বিশেষ লজিস্টিক সমাধান।"
     },
     {
         title: "Warehouse Delivery",
         bn: "ওয়্যারহাউস ডেলিভারি",
-        image: "/images/warehouse.png",
+        image: "/images/warehouse.webp",
         description: "Efficient distribution from central warehouses to any district.",
         descBn: "কেন্দ্রীয় গুদাম থেকে যেকোনো জেলায় দক্ষ বিতরণ ব্যবস্থা।"
     },
     {
         title: "Corporate Fleet",
         bn: "কর্পোরেট ফ্লিট",
-        image: "/images/corporate.png",
+        image: "/images/corporate.webp",
         description: "Long-term partnership with businesses for dedicated transport.",
         descBn: "ডেডিকেটেড পরিবহনের জন্য ব্যবসার সাথে দীর্ঘমেয়াদী অংশীদারিত্ব।"
     },

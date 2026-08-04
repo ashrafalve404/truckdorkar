@@ -49,7 +49,7 @@ export default function AboutPage() {
                 {/* Hero section */}
                 <section
                     className="relative py-24 md:py-40 bg-cover bg-center overflow-hidden"
-                    style={{ backgroundImage: "url('/images/corporate.png')" }}
+                    style={{ backgroundImage: "url('/images/corporate.webp')" }}
                 >
                     <div className="absolute inset-0 bg-white/70" />
 
@@ -102,7 +102,7 @@ export default function AboutPage() {
 
                             <div className="w-full overflow-hidden">
                                 <img
-                                    src="/images/footerimagebanner.png"
+                                    src="/images/footerimagebanner.webp"
                                     alt="TruckDorkar"
                                     className="w-full h-auto object-contain"
                                     style={{ maxHeight: '300px' }}

@@ -8,7 +8,7 @@ export function FooterBanner() {
         <section className="w-full bg-white">
             <div className="max-w-3xl mx-auto px-4 py-3">
                 <Image
-                    src="/images/footerimagebanner.png"
+                    src="/images/footerimagebanner.webp"
                     alt="Truck Dorkar Footer Banner"
                     width={500}
                     height={100}
