@@ -139,33 +139,39 @@ export default function DriverDashboard() {
             </header>
 
             {!loading && !hasApprovedTruck && (
-                <div className="mb-10 bg-amber-50 border border-amber-200 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-                    <div className="flex items-center gap-4 text-center md:text-left">
-                        <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
-                            <Truck className="w-6 h-6 text-amber-600" />
+                <div className="mb-8 bg-amber-50 border border-amber-200 rounded-2xl p-5 md:p-6 shadow-sm">
+                    <div className="flex flex-col items-center text-center gap-3 md:flex-row md:text-left md:justify-between md:gap-6">
+                        <div className="flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
+                            <div className="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+                                <Truck className="w-5 h-5 text-amber-600" />
+                            </div>
+                            <div>
+                                <h2 className="text-base font-black text-slate-900 mb-1">
+                                    {hasPendingTruck
+                                        ? t("Truck Verification Pending", "ট্রাক ভেরিফিকেশন পেন্ডিং")
+                                        : t("No Approved Truck Found", "কোনো অনুমোদিত ট্রাক নেই")
+                                    }
+                                </h2>
+                                <p className="text-sm text-slate-600 leading-relaxed max-w-xs md:max-w-sm">
+                                    {hasPendingTruck
+                                        ? t("Your truck is under review. Please wait for admin approval.", "আপনার ট্রাক রিভিউ হচ্ছে। অ্যাডমিনের অনুমোদনের জন্য অপেক্ষা করুন।")
+                                        : t("Register a truck and get it approved to accept bookings.", "বুকিং পেতে একটি ট্রাক নিবন্ধন করুন এবং অনুমোদন নিন।")
+                                    }
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <h2 className="text-lg font-black text-slate-900 mb-1">
-                                {hasPendingTruck
-                                    ? t("Truck Verification Pending", "ট্রাক ভেরিফিকেশন পেন্ডিং")
-                                    : t("No Approved Truck Found", "কোনো অনুমোদিত ট্রাক খুঁজে পাওয়া যায়নি")
-                                }
-                            </h2>
-                            <p className="text-sm font-bold text-slate-600">
-                                {hasPendingTruck
-                                    ? t("Your truck is under review. Please wait for admin approval to start receiving bookings.", "আপনার ট্রাক রিভিউ করা হচ্ছে। বুকিং শুরু করতে অ্যাডমিনের অনুমোদনের জন্য অপেক্ষা করুন।")
-                                    : t("You must register a truck and get it approved before you can accept bookings.", "বুকিং গ্রহণ করার আগে আপনাকে একটি ট্রাক নিবন্ধন করতে হবে এবং তা অনুমোদন করতে হবে।")
-                                }
-                            </p>
-                        </div>
+                        {!hasPendingTruck && (
+                            <Button
+                                onClick={() => router.push("/driver/trucks/new")}
+                                className="w-full md:w-auto shrink-0 h-11 px-6 rounded-xl font-black bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20 text-sm"
+                            >
+                                {t("Add a Truck Now", "এখনই ট্রাক যোগ করুন")}
+                            </Button>
+                        )}
                     </div>
-                    {!hasPendingTruck && (
-                        <Button onClick={() => router.push("/driver/trucks/new")} className="h-12 px-8 rounded-xl font-black bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20">
-                            {t("Add a Truck Now", "এখনই ট্রাক যোগ করুন")}
-                        </Button>
-                    )}
                 </div>
             )}
+
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 {cards.map((card, idx) => (

@@ -147,28 +147,28 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             </nav>
 
             {/* Footer with mobile bottom navbar clearance */}
-            <div className="p-4 border-t border-gray-50 space-y-2 shrink-0 bg-white pb-24 lg:pb-4">
+            <div className="p-3 lg:p-4 border-t border-gray-50 space-y-1 shrink-0 bg-white pb-20 lg:pb-4">
                 <button
                     onClick={() => setLang(lang === "en" ? "bn" : "en")}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all border border-slate-100"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all border border-slate-100"
                 >
-                    <Globe className="w-5 h-5 text-primary" />
-                    {lang === "en" ? "Change to বাংলা" : "English-এ পরিবর্তন"}
+                    <Globe className="w-4 h-4 text-primary shrink-0" />
+                    <span className="text-xs">{lang === "en" ? "Change to বাংলা" : "English-এ পরিবর্তন"}</span>
                 </button>
 
-                <div className="flex items-center gap-3 px-4 py-3 rounded-lg mb-2">
-                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg">
+                    <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden shrink-0 border border-slate-200">
                         {user?.avatar ? (
                             <img src={getAvatarUrl(user.avatar) || ""} alt={user.name || "User"} className="w-full h-full object-cover" />
                         ) : (
-                            <Users className="w-4 h-4 text-slate-400" />
+                            <Users className="w-3.5 h-3.5 text-slate-400" />
                         )}
                     </div>
-                    <div className="flex-1 overflow-hidden">
-                        <p className="text-sm font-bold text-slate-950 truncate">
+                    <div className="flex-1 overflow-hidden min-w-0">
+                        <p className="text-xs font-bold text-slate-950 truncate">
                             {user?.role === "AGENT" && user?.name === "Operations Staff" ? "Agent" : user?.name}
                         </p>
-                        <p className="text-[10px] text-slate-600 font-bold truncate">{user?.email || user?.phone}</p>
+                        <p className="text-[10px] text-slate-500 font-medium truncate">{user?.email || user?.phone}</p>
                     </div>
                 </div>
 
@@ -177,10 +177,10 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                         if (onClose) onClose();
                         logout();
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold text-red-500 hover:bg-red-50 transition-all"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold text-red-500 hover:bg-red-50 transition-all"
                 >
-                    <LogOut className="w-5 h-5" />
-                    {lang === "en" ? "Sign Out" : "লগআউট"}
+                    <LogOut className="w-4 h-4 shrink-0" />
+                    <span className="text-xs">{lang === "en" ? "Sign Out" : "লগআউট"}</span>
                 </button>
             </div>
         </div>
