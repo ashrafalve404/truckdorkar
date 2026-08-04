@@ -7,7 +7,7 @@
   --color-dark-gray: #1F1F1F;
   --color-light-gray: #F1F5F9;
 
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "Inter", var(--font-geist-sans), "Hind Siliguri", var(--font-hind-siliguri), system-ui, -apple-system, sans-serif;
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -47,6 +47,20 @@ body {
   overflow-x: hidden;
   overscroll-behavior-x: none;
   touch-action: pan-y pinch-zoom;
+}
+
+/* Bangla text fix: use Hind Siliguri for proper Bengali glyph rendering */
+:lang(bn),
+[lang="bn"] {
+  font-family: var(--font-hind-siliguri), "Hind Siliguri", sans-serif;
+  letter-spacing: 0;
+  word-spacing: 0;
+}
+
+/* Apply Hind Siliguri for any element containing Bengali Unicode characters */
+.bangla-text,
+*:not(code):not(pre) {
+  font-family: var(--font-geist-sans), "Hind Siliguri", var(--font-hind-siliguri), system-ui, sans-serif;
 }
 
 h1,
