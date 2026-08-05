@@ -35,8 +35,13 @@ function RegisterForm() {
         const role = searchParams.get("role");
         if (role === "driver") {
             setSelectedRole("driver");
+        } else if (role === "user") {
+            setSelectedRole("user");
         }
     }, [searchParams]);
+
+    const roleParam = searchParams.get("role");
+    const isSpecificRole = roleParam === "driver" || roleParam === "user";
 
     // Countdown Timer for OTP
     useEffect(() => {
@@ -212,49 +217,59 @@ function RegisterForm() {
                                     {/* Header */}
                                     <div className="text-center mb-8">
                                         <h1 className="text-2xl md:text-3xl font-black text-black mb-2">
-                                            {t("Create Account", "অ্যাকাউন্ট তৈরি করুন")}
+                                            {roleParam === "driver"
+                                                ? t("Driver Registration", "ড্রাইভার রেজিস্ট্রেশন")
+                                                : roleParam === "user"
+                                                    ? t("User Registration", "ইউজার রেজিস্ট্রেশন")
+                                                    : t("Create Account", "অ্যাকাউন্ট তৈরি করুন")}
                                         </h1>
                                         <p className="text-slate-700 font-bold text-base md:text-lg">
-                                            {t("Join TruckDorkar today", "আজই ট্রাক দরকারে যোগ দিন")}
+                                            {roleParam === "driver"
+                                                ? t("Register as a driver to get booking requests", "বুকিং রিকোয়েস্ট পেতে ড্রাইভার হিসেবে রেজিস্টার করুন")
+                                                : roleParam === "user"
+                                                    ? t("Book trucks for personal or business needs", "ব্যক্তিগত বা ব্যবসার প্রয়োজনে ট্রাক বুক করুন")
+                                                    : t("Join TruckDorkar today", "আজই ট্রাক দরকারে যোগ দিন")}
                                         </p>
                                     </div>
 
                                     {/* Role Selection */}
-                                    <div className="space-y-4 mb-8 text-center max-w-2xl mx-auto">
-                                        <label className="text-xs font-bold text-slate-700 text-center block">
-                                            {t("Select Your Role", "আপনার ভূমিকা নির্বাচন করুন")}
-                                        </label>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            {roles.map((role) => {
-                                                const Icon = role.icon;
-                                                const isSelected = selectedRole === role.id;
-                                                return (
-                                                    <button
-                                                        key={role.id}
-                                                        type="button"
-                                                        onClick={() => setSelectedRole(role.id)}
-                                                        className={`p-4 md:p-5 rounded-lg md:rounded-xl border-2 transition-all text-center group ${isSelected
-                                                            ? "border-primary bg-primary/5 shadow-md"
-                                                            : "border-gray-100 hover:border-primary/30 bg-gray-50"
-                                                            }`}
-                                                    >
-                                                        <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all border-2 ${isSelected
-                                                            ? "bg-primary text-white border-primary shadow-sm"
-                                                            : "bg-white text-slate-500 border-slate-300 group-hover:border-primary/50 group-hover:text-primary"
-                                                            }`}>
-                                                            <Icon className="w-5 h-5 md:w-6 md:h-6" />
-                                                        </div>
-                                                        <div className={`text-sm md:text-base font-bold mb-1 ${isSelected ? "text-primary" : "text-black"}`}>
-                                                            {t(role.title_en, role.title_bn)}
-                                                        </div>
-                                                        <div className="text-xs text-slate-700 font-bold leading-snug">
-                                                            {t(role.desc_en, role.desc_bn)}
-                                                        </div>
-                                                    </button>
-                                                );
-                                            })}
+                                    {!isSpecificRole && (
+                                        <div className="space-y-4 mb-8 text-center max-w-2xl mx-auto">
+                                            <label className="text-xs font-bold text-slate-700 text-center block">
+                                                {t("Select Your Role", "আপনার ভূমিকা নির্বাচন করুন")}
+                                            </label>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                {roles.map((role) => {
+                                                    const Icon = role.icon;
+                                                    const isSelected = selectedRole === role.id;
+                                                    return (
+                                                        <button
+                                                            key={role.id}
+                                                            type="button"
+                                                            onClick={() => setSelectedRole(role.id)}
+                                                            className={`p-4 md:p-5 rounded-lg md:rounded-xl border-2 transition-all text-center group ${isSelected
+                                                                ? "border-primary bg-primary/5 shadow-md"
+                                                                : "border-gray-100 hover:border-primary/30 bg-gray-50"
+                                                                }`}
+                                                        >
+                                                            <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 rounded-full flex items-center justify-center transition-all border-2 ${isSelected
+                                                                ? "bg-primary text-white border-primary shadow-sm"
+                                                                : "bg-white text-slate-500 border-slate-300 group-hover:border-primary/50 group-hover:text-primary"
+                                                                }`}>
+                                                                <Icon className="w-5 h-5 md:w-6 md:h-6" />
+                                                            </div>
+                                                            <div className={`text-sm md:text-base font-bold mb-1 ${isSelected ? "text-primary" : "text-black"}`}>
+                                                                {t(role.title_en, role.title_bn)}
+                                                            </div>
+                                                            <div className="text-xs text-slate-700 font-bold leading-snug">
+                                                                {t(role.desc_en, role.desc_bn)}
+                                                            </div>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
 
                                     {/* Form */}
                                     <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">

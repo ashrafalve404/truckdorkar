@@ -208,6 +208,7 @@ export function Footer() {
                                 { en: "Privacy Policy", bn: "প্রাইভেসি পলিসি", href: "/privacy-policy" },
                                 { en: "Terms of Service", bn: "টার্মস অফ সার্ভিস", href: "/terms-of-service" },
                                 { en: "Driver Registration", bn: "ড্রাইভার রেজিস্ট্রেশন", href: "/register?role=driver" },
+                                { en: "User Registration", bn: "ইউজার রেজিস্ট্রেশন", href: "/register?role=user" },
                                 { en: "Be an Agent", bn: "এজেন্ট হোন", href: "/partner-with-us" }
                             ].map((item, i) => (
                                 <li key={i}>
