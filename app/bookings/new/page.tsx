@@ -433,95 +433,7 @@ function BookingContent() {
                                         />
                                     </div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                        <CustomSelect
-                                            label={t("Booking Type", "বুকিং ধরন")}
-                                            value={formData.type}
-                                            onChange={(val) => setFormData({ ...formData, type: val })}
-                                            options={bookingTypes}
-                                            placeholder={t("Select Type", "নির্বাচন করুন")}
-                                        />
-                                        <CustomSelect
-                                            label={t("Goods Type", "পণ্যের ধরণ")}
-                                            value={formData.goodsType}
-                                            onChange={(val) => setFormData({ ...formData, goodsType: val })}
-                                            options={goodsTypes}
-                                            placeholder={t("Select Goods", "নির্বাচন করুন")}
-                                        />
-                                        <div className="space-y-1">
-                                            <CustomSelect
-                                                label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
-                                                value={formData.truckType}
-                                                onChange={(val) => {
-                                                    const newMin = calcMinFare(formData.distance, val);
-                                                    setFormData({ ...formData, truckType: val, estimatedFare: newMin.toString() });
-                                                }}
-                                                options={truckTypes}
-                                                placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
-                                            />
-                                            <div className="flex items-center gap-1">
-                                                <span className="text-red-500 text-xs ml-1">* {t("Required", "প্রয়োজনীয়")}</span>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <TrendingUp className="w-4 h-4 text-primary" />
-                                                {t("Trip Distance (KM)", "ট্রিপ দূরত্ব (কিমি)")}
-                                                {isCalculatingDistance && <Loader2 className="w-3 h-3 animate-spin text-primary" />}
-                                            </label>
-                                            <input
-                                                type="number"
-                                                value={formData.distance}
-                                                onChange={(e) => {
-                                                    const newDist = e.target.value;
-                                                    const newMin = calcMinFare(newDist);
-                                                    setFormData(prev => ({
-                                                        ...prev,
-                                                        distance: newDist,
-                                                        estimatedFare: newMin.toString(),
-                                                    }));
-                                                }}
-                                                placeholder={t("Distance in KM", "কিমি-এ দূরত্ব")}
-                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between items-center">
-                                                <label className="text-sm font-bold text-slate-950">{t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}</label>
-                                                {formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare && (
-                                                    <span className="text-[10px] bg-red-50 text-red-500 px-2 py-0.5 rounded-full font-black animate-pulse">
-                                                        Min {minFare} TK
-                                                    </span>
-                                                )}
-                                            </div>
-                                            <input
-                                                type="number"
-                                                required
-                                                value={formData.estimatedFare}
-                                                onChange={(e) => setFormData({ ...formData, estimatedFare: e.target.value })}
-                                                placeholder={`e.g. ${minFare}`}
-                                                className={cn(
-                                                    "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400",
-                                                    formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare ? "border-red-300" : "border-slate-300"
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">{t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}</label>
-                                            <input
-                                                type="number"
-                                                required
-                                                value={formData.goodsWeight}
-                                                onChange={(e) => setFormData({ ...formData, goodsWeight: e.target.value })}
-                                                placeholder="e.g. 1500"
-                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
-                                            />
-                                        </div>
-                                    </div>
-
+                                    {/* Booking Date & Contact Phone */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950">
@@ -563,6 +475,91 @@ function BookingContent() {
                                                 value={formData.contactPhone}
                                                 onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
                                                 placeholder={t("e.g. 01XXXXXXXXX", "যেমন: 01XXXXXXXXX")}
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <div className="space-y-1">
+                                            <CustomSelect
+                                                label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
+                                                value={formData.truckType}
+                                                onChange={(val) => {
+                                                    const newMin = calcMinFare(formData.distance, val);
+                                                    setFormData({ ...formData, truckType: val, estimatedFare: newMin.toString() });
+                                                }}
+                                                options={truckTypes}
+                                                placeholder={t("Select Truck", "ট্রাক নির্বাচন করুন")}
+                                            />
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-red-500 text-xs ml-1">* {t("Required", "প্রয়োজনীয়")}</span>
+                                            </div>
+                                        </div>
+                                        <CustomSelect
+                                            label={t("Goods Type", "পণ্যের ধরণ")}
+                                            value={formData.goodsType}
+                                            onChange={(val) => setFormData({ ...formData, goodsType: val })}
+                                            options={goodsTypes}
+                                            placeholder={t("Select Goods", "নির্বাচন করুন")}
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                <TrendingUp className="w-4 h-4 text-primary" />
+                                                {t("Trip Distance (KM)", "ট্রিপ দূরত্ব (কিমি)")}
+                                                {isCalculatingDistance && <Loader2 className="w-3 h-3 animate-spin text-primary" />}
+                                            </label>
+                                            <input
+                                                type="number"
+                                                value={formData.distance}
+                                                onChange={(e) => {
+                                                    const newDist = e.target.value;
+                                                    const newMin = calcMinFare(newDist);
+                                                    setFormData(prev => ({
+                                                        ...prev,
+                                                        distance: newDist,
+                                                        estimatedFare: newMin.toString(),
+                                                    }));
+                                                }}
+                                                placeholder={t("Distance in KM", "কিমি-এ দূরত্ব")}
+                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between items-center">
+                                                <label className="text-sm font-bold text-slate-950">{t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}</label>
+                                                {formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare && (
+                                                    <span className="text-[10px] bg-red-50 text-red-500 px-2 py-0.5 rounded-full font-black animate-pulse">
+                                                        Min {minFare} TK
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <input
+                                                type="number"
+                                                required
+                                                value={formData.estimatedFare}
+                                                onChange={(e) => setFormData({ ...formData, estimatedFare: e.target.value })}
+                                                placeholder={`e.g. ${minFare}`}
+                                                className={cn(
+                                                    "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400",
+                                                    formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare ? "border-red-300" : "border-slate-300"
+                                                )}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-slate-950">{t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}</label>
+                                            <input
+                                                type="number"
+                                                required
+                                                value={formData.goodsWeight}
+                                                onChange={(e) => setFormData({ ...formData, goodsWeight: e.target.value })}
+                                                placeholder="e.g. 1500"
                                                 className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
                                             />
                                         </div>

@@ -488,7 +488,7 @@ export default function AdminSettingsPage() {
                                         <Button
                                             type="submit"
                                             disabled={changingPassword}
-                                            className="h-12 rounded-xl px-8 font-bold gap-2 shadow-lg shadow-primary/20 bg-slate-950 hover:bg-slate-900 text-white"
+                                            className="h-12 rounded-xl px-8 font-bold gap-2 shadow-sm bg-slate-950 hover:bg-slate-900 text-white border-none"
                                         >
                                             {changingPassword ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                                             {t("Update Password", "পাসওয়ার্ড আপডেট করুন")}

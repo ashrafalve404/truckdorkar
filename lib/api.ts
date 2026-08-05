@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useAuth } from '@/store/use-auth';
 
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 
     (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/v\d+\/?$/, '') : 'http://localhost:5000');
@@ -71,18 +72,25 @@ api.interceptors.response.use(
             if (refreshToken) {
                 try {
                     const response = await axios.post(`${API_URL}/auth/refresh-token`, { refreshToken });
-                    const { accessToken } = response.data;
+                    const tokens = response.data.data || response.data;
+                    const accessToken = tokens.accessToken;
+                    const newRefreshToken = tokens.refreshToken;
 
-                    localStorage.setItem('truckdorkar-access-token', accessToken);
-                    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-                    originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                    if (accessToken) {
+                        localStorage.setItem('truckdorkar-access-token', accessToken);
+                        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+                        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                    }
+
+                    if (newRefreshToken) {
+                        localStorage.setItem('truckdorkar-refresh-token', newRefreshToken);
+                    }
 
                     processQueue(null, accessToken);
                     return api(originalRequest);
                 } catch (refreshError) {
                     processQueue(refreshError, null);
-                    localStorage.removeItem('truckdorkar-access-token');
-                    localStorage.removeItem('truckdorkar-refresh-token');
+                    useAuth.getState().logout();
                     if (typeof window !== 'undefined') {
                         window.location.href = '/login';
                     }
@@ -90,6 +98,8 @@ api.interceptors.response.use(
                 } finally {
                     isRefreshing = false;
                 }
+            } else {
+                useAuth.getState().logout();
             }
         }
         return Promise.reject(error);
