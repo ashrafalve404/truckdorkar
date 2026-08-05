@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { MapPin, ChevronDown, Check } from "lucide-react";
+import { MapPin, ChevronDown, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getDivisions, getDistricts, getThanas, buildAddress, parseAddress } from "@/lib/bd-locations";
 import { useLanguage } from "@/context/language-context";
@@ -99,6 +99,11 @@ export function LocationSelector({
     const [thana, setThana] = useState("");
     const [area, setArea] = useState("");
 
+    const [suggestions, setSuggestions] = useState<{ display_name: string }[]>([]);
+    const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const areaRef = useRef<HTMLDivElement>(null);
+
     // Sync internal state from value string
     useEffect(() => {
         if (value) {
@@ -110,6 +115,45 @@ export function LocationSelector({
             if (parsed.area !== area) setArea(parsed.area);
         }
     }, [value]);
+
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (areaRef.current && !areaRef.current.contains(e.target as Node)) {
+                setShowSuggestions(false);
+            }
+        };
+        document.addEventListener("mousedown", handler);
+        return () => document.removeEventListener("mousedown", handler);
+    }, []);
+
+    // Free OpenStreetMap Nominatim Auto-suggestions
+    useEffect(() => {
+        if (!area || area.trim().length < 2) {
+            setSuggestions([]);
+            return;
+        }
+
+        const timer = setTimeout(async () => {
+            setLoadingSuggestions(true);
+            try {
+                const queryParts = [area, thana, district, division, "Bangladesh"].filter(Boolean);
+                const query = queryParts.join(", ");
+                const res = await fetch(
+                    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&countrycodes=bd&limit=5`
+                );
+                if (res.ok) {
+                    const data = await res.json();
+                    setSuggestions(data || []);
+                }
+            } catch (err) {
+                console.error("Free address suggestion error", err);
+            } finally {
+                setLoadingSuggestions(false);
+            }
+        }, 350);
+
+        return () => clearTimeout(timer);
+    }, [area, thana, district, division]);
 
     const handleDivisionChange = (val: string) => {
         setDivision(val);
@@ -136,6 +180,14 @@ export function LocationSelector({
         const val = e.target.value;
         setArea(val);
         onChange(buildAddress(division, district, thana, val));
+    };
+
+    const handleSelectSuggestion = (displayName: string) => {
+        const parts = displayName.split(",");
+        const shortName = parts.length > 1 ? `${parts[0].trim()}, ${parts[1].trim()}` : parts[0].trim();
+        setArea(shortName);
+        onChange(buildAddress(division, district, thana, shortName));
+        setShowSuggestions(false);
     };
 
     const divisions = getDivisions();
@@ -174,14 +226,41 @@ export function LocationSelector({
                         disabled={!district}
                         compact
                     />
-                    <input
-                        type="text"
-                        value={area}
-                        onChange={handleAreaChange}
-                        disabled={!thana}
-                        placeholder={t("Area / Village", "এলাকা / গ্রাম")}
-                        className="h-9 px-3 text-xs bg-white border border-slate-300 rounded-lg font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                    />
+                    <div ref={areaRef} className="relative">
+                        <input
+                            type="text"
+                            value={area}
+                            onChange={(e) => {
+                                handleAreaChange(e);
+                                setShowSuggestions(true);
+                            }}
+                            onFocus={() => setShowSuggestions(true)}
+                            disabled={!thana}
+                            placeholder={t("Area / Village", "এলাকা / গ্রাম")}
+                            className="w-full h-9 px-3 text-xs bg-white border border-slate-300 rounded-lg font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
+                        {showSuggestions && (suggestions.length > 0 || loadingSuggestions) && (
+                            <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden max-h-48 overflow-y-auto">
+                                {loadingSuggestions && (
+                                    <div className="px-3 py-2 text-xs text-slate-500 flex items-center gap-2">
+                                        <Loader2 className="w-3 h-3 animate-spin text-primary" />
+                                        <span>{t("Searching...", "খোঁজা হচ্ছে...")}</span>
+                                    </div>
+                                )}
+                                {!loadingSuggestions && suggestions.map((item, idx) => (
+                                    <button
+                                        key={idx}
+                                        type="button"
+                                        onClick={() => handleSelectSuggestion(item.display_name)}
+                                        className="w-full text-left px-3 py-2 text-xs hover:bg-primary/5 hover:text-primary transition-all flex items-start gap-1.5 border-b border-slate-50 last:border-0 text-slate-800"
+                                    >
+                                        <MapPin className="w-3 h-3 text-primary shrink-0 mt-0.5" />
+                                        <span className="line-clamp-2">{item.display_name}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
                 {value && (
                     <p className="text-[10px] text-primary font-medium flex items-center gap-1 mt-0.5">
@@ -249,14 +328,41 @@ export function LocationSelector({
                     disabled={!district}
                 />
             </div>
-            <input
-                type="text"
-                value={area}
-                onChange={handleAreaChange}
-                disabled={!thana}
-                placeholder={t("Area / Village / Road", "এলাকা / গ্রাম / রাস্তা")}
-                className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl text-sm font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-            />
+            <div ref={areaRef} className="relative">
+                <input
+                    type="text"
+                    value={area}
+                    onChange={(e) => {
+                        handleAreaChange(e);
+                        setShowSuggestions(true);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                    disabled={!thana}
+                    placeholder={t("Area / Village / Road", "এলাকা / গ্রাম / রাস্তা")}
+                    className="w-full h-12 px-4 bg-white border border-slate-300 rounded-xl text-sm font-normal text-slate-900 placeholder:font-normal placeholder:text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                />
+                {showSuggestions && (suggestions.length > 0 || loadingSuggestions) && (
+                    <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden max-h-56 overflow-y-auto">
+                        {loadingSuggestions && (
+                            <div className="px-4 py-3 text-sm text-slate-500 flex items-center gap-2">
+                                <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                                <span>{t("Searching locations...", "ঠিকানা খোঁজা হচ্ছে...")}</span>
+                            </div>
+                        )}
+                        {!loadingSuggestions && suggestions.map((item, idx) => (
+                            <button
+                                key={idx}
+                                type="button"
+                                onClick={() => handleSelectSuggestion(item.display_name)}
+                                className="w-full text-left px-4 py-2.5 text-sm hover:bg-primary/5 hover:text-primary transition-all flex items-start gap-2 border-b border-slate-50 last:border-0 text-slate-800 font-medium"
+                            >
+                                <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                                <span className="line-clamp-2">{item.display_name}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
             {value && (
                 <div className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2.5">
                     <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />

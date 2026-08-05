@@ -57,7 +57,7 @@ export function Fleet() {
         // Standard matches
         if (id === "T1_OPEN_7FT" || id === "T1_OPEN_7_9FT") return "/images/1ton7feetopen.webp";
         if (id === "T1_COVER_7FT" || id === "T1_COVER_7_9FT") return "/images/1ton7feetcover.webp";
-        if (id === "T1_OPEN_9FT" || id === "T1_5_OPEN_10_12FT") return "/images/9feet truck.png";
+        if (id === "T1_OPEN_9FT" || id === "T1_5_OPEN_10_12FT") return "/images/1ton9feetopen.webp";
         if (id === "T1_COVER_9FT" || id === "T1_5_COVER_10_12FT") return "/images/9feetcoveredtruck.png";
         if (id === "T1_5_OPEN_12FT" || id === "T3_OPEN_16_14FT") return "/images/3ton12feet.png";
         if (id === "T1_5_COVER_12FT" || id === "T3_COVER_16_14FT") return "/images/12feetcoveredtruck.png";
