@@ -14,44 +14,74 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// Custom Green Standalone SVG Truck Icon (Driver Online / Active)
+// Custom Green Top-View Container Truck Icon (Driver Online / Active)
 const createGreenTruckIcon = () => {
     if (typeof window === "undefined") return DefaultIcon;
     return L.divIcon({
         className: "custom-green-truck-icon",
         html: `
-            <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
-                <div style="position: absolute; width: 36px; height: 36px; border-radius: 50%; background: rgba(34, 197, 94, 0.45); animation: truck-pulse 1.5s ease-in-out infinite alternate;"></div>
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="#16a34a" stroke="#ffffff" stroke-width="1" style="position: relative; z-index: 2; filter: drop-shadow(0 4px 10px rgba(22, 163, 74, 0.6));">
-                    <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+            <div style="position: relative; width: 50px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <div style="position: absolute; width: 60px; height: 60px; top: 20px; border-radius: 50%; background: rgba(34, 197, 94, 0.45); animation: truck-sonar 1.6s ease-out infinite;"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" width="50" height="100" style="position: relative; z-index: 2; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));">
+                  <rect x="25" y="10" width="50" height="12" rx="4" fill="#14532d" />
+                  <rect x="14" y="22" width="7" height="18" rx="2" fill="#111111" />
+                  <rect x="79" y="22" width="7" height="18" rx="2" fill="#111111" />
+                  <rect x="14" y="80" width="7" height="22" rx="2" fill="#111111" />
+                  <rect x="79" y="80" width="7" height="22" rx="2" fill="#111111" />
+                  <rect x="14" y="160" width="7" height="22" rx="2" fill="#111111" />
+                  <rect x="79" y="160" width="7" height="22" rx="2" fill="#111111" />
+                  <rect x="13" y="32" width="10" height="5" rx="2" fill="#166534" />
+                  <rect x="77" y="32" width="10" height="5" rx="2" fill="#166534" />
+                  <rect x="23" y="18" width="54" height="40" rx="8" fill="#166534" />
+                  <path d="M 29 32 Q 50 26 71 32 L 68 42 Q 50 38 32 42 Z" fill="#b7e4c7" opacity="0.95" />
+                  <rect x="19" y="58" width="62" height="130" rx="6" fill="#16a34a" stroke="#14532d" stroke-width="3" />
+                  <line x1="25" y1="80" x2="75" y2="80" stroke="#4ade80" stroke-width="3" />
+                  <line x1="25" y1="110" x2="75" y2="110" stroke="#4ade80" stroke-width="3" />
+                  <line x1="25" y1="140" x2="75" y2="140" stroke="#4ade80" stroke-width="3" />
+                  <line x1="25" y1="170" x2="75" y2="170" stroke="#4ade80" stroke-width="3" />
                 </svg>
             </div>
             <style>
-                @keyframes truck-pulse {
-                    0% { transform: scale(0.8); opacity: 0.4; }
-                    100% { transform: scale(1.5); opacity: 0.9; }
+                @keyframes truck-sonar {
+                    0% { transform: scale(0.6); opacity: 0.9; }
+                    100% { transform: scale(1.6); opacity: 0; }
                 }
             </style>
         `,
-        iconSize: [44, 44],
-        iconAnchor: [22, 22],
+        iconSize: [50, 100],
+        iconAnchor: [25, 50],
     });
 };
 
-// Custom Grey Standalone SVG Truck Icon (Driver Offline / Last Location)
+// Custom Grey Top-View Container Truck Icon (Driver Offline / Last Location)
 const createGreyTruckIcon = () => {
     if (typeof window === "undefined") return DefaultIcon;
     return L.divIcon({
         className: "custom-grey-truck-icon",
         html: `
-            <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="#64748b" stroke="#ffffff" stroke-width="1" style="position: relative; z-index: 2; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));">
-                    <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+            <div style="position: relative; width: 50px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" width="50" height="100" style="position: relative; z-index: 2; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+                  <rect x="25" y="10" width="50" height="12" rx="4" fill="#1e293b" />
+                  <rect x="14" y="22" width="7" height="18" rx="2" fill="#0f172a" />
+                  <rect x="79" y="22" width="7" height="18" rx="2" fill="#0f172a" />
+                  <rect x="14" y="80" width="7" height="22" rx="2" fill="#0f172a" />
+                  <rect x="79" y="80" width="7" height="22" rx="2" fill="#0f172a" />
+                  <rect x="14" y="160" width="7" height="22" rx="2" fill="#0f172a" />
+                  <rect x="79" y="160" width="7" height="22" rx="2" fill="#0f172a" />
+                  <rect x="13" y="32" width="10" height="5" rx="2" fill="#334155" />
+                  <rect x="77" y="32" width="10" height="5" rx="2" fill="#334155" />
+                  <rect x="23" y="18" width="54" height="40" rx="8" fill="#334155" />
+                  <path d="M 29 32 Q 50 26 71 32 L 68 42 Q 50 38 32 42 Z" fill="#cbd5e1" opacity="0.95" />
+                  <rect x="19" y="58" width="62" height="130" rx="6" fill="#64748b" stroke="#1e293b" stroke-width="3" />
+                  <line x1="25" y1="80" x2="75" y2="80" stroke="#94a3b8" stroke-width="3" />
+                  <line x1="25" y1="110" x2="75" y2="110" stroke="#94a3b8" stroke-width="3" />
+                  <line x1="25" y1="140" x2="75" y2="140" stroke="#94a3b8" stroke-width="3" />
+                  <line x1="25" y1="170" x2="75" y2="170" stroke="#94a3b8" stroke-width="3" />
                 </svg>
             </div>
         `,
-        iconSize: [44, 44],
-        iconAnchor: [22, 22],
+        iconSize: [50, 100],
+        iconAnchor: [25, 50],
     });
 };
 
