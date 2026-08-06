@@ -541,8 +541,28 @@ export default function BookingDetailPage() {
                         </div>
                     </div>
 
-                    {/* Live Truck Tracking Map Card */}
-                    {(booking.status === "ACCEPTED" || booking.status === "PICKUP_STARTED" || booking.status === "IN_TRANSIT" || booking.status === "DELIVERED") && (
+                    {/* Waiting Banner for ACCEPTED status before ride starts */}
+                    {booking.status === "ACCEPTED" && (
+                        <div className="p-8 border-t border-slate-100 bg-amber-50/60 flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-md shadow-amber-500/20">
+                                🚚
+                            </div>
+                            <div>
+                                <h3 className="text-base font-black text-amber-950">
+                                    {t("Trip Accepted by Driver!", "ড্রাইভার ট্রিপটি গ্রহণ করেছেন!")}
+                                </h3>
+                                <p className="text-xs font-bold text-amber-700 mt-0.5">
+                                    {t(
+                                        "Driver will start the ride soon. Live GPS tracking map will be activated as soon as driver starts the ride.",
+                                        "ড্রাইভার শীঘ্রই রাইড শুরু করবেন। ড্রাইভার রাইড শুরু করলেই লাইভ জিপিএস ট্র্যাকিং ম্যাপ চালু হবে।"
+                                    )}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Live Truck Tracking Map Card (Activates ONLY when ride starts) */}
+                    {(booking.status === "IN_TRANSIT" || booking.status === "PICKUP_STARTED" || booking.status === "DELIVERED") && (
                         <div className="p-8 border-t border-slate-100 bg-slate-50/60">
                             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                                 <div>

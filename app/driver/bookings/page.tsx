@@ -165,12 +165,21 @@ export default function DriverBookingsPage() {
                                             </span>
                                         </td>
                                         <td className="px-8 py-4 text-right">
-                                            {booking.status === 'ACCEPTED' || booking.status === 'IN_TRANSIT' ? (
+                                            {booking.status === 'ACCEPTED' ? (
+                                                <Button
+                                                    onClick={() => handleUpdateStatus(booking.id, 'IN_TRANSIT')}
+                                                    variant="default"
+                                                    size="sm"
+                                                    className="rounded-lg h-9 font-bold px-4 bg-primary hover:bg-primary/90 text-white border-none shadow-sm"
+                                                >
+                                                    {t("Start Ride", "রাইড শুরু করুন")}
+                                                </Button>
+                                            ) : booking.status === 'IN_TRANSIT' ? (
                                                 <Button
                                                     onClick={() => handleUpdateStatus(booking.id, 'COMPLETED')}
                                                     variant="default"
                                                     size="sm"
-                                                    className="rounded-lg h-9 font-bold px-4 bg-green-600 hover:bg-green-700 text-white border-none"
+                                                    className="rounded-lg h-9 font-bold px-4 bg-green-600 hover:bg-green-700 text-white border-none shadow-sm"
                                                 >
                                                     {t("Complete Trip", "ট্রিপ শেষ করুন")}
                                                 </Button>

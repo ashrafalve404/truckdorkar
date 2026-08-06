@@ -14,50 +14,44 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// Custom Green SVG Top-View Truck Icon (Driver Online / Active)
+// Custom Green Standalone SVG Truck Icon (Driver Online / Active)
 const createGreenTruckIcon = () => {
     if (typeof window === "undefined") return DefaultIcon;
     return L.divIcon({
         className: "custom-green-truck-icon",
         html: `
-            <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
-                <div style="position: absolute; width: 52px; height: 52px; border-radius: 50%; background: rgba(34, 197, 94, 0.35); animation: sonar-pulse 1.8s cubic-bezier(0, 0.2, 0.8, 1) infinite;"></div>
-                <div style="position: relative; z-index: 2; width: 44px; height: 44px; background: linear-gradient(135deg, #22c55e, #15803d); border: 3px solid #ffffff; border-radius: 50%; box-shadow: 0 8px 22px rgba(34, 197, 94, 0.6); display: flex; align-items: center; justify-content: center;">
-                    <!-- Top-View Truck Vector -->
-                    <svg width="26" height="26" viewBox="0 0 36 36" fill="#ffffff" style="filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));">
-                        <path d="M12 2C10.34 2 9 3.34 9 5V8H7C6.45 8 6 8.45 6 9V12C6 12.55 6.45 13 7 13H9V31C9 32.1 9.9 33 11 33H25C26.1 33 27 32.1 27 31V13H29C29.55 13 30 12.55 30 12V9C30 8.45 29.55 8 29 8H27V5C27 3.34 25.66 2 24 2H12ZM11 5C11 4.45 11.45 4 12 4H24C24.55 4 25 4.45 25 5V8H11V5ZM12 9.5H24V11.5H12V9.5Z"/>
-                    </svg>
-                </div>
+            <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
+                <div style="position: absolute; width: 36px; height: 36px; border-radius: 50%; background: rgba(34, 197, 94, 0.45); animation: truck-pulse 1.5s ease-in-out infinite alternate;"></div>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="#16a34a" stroke="#ffffff" stroke-width="1" style="position: relative; z-index: 2; filter: drop-shadow(0 4px 10px rgba(22, 163, 74, 0.6));">
+                    <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                </svg>
             </div>
             <style>
-                @keyframes sonar-pulse {
-                    0% { transform: scale(0.7); opacity: 0.9; }
-                    100% { transform: scale(1.6); opacity: 0; }
+                @keyframes truck-pulse {
+                    0% { transform: scale(0.8); opacity: 0.4; }
+                    100% { transform: scale(1.5); opacity: 0.9; }
                 }
             </style>
         `,
-        iconSize: [56, 56],
-        iconAnchor: [28, 28],
+        iconSize: [44, 44],
+        iconAnchor: [22, 22],
     });
 };
 
-// Custom Grey SVG Top-View Truck Icon (Driver Offline / Last Location)
+// Custom Grey Standalone SVG Truck Icon (Driver Offline / Last Location)
 const createGreyTruckIcon = () => {
     if (typeof window === "undefined") return DefaultIcon;
     return L.divIcon({
         className: "custom-grey-truck-icon",
         html: `
-            <div style="position: relative; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;">
-                <div style="position: relative; z-index: 2; width: 44px; height: 44px; background: linear-gradient(135deg, #64748b, #334155); border: 3px solid #ffffff; border-radius: 50%; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); display: flex; align-items: center; justify-content: center;">
-                    <!-- Top-View Truck Vector -->
-                    <svg width="26" height="26" viewBox="0 0 36 36" fill="#ffffff" style="filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));">
-                        <path d="M12 2C10.34 2 9 3.34 9 5V8H7C6.45 8 6 8.45 6 9V12C6 12.55 6.45 13 7 13H9V31C9 32.1 9.9 33 11 33H25C26.1 33 27 32.1 27 31V13H29C29.55 13 30 12.55 30 12V9C30 8.45 29.55 8 29 8H27V5C27 3.34 25.66 2 24 2H12ZM11 5C11 4.45 11.45 4 12 4H24C24.55 4 25 4.45 25 5V8H11V5ZM12 9.5H24V11.5H12V9.5Z"/>
-                    </svg>
-                </div>
+            <div style="position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="#64748b" stroke="#ffffff" stroke-width="1" style="position: relative; z-index: 2; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));">
+                    <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                </svg>
             </div>
         `,
-        iconSize: [56, 56],
-        iconAnchor: [28, 28],
+        iconSize: [44, 44],
+        iconAnchor: [22, 22],
     });
 };
 
