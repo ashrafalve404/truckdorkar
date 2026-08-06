@@ -134,7 +134,7 @@ export default function DriverPaymentsPage() {
                         <div className="mb-6 p-4 bg-amber-50 rounded-xl border border-amber-100">
                             <p className="text-xs font-bold text-amber-800 leading-relaxed">
                                 <AlertCircle className="w-3 h-3 inline mr-1 mb-0.5" />
-                                {t("Send money to bKash: 01826-110036 and enter the Transaction ID below.", "বিকাশ করুন: ০১৮২৬-১১০০৩৬ নম্বরে এবং নিচে ট্রানজেকশন আইডি দিন।")}
+                                {t("Send money to bKash: 01739142959 and enter the Transaction ID below.", "বিকাশ করুন: ০১৭৩৯১৪২৯৫৯ নম্বরে এবং নিচে ট্রানজেকশন আইডি দিন।")}
                             </p>
                         </div>
                         <form onSubmit={handleSubmit} className="space-y-4">
