@@ -27,6 +27,13 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 
+import dynamic from "next/dynamic";
+
+const MapComponent = dynamic(() => import("@/components/mapping/MapComponent"), {
+    ssr: false,
+    loading: () => <div className="h-64 bg-slate-100 animate-pulse rounded-2xl flex items-center justify-center text-slate-400 font-bold">Loading Live Map...</div>
+});
+
 interface BookingDetail {
     id: string;
     bookingNumber: string;
@@ -43,7 +50,15 @@ interface BookingDetail {
     specialNote?: string;
     contactPhone?: string;
     user: { name: string; phone: string };
-    driver?: { id: string; userId: string; user: { name: string; phone: string } };
+    driver?: {
+        id: string;
+        userId: string;
+        currentLat?: number | null;
+        currentLng?: number | null;
+        isAvailable?: boolean;
+        updatedAt?: string;
+        user: { name: string; phone: string };
+    };
     review?: { id: string; rating: number; comment?: string } | null;
     statusLogs: { status: string; note: string; createdAt: string }[];
 }
@@ -57,6 +72,9 @@ export default function BookingDetailPage() {
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [newFare, setNewFare] = useState("");
+
+    // Geocoded route map coordinates
+    const [mapCoords, setMapCoords] = useState<{ pickup?: [number, number]; drop?: [number, number] }>({});
 
     // Review state
     const [rating, setRating] = useState(5);
@@ -80,6 +98,42 @@ export default function BookingDetailPage() {
     useEffect(() => {
         fetchBooking();
     }, [fetchBooking]);
+
+    // Geocode pickup and drop addresses for the map
+    useEffect(() => {
+        if (!booking?.pickupAddress || !booking?.dropAddress) return;
+
+        const geocode = async () => {
+            try {
+                const pRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(booking.pickupAddress + ", Bangladesh")}&limit=1`);
+                const pData = await pRes.json();
+                const dRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(booking.dropAddress + ", Bangladesh")}&limit=1`);
+                const dData = await dRes.json();
+
+                const pLat = pData[0] ? parseFloat(pData[0].lat) : 23.8103;
+                const pLng = pData[0] ? parseFloat(pData[0].lon) : 90.4125;
+                const dLat = dData[0] ? parseFloat(dData[0].lat) : 23.9088;
+                const dLng = dData[0] ? parseFloat(dData[0].lon) : 90.4116;
+
+                setMapCoords({ pickup: [pLat, pLng], drop: [dLat, dLng] });
+            } catch (e) {
+                setMapCoords({ pickup: [23.8103, 90.4125], drop: [23.9088, 90.4116] });
+            }
+        };
+        geocode();
+    }, [booking?.pickupAddress, booking?.dropAddress]);
+
+    // Live auto-polling every 5 seconds when trip is active (ACCEPTED / IN_TRANSIT)
+    useEffect(() => {
+        if (!booking) return;
+        const isActive = ["ACCEPTED", "PICKUP_STARTED", "IN_TRANSIT"].includes(booking.status);
+        if (!isActive) return;
+
+        const interval = setInterval(() => {
+            fetchBooking();
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [booking?.status, fetchBooking]);
 
     const handleAcceptJob = async () => {
         setUpdating(true);
@@ -132,6 +186,19 @@ export default function BookingDetailPage() {
         }
     };
 
+    const handleUpdateStatus = async (status: string, note: string) => {
+        setUpdating(true);
+        try {
+            await api.patch(`/bookings/${id}/status`, { status, note });
+            toast.success(t("Status updated!", "স্ট্যাটাস আপডেট হয়েছে!"));
+            fetchBooking();
+        } catch (error) {
+            toast.error(t("Failed to update status", "স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে"));
+        } finally {
+            setUpdating(false);
+        }
+    };
+
     const handleSubmitReview = async () => {
         if (!booking) return;
         setSubmittingReview(true);
@@ -166,6 +233,15 @@ export default function BookingDetailPage() {
     const isCompleted = booking.status === "COMPLETED";
     const isUser = user?.role === "USER";
     const isDriver = user?.role === "DRIVER";
+
+    const driverLat = booking.driver?.currentLat;
+    const driverLng = booking.driver?.currentLng;
+    const driverUpdatedAt = booking.driver?.updatedAt ? new Date(booking.driver.updatedAt).getTime() : 0;
+    const isDriverOnline = Boolean(
+        booking.driver?.isAvailable &&
+        driverUpdatedAt > 0 &&
+        (Date.now() - driverUpdatedAt < 150000)
+    );
 
     return (
         <DashboardLayout requiredRole={user?.role as any}>
@@ -311,7 +387,7 @@ export default function BookingDetailPage() {
                                         </Button>
                                     </div>
                                 ) : (
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between flex-wrap gap-3">
                                         <p className="text-4xl font-black text-slate-950">৳{booking.estimatedFare.toLocaleString()}</p>
                                         {isPending && isDriver && (
                                             <Button
@@ -320,6 +396,24 @@ export default function BookingDetailPage() {
                                                 className="h-12 px-6 rounded-xl font-bold bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-200"
                                             >
                                                 {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Accept Trip", "ট্রিপটি নিন")}
+                                            </Button>
+                                        )}
+                                        {booking.status === "ACCEPTED" && isDriver && (
+                                            <Button
+                                                onClick={() => handleUpdateStatus("IN_TRANSIT", "Driver started the ride")}
+                                                disabled={updating}
+                                                className="h-12 px-6 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+                                            >
+                                                {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Start Ride", "রাইড শুরু করুন")}
+                                            </Button>
+                                        )}
+                                        {booking.status === "IN_TRANSIT" && isDriver && (
+                                            <Button
+                                                onClick={() => handleUpdateStatus("COMPLETED", "Driver completed the ride")}
+                                                disabled={updating}
+                                                className="h-12 px-6 rounded-xl font-bold bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-200"
+                                            >
+                                                {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Complete Ride", "রাইড সম্পন্ন করুন")}
                                             </Button>
                                         )}
                                     </div>
@@ -446,6 +540,54 @@ export default function BookingDetailPage() {
                             )}
                         </div>
                     </div>
+
+                    {/* Live Truck Tracking Map Card */}
+                    {(booking.status === "ACCEPTED" || booking.status === "PICKUP_STARTED" || booking.status === "IN_TRANSIT" || booking.status === "DELIVERED") && (
+                        <div className="p-8 border-t border-slate-100 bg-slate-50/60">
+                            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                                <div>
+                                    <h3 className="text-lg font-black text-slate-950 flex items-center gap-2">
+                                        <Navigation className="w-5 h-5 text-primary" />
+                                        {t("Live Truck Tracking", "লাইভ ট্রাক ট্র্যাকিং")}
+                                    </h3>
+                                    <p className="text-xs text-slate-500 font-bold mt-0.5">
+                                        {isDriverOnline
+                                            ? t("Real-time GPS signal active", "রিয়েল-টাইম জিপিএস সিগন্যাল অ্যাক্টিভ")
+                                            : t("Driver is offline. Showing last known position.", "ড্রাইভার অফলাইন। সর্বশেষ লোকেশন দেখানো হচ্ছে।")}
+                                    </p>
+                                </div>
+
+                                <div className={cn(
+                                    "px-3.5 py-1.5 rounded-full text-xs font-black flex items-center gap-2 border shadow-xs",
+                                    isDriverOnline
+                                        ? "bg-green-50 text-green-700 border-green-200"
+                                        : "bg-slate-100 text-slate-600 border-slate-200"
+                                )}>
+                                    <span className={`w-2.5 h-2.5 rounded-full ${isDriverOnline ? "bg-green-500 animate-pulse" : "bg-slate-400"}`} />
+                                    {isDriverOnline
+                                        ? t("Driver Active & Online", "ড্রাইভার অনলাইনে আছে")
+                                        : t("Driver Offline (Last Location)", "ড্রাইভার অফলাইন (শেষ লোকেশন)")}
+                                </div>
+                            </div>
+
+                            <div className="h-96 rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative">
+                                <MapComponent
+                                    pickup={mapCoords.pickup}
+                                    drop={mapCoords.drop}
+                                    driverLocation={driverLat && driverLng ? [driverLat, driverLng] : undefined}
+                                    isDriverOnline={isDriverOnline}
+                                    driverName={booking.driver?.user?.name || "Driver"}
+                                    lastActiveText={
+                                        isDriverOnline
+                                            ? t("Location updating live", "লাইভ লোকেশন আপডেট হচ্ছে")
+                                            : driverUpdatedAt
+                                                ? `${t("Last active", "সর্বশেষ অ্যাক্টিভ")}: ${new Date(driverUpdatedAt).toLocaleTimeString()}`
+                                                : t("No GPS signal received yet", "এখনো কোনো জিপিএস সিগন্যাল পাওয়া যায়নি")
+                                    }
+                                />
+                            </div>
+                        </div>
+                    )}
 
                     {/* Timeline */}
                     <div className="p-8 bg-slate-50/50 border-t border-slate-50">

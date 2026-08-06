@@ -92,6 +92,30 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
         }
     }, [isAuthenticated, isHydrated, requiredRole, router]);
 
+    // Automatic Geolocation updates for logged-in Drivers
+    useEffect(() => {
+        if (!isAuthenticated || user?.role !== "DRIVER") return;
+
+        const sendLocation = () => {
+            if (typeof window === "undefined" || !navigator.geolocation) return;
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    api.patch("/drivers/availability", {
+                        isAvailable: true,
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude,
+                    }).catch(() => { });
+                },
+                () => { },
+                { enableHighAccuracy: true }
+            );
+        };
+
+        sendLocation();
+        const interval = setInterval(sendLocation, 15000);
+        return () => clearInterval(interval);
+    }, [isAuthenticated, user?.role]);
+
     if (!isHydrated || !isAuthenticated) {
         return (
             <div className="h-screen w-full flex items-center justify-center bg-slate-50">

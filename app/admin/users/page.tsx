@@ -13,9 +13,20 @@ import {
     UserPlus,
     X,
     Eye,
-    EyeOff
+    EyeOff,
+    Phone,
+    Mail,
+    Calendar,
+    ExternalLink,
+    FileText,
+    Truck,
+    ShieldCheck,
+    DollarSign,
+    Star,
+    Package,
+    ArrowRight
 } from "lucide-react";
-import api from "@/lib/api";
+import api, { getFileUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn, getAvatarUrl } from "@/lib/utils";
@@ -23,13 +34,18 @@ import { DeleteConfirmModal } from "@/components/ui/delete-confirm-modal";
 
 export default function AdminUsersPage() {
     const { t } = useLanguage();
-    const [users, setUsers] = useState<{ id: string; name: string; phone: string; email?: string; avatar?: string; role: string; createdAt: string; isActive: boolean }[]>([]);
+    const [users, setUsers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [statusModal, setStatusModal] = useState<{ open: boolean; id: string; name: string; currentActive: boolean }>({ open: false, id: "", name: "", currentActive: true });
     const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; name: string }>({ open: false, id: "", name: "" });
     const [isUpdating, setIsUpdating] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+
+    // Detail Modal State
+    const [selectedUser, setSelectedUser] = useState<any | null>(null);
+    const [userTab, setUserTab] = useState<"overview" | "role" | "bookings">("overview");
+    const [previewDocument, setPreviewDocument] = useState<{ title: string; url: string } | null>(null);
 
     // Create User Modal State
     const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -244,7 +260,14 @@ export default function AdminUsersPage() {
                             </thead>
                             <tbody className="divide-y divide-slate-50">
                                 {filteredUsers.map((user) => (
-                                    <tr key={user.id} className="hover:bg-slate-50/50 transition-all">
+                                    <tr
+                                        key={user.id}
+                                        onClick={() => {
+                                            setSelectedUser(user);
+                                            setUserTab("overview");
+                                        }}
+                                        className="hover:bg-slate-50/80 transition-all cursor-pointer group"
+                                    >
                                         <td className="px-8 py-4">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-600 overflow-hidden shrink-0 border border-slate-200">
@@ -292,12 +315,25 @@ export default function AdminUsersPage() {
                                                 </span>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-4 text-right">
-                                            <div className="flex items-center justify-end gap-2">
+                                        <td className="px-8 py-4 text-right" onClick={(e) => e.stopPropagation()}>
+                                            <div className="flex items-center justify-end gap-1.5">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="h-8 px-2.5 rounded-lg text-xs font-black gap-1 text-slate-700 hover:bg-slate-100"
+                                                    onClick={() => {
+                                                        setSelectedUser(user);
+                                                        setUserTab("overview");
+                                                    }}
+                                                >
+                                                    <Eye className="w-3.5 h-3.5 text-primary" />
+                                                    {t("View Info", "তথ্য দেখুন")}
+                                                </Button>
+
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className={cn("rounded-lg", user.isActive ? "text-red-500 hover:bg-red-50" : "text-green-500 hover:bg-green-50")}
+                                                    className={cn("rounded-lg h-8 w-8", user.isActive ? "text-red-500 hover:bg-red-50" : "text-green-500 hover:bg-green-50")}
                                                     onClick={() => {
                                                         if (user.isActive) {
                                                             setStatusModal({ open: true, id: user.id, name: user.name, currentActive: user.isActive });
@@ -314,7 +350,7 @@ export default function AdminUsersPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="rounded-lg text-red-500 hover:bg-red-50"
+                                                    className="rounded-lg h-8 w-8 text-red-500 hover:bg-red-50"
                                                     onClick={() => setDeleteModal({ open: true, id: user.id, name: user.name })}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
@@ -484,6 +520,307 @@ export default function AdminUsersPage() {
                 confirmText={t("Delete Permanently", "চিরতরে মুছুন")}
                 cancelText={t("Cancel", "বাতিল")}
             />
+
+            {/* ── USER DETAILS POPUP MODAL ─────────────────────────────────────── */}
+            {selectedUser && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+                    onClick={() => setSelectedUser(null)}
+                >
+                    <div
+                        className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-slate-100"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Modal Header */}
+                        <div className="p-6 md:p-8 bg-slate-900 text-white flex items-start justify-between relative overflow-hidden">
+                            <div className="flex items-center gap-4 relative z-10">
+                                <div className="w-16 h-16 rounded-2xl bg-white/10 border-2 border-white/20 flex items-center justify-center text-2xl font-black overflow-hidden shrink-0 shadow-lg">
+                                    {selectedUser.avatar ? (
+                                        <img src={getAvatarUrl(selectedUser.avatar) || ""} alt={selectedUser.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span className="text-white">{selectedUser.name?.[0]?.toUpperCase()}</span>
+                                    )}
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                                        <h2 className="text-xl md:text-2xl font-black">{selectedUser.name}</h2>
+                                        <span className={cn(
+                                            "px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border",
+                                            selectedUser.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-300 border-purple-400/30' :
+                                                selectedUser.role === 'DRIVER' ? 'bg-amber-500/20 text-amber-300 border-amber-400/30' :
+                                                    selectedUser.role === 'AGENT' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/30' :
+                                                        'bg-blue-500/20 text-blue-300 border-blue-400/30'
+                                        )}>
+                                            {selectedUser.role}
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-slate-300 font-bold flex items-center gap-4 flex-wrap">
+                                        <span>📞 {selectedUser.phone}</span>
+                                        {selectedUser.email && <span>✉️ {selectedUser.email}</span>}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={() => setSelectedUser(null)}
+                                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white font-bold transition-all relative z-10"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        {/* Navigation Tabs */}
+                        <div className="flex border-b border-slate-100 bg-slate-50 px-6 gap-2 pt-2">
+                            <button
+                                onClick={() => setUserTab("overview")}
+                                className={cn(
+                                    "px-5 py-3 text-xs font-black transition-all border-b-2 -mb-px",
+                                    userTab === "overview" ? "border-primary text-primary bg-white rounded-t-xl shadow-xs" : "border-transparent text-slate-500 hover:text-slate-900"
+                                )}
+                            >
+                                {t("Overview", "সংক্ষিপ্ত বিবরণ")}
+                            </button>
+                            {(selectedUser.driver || selectedUser.agent) && (
+                                <button
+                                    onClick={() => setUserTab("role")}
+                                    className={cn(
+                                        "px-5 py-3 text-xs font-black transition-all border-b-2 -mb-px",
+                                        userTab === "role" ? "border-primary text-primary bg-white rounded-t-xl shadow-xs" : "border-transparent text-slate-500 hover:text-slate-900"
+                                    )}
+                                >
+                                    {selectedUser.role === "DRIVER" ? t("Driver Details", "ড্রাইভার বিস্তারিত") : t("Agent Details", "এজেন্ট বিস্তারিত")}
+                                </button>
+                            )}
+                            <button
+                                onClick={() => setUserTab("bookings")}
+                                className={cn(
+                                    "px-5 py-3 text-xs font-black transition-all border-b-2 -mb-px",
+                                    userTab === "bookings" ? "border-primary text-primary bg-white rounded-t-xl shadow-xs" : "border-transparent text-slate-500 hover:text-slate-900"
+                                )}
+                            >
+                                {t("Recent Trips", "সাম্প্রতিক বুকিং")} ({selectedUser.bookings?.length || 0})
+                            </button>
+                        </div>
+
+                        {/* Modal Content Body */}
+                        <div className="p-6 md:p-8 overflow-y-auto flex-1 space-y-6">
+                            {userTab === "overview" && (
+                                <div className="space-y-6">
+                                    {/* Info Grid */}
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">{t("User ID", "ইউজার আইডি")}</span>
+                                            <span className="text-xs font-black text-slate-900 font-mono truncate block">{selectedUser.id}</span>
+                                        </div>
+                                        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">{t("Status", "স্ট্যাটাস")}</span>
+                                            <span className={cn("text-xs font-black uppercase tracking-wider", selectedUser.isActive ? "text-green-600" : "text-red-600")}>
+                                                {selectedUser.isActive ? t("Active", "সক্রিয়") : t("Suspended", "সাময়িক স্থগিত")}
+                                            </span>
+                                        </div>
+                                        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">{t("Joined Date", "যোগদানের তারিখ")}</span>
+                                            <span className="text-xs font-black text-slate-900">{new Date(selectedUser.createdAt).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Additional Info Cards */}
+                                    <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-3">
+                                        <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">{t("Contact Details", "যোগাযোগের বিবরণ")}</h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-bold">
+                                            <div>
+                                                <span className="text-slate-500 block text-[10px] uppercase mb-0.5">{t("Phone Number", "ফোন নম্বর")}</span>
+                                                <a href={`tel:${selectedUser.phone}`} className="text-primary font-black hover:underline">{selectedUser.phone}</a>
+                                            </div>
+                                            <div>
+                                                <span className="text-slate-500 block text-[10px] uppercase mb-0.5">{t("Email Address", "ইমেইল")}</span>
+                                                <span className="text-slate-900">{selectedUser.email || t("Not Provided", "প্রদান করা হয়নি")}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {userTab === "role" && selectedUser.driver && (
+                                <div className="space-y-6">
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-100">
+                                            <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest block mb-1">{t("Total Trips", "মোট ট্রিপ")}</span>
+                                            <span className="text-xl font-black text-amber-900">{selectedUser.driver.totalTrips || 0}</span>
+                                        </div>
+                                        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-100">
+                                            <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest block mb-1">{t("Rating", "রেটিং")}</span>
+                                            <span className="text-xl font-black text-amber-900">⭐ {selectedUser.driver.rating || 5.0}</span>
+                                        </div>
+                                        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100">
+                                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-1">{t("Earnings", "মোট আয়")}</span>
+                                            <span className="text-xl font-black text-emerald-900">৳{selectedUser.driver.totalEarnings || 0}</span>
+                                        </div>
+                                        <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100">
+                                            <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-1">{t("Commission Paid", "পরিশোধিত কমিশন")}</span>
+                                            <span className="text-xl font-black text-blue-900">৳{selectedUser.driver.paidCommission || 0}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Registered Trucks */}
+                                    {selectedUser.driver.trucks && selectedUser.driver.trucks.length > 0 && (
+                                        <div>
+                                            <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-3">{t("Registered Vehicles", "রেজিস্টার্ড ট্রাক")}</h4>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                {selectedUser.driver.trucks.map((trk: any) => (
+                                                    <div key={trk.id} className="p-4 rounded-2xl border border-slate-100 bg-slate-50 flex items-center justify-between">
+                                                        <div>
+                                                            <p className="text-xs font-black text-slate-900">{trk.registrationNo}</p>
+                                                            <p className="text-[10px] font-bold text-slate-500">{trk.category} • {trk.capacityTon} Ton</p>
+                                                        </div>
+                                                        <span className={cn("text-[10px] font-black px-2 py-0.5 rounded uppercase", trk.status === "APPROVED" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700")}>
+                                                            {trk.status}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Driver Documents */}
+                                    {(selectedUser.driver.nidFront || selectedUser.driver.nidBack || selectedUser.driver.licenseFront || selectedUser.driver.licenseBack) && (
+                                        <div>
+                                            <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-3">{t("Uploaded Documents", "আপলোডকৃত কাগজপত্র")}</h4>
+                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                                {selectedUser.driver.nidFront && (
+                                                    <button
+                                                        onClick={() => setPreviewDocument({ title: t("NID Front", "এনআইডি ফ্রন্ট"), url: selectedUser.driver.nidFront })}
+                                                        className="p-3 rounded-2xl border border-slate-200 hover:border-primary transition-all text-center space-y-2 group bg-slate-50 hover:bg-white shadow-xs"
+                                                    >
+                                                        <div className="h-20 w-full rounded-xl overflow-hidden bg-slate-200">
+                                                            <img src={getFileUrl(selectedUser.driver.nidFront)} alt="NID Front" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                                                        </div>
+                                                        <span className="text-[10px] font-black text-slate-700 block truncate">{t("NID Front", "এনআইডি ফ্রন্ট")}</span>
+                                                    </button>
+                                                )}
+                                                {selectedUser.driver.nidBack && (
+                                                    <button
+                                                        onClick={() => setPreviewDocument({ title: t("NID Back", "এনআইডি ব্যাক"), url: selectedUser.driver.nidBack })}
+                                                        className="p-3 rounded-2xl border border-slate-200 hover:border-primary transition-all text-center space-y-2 group bg-slate-50 hover:bg-white shadow-xs"
+                                                    >
+                                                        <div className="h-20 w-full rounded-xl overflow-hidden bg-slate-200">
+                                                            <img src={getFileUrl(selectedUser.driver.nidBack)} alt="NID Back" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                                                        </div>
+                                                        <span className="text-[10px] font-black text-slate-700 block truncate">{t("NID Back", "এনআইডি ব্যাক")}</span>
+                                                    </button>
+                                                )}
+                                                {selectedUser.driver.licenseFront && (
+                                                    <button
+                                                        onClick={() => setPreviewDocument({ title: t("License Front", "লাইসেন্স ফ্রন্ট"), url: selectedUser.driver.licenseFront })}
+                                                        className="p-3 rounded-2xl border border-slate-200 hover:border-primary transition-all text-center space-y-2 group bg-slate-50 hover:bg-white shadow-xs"
+                                                    >
+                                                        <div className="h-20 w-full rounded-xl overflow-hidden bg-slate-200">
+                                                            <img src={getFileUrl(selectedUser.driver.licenseFront)} alt="License Front" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                                                        </div>
+                                                        <span className="text-[10px] font-black text-slate-700 block truncate">{t("License Front", "লাইসেন্স ফ্রন্ট")}</span>
+                                                    </button>
+                                                )}
+                                                {selectedUser.driver.licenseBack && (
+                                                    <button
+                                                        onClick={() => setPreviewDocument({ title: t("License Back", "লাইসেন্স ব্যাক"), url: selectedUser.driver.licenseBack })}
+                                                        className="p-3 rounded-2xl border border-slate-200 hover:border-primary transition-all text-center space-y-2 group bg-slate-50 hover:bg-white shadow-xs"
+                                                    >
+                                                        <div className="h-20 w-full rounded-xl overflow-hidden bg-slate-200">
+                                                            <img src={getFileUrl(selectedUser.driver.licenseBack)} alt="License Back" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                                                        </div>
+                                                        <span className="text-[10px] font-black text-slate-700 block truncate">{t("License Back", "লাইসেন্স ব্যাক")}</span>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {userTab === "role" && selectedUser.agent && (
+                                <div className="space-y-6">
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                        <div className="p-4 rounded-2xl bg-cyan-50 border border-cyan-100">
+                                            <span className="text-[10px] font-black text-cyan-600 uppercase tracking-widest block mb-1">{t("Agent ID", "এজেন্ট আইডি")}</span>
+                                            <span className="text-sm font-black text-cyan-900 font-mono">{selectedUser.agent.agentId || "N/A"}</span>
+                                        </div>
+                                        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100">
+                                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-1">{t("Wallet Balance", "ওয়ালেট ব্যালেন্স")}</span>
+                                            <span className="text-xl font-black text-emerald-900">৳{selectedUser.agent.walletBalance || 0}</span>
+                                        </div>
+                                        <div className="p-4 rounded-2xl bg-blue-50 border border-blue-100">
+                                            <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-1">{t("Total Earnings", "মোট উপার্জিত")}</span>
+                                            <span className="text-xl font-black text-blue-900">৳{selectedUser.agent.totalEarnings || 0}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {userTab === "bookings" && (
+                                <div className="space-y-3">
+                                    {selectedUser.bookings && selectedUser.bookings.length > 0 ? (
+                                        selectedUser.bookings.map((b: any) => (
+                                            <div key={b.id} className="p-4 rounded-2xl border border-slate-100 bg-slate-50 flex items-center justify-between gap-4">
+                                                <div>
+                                                    <p className="text-xs font-black text-slate-900">#{b.bookingNumber}</p>
+                                                    <p className="text-[10px] text-slate-500 font-bold truncate max-w-md">{b.pickupAddress} ➔ {b.dropAddress}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <span className="text-xs font-black text-primary block">৳{b.estimatedFare}</span>
+                                                    <span className="text-[10px] font-black uppercase text-slate-400">{b.status}</span>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-xs text-slate-400 font-bold text-center py-8">{t("No recent bookings found", "কোনো সাম্প্রতিক বুকিং পাওয়া যায়নি")}</p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Modal Footer Controls */}
+                        <div className="p-6 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+                            <Button
+                                onClick={() => {
+                                    const targetUser = selectedUser;
+                                    setSelectedUser(null);
+                                    setDeleteModal({ open: true, id: targetUser.id, name: targetUser.name });
+                                }}
+                                variant="ghost"
+                                className="text-red-500 hover:bg-red-50 font-bold text-xs gap-1.5"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                                {t("Delete User", "ইউজার মুছে ফেলুন")}
+                            </Button>
+
+                            <Button
+                                onClick={() => setSelectedUser(null)}
+                                className="h-11 px-8 rounded-xl font-bold bg-slate-900 text-white"
+                            >
+                                {t("Close", "বন্ধ করুন")}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Document Preview Lightbox Modal */}
+            {previewDocument && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200"
+                    onClick={() => setPreviewDocument(null)}
+                >
+                    <div className="max-w-3xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl border border-white/20 p-6 relative space-y-4" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                            <h3 className="text-sm font-black text-slate-900">{previewDocument.title}</h3>
+                            <button onClick={() => setPreviewDocument(null)} className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600">✕</button>
+                        </div>
+                        <div className="max-h-[75vh] overflow-auto rounded-2xl bg-slate-950 flex items-center justify-center p-2">
+                            <img src={getFileUrl(previewDocument.url)} alt={previewDocument.title} className="max-w-full max-h-[70vh] object-contain rounded-xl" />
+                        </div>
+                    </div>
+                </div>
+            )}
         </DashboardLayout>
     );
 }
