@@ -20,9 +20,9 @@ const createGreenTruckIcon = () => {
     return L.divIcon({
         className: "custom-green-truck-icon",
         html: `
-            <div style="position: relative; width: 50px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                <div style="position: absolute; width: 60px; height: 60px; top: 20px; border-radius: 50%; background: rgba(34, 197, 94, 0.45); animation: truck-sonar 1.6s ease-out infinite;"></div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" width="50" height="100" style="position: relative; z-index: 2; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));">
+            <div style="position: relative; width: 28px; height: 56px; display: flex; align-items: center; justify-content: center;">
+                <div style="position: absolute; width: 36px; height: 36px; top: 10px; border-radius: 50%; background: rgba(34, 197, 94, 0.45); animation: truck-sonar 1.6s ease-out infinite;"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" width="28" height="56" style="position: relative; z-index: 2; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));">
                   <rect x="25" y="10" width="50" height="12" rx="4" fill="#14532d" />
                   <rect x="14" y="22" width="7" height="18" rx="2" fill="#111111" />
                   <rect x="79" y="22" width="7" height="18" rx="2" fill="#111111" />
@@ -48,8 +48,8 @@ const createGreenTruckIcon = () => {
                 }
             </style>
         `,
-        iconSize: [50, 100],
-        iconAnchor: [25, 50],
+        iconSize: [28, 56],
+        iconAnchor: [14, 28],
     });
 };
 
@@ -59,8 +59,8 @@ const createGreyTruckIcon = () => {
     return L.divIcon({
         className: "custom-grey-truck-icon",
         html: `
-            <div style="position: relative; width: 50px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" width="50" height="100" style="position: relative; z-index: 2; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+            <div style="position: relative; width: 28px; height: 56px; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" width="28" height="56" style="position: relative; z-index: 2; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));">
                   <rect x="25" y="10" width="50" height="12" rx="4" fill="#1e293b" />
                   <rect x="14" y="22" width="7" height="18" rx="2" fill="#0f172a" />
                   <rect x="79" y="22" width="7" height="18" rx="2" fill="#0f172a" />
@@ -80,8 +80,8 @@ const createGreyTruckIcon = () => {
                 </svg>
             </div>
         `,
-        iconSize: [50, 100],
-        iconAnchor: [25, 50],
+        iconSize: [28, 56],
+        iconAnchor: [14, 28],
     });
 };
 
