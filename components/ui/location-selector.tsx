@@ -202,7 +202,7 @@ export function LocationSelector({
                     {t(label, labelBn)}
                     {required && <span className="text-red-500">*</span>}
                 </label>
-                <div className="grid grid-cols-1 min-[413px]:grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-2 gap-1.5">
                     <NativeSelect
                         value={division}
                         onChange={handleDivisionChange}
