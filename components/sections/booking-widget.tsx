@@ -27,19 +27,21 @@ export function BookingWidget() {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const STATIC_TRUCK_ICONS: Record<string, string> = {
-        T1_OPEN_7FT: "/icons/1ton7feeticon.png",
-        T1_COVER_7FT: "/icons/1ton7feetcovericon.png",
-        T1_OPEN_9FT: "/icons/1ton7feeticon.png",
-        T1_COVER_9FT: "/icons/1ton7feetcovericon.png",
-        T1_5_OPEN_12FT: "/icons/1.5ton9feeticon.png",
-        T1_5_COVER_12FT: "/icons/1.5on9feetcovericon.png",
+        T1_OPEN_7FT: "/icons/1ton7feeticon.webp",
+        T1_COVER_7FT: "/icons/1ton7feetcovericon.webp",
+        T1_OPEN_9FT: "/icons/1ton7feeticon.webp",
+        T1_COVER_9FT: "/icons/1ton7feetcovericon.webp",
+        T1_5_OPEN_12FT: "/icons/1.5ton9feeticon.webp",
+        T1_5_COVER_12FT: "/icons/1.5on9feetcovericon.webp",
+        T2_OPEN_9FT: "/icons/2ton9feeticon.webp",
+        T5_OPEN_17FT: "/icons/5ton17feeticon.webp",
     };
 
     const getTruckIcon = (id: string) => {
         if (STATIC_TRUCK_ICONS[id]) return STATIC_TRUCK_ICONS[id];
         const lower = id.toLowerCase();
-        if (lower.includes("cover")) return "/icons/3ton12feetcovericon.png";
-        return "/icons/3ton12feeticon.png";
+        if (lower.includes("cover")) return "/icons/3ton12feetcovericon.webp";
+        return "/icons/3ton12feeticon.webp";
     };
 
     const FALLBACK_TRUCKS = [

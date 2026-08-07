@@ -289,16 +289,18 @@ function BookingContent() {
     ];
 
     const STATIC_ICONS: Record<string, string> = {
-        T1_OPEN_7_9FT: "/icons/1ton7feeticon.png",
-        T1_COVER_7_9FT: "/icons/1ton7feetcovericon.png",
-        T1_5_OPEN_10_12FT: "/icons/1.5ton9feeticon.png",
-        T1_5_COVER_10_12FT: "/icons/1.5on9feetcovericon.png",
-        T3_OPEN_16_14FT: "/icons/3ton12feeticon.png",
-        T3_COVER_16_14FT: "/icons/3ton12feetcovericon.png",
+        T1_OPEN_7_9FT: "/icons/1ton7feeticon.webp",
+        T1_COVER_7_9FT: "/icons/1ton7feetcovericon.webp",
+        T1_5_OPEN_10_12FT: "/icons/1.5ton9feeticon.webp",
+        T1_5_COVER_10_12FT: "/icons/1.5on9feetcovericon.webp",
+        T3_OPEN_16_14FT: "/icons/3ton12feeticon.webp",
+        T3_COVER_16_14FT: "/icons/3ton12feetcovericon.webp",
+        T2_OPEN_9FT: "/icons/2ton9feeticon.webp",
+        T5_OPEN_17FT: "/icons/5ton17feeticon.webp",
     };
     const getFareIcon = (id: string) => {
         if (STATIC_ICONS[id]) return STATIC_ICONS[id];
-        return id.toLowerCase().includes("cover") ? "/icons/3ton12feetcovericon.png" : "/icons/3ton12feeticon.png";
+        return id.toLowerCase().includes("cover") ? "/icons/3ton12feetcovericon.webp" : "/icons/3ton12feeticon.webp";
     };
 
     const FALLBACK_TYPES = [
