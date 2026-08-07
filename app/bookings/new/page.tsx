@@ -400,8 +400,7 @@ function BookingContent() {
                                 {t("Provide more details to get accurate quotes.", "সঠিক ভাড়া পেতে আরও বিস্তারিত তথ্য প্রদান করুন।")}
                             </p>
                             {!isAuthenticated && (
-                                <p className="text-sm font-bold text-amber-600 mt-2.5 flex items-center justify-center gap-1.5">
-                                    <span>💡</span>
+                                <p className="text-sm font-normal text-amber-600 mt-2.5 flex items-center justify-center gap-1.5">
                                     <span>
                                         {t(
                                             "Please log in to complete your booking.",
@@ -411,7 +410,7 @@ function BookingContent() {
                                     <button
                                         type="button"
                                         onClick={() => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`)}
-                                        className="underline font-black hover:text-amber-700 transition-colors ml-1"
+                                        className="text-red-600 font-bold hover:text-red-700 transition-colors ml-1"
                                     >
                                         {t("Log In", "লগইন করুন")}
                                     </button>
@@ -629,7 +628,7 @@ function BookingContent() {
 
                             {/* Sidebar Info */}
                             <div className="lg:col-span-2 space-y-3">
-                                <div className="h-[420px] w-full overflow-hidden rounded-2xl border border-slate-100 shadow-sm relative z-0">
+                                <div className="h-[420px] lg:h-[520px] w-full overflow-hidden rounded-2xl border border-slate-100 shadow-sm relative z-0">
                                     <MapComponent pickup={coords.pickup} drop={coords.drop} />
                                 </div>
 
