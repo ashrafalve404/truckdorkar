@@ -290,13 +290,13 @@ export function LocationSelector({
                 ].map((s, i) => (
                     <React.Fragment key={s.step}>
                         <div className={cn(
-                            "flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black transition-all",
+                            "flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-medium transition-all",
                             s.done
                                 ? "bg-primary/10 text-primary"
                                 : "bg-slate-200 text-slate-900"
                         )}>
                             <span className={cn(
-                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black shrink-0",
+                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-medium shrink-0",
                                 s.done ? "bg-primary text-white" : "bg-slate-700 text-white"
                             )}>{s.step}</span>
                             {s.label}

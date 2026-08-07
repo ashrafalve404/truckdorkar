@@ -19,7 +19,8 @@ import {
     Image as ImageIcon,
     Globe,
     DollarSign,
-    Wallet
+    Wallet,
+    MapPin
 } from "lucide-react";
 import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
@@ -78,6 +79,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
         ],
         USER: [
             { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
+            { name: "Track Shipment", href: "/track", icon: MapPin, bn: "লাইভ ট্র্যাকিং" },
             { name: "My Trips", href: "/bookings", icon: Package, bn: "আমার ট্রিপস" },
             { name: "New Booking", href: "/bookings/new", icon: FileText, bn: "নতুন বুকিং" },
             { name: "Notifications", href: "/notifications", icon: Bell, bn: "নোটিফিকেশন" },
