@@ -12,7 +12,12 @@ import {
     TrendingUp,
     Phone,
     ChevronDown,
-    Calendar as CalendarIcon
+    Calendar as CalendarIcon,
+    Truck,
+    Package,
+    Weight,
+    Banknote,
+    FileText
 } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
@@ -37,9 +42,10 @@ interface CustomSelectProps {
     options: { label: string; value: string; icon?: string; upcoming?: boolean }[];
     placeholder: string;
     label?: string;
+    icon?: React.ReactNode;
 }
 
-function CustomSelect({ value, onChange, options, placeholder, label }: CustomSelectProps) {
+function CustomSelect({ value, onChange, options, placeholder, label, icon }: CustomSelectProps) {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const selectedOption = options.find(opt => opt.value === value);
@@ -56,7 +62,12 @@ function CustomSelect({ value, onChange, options, placeholder, label }: CustomSe
 
     return (
         <div className="space-y-2 relative" ref={containerRef}>
-            {label && <label className="text-sm font-bold text-slate-950">{label}</label>}
+            {label && (
+                <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                    {icon}
+                    {label}
+                </label>
+            )}
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full h-12 bg-white border border-slate-300 rounded-xl px-4 flex items-center justify-between cursor-pointer group hover:border-primary/30 transition-all font-medium text-slate-900 shadow-sm"
@@ -379,15 +390,33 @@ function BookingContent() {
         <div className="min-h-screen bg-slate-50">
             <Navbar />
             <main className="pt-28 pb-16">
-                <div className="container mx-auto px-4 lg:px-12">
-                    <div className="max-w-6xl mx-auto">
+                <div className="container mx-auto px-4 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
                         <header className="mb-10 text-center">
                             <h1 className="text-3xl lg:text-4xl font-black text-black mb-4">
                                 {t("Complete Your Booking", "আপনার বুকিং সম্পূর্ণ করুন")}
                             </h1>
                             <p className="text-slate-700 font-bold">
-                                {t("Provide more details to get accurate quotes from our drivers.", "সঠিক ভাড়া পেতে আরও বিস্তারিত তথ্য প্রদান করুন।")}
+                                {t("Provide more details to get accurate quotes.", "সঠিক ভাড়া পেতে আরও বিস্তারিত তথ্য প্রদান করুন।")}
                             </p>
+                            {!isAuthenticated && (
+                                <p className="text-sm font-bold text-amber-600 mt-2.5 flex items-center justify-center gap-1.5">
+                                    <span>💡</span>
+                                    <span>
+                                        {t(
+                                            "Please log in to complete your booking.",
+                                            "বুকিং সম্পন্ন করতে লগইন করুন।"
+                                        )}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={() => router.push(`/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`)}
+                                        className="underline font-black hover:text-amber-700 transition-colors ml-1"
+                                    >
+                                        {t("Log In", "লগইন করুন")}
+                                    </button>
+                                </p>
+                            )}
                         </header>
 
                         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -436,7 +465,8 @@ function BookingContent() {
                                     {/* Booking Date & Contact Phone */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                <CalendarIcon className="w-4 h-4 text-primary" />
                                                 {t("Booking Date", "বুকিংয়ের তারিখ")}
                                                 <span className="text-red-500 ml-1">*</span>
                                             </label>
@@ -484,6 +514,7 @@ function BookingContent() {
                                         <div className="space-y-1">
                                             <CustomSelect
                                                 label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
+                                                icon={<Truck className="w-4 h-4 text-primary" />}
                                                 value={formData.truckType}
                                                 onChange={(val) => {
                                                     const newMin = calcMinFare(formData.distance, val);
@@ -498,6 +529,7 @@ function BookingContent() {
                                         </div>
                                         <CustomSelect
                                             label={t("Goods Type", "পণ্যের ধরণ")}
+                                            icon={<Package className="w-4 h-4 text-primary" />}
                                             value={formData.goodsType}
                                             onChange={(val) => setFormData({ ...formData, goodsType: val })}
                                             options={goodsTypes}
@@ -530,7 +562,10 @@ function BookingContent() {
                                         </div>
                                         <div className="space-y-2">
                                             <div className="flex justify-between items-center">
-                                                <label className="text-sm font-bold text-slate-950">{t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}</label>
+                                                <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                    <Banknote className="w-4 h-4 text-primary" />
+                                                    {t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}
+                                                </label>
                                                 {formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare && (
                                                     <span className="text-[10px] bg-red-50 text-red-500 px-2 py-0.5 rounded-full font-black animate-pulse">
                                                         Min {minFare} TK
@@ -553,7 +588,10 @@ function BookingContent() {
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950">{t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}</label>
+                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                <Weight className="w-4 h-4 text-primary" />
+                                                {t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}
+                                            </label>
                                             <input
                                                 type="number"
                                                 required
@@ -566,7 +604,10 @@ function BookingContent() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-sm font-bold text-slate-950">{t("Special Note", "বিস্তারিত")}</label>
+                                        <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                            <FileText className="w-4 h-4 text-primary" />
+                                            {t("Special Note", "বিস্তারিত")}
+                                        </label>
                                         <textarea
                                             value={formData.specialNote}
                                             onChange={(e) => setFormData({ ...formData, specialNote: e.target.value })}
@@ -615,8 +656,8 @@ function BookingContent() {
                 </div>
             </main>
 
-            <section className="container mx-auto px-4 lg:px-12 mb-16">
-                <div className="w-full h-auto overflow-hidden rounded-xl border border-slate-100 shadow-sm">
+            <section className="container mx-auto px-4 lg:px-8 mb-16">
+                <div className="max-w-7xl mx-auto h-auto overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
                     <img
                         src="/images/bookingpagephoto.webp"
                         alt="Truck on road"

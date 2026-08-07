@@ -52,12 +52,12 @@ function NativeSelect({ value, onChange, options, placeholder, disabled, compact
                     disabled
                         ? "opacity-40 cursor-not-allowed"
                         : "hover:border-primary/50 focus:ring-2 focus:ring-primary/20",
-                    !value ? "text-slate-700" : "text-slate-900 font-medium",
+                    !value ? "text-slate-800" : "text-slate-950 font-semibold",
                     open && "border-primary ring-2 ring-primary/20"
                 )}
             >
                 <span className="truncate">{value || placeholder}</span>
-                <ChevronDown className={cn("w-4 h-4 shrink-0 text-slate-500 transition-transform duration-200", open && "rotate-180")} />
+                <ChevronDown className={cn("w-4 h-4 shrink-0 text-slate-700 transition-transform duration-200", open && "rotate-180")} />
             </button>
             {open && (
                 <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white border border-slate-100 rounded-xl shadow-2xl overflow-y-auto max-h-52 scrollbar-hide">
@@ -202,7 +202,7 @@ export function LocationSelector({
                     {t(label, labelBn)}
                     {required && <span className="text-red-500">*</span>}
                 </label>
-                <div className="grid grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-1 min-[413px]:grid-cols-2 gap-1.5">
                     <NativeSelect
                         value={division}
                         onChange={handleDivisionChange}
@@ -290,14 +290,14 @@ export function LocationSelector({
                 ].map((s, i) => (
                     <React.Fragment key={s.step}>
                         <div className={cn(
-                            "flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-all",
+                            "flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black transition-all",
                             s.done
                                 ? "bg-primary/10 text-primary"
-                                : "bg-slate-100 text-slate-700"
+                                : "bg-slate-200 text-slate-900"
                         )}>
                             <span className={cn(
-                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold shrink-0",
-                                s.done ? "bg-primary text-white" : "bg-slate-600 text-white"
+                                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black shrink-0",
+                                s.done ? "bg-primary text-white" : "bg-slate-700 text-white"
                             )}>{s.step}</span>
                             {s.label}
                         </div>
@@ -306,7 +306,7 @@ export function LocationSelector({
                 ))}
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 min-[413px]:grid-cols-2 sm:grid-cols-3 gap-3">
                 <NativeSelect
                     value={division}
                     onChange={handleDivisionChange}
