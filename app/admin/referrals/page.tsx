@@ -86,7 +86,7 @@ export default function AdminReferralsPage() {
         <DashboardLayout requiredRole="ADMIN">
             <header className="mb-8">
                 <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                         <Gift className="w-6 h-6" />
                     </div>
                     {t("Driver Referral Management", "ড্রাইভার রেফারেল ম্যানেজমেন্ট")}
@@ -100,7 +100,7 @@ export default function AdminReferralsPage() {
             </header>
 
             {loading && page === 1 && !debouncedSearch ? (
-                <div className="bg-white rounded-3xl p-16 border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-4 text-center">
+                <div className="bg-white rounded-2xl p-16 border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-4 text-center">
                     <Loader2 className="w-10 h-10 animate-spin text-primary" />
                     <p className="text-slate-600 font-bold text-sm">{t("Loading referral analytics...", "রেফারেল অ্যানালিটিক্স লোড হচ্ছে...")}</p>
                 </div>
@@ -108,17 +108,14 @@ export default function AdminReferralsPage() {
                 <div className="space-y-8">
                     {/* Stat Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-3xl shadow-lg shadow-emerald-500/20 relative overflow-hidden">
-                            <div className="absolute right-2 -bottom-3 opacity-15">
-                                <DollarSign className="w-28 h-28 text-white" />
-                            </div>
+                        <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-lg shadow-emerald-500/20 relative overflow-hidden">
                             <span className="text-xs font-bold uppercase tracking-wider opacity-90">{t("Total 5% Payouts", "মোট ৫% কমিশন বিতরণ")}</span>
                             <h2 className="text-3xl font-black mt-2 mb-1">৳{data.summary.totalPayouts.toLocaleString()}</h2>
                             <p className="text-xs font-medium text-emerald-100">{t("Paid out of company 10% cut", "কোম্পানির ১০% সার্ভিস ফি থেকে প্রদত্ত")}</p>
                         </div>
 
-                        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                            <div className="w-13 h-13 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-black">
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                            <div className="w-13 h-13 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-black">
                                 <Users className="w-6 h-6" />
                             </div>
                             <div>
@@ -128,8 +125,8 @@ export default function AdminReferralsPage() {
                             </div>
                         </div>
 
-                        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                            <div className="w-13 h-13 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 font-black">
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                            <div className="w-13 h-13 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 font-black">
                                 <Award className="w-6 h-6" />
                             </div>
                             <div>
@@ -139,8 +136,8 @@ export default function AdminReferralsPage() {
                             </div>
                         </div>
 
-                        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                            <div className="w-13 h-13 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-black">
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                            <div className="w-13 h-13 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-black">
                                 <Crown className="w-6 h-6" />
                             </div>
                             <div className="truncate">
@@ -156,7 +153,7 @@ export default function AdminReferralsPage() {
                     </div>
 
                     {/* Top Referrers Leaderboard */}
-                    <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                         <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                             <div>
                                 <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
@@ -224,7 +221,7 @@ export default function AdminReferralsPage() {
                     </div>
 
                     {/* All 5% Referral Commission Logs */}
-                    <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                         <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div>
                                 <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">

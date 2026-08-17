@@ -78,7 +78,7 @@ export default function DriverReferralsPage() {
         <DashboardLayout requiredRole="DRIVER">
             <header className="mb-8">
                 <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                         <Gift className="w-6 h-6" />
                     </div>
                     {t("Driver Referral Program", "ড্রাইভার রেফারেল প্রোগ্রাম")}
@@ -92,7 +92,7 @@ export default function DriverReferralsPage() {
             </header>
 
             {loading ? (
-                <div className="bg-white rounded-3xl p-16 border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-4 text-center">
+                <div className="bg-white rounded-2xl p-16 border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-4 text-center">
                     <Loader2 className="w-10 h-10 animate-spin text-primary" />
                     <p className="text-slate-600 font-bold text-sm">{t("Loading referral dashboard...", "রেফারেল ড্যাশবোর্ড লোড হচ্ছে...")}</p>
                 </div>
@@ -100,17 +100,14 @@ export default function DriverReferralsPage() {
                 <div className="space-y-8">
                     {/* Stat Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                        <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-3xl shadow-lg shadow-emerald-500/20 relative overflow-hidden">
-                            <div className="absolute right-3 -bottom-4 opacity-15">
-                                <DollarSign className="w-32 h-32 text-white" />
-                            </div>
+                        <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-lg shadow-emerald-500/20 relative overflow-hidden">
                             <span className="text-xs font-bold uppercase tracking-wider opacity-90">{t("Total 5% Referral Income", "মোট রেফারেল আয়")}</span>
                             <h2 className="text-3xl sm:text-4xl font-black mt-2 mb-1">৳{stats.referralEarnings.toLocaleString()}</h2>
                             <p className="text-xs font-medium text-emerald-100">{t("Lifetime earned from referred drivers", "আপনার রেফারকৃত ড্রাইভার থেকে মোট আয়")}</p>
                         </div>
 
-                        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-5">
-                            <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-black">
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
+                            <div className="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-black">
                                 <Users className="w-7 h-7" />
                             </div>
                             <div>
@@ -120,8 +117,8 @@ export default function DriverReferralsPage() {
                             </div>
                         </div>
 
-                        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-5">
-                            <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-black">
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
+                            <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-black">
                                 <Gift className="w-7 h-7" />
                             </div>
                             <div>
@@ -133,12 +130,12 @@ export default function DriverReferralsPage() {
                     </div>
 
                     {/* Share Link Banner */}
-                    <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+                    <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
                         <div className="relative z-10 space-y-4">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div>
                                     <h3 className="text-xl sm:text-2xl font-black text-white mb-1 flex items-center gap-2">
-                                        <span>🚀</span>
+                                        <Share2 className="w-5 h-5 text-emerald-400" />
                                         <span>{t("Share Your Driver Referral Link", "আপনার ড্রাইভ রেফারেল লিংক শেয়ার করুন")}</span>
                                     </h3>
                                     <p className="text-slate-300 text-xs sm:text-sm font-medium">
@@ -155,13 +152,13 @@ export default function DriverReferralsPage() {
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                                <div className="flex-1 bg-slate-800/90 border border-slate-700 rounded-2xl px-4 py-3 text-xs sm:text-sm font-mono text-emerald-400 truncate flex items-center select-all">
+                                <div className="flex-1 bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-3 text-xs sm:text-sm font-mono text-emerald-400 truncate flex items-center select-all">
                                     {shareableUrl}
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Button
                                         onClick={() => handleCopy(shareableUrl)}
-                                        className="h-12 px-6 rounded-2xl font-bold bg-primary hover:bg-primary/90 text-white gap-2 shrink-0"
+                                        className="h-12 px-6 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white gap-2 shrink-0"
                                     >
                                         {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                                         {copied ? t("Copied!", "কপি হয়েছে!") : t("Copy Link", "লিংক কপি করুন")}
@@ -169,7 +166,7 @@ export default function DriverReferralsPage() {
                                     <Button
                                         onClick={() => handleCopy(stats.referralCode, true)}
                                         variant="outline"
-                                        className="h-12 px-4 rounded-2xl font-bold border-slate-700 hover:bg-slate-800 text-white gap-2 shrink-0"
+                                        className="h-12 px-4 rounded-xl font-bold border-slate-700 hover:bg-slate-800 text-white gap-2 shrink-0"
                                         title="Copy Referral Code"
                                     >
                                         {t("Code Only", "শুধু কোড")}
@@ -182,7 +179,7 @@ export default function DriverReferralsPage() {
                     {/* Tables Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {/* Referred Drivers List */}
-                        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                             <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                                 <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
                                     <Users className="w-5 h-5 text-primary" />
@@ -205,33 +202,13 @@ export default function DriverReferralsPage() {
                                         <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-100">
                                             <tr>
                                                 <th className="p-4">{t("Driver Name", "ড্রাইভারের নাম")}</th>
-                                                <th className="p-4">{t("Joined Date", "রেজিস্ট্রেশনের তারিখ")}</th>
-                                                <th className="p-4 text-center">{t("Total Trips", "মোট ট্রিপ")}</th>
-                                                <th className="p-4 text-right">{t("Status", "স্ট্যাটাস")}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100 font-medium text-slate-800">
                                             {stats.referredDrivers.map((driver) => (
                                                 <tr key={driver.id} className="hover:bg-slate-50/50 transition-colors">
                                                     <td className="p-4">
-                                                        <div className="font-bold text-slate-900">{driver.name}</div>
-                                                        <div className="text-[10px] text-slate-500">{driver.phone}</div>
-                                                    </td>
-                                                    <td className="p-4 text-slate-500 font-medium">
-                                                        {new Date(driver.createdAt).toLocaleDateString()}
-                                                    </td>
-                                                    <td className="p-4 text-center font-bold text-slate-900">
-                                                        {driver.totalTrips}
-                                                    </td>
-                                                    <td className="p-4 text-right">
-                                                        <span className={cn(
-                                                            "px-2.5 py-1 rounded-full text-[10px] font-black uppercase",
-                                                            driver.status === "VERIFIED"
-                                                                ? "bg-emerald-50 text-emerald-600"
-                                                                : "bg-amber-50 text-amber-600"
-                                                        )}>
-                                                            {driver.status}
-                                                        </span>
+                                                        <div className="font-bold text-slate-900 text-sm">{driver.name}</div>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -242,7 +219,7 @@ export default function DriverReferralsPage() {
                         </div>
 
                         {/* 5% Commission History Logs */}
-                        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                             <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                                 <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
                                     <TrendingUp className="w-5 h-5 text-emerald-600" />
