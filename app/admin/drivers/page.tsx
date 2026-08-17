@@ -172,6 +172,7 @@ export default function AdminDriversPage() {
                                 <tr>
                                     <th className="px-8 py-4">{t("Driver", "ড্রাইভার")}</th>
                                     <th className="px-8 py-4">{t("License / NID", "লাইসেন্স / এনআইডি")}</th>
+                                    <th className="px-8 py-4">{t("Referral Info", "রেফারেল তথ্য")}</th>
                                     <th className="px-8 py-4">{t("Financials", "অর্থনৈতিক বিবরণ")}</th>
                                     <th className="px-8 py-4">{t("Verification", "ভেরিফিকেশন")}</th>
                                     <th className="px-8 py-4">{t("User Status", "ইউজার স্ট্যাটাস")}</th>
@@ -212,6 +213,25 @@ export default function AdminDriversPage() {
                                             <div>
                                                 <p className="font-bold text-slate-900">DL: {driver.licenseNumber || t("N/A", "N/A")}</p>
                                                 <p className="text-[11px] text-slate-500 font-medium">NID: {driver.nidNumber || t("N/A", "N/A")}</p>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-4 text-xs font-medium text-slate-700">
+                                            <div>
+                                                <span className="inline-block px-2 py-0.5 rounded bg-slate-100 font-mono font-bold text-slate-800 text-[11px] border border-slate-200">
+                                                    {driver.referralCode || "—"}
+                                                </span>
+                                                {driver.referredBy ? (
+                                                    <p className="text-[11px] text-slate-600 font-medium mt-1">
+                                                        Ref by: <span className="font-bold text-slate-900">{driver.referredBy?.user?.name || "Driver"}</span> ({driver.referredBy?.user?.phone})
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-[11px] text-slate-400 font-medium mt-1">Direct Signup</p>
+                                                )}
+                                                {(driver.referralEarnings || 0) > 0 && (
+                                                    <p className="text-[10px] font-black text-emerald-600 mt-0.5">
+                                                        +৳{(driver.referralEarnings || 0).toLocaleString()} 5% bonus
+                                                    </p>
+                                                )}
                                             </div>
                                         </td>
                                         <td className="px-8 py-4 text-xs">

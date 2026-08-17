@@ -20,7 +20,8 @@ import {
     Globe,
     DollarSign,
     Wallet,
-    MapPin
+    MapPin,
+    Gift
 } from "lucide-react";
 import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
@@ -48,6 +49,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Overview", href: "/admin", icon: LayoutDashboard, bn: "ওভারভিউ" },
             { name: "Bookings", href: "/admin/bookings", icon: Package, bn: "বুকিং" },
             { name: "Drivers", href: "/admin/drivers", icon: Truck, bn: "ড্রাইভার" },
+            { name: "Driver Referrals", href: "/admin/referrals", icon: Gift, bn: "ড্রাইভার রেফারেল" },
             { name: "Trucks", href: "/admin/trucks", icon: Truck, bn: "ট্রাক" },
             { name: "Users", href: "/admin/users", icon: Users, bn: "ইউজার" },
             { name: "Agents", href: "/admin/agents", icon: Users, bn: "এজেন্ট" },
@@ -64,6 +66,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "My Bookings", href: "/driver/bookings", icon: Package, bn: "আমার বুকিং" },
             { name: "Payments", href: "/driver/payments", icon: DollarSign, bn: "পেমেন্ট" },
             { name: "Earnings", href: "/driver/earnings", icon: FileText, bn: "উপার্জন" },
+            { name: "Refer & Earn", href: "/driver/referrals", icon: Gift, bn: "রেফারেল কমিশন" },
             { name: "Notifications", href: "/driver/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/driver/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Settings", href: "/driver/settings", icon: Settings, bn: "সেটিংস" },

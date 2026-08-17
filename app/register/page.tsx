@@ -30,10 +30,15 @@ function RegisterForm() {
     const [resendingOtp, setResendingOtp] = useState(false);
     const [countdown, setCountdown] = useState(60);
 
-    // Sync role from URL
+    // Sync role & referral code from URL
     useEffect(() => {
         const role = searchParams.get("role");
-        if (role === "driver") {
+        const ref = searchParams.get("ref") || searchParams.get("referralCode");
+
+        if (ref) {
+            setSelectedRole("driver");
+            setFormData(prev => ({ ...prev, referralCode: ref.toUpperCase() }));
+        } else if (role === "driver") {
             setSelectedRole("driver");
         } else if (role === "user") {
             setSelectedRole("user");
@@ -65,6 +70,7 @@ function RegisterForm() {
         agentId: "",
         nidNumber: "",
         dateOfBirth: "",
+        referralCode: "",
         agree: false,
     });
 
@@ -122,6 +128,7 @@ function RegisterForm() {
                 role: roleMap[selectedRole as keyof typeof roleMap],
                 licenseNumber: selectedRole === "driver" ? formData.licenseNumber : undefined,
                 experience: selectedRole === "driver" ? Number(formData.experience) : undefined,
+                referralCode: selectedRole === "driver" ? (formData.referralCode ? formData.referralCode.trim().toUpperCase() : undefined) : undefined,
             };
 
             const { data } = await api.post("/auth/register", payload);
@@ -326,6 +333,23 @@ function RegisterForm() {
                                                         onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                                                         placeholder="e.g. 5"
                                                         className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-bold text-slate-950 flex items-center justify-between">
+                                                        <span>{t("Referral Code (Optional)", "রেফারেল কোড (ঐচ্ছিক)")}</span>
+                                                        {formData.referralCode && (
+                                                            <span className="text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                                                                ✓ {t("Referral Applied", "রেফারেল যুক্ত হয়েছে")}
+                                                            </span>
+                                                        )}
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.referralCode}
+                                                        onChange={(e) => setFormData({ ...formData, referralCode: e.target.value.toUpperCase() })}
+                                                        placeholder={t("e.g. DRV-X7K9P2", "যেমন: DRV-X7K9P2")}
+                                                        className="w-full h-12 md:h-14 bg-gray-50 border-none rounded-lg md:rounded-xl px-4 md:px-6 text-slate-900 font-bold placeholder:font-normal placeholder:text-slate-400 focus:ring-2 focus:ring-primary/20 outline-none transition-all uppercase tracking-wider"
                                                     />
                                                 </div>
                                             </>
