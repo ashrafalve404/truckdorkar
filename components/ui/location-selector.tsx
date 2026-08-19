@@ -24,9 +24,11 @@ interface NativeSelectProps {
     placeholder: string;
     disabled?: boolean;
     compact?: boolean;
+    isDivisionSelect?: boolean;
 }
 
-function NativeSelect({ value, onChange, options, placeholder, disabled, compact }: NativeSelectProps) {
+function NativeSelect({ value, onChange, options, placeholder, disabled, compact, isDivisionSelect }: NativeSelectProps) {
+    const { t } = useLanguage();
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -60,23 +62,40 @@ function NativeSelect({ value, onChange, options, placeholder, disabled, compact
                 <ChevronDown className={cn("w-4 h-4 shrink-0 text-slate-700 transition-transform duration-200", open && "rotate-180")} />
             </button>
             {open && (
-                <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white border border-slate-100 rounded-xl shadow-2xl overflow-y-auto max-h-52 scrollbar-hide">
-                    {options.map(opt => (
-                        <button
-                            key={opt}
-                            type="button"
-                            onClick={() => { onChange(opt); setOpen(false); }}
-                            className={cn(
-                                "w-full text-left px-4 py-2.5 text-sm font-medium transition-all flex items-center justify-between",
-                                opt === value
-                                    ? "bg-primary/10 text-primary"
-                                    : "hover:bg-slate-50 text-slate-700"
-                            )}
-                        >
-                            {opt}
-                            {opt === value && <Check className="w-3.5 h-3.5 text-primary shrink-0" />}
-                        </button>
-                    ))}
+                <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white border border-slate-100 rounded-xl shadow-2xl overflow-y-auto max-h-52 scrollbar-hide min-w-[170px]">
+                    {options.map(opt => {
+                        const isOptionDisabled = isDivisionSelect && opt !== "Dhaka";
+                        return (
+                            <button
+                                key={opt}
+                                type="button"
+                                disabled={isOptionDisabled}
+                                onClick={() => {
+                                    if (!isOptionDisabled) {
+                                        onChange(opt);
+                                        setOpen(false);
+                                    }
+                                }}
+                                className={cn(
+                                    "w-full text-left px-4 py-2.5 text-xs sm:text-sm font-medium transition-all flex items-center justify-between gap-2",
+                                    isOptionDisabled
+                                        ? "opacity-40 cursor-not-allowed bg-slate-50 text-slate-400 select-none"
+                                        : opt === value
+                                            ? "bg-primary/10 text-primary font-bold"
+                                            : "hover:bg-slate-50 text-slate-700"
+                                )}
+                            >
+                                <span className="truncate">{opt}</span>
+                                {isOptionDisabled ? (
+                                    <span className="text-[9px] font-black text-slate-400 bg-slate-200/60 px-1.5 py-0.5 rounded shrink-0">
+                                        {t("Soon", "শিগগিরই")}
+                                    </span>
+                                ) : (
+                                    opt === value && <Check className="w-3.5 h-3.5 text-primary shrink-0" />
+                                )}
+                            </button>
+                        );
+                    })}
                 </div>
             )}
         </div>
@@ -208,6 +227,7 @@ export function LocationSelector({
                         onChange={handleDivisionChange}
                         options={divisions}
                         placeholder={t("Division", "বিভাগ")}
+                        isDivisionSelect
                         compact
                     />
                     <NativeSelect
@@ -312,6 +332,7 @@ export function LocationSelector({
                     onChange={handleDivisionChange}
                     options={divisions}
                     placeholder={t("Select Division", "বিভাগ বেছে নিন")}
+                    isDivisionSelect
                 />
                 <NativeSelect
                     value={district}
