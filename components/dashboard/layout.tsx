@@ -19,7 +19,8 @@ import {
     Wallet,
     Search,
     Briefcase,
-    Bell
+    Bell,
+    MapPin
 } from "lucide-react";
 
 interface DashboardLayoutProps {
@@ -31,16 +32,17 @@ const getMobileNavItems = (role?: string) => {
     if (role === "USER") {
         return [
             { href: "/dashboard", icon: LayoutDashboard, label_en: "Home", label_bn: "হোম" },
-            { href: "/bookings", icon: Package, label_en: "My Trips", label_bn: "আমার ট্রিপস" },
-            { href: "/bookings/new", icon: PlusCircle, label_en: "Book Truck", label_bn: "বুকিং" },
+            { href: "/bookings", icon: Package, label_en: "My Trips", label_bn: "মাই ট্রিপস" },
+            { href: "/bookings/new", icon: PlusCircle, label_en: "Book Truck", label_bn: "বুকিং", isFab: true },
+            { href: "/track", icon: MapPin, label_en: "Tracking", label_bn: "ট্র্যাকিং" },
             { href: "/profile", icon: User, label_en: "Profile", label_bn: "প্রোফাইল" },
         ];
     }
     if (role === "DRIVER") {
         return [
             { href: "/driver/dashboard", icon: LayoutDashboard, label_en: "Overview", label_bn: "হোম" },
-            { href: "/driver/jobs", icon: Search, label_en: "Find Trips", label_bn: "ট্রিপ খুঁজুন" },
             { href: "/driver/bookings", icon: Package, label_en: "My Trips", label_bn: "ট্রিপস" },
+            { href: "/driver/jobs", icon: Search, label_en: "Find Trips", label_bn: "ট্রিপ খুঁজুন", isFab: true },
             { href: "/driver/earnings", icon: Wallet, label_en: "Earnings", label_bn: "আয়" },
             { href: "/driver/settings", icon: User, label_en: "Profile", label_bn: "প্রোফাইল" },
         ];
@@ -166,21 +168,47 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
 
             {/* Mobile Bottom Navigation Bar */}
             {mobileNavItems.length > 0 && (
-                <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 py-1.5 flex items-center justify-around">
-                    {mobileNavItems.map((item) => {
+                <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-2 py-1 flex items-end justify-around">
+                    {mobileNavItems.map((item: any) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href || (
-                            item.href !== "/dashboard" && 
-                            item.href !== "/driver/dashboard" && 
-                            item.href !== "/agent/dashboard" && 
+                            item.href !== "/dashboard" &&
+                            item.href !== "/driver/dashboard" &&
+                            item.href !== "/agent/dashboard" &&
                             pathname.startsWith(item.href)
                         );
+
+                        if (item.isFab) {
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className="flex flex-col items-center justify-center -mt-5 group z-50 shrink-0 px-2 pb-1"
+                                >
+                                    <div className={cn(
+                                        "w-13 h-13 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border-4 border-white",
+                                        isActive
+                                            ? "bg-primary text-white shadow-primary/40 scale-110 ring-4 ring-primary/20"
+                                            : "bg-primary text-white shadow-primary/30 group-hover:scale-105"
+                                    )}>
+                                        <Icon className="w-6 h-6 stroke-[2.5]" />
+                                    </div>
+                                    <span className={cn(
+                                        "text-[10px] mt-0.5 font-black whitespace-nowrap px-2 py-0.5 rounded-full transition-colors",
+                                        isActive ? "text-primary bg-primary/10" : "text-slate-800"
+                                    )}>
+                                        {t(item.label_en, item.label_bn)}
+                                    </span>
+                                </Link>
+                            );
+                        }
+
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all duration-200",
+                                    "flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all duration-200",
                                     isActive ? "text-primary font-bold" : "text-slate-500 hover:text-slate-900 font-medium"
                                 )}
                             >
