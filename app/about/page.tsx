@@ -4,8 +4,13 @@ import React from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
-import { ShieldCheck, HeartHandshake, Target, Lightbulb } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import {
+    RiShieldCheckFill,
+    RiHandHeartFill,
+    RiFocus3Fill,
+    RiLightbulbFill
+} from "react-icons/ri";
 
 export default function AboutPage() {
     const { t } = useLanguage();
@@ -16,28 +21,28 @@ export default function AboutPage() {
             bn: "নিরাপত্তা সবার আগে",
             desc_en: "We ensure maximum safety of goods on every trip.",
             desc_bn: "আমরা প্রতিটি ট্রিপে মালামালের সর্বোচ্চ নিরাপত্তা নিশ্চিত করি।",
-            icon: ShieldCheck
+            icon: RiShieldCheckFill
         },
         {
             title: "Customer Trust",
             bn: "গ্রাহকের আস্থা",
             desc_en: "The trust of thousands of customers is our core strength.",
             desc_bn: "হাজারো গ্রাহকের আস্থাই আমাদের এগিয়ে চলার মূল শক্তি।",
-            icon: HeartHandshake
+            icon: RiHandHeartFill
         },
         {
             title: "Our Mission",
             bn: "আমাদের লক্ষ্য",
             desc_en: "To digitize and make the logistics sector of Bangladesh affordable.",
             desc_bn: "বাংলাদেশের লজিস্টিক সেক্টরকে ডিজিটালাইজ করা এবং সাশ্রয়ী করা।",
-            icon: Target
+            icon: RiFocus3Fill
         },
         {
             title: "Innovation",
             bn: "উদ্ভাবন",
             desc_en: "Providing modern solutions to transport problems through technology.",
             desc_bn: "প্রযুক্তির মাধ্যমে পরিবহন সমস্যার আধুনিক সমাধান প্রদান।",
-            icon: Lightbulb
+            icon: RiLightbulbFill
         }
     ];
 
@@ -121,20 +126,25 @@ export default function AboutPage() {
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                            {values.map((v, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: i * 0.1 }}
-                                    viewport={{ once: true }}
-                                    className="p-6 md:p-8 bg-black border border-white/5 hover:border-primary/50 transition-all text-center rounded-md group"
-                                >
-                                    <v.icon className="w-12 h-12 text-primary mx-auto mb-4 md:mb-6 transition-transform group-hover:scale-110 duration-300" />
-                                    <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">{t(v.title, v.bn)}</h3>
-                                    <p className="text-gray-400 text-sm leading-relaxed">{t(v.desc_en, v.desc_bn)}</p>
-                                </motion.div>
-                            ))}
+                            {values.map((v, i) => {
+                                const IconComponent = v.icon;
+                                return (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: i * 0.1 }}
+                                        viewport={{ once: true }}
+                                        className="p-6 md:p-8 bg-black border border-white/5 hover:border-primary/50 transition-all text-center rounded-xl group flex flex-col items-center"
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4 md:mb-6 transition-transform group-hover:scale-110 duration-300">
+                                            <IconComponent className="w-7 h-7" />
+                                        </div>
+                                        <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">{t(v.title, v.bn)}</h3>
+                                        <p className="text-gray-400 text-sm leading-relaxed">{t(v.desc_en, v.desc_bn)}</p>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>

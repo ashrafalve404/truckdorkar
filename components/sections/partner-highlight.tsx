@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Briefcase, ArrowRight, Gift, Percent, Phone, ShieldCheck } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
+import { RiGiftFill, RiPercentFill, RiShieldCheckFill } from "react-icons/ri";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
@@ -55,7 +56,7 @@ export function PartnerHighlight() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                             <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
                                 <div className="w-12 h-12 rounded-xl bg-white/20 group-hover:bg-slate-950 group-hover:border-slate-950 text-white flex items-center justify-center shrink-0 border border-white/10 shadow-sm transition-all duration-300 group-hover:scale-110">
-                                    <Gift className="w-6 h-6" />
+                                    <RiGiftFill className="w-6 h-6" />
                                 </div>
                                 <div className="space-y-1">
                                     <h4 className={cn("font-bold text-white", lang === "bn" ? "text-xs" : "text-sm")}>{t("Daily Bonus", "প্রতিদিন বোনাস")}</h4>
@@ -64,7 +65,7 @@ export function PartnerHighlight() {
                             </div>
                             <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
                                 <div className="w-12 h-12 rounded-xl bg-white/20 group-hover:bg-slate-950 group-hover:border-slate-950 text-white flex items-center justify-center shrink-0 border border-white/10 shadow-sm transition-all duration-300 group-hover:scale-110">
-                                    <Percent className="w-6 h-6" />
+                                    <RiPercentFill className="w-6 h-6" />
                                 </div>
                                 <div className="space-y-1">
                                     <h4 className={cn("font-bold text-white", lang === "bn" ? "text-xs" : "text-sm")}>{t("Trip Commission", "ট্রিপ কমিশন")}</h4>
@@ -103,15 +104,15 @@ export function PartnerHighlight() {
                         <div className="h-0.5 w-12 bg-primary rounded" />
                         <ul className="space-y-4 text-xs md:text-sm text-slate-200 font-medium">
                             <li className="flex items-center gap-3">
-                                <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
+                                <RiShieldCheckFill className="w-5 h-5 text-emerald-500 shrink-0" />
                                 <span>{t("Complete Digital Dashboard Access", "ডিজিটাল ড্যাশবোর্ড ব্যবহারের সুবিধা")}</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
+                                <RiShieldCheckFill className="w-5 h-5 text-emerald-500 shrink-0" />
                                 <span>{t("Grow Your Fleet with Drivers & Agents", "সহজেই বহর ও চালক বৃদ্ধি")}</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
+                                <RiShieldCheckFill className="w-5 h-5 text-emerald-500 shrink-0" />
                                 <span>{t("24/7 dedicated support desk", "২৪/৭ সার্বক্ষণিক হেল্পডেস্ক সমর্থন")}</span>
                             </li>
                         </ul>

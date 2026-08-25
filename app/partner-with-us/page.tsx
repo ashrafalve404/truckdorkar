@@ -7,19 +7,16 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import {
-    Phone,
-    Mail,
-    Gift,
-    TrendingUp,
-    CheckCircle2,
-    ArrowRight,
-    Briefcase,
-    ShieldCheck,
-    Wallet,
-    Percent,
-    PhoneCall,
-    Truck
-} from "lucide-react";
+    RiGiftFill,
+    RiPercentFill,
+    RiFundsBoxFill,
+    RiPhoneFill,
+    RiWallet3Fill,
+    RiTruckFill,
+    RiMailFill,
+    RiCheckboxCircleFill,
+    RiArrowRightLine
+} from "react-icons/ri";
 import Link from "next/link";
 
 export default function PartnerWithUsPage() {
@@ -27,7 +24,7 @@ export default function PartnerWithUsPage() {
 
     const benefits = [
         {
-            icon: Gift,
+            icon: RiGiftFill,
             title_en: "Daily Bonus",
             title_bn: "প্রতিদিন বোনাস",
             desc_en: "Receive 200 TK direct balance top-up every day as an active Truck Dorkar agent.",
@@ -35,7 +32,7 @@ export default function PartnerWithUsPage() {
             color: "bg-blue-600"
         },
         {
-            icon: Percent,
+            icon: RiPercentFill,
             title_en: "Company Commission",
             title_bn: "কোম্পানি কমিশন",
             desc_en: "Get a dedicated commission from the company for every successful trip made by your drivers.",
@@ -43,7 +40,7 @@ export default function PartnerWithUsPage() {
             color: "bg-green-600"
         },
         {
-            icon: TrendingUp,
+            icon: RiFundsBoxFill,
             title_en: "Passive Income",
             title_bn: "প্যাসিভ ইনকাম",
             desc_en: "Build a fleet and earn continuously without active participation in every booking.",
@@ -54,21 +51,21 @@ export default function PartnerWithUsPage() {
 
     const steps = [
         {
-            icon: PhoneCall,
+            icon: RiPhoneFill,
             title_en: "Admin Contact",
             title_bn: "অ্যাডমিন যোগাযোগ",
             desc_en: "Call our official number to start your partnership request.",
             desc_bn: "পার্টনারশিপ শুরু করতে আমাদের অফিসিয়াল নম্বরে কল দিন।"
         },
         {
-            icon: Wallet,
+            icon: RiWallet3Fill,
             title_en: "Fee Settlement",
             title_bn: "ফি প্রদান",
             desc_en: "Complete the 100,000 TK registration fee to activate your dashboard.",
             desc_bn: "আপনার ড্যাশবোর্ড সক্রিয় করতে ১,০০,০০০ টাকা এককালীন ফি পরিশোধ করুন।"
         },
         {
-            icon: Truck,
+            icon: RiTruckFill,
             title_en: "Fleet Building",
             title_bn: "রিসোর্স ম্যানেজমেন্ট",
             desc_en: "Add trucks and drivers to start receiving daily and trip earnings.",
@@ -115,13 +112,13 @@ export default function PartnerWithUsPage() {
                         >
                             <a href="tel:01826-110036">
                                 <Button className="h-14 px-8 rounded-lg font-black text-base gap-3 bg-primary text-white shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
-                                    <Phone className="w-5 h-5" />
+                                    <RiPhoneFill className="w-5 h-5" />
                                     {t("Call Admin", "অ্যাডমিনকে কল করুন")}
                                 </Button>
                             </a>
                             <a href="mailto:contact@truckdorkar.com">
                                 <Button variant="outline" className="h-14 px-8 rounded-lg font-black text-base gap-3 border-2 border-white hover:bg-white/10 transition-all text-black">
-                                    <Mail className="w-5 h-5 text-primary" />
+                                    <RiMailFill className="w-5 h-5 text-primary" />
                                     {t("Email Us", "ইমেইল করুন")}
                                 </Button>
                             </a>
@@ -133,9 +130,9 @@ export default function PartnerWithUsPage() {
                 <section className="py-20 container mx-auto px-6 lg:px-12">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {benefits.map((benefit, idx) => (
-                            <div key={idx} className="bg-white p-8 rounded-lg border border-slate-200 shadow-sm transition-all hover:shadow-md">
-                                <div className={`w-12 h-12 rounded-lg ${benefit.color} text-white flex items-center justify-center mb-6`}>
-                                    <benefit.icon className="w-6 h-6" />
+                            <div key={idx} className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm transition-all hover:shadow-md group">
+                                <div className={`w-14 h-14 rounded-2xl ${benefit.color} text-white flex items-center justify-center mb-6 shadow-md transition-transform group-hover:scale-110`}>
+                                    <benefit.icon className="w-7 h-7" />
                                 </div>
                                 <h3 className="text-xl font-black text-slate-900 mb-3">
                                     {t(benefit.title_en, benefit.title_bn)}
@@ -164,7 +161,7 @@ export default function PartnerWithUsPage() {
                                         { en: "Full Digital Dashboard Access", bn: "ডিজিটাল ড্যাশবোর্ড ব্যবহারের সুবিধা" }
                                     ].map((item, i) => (
                                         <div key={i} className="flex items-center gap-3">
-                                            <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0" />
+                                            <RiCheckboxCircleFill className="w-4 h-4 text-green-400 shrink-0" />
                                             <span className="text-sm text-slate-300">{t(item.en, item.bn)}</span>
                                         </div>
                                     ))}
@@ -177,13 +174,13 @@ export default function PartnerWithUsPage() {
                                 <div className="space-y-2">
                                     <a href="tel:01826-110036" className="block">
                                         <Button variant="default" className="w-full h-10 rounded-lg font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center gap-2">
-                                            <Phone className="w-3.5 h-3.5" />
+                                            <RiPhoneFill className="w-3.5 h-3.5" />
                                             {t("Call Admin", "অ্যাডমিনকে কল করুন")}
                                         </Button>
                                     </a>
                                     <a href="mailto:contact@truckdorkar.com" className="block">
                                         <Button variant="outline" className="w-full h-10 rounded-lg font-bold text-xs border-slate-200 text-slate-700 hover:bg-slate-100 flex items-center justify-center gap-2">
-                                            <Mail className="w-3.5 h-3.5 text-primary" />
+                                            <RiMailFill className="w-3.5 h-3.5 text-primary" />
                                             {t("Email Us", "ইমেইল করুন")}
                                         </Button>
                                     </a>
