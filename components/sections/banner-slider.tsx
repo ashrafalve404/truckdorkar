@@ -40,6 +40,17 @@ const banners: Banner[] = [
         ctaBn: "এখনই যোগ দিন",
         color: "from-slate-800 to-black",
     },
+    {
+        id: 3,
+        image: "/images/slidingbanner03.webp",
+        titleEn: "Reliable Truck Booking",
+        titleBn: "বিশ্বস্ত ট্রাক বুকিং",
+        subtitleEn: "Book trucks anytime with transparent pricing and verified drivers.",
+        subtitleBn: "স্বচ্ছ ভাড়া এবং ভেরিফাইড ড্রাইভারসহ যখন খুশি ট্রাক বুক করুন।",
+        ctaEn: "Book Now",
+        ctaBn: "এখনই বুক করুন",
+        color: "from-blue-600 to-blue-800",
+    },
 ];
 
 export function BannerSlider() {
