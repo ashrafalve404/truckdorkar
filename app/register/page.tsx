@@ -7,7 +7,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import Link from "next/link";
-import { Eye, EyeOff, ArrowLeft, User, Truck, Loader2, PhoneCall, KeyRound, RefreshCw } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, Loader2, PhoneCall, KeyRound, RefreshCw } from "lucide-react";
+import { RiUser3Fill, RiTruckFill } from "react-icons/ri";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/store/use-auth";
 import api from "@/lib/api";
@@ -77,7 +78,7 @@ function RegisterForm() {
     const roles = [
         {
             id: "user" as const,
-            icon: User,
+            icon: RiUser3Fill,
             title_en: "Normal User",
             title_bn: "সাধারণ ব্যবহারকারী",
             desc_en: "Book trucks for personal or business needs",
@@ -85,7 +86,7 @@ function RegisterForm() {
         },
         {
             id: "driver" as const,
-            icon: Truck,
+            icon: RiTruckFill,
             title_en: "Truck Driver",
             title_bn: "ট্রাক ড্রাইভার",
             desc_en: "Register as a driver to get booking requests",
