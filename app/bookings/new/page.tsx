@@ -303,18 +303,31 @@ function BookingContent() {
         return id.toLowerCase().includes("cover") ? "/icons/3ton12feetcovericon.webp" : "/icons/3ton12feeticon.webp";
     };
 
+    const isSelectableForBooking = (item: { value?: string; id?: string; label?: string; nameEn?: string }) => {
+        const val = (item.value || item.id || "").toUpperCase();
+        const name = (item.label || item.nameEn || "").toLowerCase();
+
+        // Remove 1 Ton 9 Feet
+        if (val.includes("T1_OPEN_9FT") || val.includes("T1_COVER_9FT")) return false;
+        if (name.includes("1 ton") && (name.includes("9 ft") || name.includes("9 feet") || name.includes("9ft"))) return false;
+
+        // Remove 1.5 Ton 12 Feet / 10-12 Feet
+        if (val.includes("T1_5_OPEN_12FT") || val.includes("T1_5_COVER_12FT") || val.includes("T1_5_OPEN_10_12FT") || val.includes("T1_5_COVER_10_12FT")) return false;
+        if ((name.includes("1.5 ton") || name.includes("1.5ton")) && (name.includes("12") || name.includes("10/12"))) return false;
+
+        return true;
+    };
+
     const FALLBACK_TYPES = [
-        { value: "T1_OPEN_7_9FT", label: t("1 Ton Open 7/9 Ft", "১ টন খোলা ৭/৯ ফিট ট্রাক"), icon: STATIC_ICONS.T1_OPEN_7_9FT },
-        { value: "T1_COVER_7_9FT", label: t("1 Ton Cover 7/9 Ft", "১ টন কাভার ৭/৯ ফিট ট্রাক"), icon: STATIC_ICONS.T1_COVER_7_9FT },
-        { value: "T1_5_OPEN_10_12FT", label: t("1.5 Ton Open 10/12 Ft", "১.৫ টন খোলা ১০/১২ ফিট ট্রাক"), icon: STATIC_ICONS.T1_5_OPEN_10_12FT },
-        { value: "T1_5_COVER_10_12FT", label: t("1.5 Ton Cover 10/12 Ft", "১.৫ টন কাভার ১০/১২ ফিট ট্রাক"), icon: STATIC_ICONS.T1_5_COVER_10_12FT },
+        { value: "T1_OPEN_7_9FT", label: t("1 Ton Open 7 Ft", "১ টন খোলা ৭ ফিট ট্রাক"), icon: STATIC_ICONS.T1_OPEN_7_9FT },
+        { value: "T1_COVER_7_9FT", label: t("1 Ton Cover 7 Ft", "১ টন কাভার ৭ ফিট ট্রাক"), icon: STATIC_ICONS.T1_COVER_7_9FT },
         { value: "T3_OPEN_16_14FT", label: t("3 Ton Open 14/16 Ft", "৩ টন খোলা ১৪/১৬ ফিট ট্রাক"), icon: STATIC_ICONS.T3_OPEN_16_14FT },
         { value: "T3_COVER_16_14FT", label: t("3 Ton Cover 14/16 Ft", "৩ টন কাভার ১৪/১৬ ফিট ট্রাক"), icon: STATIC_ICONS.T3_COVER_16_14FT },
     ];
 
-    const truckTypes = dynamicFares.length > 0
+    const truckTypes = (dynamicFares.length > 0
         ? dynamicFares.map(f => ({ value: f.id, label: t(f.nameEn, f.nameBn), icon: getFareIcon(f.id) }))
-        : FALLBACK_TYPES;
+        : FALLBACK_TYPES).filter(isSelectableForBooking);
 
 
     const handleSubmit = async (e: React.FormEvent) => {

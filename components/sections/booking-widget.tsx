@@ -44,13 +44,26 @@ export function BookingWidget() {
         return "/icons/3ton12feeticon.webp";
     };
 
+    const isSelectableForBooking = (item: { value?: string; id?: string; en?: string; nameEn?: string; label?: string }) => {
+        const val = (item.value || item.id || "").toUpperCase();
+        const name = (item.en || item.nameEn || item.label || "").toLowerCase();
+
+        // Remove 1 Ton 9 Feet
+        if (val.includes("T1_OPEN_9FT") || val.includes("T1_COVER_9FT")) return false;
+        if (name.includes("1 ton") && (name.includes("9 ft") || name.includes("9 feet") || name.includes("9ft"))) return false;
+
+        // Remove 1.5 Ton 12 Feet / 10-12 Feet
+        if (val.includes("T1_5_OPEN_12FT") || val.includes("T1_5_COVER_12FT") || val.includes("T1_5_OPEN_10_12FT") || val.includes("T1_5_COVER_10_12FT")) return false;
+        if ((name.includes("1.5 ton") || name.includes("1.5ton")) && (name.includes("12") || name.includes("10/12"))) return false;
+
+        return true;
+    };
+
     const FALLBACK_TRUCKS = [
         { value: "T1_OPEN_7FT", en: "1 Ton Open 7 Ft", bn: "১ টন খোলা ৭ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_OPEN_7FT },
         { value: "T1_COVER_7FT", en: "1 Ton Cover 7 Ft", bn: "১ টন কাভার ৭ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_COVER_7FT },
-        { value: "T1_OPEN_9FT", en: "1 Ton Open 9 Ft", bn: "১ টন খোলা ৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_OPEN_9FT },
-        { value: "T1_COVER_9FT", en: "1 Ton Cover 9 Ft", bn: "১ টন কাভার ৯ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_COVER_9FT },
-        { value: "T1_5_OPEN_12FT", en: "1.5 Ton Open 12 Ft", bn: "১.৫ টন খোলা ১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_OPEN_12FT },
-        { value: "T1_5_COVER_12FT", en: "1.5 Ton Cover 12 Ft", bn: "১.৫ টন কাভার ১২ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_5_COVER_12FT },
+        { value: "T3_OPEN_16_14FT", en: "3 Ton Open 14/16 Ft", bn: "৩ টন খোলা ১৪/১৬ ফিট ট্রাক", icon: "/icons/3ton12feeticon.webp" },
+        { value: "T3_COVER_16_14FT", en: "3 Ton Cover 14/16 Ft", bn: "৩ টন কাভার ১৪/১৬ ফিট ট্রাক", icon: "/icons/3ton12feetcovericon.webp" },
     ];
 
     const [dynamicTrucks, setDynamicTrucks] = useState<any[]>([]);
@@ -62,7 +75,7 @@ export function BookingWidget() {
                 const meta = response.data?.data?.metaJson || {};
                 const list = meta.truckFares;
                 if (Array.isArray(list) && list.length > 0) {
-                    const active = list.filter((tc: any) => tc.isActive !== false);
+                    const active = list.filter((tc: any) => tc.isActive !== false && isSelectableForBooking({ id: tc.id, nameEn: tc.nameEn }));
                     setDynamicTrucks(active.map((tc: any) => ({
                         value: tc.id,
                         en: tc.nameEn,
@@ -78,7 +91,7 @@ export function BookingWidget() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const truckTypes = dynamicTrucks.length > 0 ? dynamicTrucks : FALLBACK_TRUCKS;
+    const truckTypes = (dynamicTrucks.length > 0 ? dynamicTrucks : FALLBACK_TRUCKS).filter(isSelectableForBooking);
 
 
     useEffect(() => {

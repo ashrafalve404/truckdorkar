@@ -45,13 +45,24 @@ export function Fleet() {
     const fallbacks: TruckFareInfo[] = [
         { id: "T1_OPEN_7FT", nameEn: "1 Ton Open 7 Ft Truck", nameBn: "১ টন খোলা ৭ ফিট ট্রাক", minFare10km: 1000 },
         { id: "T1_COVER_7FT", nameEn: "1 Ton Cover 7 Ft Truck", nameBn: "১ টন কাভার ৭ ফিট ট্রাক", minFare10km: 1000 },
-        { id: "T1_OPEN_9FT", nameEn: "1 Ton Open 9 Ft Truck", nameBn: "১ টন খোলা ৯ ফিট ট্রাক", minFare10km: 1200 },
-        { id: "T1_COVER_9FT", nameEn: "1 Ton Cover 9 Ft Truck", nameBn: "১ টন কাভার ৯ ফিট ট্রাক", minFare10km: 1200 },
-        { id: "T1_5_OPEN_12FT", nameEn: "1.5 Ton Open 12 Ft Truck", nameBn: "১.৫ টন খোলা ১২ ফিট ট্রাক", minFare10km: 1500 },
-        { id: "T1_5_COVER_12FT", nameEn: "1.5 Ton Cover 12 Ft Truck", nameBn: "১.৫ টন কাভার ১২ ফিট ট্রাক", minFare10km: 1500 },
+        { id: "T3_OPEN_16_14FT", nameEn: "3 Ton Open 14/16 Ft Truck", nameBn: "৩ টন খোলা ১৪/১৬ ফিট ট্রাক", minFare10km: 2500 },
+        { id: "T3_COVER_16_14FT", nameEn: "3 Ton Cover 14/16 Ft Truck", nameBn: "৩ টন কাভার ১৪/১৬ ফিট ট্রাক", minFare10km: 2500 },
     ];
 
-    const displayTrucks = fleetTrucks.length > 0 ? fleetTrucks : fallbacks;
+    const isSelectableForBooking = (item: { id?: string; nameEn?: string }) => {
+        const val = (item.id || "").toUpperCase();
+        const name = (item.nameEn || "").toLowerCase();
+
+        if (val.includes("T1_OPEN_9FT") || val.includes("T1_COVER_9FT")) return false;
+        if (name.includes("1 ton") && (name.includes("9 ft") || name.includes("9 feet") || name.includes("9ft"))) return false;
+
+        if (val.includes("T1_5_OPEN_12FT") || val.includes("T1_5_COVER_12FT") || val.includes("T1_5_OPEN_10_12FT") || val.includes("T1_5_COVER_10_12FT")) return false;
+        if ((name.includes("1.5 ton") || name.includes("1.5ton")) && (name.includes("12") || name.includes("10/12"))) return false;
+
+        return true;
+    };
+
+    const displayTrucks = (fleetTrucks.length > 0 ? fleetTrucks : fallbacks).filter(isSelectableForBooking);
 
     const getTruckImage = (id: string, name: string) => {
         // Standard matches
