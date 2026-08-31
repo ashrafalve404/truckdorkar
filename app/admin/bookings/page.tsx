@@ -9,7 +9,8 @@ import {
     Filter,
     Calendar,
     Trash2,
-    Phone
+    Phone,
+    Truck
 } from "lucide-react";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ interface BookingRow {
     dropAddress: string;
     scheduledAt: string | null;
     status: string;
+    truckType?: string | null;
     estimatedFare: number | null;
     finalFare: number | null;
     companyCommission?: number | null;
@@ -32,6 +34,7 @@ interface BookingRow {
     distance?: number | null;
     contactPhone?: string | null;
     user: { name: string | null; phone: string | null } | null;
+    truck?: { name: string | null; category: string | null; registrationNo: string | null } | null;
 }
 
 export default function AdminBookingsPage() {
@@ -150,85 +153,100 @@ export default function AdminBookingsPage() {
                         <table className="w-full text-left">
                             <thead className="bg-slate-50 border-b border-slate-100">
                                 <tr className="text-[10px] font-black text-slate-950 uppercase tracking-widest">
-                                    <th className="px-8 py-4">{t("ID & Customer", "আইডি ও কাস্টমার")}</th>
-                                    <th className="px-8 py-4">{t("Route", "রাস্তা")}</th>
-                                    <th className="px-8 py-4">{t("Distance", "দূরত্ব")}</th>
-                                    <th className="px-8 py-4">{t("Date", "তারিখ")}</th>
-                                    <th className="px-8 py-4">{t("Price", "মূল্য")}</th>
-                                    <th className="px-8 py-4">{t("Status", "স্ট্যাটাস")}</th>
-                                    <th className="px-8 py-4 text-right">{t("Actions", "অ্যাকশন")}</th>
+                                    <th className="px-6 py-4">{t("ID & Customer", "আইডি ও কাস্টমার")}</th>
+                                    <th className="px-6 py-4">{t("Truck Type", "গাড়ির ধরন")}</th>
+                                    <th className="px-6 py-4">{t("Route", "রাস্তা")}</th>
+                                    <th className="px-6 py-4">{t("Distance", "দূরত্ব")}</th>
+                                    <th className="px-6 py-4">{t("Date", "তারিখ")}</th>
+                                    <th className="px-6 py-4">{t("Price", "মূল্য")}</th>
+                                    <th className="px-6 py-4">{t("Status", "স্ট্যাটাস")}</th>
+                                    <th className="px-6 py-4 text-right">{t("Actions", "অ্যাকশন")}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
-                                {filteredBookings.map((booking) => (
-                                    <tr key={booking.id} className="hover:bg-slate-50/50 transition-all">
-                                        <td className="px-8 py-4">
-                                            <div>
-                                                <p className="font-black text-primary text-xs mb-1">#{booking.bookingNumber}</p>
-                                                <p className="font-bold text-slate-950">{booking.user?.name || "—"}</p>
-                                                <p className="text-[10px] text-slate-700 font-bold">{booking.user?.phone || "—"}</p>
-                                                {booking.contactPhone && (
-                                                    <a href={`tel:${booking.contactPhone}`} className="flex items-center gap-1 text-[10px] text-primary font-bold hover:underline mt-0.5">
-                                                        <Phone className="w-2.5 h-2.5" />
-                                                        {booking.contactPhone}
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-4">
-                                            <div className="flex flex-col gap-1">
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                                    {booking.pickupAddress}
-                                                </div>
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                                                    {booking.dropAddress}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-4 text-xs font-bold text-slate-800">
-                                            {booking.distance ? `${booking.distance} KM` : "—"}
-                                        </td>
-                                        <td className="px-8 py-4 text-xs font-bold text-slate-800">
-                                            <div className="flex items-center gap-2">
-                                                <Calendar className="w-3.5 h-3.5" />
-                                                {booking.scheduledAt ? new Date(booking.scheduledAt).toLocaleDateString() : "—"}
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-4">
-                                            <p className="font-black text-slate-950">৳{booking.finalFare ?? booking.estimatedFare ?? 0}</p>
-                                            {booking.status === 'COMPLETED' && booking.companyCommission != null && (
-                                                <div className="mt-1 space-y-0.5">
-                                                    <p className="text-[10px] font-bold text-green-600">+৳{booking.companyCommission.toFixed(2)} {t("Company", "কোম্পানি")}</p>
-                                                    {booking.agentCommission != null && booking.agentCommission > 0 && (
-                                                        <p className="text-[10px] font-bold text-cyan-600">+৳{booking.agentCommission.toFixed(2)} {t("Agent", "এজেন্ট")}</p>
+                                {filteredBookings.map((booking) => {
+                                    const truckTypeLabel = booking.truckType
+                                        ? booking.truckType.replace(/_/g, " ").toUpperCase()
+                                        : booking.truck?.category
+                                            ? booking.truck.category.replace(/_/g, " ").toUpperCase()
+                                            : booking.truck?.name || "Standard Truck";
+
+                                    return (
+                                        <tr key={booking.id} className="hover:bg-slate-50/50 transition-all">
+                                            <td className="px-6 py-4">
+                                                <div>
+                                                    <p className="font-black text-primary text-xs mb-1">#{booking.bookingNumber}</p>
+                                                    <p className="font-bold text-slate-950">{booking.user?.name || "—"}</p>
+                                                    <p className="text-[10px] text-slate-700 font-bold">{booking.user?.phone || "—"}</p>
+                                                    {booking.contactPhone && (
+                                                        <a href={`tel:${booking.contactPhone}`} className="flex items-center gap-1 text-[10px] text-primary font-bold hover:underline mt-0.5">
+                                                            <Phone className="w-2.5 h-2.5" />
+                                                            {booking.contactPhone}
+                                                        </a>
                                                     )}
                                                 </div>
-                                            )}
-                                        </td>
-                                        <td className="px-8 py-4">
-                                            <span className={cn(
-                                                "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider",
-                                                getStatusColor(booking.status)
-                                            )}>
-                                                {booking.status}
-                                            </span>
-                                        </td>
-                                        <td className="px-8 py-4 text-right">
-                                            <div className="flex items-center justify-end gap-2">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50"
-                                                    onClick={() => setDeleteModal({ open: true, id: booking.id, num: booking.bookingNumber })}
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-900 text-xs font-extrabold px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs">
+                                                    <Truck className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                    <span>{truckTypeLabel}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex flex-col gap-1">
+                                                    <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                                                        {booking.pickupAddress}
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                                                        {booking.dropAddress}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-xs font-bold text-slate-800">
+                                                {booking.distance ? `${booking.distance} KM` : "—"}
+                                            </td>
+                                            <td className="px-6 py-4 text-xs font-bold text-slate-800">
+                                                <div className="flex items-center gap-2">
+                                                    <Calendar className="w-3.5 h-3.5" />
+                                                    {booking.scheduledAt ? new Date(booking.scheduledAt).toLocaleDateString() : "—"}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <p className="font-black text-slate-950">৳{booking.finalFare ?? booking.estimatedFare ?? 0}</p>
+                                                {booking.status === 'COMPLETED' && booking.companyCommission != null && (
+                                                    <div className="mt-1 space-y-0.5">
+                                                        <p className="text-[10px] font-bold text-green-600">+৳{booking.companyCommission.toFixed(2)} {t("Company", "কোম্পানি")}</p>
+                                                        {booking.agentCommission != null && booking.agentCommission > 0 && (
+                                                            <p className="text-[10px] font-bold text-cyan-600">+৳{booking.agentCommission.toFixed(2)} {t("Agent", "এজেন্ট")}</p>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={cn(
+                                                    "text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider",
+                                                    getStatusColor(booking.status)
+                                                )}>
+                                                    {booking.status}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50"
+                                                        onClick={() => setDeleteModal({ open: true, id: booking.id, num: booking.bookingNumber })}
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>
