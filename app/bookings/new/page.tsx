@@ -9,16 +9,19 @@ import {
     ArrowRight,
     Loader2,
     LocateFixed,
-    TrendingUp,
-    Phone,
     ChevronDown,
-    Calendar as CalendarIcon,
-    Truck,
-    Package,
-    Weight,
-    Banknote,
-    FileText
 } from "lucide-react";
+import {
+    RiPhoneFill,
+    RiCalendarEventFill,
+    RiTruckFill,
+    RiBox3Fill,
+    RiScales3Fill,
+    RiMoneyDollarCircleFill,
+    RiFileTextFill,
+    RiLineChartFill,
+    RiMapPinFill
+} from "react-icons/ri";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -480,7 +483,7 @@ function BookingContent() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <CalendarIcon className="w-4 h-4 text-primary" />
+                                                <RiCalendarEventFill className="w-4 h-4 text-primary shrink-0" />
                                                 {t("Booking Date", "বুকিংয়ের তারিখ")}
                                                 <span className="text-red-500 ml-1">*</span>
                                             </label>
@@ -490,7 +493,7 @@ function BookingContent() {
                                                         <span className={cn("font-normal", formData.scheduledAt ? "text-slate-900" : "text-slate-400")}>
                                                             {formData.scheduledAt ? format(new Date(formData.scheduledAt), "PPP") : t("Select Booking Date", "বুকিংয়ের তারিখ")}
                                                         </span>
-                                                        <CalendarIcon className="w-4 h-4 text-slate-400" />
+                                                        <RiCalendarEventFill className="w-4 h-4 text-slate-400 shrink-0" />
                                                     </div>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0" align="start">
@@ -509,7 +512,7 @@ function BookingContent() {
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <Phone className="w-4 h-4 text-primary" />
+                                                <RiPhoneFill className="w-4 h-4 text-primary shrink-0" />
                                                 {t("Contact Phone Number", "যোগাযোগ নম্বর")}
                                                 <span className="text-red-500 ml-1">*</span>
                                             </label>
@@ -528,7 +531,7 @@ function BookingContent() {
                                         <div className="space-y-1">
                                             <CustomSelect
                                                 label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
-                                                icon={<Truck className="w-4 h-4 text-primary" />}
+                                                icon={<RiTruckFill className="w-4 h-4 text-primary shrink-0" />}
                                                 value={formData.truckType}
                                                 onChange={(val) => {
                                                     const newMin = calcMinFare(formData.distance, val);
@@ -543,7 +546,7 @@ function BookingContent() {
                                         </div>
                                         <CustomSelect
                                             label={t("Goods Type", "পণ্যের ধরণ")}
-                                            icon={<Package className="w-4 h-4 text-primary" />}
+                                            icon={<RiBox3Fill className="w-4 h-4 text-primary shrink-0" />}
                                             value={formData.goodsType}
                                             onChange={(val) => setFormData({ ...formData, goodsType: val })}
                                             options={goodsTypes}
@@ -554,7 +557,7 @@ function BookingContent() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <TrendingUp className="w-4 h-4 text-primary" />
+                                                <RiLineChartFill className="w-4 h-4 text-primary shrink-0" />
                                                 {t("Trip Distance (KM)", "ট্রিপ দূরত্ব (কিমি)")}
                                                 {isCalculatingDistance && <Loader2 className="w-3 h-3 animate-spin text-primary" />}
                                             </label>
@@ -577,7 +580,7 @@ function BookingContent() {
                                         <div className="space-y-2">
                                             <div className="flex justify-between items-center">
                                                 <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                    <Banknote className="w-4 h-4 text-primary" />
+                                                    <RiMoneyDollarCircleFill className="w-4 h-4 text-primary shrink-0" />
                                                     {t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}
                                                 </label>
                                                 {formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare && (
@@ -603,7 +606,7 @@ function BookingContent() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <Weight className="w-4 h-4 text-primary" />
+                                                <RiScales3Fill className="w-4 h-4 text-primary shrink-0" />
                                                 {t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}
                                             </label>
                                             <input
@@ -619,7 +622,7 @@ function BookingContent() {
 
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                            <FileText className="w-4 h-4 text-primary" />
+                                            <RiFileTextFill className="w-4 h-4 text-primary shrink-0" />
                                             {t("Special Note", "বিস্তারিত")}
                                         </label>
                                         <textarea

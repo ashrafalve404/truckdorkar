@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { MapPin, ChevronDown, Check, Loader2 } from "lucide-react";
+import { ChevronDown, Check, Loader2 } from "lucide-react";
+import { RiMapPinFill } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { getDivisions, getDistricts, getThanas, buildAddress, parseAddress } from "@/lib/bd-locations";
 import { useLanguage } from "@/context/language-context";
@@ -217,7 +218,7 @@ export function LocationSelector({
         return (
             <div className="space-y-1.5">
                 <label className="text-xs font-black text-slate-800 uppercase flex items-center gap-1.5">
-                    <MapPin className={cn("w-3 h-3", iconColor)} />
+                    <RiMapPinFill className={cn("w-3.5 h-3.5 shrink-0", iconColor)} />
                     {t(label, labelBn)}
                     {required && <span className="text-red-500">*</span>}
                 </label>
@@ -274,7 +275,7 @@ export function LocationSelector({
                                         onClick={() => handleSelectSuggestion(item.display_name)}
                                         className="w-full text-left px-3 py-2 text-xs hover:bg-primary/5 hover:text-primary transition-all flex items-start gap-1.5 border-b border-slate-50 last:border-0 text-slate-800"
                                     >
-                                        <MapPin className="w-3 h-3 text-primary shrink-0 mt-0.5" />
+                                        <RiMapPinFill className="w-3 h-3 text-primary shrink-0 mt-0.5" />
                                         <span className="line-clamp-2">{item.display_name}</span>
                                     </button>
                                 ))}
@@ -284,7 +285,7 @@ export function LocationSelector({
                 </div>
                 {value && (
                     <p className="text-[10px] text-primary font-medium flex items-center gap-1 mt-0.5">
-                        <MapPin className="w-2.5 h-2.5 shrink-0" />
+                        <RiMapPinFill className="w-2.5 h-2.5 shrink-0" />
                         <span className="truncate">{value}</span>
                     </p>
                 )}
@@ -295,7 +296,7 @@ export function LocationSelector({
     return (
         <div className="space-y-3">
             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                <MapPin className={cn("w-4 h-4", iconColor)} />
+                <RiMapPinFill className={cn("w-4 h-4 shrink-0", iconColor)} />
                 {t(label, labelBn)}
                 {required && <span className="text-red-500 ml-0.5">*</span>}
             </label>
@@ -377,7 +378,7 @@ export function LocationSelector({
                                 onClick={() => handleSelectSuggestion(item.display_name)}
                                 className="w-full text-left px-4 py-2.5 text-sm hover:bg-primary/5 hover:text-primary transition-all flex items-start gap-2 border-b border-slate-50 last:border-0 text-slate-800 font-medium"
                             >
-                                <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                                <RiMapPinFill className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                                 <span className="line-clamp-2">{item.display_name}</span>
                             </button>
                         ))}
@@ -386,7 +387,7 @@ export function LocationSelector({
             </div>
             {value && (
                 <div className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-xl px-4 py-2.5">
-                    <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <RiMapPinFill className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <p className="text-xs text-primary font-black leading-relaxed">{value}</p>
                 </div>
             )}

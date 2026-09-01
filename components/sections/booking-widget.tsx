@@ -2,7 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Truck, Calendar as CalendarIcon, Search, X, ChevronDown } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
+import { RiTruckFill, RiCalendarEventFill, RiSearch2Fill } from "react-icons/ri";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -179,7 +180,7 @@ export function BookingWidget() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 items-end">
                     <div className="space-y-3">
                         <label className="text-xs font-black text-slate-800 flex items-center gap-2">
-                            <Truck className="w-3 h-3 text-primary" />
+                            <RiTruckFill className="w-3.5 h-3.5 text-primary shrink-0" />
                             {t("Truck Type", "ট্রাকের ধরণ")}
                         </label>
                         <div className="relative" ref={dropdownRef}>
@@ -241,14 +242,14 @@ export function BookingWidget() {
                         onClick={handleSearch}
                         className="w-full h-14 rounded-md font-black text-lg gap-3 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary hover:bg-secondary border-none text-white"
                     >
-                        <Search className="w-5 h-5" />
+                        <RiSearch2Fill className="w-5 h-5" />
                         {t("Book Now", "বুক করুন")}
                     </Button>
                 </div>
 
                 <div className="mt-6 flex flex-wrap gap-6 border-t border-gray-50 pt-6">
                     <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
-                        <CalendarIcon className="w-4 h-4 text-primary" />
+                        <RiCalendarEventFill className="w-4 h-4 text-primary shrink-0" />
                         {t("Schedule for later?", "পরে বুক করবেন?")}
 
                         <Popover>
