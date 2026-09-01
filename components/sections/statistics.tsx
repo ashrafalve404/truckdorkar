@@ -7,7 +7,7 @@ import { useLanguage } from "@/context/language-context";
 
 const stats = [
     { value: 20000, label_en: "Successful Deliveries", label_bn: "সফল ডেলিভারি", suffix: "+" },
-    { value: 5000, label_en: "Verified Trucks", label_bn: "ভেরিফাইড ট্রাক", suffix: "+" },
+    { value: 1000, label_en: "Verified Trucks", label_bn: "ভেরিফাইড ট্রাক", suffix: "+" },
     { value: 64, label_en: "District Coverage", label_bn: "জেলা কভারেজ", suffix: "" },
     { value: 98, label_en: "Customer Satisfaction", label_bn: "সন্তুষ্ট গ্রাহক", suffix: "%" },
 ];
