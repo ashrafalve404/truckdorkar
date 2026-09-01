@@ -17,7 +17,7 @@ import {
     RiTruckFill,
     RiBox3Fill,
     RiScales3Fill,
-    RiCoinsFill,
+    RiWallet3Fill,
     RiFileTextFill,
     RiLineChartFill,
     RiMapPinFill
@@ -580,7 +580,7 @@ function BookingContent() {
                                         <div className="space-y-2">
                                             <div className="flex justify-between items-center">
                                                 <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                    <RiCoinsFill className="w-4 h-4 text-primary shrink-0" />
+                                                    <RiWallet3Fill className="w-4 h-4 text-primary shrink-0" />
                                                     {t("Your Fare Offer (TK)", "আপনার ভাড়ার অফার (টাকা)")}
                                                 </label>
                                                 {formData.estimatedFare !== "" && Number(formData.estimatedFare) < minFare && (
