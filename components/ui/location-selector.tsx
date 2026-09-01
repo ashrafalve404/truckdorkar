@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check, Loader2 } from "lucide-react";
-import { RiMapPinFill } from "react-icons/ri";
+import { RiMapPinFill, RiCheckboxCircleFill } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { getDivisions, getDistricts, getThanas, buildAddress, parseAddress } from "@/lib/bd-locations";
 import { useLanguage } from "@/context/language-context";
@@ -92,7 +92,7 @@ function NativeSelect({ value, onChange, options, placeholder, disabled, compact
                                         {t("Soon", "শিগগিরই")}
                                     </span>
                                 ) : (
-                                    opt === value && <Check className="w-3.5 h-3.5 text-primary shrink-0" />
+                                    opt === value && <RiCheckboxCircleFill className="w-4 h-4 text-primary shrink-0" />
                                 )}
                             </button>
                         );

@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronDown } from "lucide-react";
-import { RiTruckFill, RiCalendarEventFill, RiSearch2Fill } from "react-icons/ri";
+import { RiTruckFill, RiCalendarEventFill, RiSearch2Fill, RiCloseCircleFill } from "react-icons/ri";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -265,7 +265,7 @@ export function BookingWidget() {
                                                 }}
                                                 className="ml-1 hover:text-red-500 transition-colors"
                                             >
-                                                <X className="w-3.5 h-3.5" />
+                                                <RiCloseCircleFill className="w-4 h-4 text-slate-400 hover:text-red-500 transition-colors" />
                                             </button>
                                         </>
                                     ) : (
