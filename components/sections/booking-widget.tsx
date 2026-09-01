@@ -2,8 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronDown } from "lucide-react";
-import { RiTruckFill, RiCalendarEventFill, RiSearch2Fill, RiCloseCircleFill } from "react-icons/ri";
+import { X, ChevronDown, Search } from "lucide-react";
+import { RiTruckFill, RiCalendarEventFill, RiCloseCircleFill } from "react-icons/ri";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -242,7 +242,7 @@ export function BookingWidget() {
                         onClick={handleSearch}
                         className="w-full h-14 rounded-md font-black text-lg gap-3 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary hover:bg-secondary border-none text-white"
                     >
-                        <RiSearch2Fill className="w-5 h-5" />
+                        <Search className="w-5 h-5" />
                         {t("Book Now", "বুক করুন")}
                     </Button>
                 </div>
