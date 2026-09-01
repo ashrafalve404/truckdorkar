@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer-section";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Send, MessageCircle, Loader2 } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
+import { RiPhoneFill, RiMailFill, RiMapPinFill, RiMessage3Fill, RiSendPlaneFill } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import api from "@/lib/api";
@@ -158,7 +159,7 @@ export default function ContactPage() {
                                     <div className="space-y-4 md:space-y-5 text-black">
                                         <div className="flex items-start gap-3 md:gap-4 group">
                                             <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                                                <Phone className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
+                                                <RiPhoneFill className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
                                                 <div className="text-[10px] md:text-xs font-semibold text-slate-400 mb-0.5">{t("Call Us", "ফোন করুন")}</div>
@@ -168,7 +169,7 @@ export default function ContactPage() {
 
                                         <div className="flex items-start gap-3 md:gap-4 group">
                                             <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                                                <Mail className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
+                                                <RiMailFill className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
                                                 <div className="text-[10px] md:text-xs font-semibold text-gray-400 mb-0.5">{t("Email Us", "ইমেইল করুন")}</div>
@@ -178,7 +179,7 @@ export default function ContactPage() {
 
                                         <div className="flex items-start gap-3 md:gap-4 group">
                                             <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                                                <MapPin className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
+                                                <RiMapPinFill className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
                                             </div>
                                             <div>
                                                 <div className="text-[10px] md:text-xs font-semibold text-gray-400 mb-0.5">{t("Office Address", "অফিস ঠিকানা")}</div>
@@ -191,7 +192,7 @@ export default function ContactPage() {
                                 <div className="p-5 md:p-7 bg-black rounded-lg md:rounded-3xl text-white flex items-center justify-between group cursor-pointer hover:bg-primary transition-all duration-500">
                                     <div className="flex items-center gap-3 md:gap-4">
                                         <div className="w-10 h-10 md:w-12 md:h-12 bg-white/10 rounded-lg md:rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-all">
-                                            <MessageCircle className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                                            <RiMessage3Fill className="w-4 h-4 md:w-5 md:h-5 text-white" />
                                         </div>
                                         <div>
                                             <div className="text-base md:text-lg font-semibold">{t("Live Chat Support", "লাইভ চ্যাট সাপোর্ট")}</div>
@@ -199,7 +200,7 @@ export default function ContactPage() {
                                         </div>
                                     </div>
                                     <div className="w-8 h-8 md:w-10 md:h-10 border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                                        <Send className="w-3 h-3 md:w-4 md:h-4 rotate-45" />
+                                        <RiSendPlaneFill className="w-3 h-3 md:w-4 md:h-4" />
                                     </div>
                                 </div>
 

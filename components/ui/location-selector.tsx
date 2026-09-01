@@ -64,7 +64,7 @@ function NativeSelect({ value, onChange, options, placeholder, disabled, compact
             {open && (
                 <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white border border-slate-100 rounded-xl shadow-2xl overflow-y-auto max-h-52 scrollbar-hide min-w-[170px]">
                     {options.map(opt => {
-                        const isOptionDisabled = isDivisionSelect && opt !== "Dhaka";
+                        const isOptionDisabled = false;
                         return (
                             <button
                                 key={opt}
