@@ -606,7 +606,7 @@ function BookingContent() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <RiScales3Fill className="w-4 h-4 text-primary shrink-0" />
+                                                <RiBox3Fill className="w-4 h-4 text-primary shrink-0" />
                                                 {t("Estimated Weight (Kg)", "আনুমানিক ওজন (কেজি)")}
                                             </label>
                                             <input

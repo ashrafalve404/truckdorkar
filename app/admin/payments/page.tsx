@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    DollarSign,
+    CreditCard,
     CheckCircle2,
     XCircle,
     Loader2,
