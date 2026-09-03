@@ -236,13 +236,31 @@ function BookingContent() {
             if (formData.pickupLocation.length > 5 && formData.dropLocation.length > 5) {
                 setIsCalculatingDistance(true);
                 try {
-                    // 1. Geocode Pickup with country context
-                    const pRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.pickupLocation + ", Bangladesh")}&limit=1`);
-                    const pData = await pRes.json();
+                    // 1. Geocode Pickup with fallback
+                    let pRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.pickupLocation + ", Bangladesh")}&limit=1`);
+                    let pData = await pRes.json();
+                    if (!pData[0]) {
+                        // Fallback: try removing custom area and search Thana/District
+                        const parts = formData.pickupLocation.split(", ");
+                        if (parts.length > 2) {
+                            const fallbackQuery = parts.slice(1).join(", ");
+                            const pFallbackRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery + ", Bangladesh")}&limit=1`);
+                            pData = await pFallbackRes.json();
+                        }
+                    }
 
-                    // 2. Geocode Drop with country context
-                    const dRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.dropLocation + ", Bangladesh")}&limit=1`);
-                    const dData = await dRes.json();
+                    // 2. Geocode Drop with fallback
+                    let dRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.dropLocation + ", Bangladesh")}&limit=1`);
+                    let dData = await dRes.json();
+                    if (!dData[0]) {
+                        // Fallback: try removing custom area and search Thana/District
+                        const parts = formData.dropLocation.split(", ");
+                        if (parts.length > 2) {
+                            const fallbackQuery = parts.slice(1).join(", ");
+                            const dFallbackRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery + ", Bangladesh")}&limit=1`);
+                            dData = await dFallbackRes.json();
+                        }
+                    }
 
                     if (pData[0] && dData[0]) {
                         const pCoord: [number, number] = [parseFloat(pData[0].lat), parseFloat(pData[0].lon)];
