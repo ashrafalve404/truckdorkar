@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    DollarSign,
+    Wallet,
     CreditCard,
     History,
     AlertCircle,
@@ -107,7 +107,7 @@ export default function DriverPaymentsPage() {
                     <div className="bg-primary/5 border border-primary/10 rounded-2xl p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center">
-                                <DollarSign className="w-6 h-6" />
+                                <Wallet className="w-6 h-6" />
                             </div>
                             <div>
                                 <p className="text-xs font-black text-slate-500 uppercase tracking-widest leading-none mb-1">{t("Current Due", "বর্তমান বকেয়া")}</p>

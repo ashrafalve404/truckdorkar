@@ -4,7 +4,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    DollarSign,
+    Wallet,
     TrendingUp,
     Calendar,
     Loader2,
@@ -301,7 +301,7 @@ export default function DriverEarningsPage() {
             {/* Summary Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {[
-                    { label: t("Total Lifetime Earnings", "মোট উপার্জন"), value: `৳${stats.total.toLocaleString()}`, icon: DollarSign, color: "bg-emerald-500 text-white" },
+                    { label: t("Total Lifetime Earnings", "মোট উপার্জন"), value: `৳${stats.total.toLocaleString()}`, icon: Wallet, color: "bg-emerald-500 text-white" },
                     { label: t("This Month", "এই মাসের আয়"), value: `৳${stats.thisMonth.toLocaleString()}`, icon: TrendingUp, color: "bg-blue-500 text-white" },
                     { label: t("This Week", "এই সপ্তাহের আয়"), value: `৳${stats.thisWeek.toLocaleString()}`, icon: Calendar, color: "bg-indigo-500 text-white" },
                     { label: t("Total Completed Trips", "সম্পন্ন ট্রিপ"), value: `${stats.totalTrips}`, icon: Award, color: "bg-amber-500 text-white" },

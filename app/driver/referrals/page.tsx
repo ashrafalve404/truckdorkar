@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
     Gift,
     Users,
-    DollarSign,
+    Wallet,
     Copy,
     Check,
     Share2,
@@ -100,10 +100,15 @@ export default function DriverReferralsPage() {
                 <div className="space-y-8">
                     {/* Stat Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                        <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-lg shadow-emerald-500/20 relative overflow-hidden">
-                            <span className="text-xs font-bold uppercase tracking-wider opacity-90">{t("Total 5% Referral Income", "মোট রেফারেল আয়")}</span>
-                            <h2 className="text-3xl sm:text-4xl font-black mt-2 mb-1">৳{stats.referralEarnings.toLocaleString()}</h2>
-                            <p className="text-xs font-medium text-emerald-100">{t("Lifetime earned from referred drivers", "আপনার রেফারকৃত ড্রাইভার থেকে মোট আয়")}</p>
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
+                            <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 font-black">
+                                <Wallet className="w-7 h-7" />
+                            </div>
+                            <div>
+                                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t("Total 5% Referral Income", "মোট রেফারেল আয়")}</span>
+                                <h3 className="text-3xl font-black text-slate-900 mt-1">৳{stats.referralEarnings.toLocaleString()}</h3>
+                                <p className="text-xs font-medium text-slate-500">{t("Lifetime earned from referred drivers", "আপনার রেফারকৃত ড্রাইভার থেকে মোট আয়")}</p>
+                            </div>
                         </div>
 
                         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">

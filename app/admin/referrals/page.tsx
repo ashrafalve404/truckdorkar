@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
     Gift,
     Users,
-    DollarSign,
+    Wallet,
     Search,
     Loader2,
     TrendingUp,
@@ -108,10 +108,15 @@ export default function AdminReferralsPage() {
                 <div className="space-y-8">
                     {/* Stat Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        <div className="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-lg shadow-emerald-500/20 relative overflow-hidden">
-                            <span className="text-xs font-bold uppercase tracking-wider opacity-90">{t("Total 5% Payouts", "মোট ৫% কমিশন বিতরণ")}</span>
-                            <h2 className="text-3xl font-black mt-2 mb-1">৳{data.summary.totalPayouts.toLocaleString()}</h2>
-                            <p className="text-xs font-medium text-emerald-100">{t("Paid out of company 10% cut", "কোম্পানির ১০% সার্ভিস ফি থেকে প্রদত্ত")}</p>
+                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                            <div className="w-13 h-13 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 font-black">
+                                <Wallet className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t("Total 5% Payouts", "মোট ৫% কমিশন বিতরণ")}</span>
+                                <h3 className="text-2xl font-black text-slate-900 mt-0.5">৳{data.summary.totalPayouts.toLocaleString()}</h3>
+                                <p className="text-xs font-medium text-slate-500">{t("Paid out of company 10% cut", "কোম্পানির ১০% সার্ভিস ফি থেকে প্রদত্ত")}</p>
+                            </div>
                         </div>
 
                         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">

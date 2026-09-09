@@ -166,7 +166,7 @@ export default function AdminAgentWithdrawalsPage() {
 
                 <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <DollarSign className="w-6 h-6" />
+                        <Wallet className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{t("Pending Amount", "অপেক্ষমান টাকার পরিমাণ")}</p>

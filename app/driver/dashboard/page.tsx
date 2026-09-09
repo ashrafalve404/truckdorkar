@@ -5,7 +5,7 @@ import { DashboardLayout } from "@/components/dashboard/layout";
 import {
     Package,
     Truck,
-    DollarSign,
+    Wallet,
     Star,
     MapPin,
     ArrowRight,
@@ -97,7 +97,7 @@ export default function DriverDashboard() {
     const hasPendingTruck = trucks.some(t => t.status === 'PENDING');
 
     const cards = [
-        { label: t("Earnings", "উপার্জন"), value: `৳${stats.earnings.toLocaleString()}`, icon: DollarSign, color: "bg-green-500", href: "/driver/earnings" },
+        { label: t("Earnings", "উপার্জন"), value: `৳${stats.earnings.toLocaleString()}`, icon: Wallet, color: "bg-green-500", href: "/driver/earnings" },
         { label: t("Total Trips", "মোট ট্রিপ"), value: stats.totalTrips, icon: Truck, color: "bg-blue-500", href: "/driver/bookings" },
         { label: t("Rating", "রেটিং"), value: stats.rating.toFixed(1), icon: Star, color: "bg-amber-500", href: "/driver/settings" },
     ];
