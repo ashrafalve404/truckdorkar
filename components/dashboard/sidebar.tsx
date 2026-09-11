@@ -54,6 +54,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Users", href: "/admin/users", icon: Users, bn: "ইউজার" },
             { name: "Agents", href: "/admin/agents", icon: Users, bn: "এজেন্ট" },
             { name: "Agent Withdrawals", href: "/admin/agent-withdrawals", icon: Wallet, bn: "এজেন্ট উত্তোলন" },
+            { name: "Banners", href: "/admin/banners", icon: ImageIcon, bn: "স্লাইডার ব্যানার" },
             { name: "Notifications", href: "/admin/notifications", icon: Bell, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/admin/support", icon: MessageSquare, bn: "সাপোর্ট" },
             { name: "Payments", href: "/admin/payments", icon: CreditCard, bn: "পেমেন্ট" },

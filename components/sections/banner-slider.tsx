@@ -4,67 +4,73 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import api, { getFileUrl } from "@/lib/api";
 
-interface Banner {
-    id: number;
+interface BannerItem {
+    id: string | number;
     image: string;
     titleEn: string;
-    titleBn: string;
-    subtitleEn: string;
-    subtitleBn: string;
-    ctaEn: string;
-    ctaBn: string;
-    color: string;
+    titleBn?: string;
 }
 
-const banners: Banner[] = [
+const fallbackBanners: BannerItem[] = [
     {
         id: 1,
         image: "/images/slidingbanner001.webp",
         titleEn: "Nationwide Logistics",
         titleBn: "দেশব্যাপী লজিস্টিকস",
-        subtitleEn: "Moving goods across Bangladesh with safety and speed.",
-        subtitleBn: "নিরাপদ ও দ্রুত গতিতে পণ্য পৌঁছান দেশজুড়ে।",
-        ctaEn: "Learn More",
-        ctaBn: "আরও জানুন",
-        color: "from-red-600 to-red-800",
     },
     {
         id: 2,
         image: "/images/slidingbanner02.webp",
         titleEn: "Become a Driver Partner",
         titleBn: "ড্রাইভার পার্টনার হোন",
-        subtitleEn: "Join our fleet and start earning daily with Truck Dorkar.",
-        subtitleBn: "আমাদের সাথে যোগ দিন এবং প্রতিদিন আয় শুরু করুন।",
-        ctaEn: "Join Now",
-        ctaBn: "এখনই যোগ দিন",
-        color: "from-slate-800 to-black",
     },
     {
         id: 3,
         image: "/images/slidingbanner03.webp",
         titleEn: "Reliable Truck Booking",
         titleBn: "বিশ্বস্ত ট্রাক বুকিং",
-        subtitleEn: "Book trucks anytime with transparent pricing and verified drivers.",
-        subtitleBn: "স্বচ্ছ ভাড়া এবং ভেরিফাইড ড্রাইভারসহ যখন খুশি ট্রাক বুক করুন।",
-        ctaEn: "Book Now",
-        ctaBn: "এখনই বুক করুন",
-        color: "from-blue-600 to-blue-800",
     },
 ];
 
 export function BannerSlider() {
+    const [banners, setBanners] = useState<BannerItem[]>(fallbackBanners);
     const [current, setCurrent] = useState(0);
 
     useEffect(() => {
+        const fetchBanners = async () => {
+            try {
+                const res = await api.get("/cms/banners");
+                const apiBanners = res.data?.data;
+                if (Array.isArray(apiBanners) && apiBanners.length > 0) {
+                    const mapped = apiBanners.map((b: any) => ({
+                        id: b.id,
+                        image: getFileUrl(b.imageUrl),
+                        titleEn: b.titleEn || "Truck Dorkar",
+                        titleBn: b.titleBn || "ট্রাক দরকার",
+                    }));
+                    setBanners(mapped);
+                }
+            } catch (error) {
+                console.error("Failed to load CMS banners, using fallback", error);
+            }
+        };
+        fetchBanners();
+    }, []);
+
+    useEffect(() => {
+        if (banners.length <= 1) return;
         const timer = setInterval(() => {
             setCurrent((prev) => (prev + 1) % banners.length);
         }, 5000);
         return () => clearInterval(timer);
-    }, []);
+    }, [banners.length]);
 
     const next = () => setCurrent((prev) => (prev + 1) % banners.length);
     const prev = () => setCurrent((prev) => (prev - 1 + banners.length) % banners.length);
+
+    const activeBanner = banners[current] || banners[0];
 
     return (
         <section className="relative w-full h-[280px] lg:h-[650px] overflow-hidden bg-white pt-24 pb-2 px-4 sm:px-10">
@@ -80,41 +86,45 @@ export function BannerSlider() {
                     >
                         {/* Image Only - No Text Overlays */}
                         <Image
-                            src={banners[current].image}
-                            alt={banners[current].titleEn}
+                            src={activeBanner.image}
+                            alt={activeBanner.titleEn}
                             fill
                             sizes="100vw"
                             className="object-fill"
                             priority
                             unoptimized
                         />
-                        {/* Subtle Gradient for depth but no heavy overlay */}
+                        {/* Subtle Gradient for depth */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                     </motion.div>
                 </AnimatePresence>
 
                 {/* Navigation Controls */}
-                <div className="absolute inset-y-0 left-2 sm:left-4 z-20 flex items-center">
-                    <button onClick={prev} className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-black/10 sm:bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/30 transition-all border border-white/10 sm:border-white/20">
-                        <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
-                    </button>
-                </div>
-                <div className="absolute inset-y-0 right-2 sm:right-4 z-20 flex items-center">
-                    <button onClick={next} className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-black/10 sm:bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/30 transition-all border border-white/10 sm:border-white/20">
-                        <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
-                    </button>
-                </div>
+                {banners.length > 1 && (
+                    <>
+                        <div className="absolute inset-y-0 left-2 sm:left-4 z-20 flex items-center">
+                            <button onClick={prev} className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-black/10 sm:bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/30 transition-all border border-white/10 sm:border-white/20">
+                                <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
+                            </button>
+                        </div>
+                        <div className="absolute inset-y-0 right-2 sm:right-4 z-20 flex items-center">
+                            <button onClick={next} className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-black/10 sm:bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/30 transition-all border border-white/10 sm:border-white/20">
+                                <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
+                            </button>
+                        </div>
 
-                {/* Pagination Dots */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-                    {banners.map((_, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => setCurrent(idx)}
-                            className={`h-1.5 rounded-full transition-all ${current === idx ? "w-8 bg-white" : "w-2 bg-white/40"}`}
-                        />
-                    ))}
-                </div>
+                        {/* Pagination Dots */}
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                            {banners.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => setCurrent(idx)}
+                                    className={`h-1.5 rounded-full transition-all ${current === idx ? "w-8 bg-white" : "w-2 bg-white/40"}`}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </section>
     );
