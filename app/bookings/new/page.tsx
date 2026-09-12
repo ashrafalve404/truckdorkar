@@ -147,6 +147,7 @@ function BookingContent() {
         contactPhone: "",
     });
     const [isCalculatingDistance, setIsCalculatingDistance] = useState(false);
+    const [minSuggestedDistance, setMinSuggestedDistance] = useState<number>(0);
     const [coords, setCoords] = useState<{ pickup?: [number, number], drop?: [number, number] }>({});
 
     useEffect(() => {
@@ -233,14 +234,13 @@ function BookingContent() {
     // Auto-detect distance when locations change
     useEffect(() => {
         const timer = setTimeout(async () => {
-            if (formData.pickupLocation.length > 5 && formData.dropLocation.length > 5) {
+            if (formData.pickupLocation.length > 3 && formData.dropLocation.length > 3) {
                 setIsCalculatingDistance(true);
                 try {
                     // 1. Geocode Pickup with fallback
                     let pRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.pickupLocation + ", Bangladesh")}&limit=1`);
                     let pData = await pRes.json();
                     if (!pData[0]) {
-                        // Fallback: try removing custom area and search Thana/District
                         const parts = formData.pickupLocation.split(", ");
                         if (parts.length > 2) {
                             const fallbackQuery = parts.slice(1).join(", ");
@@ -253,7 +253,6 @@ function BookingContent() {
                     let dRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formData.dropLocation + ", Bangladesh")}&limit=1`);
                     let dData = await dRes.json();
                     if (!dData[0]) {
-                        // Fallback: try removing custom area and search Thana/District
                         const parts = formData.dropLocation.split(", ");
                         if (parts.length > 2) {
                             const fallbackQuery = parts.slice(1).join(", ");
@@ -272,8 +271,9 @@ function BookingContent() {
                         const osrmData = await osrmRes.json();
 
                         if (osrmData.routes && osrmData.routes[0]) {
-                            const distanceKm = Math.round(osrmData.routes[0].distance / 1000);
+                            const distanceKm = Math.max(1, Math.round(osrmData.routes[0].distance / 1000));
                             const minFare = calcMinFare(distanceKm);
+                            setMinSuggestedDistance(distanceKm);
                             setFormData(prev => ({
                                 ...prev,
                                 distance: distanceKm.toString(),
@@ -281,7 +281,6 @@ function BookingContent() {
                             }));
                         }
                     } else {
-                        // Clear coords if search fails
                         setCoords({ pickup: undefined, drop: undefined });
                     }
                 } catch (error) {
@@ -291,7 +290,7 @@ function BookingContent() {
                     setIsCalculatingDistance(false);
                 }
             }
-        }, 1500); // Debounce for 1.5 seconds
+        }, 1200);
 
         return () => clearTimeout(timer);
     }, [formData.pickupLocation, formData.dropLocation]);
@@ -384,6 +383,12 @@ function BookingContent() {
             return;
         }
 
+        if (minSuggestedDistance > 0 && Number(formData.distance) < minSuggestedDistance) {
+            toast.error(t(`Trip distance cannot be less than suggested distance (${minSuggestedDistance} KM)`, `ট্রিপ দূরত্ব আনুমানিক দূরত্ব (${minSuggestedDistance} কিমি) এর চেয়ে কম রাখা যাবে না`));
+            setLoading(false);
+            return;
+        }
+
         const minFare = calcMinFare(formData.distance);
         if (Number(formData.estimatedFare) < minFare) {
             toast.error(t(`Minimum fare for this trip is ${minFare} TK`, `এই ট্রিপের সর্বনিম্ন ভাড়া ${minFare} টাকা`));
@@ -392,6 +397,10 @@ function BookingContent() {
         }
 
         try {
+            const finalDistance = (formData.distance && Number(formData.distance) > 0)
+                ? Number(formData.distance)
+                : (minSuggestedDistance || 15);
+
             const { data } = await api.post("/bookings", {
                 type: formData.type,
                 pickupAddress: formData.pickupLocation,
@@ -406,7 +415,7 @@ function BookingContent() {
                 specialNote: formData.specialNote || undefined,
                 truckType: formData.truckType || undefined,
                 estimatedFare: Number(formData.estimatedFare) || undefined,
-                distance: formData.distance ? Number(formData.distance) : 0,
+                distance: finalDistance,
                 contactPhone: formData.contactPhone,
             });
 
@@ -574,11 +583,18 @@ function BookingContent() {
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
-                                                <RiLineChartFill className="w-4 h-4 text-primary shrink-0" />
-                                                {t("Trip Distance (KM)", "ট্রিপ দূরত্ব (কিমি)")}
-                                                {isCalculatingDistance && <Loader2 className="w-3 h-3 animate-spin text-primary" />}
-                                            </label>
+                                            <div className="flex justify-between items-center">
+                                                <label className="text-sm font-bold text-slate-950 flex items-center gap-2">
+                                                    <RiLineChartFill className="w-4 h-4 text-primary shrink-0" />
+                                                    {t("Trip Distance (KM)", "ট্রিপ দূরত্ব (কিমি)")}
+                                                    {isCalculatingDistance && <Loader2 className="w-3 h-3 animate-spin text-primary" />}
+                                                </label>
+                                                {minSuggestedDistance > 0 && (
+                                                    <span className="text-[10px] bg-blue-50 text-blue-600 px-2.5 py-0.5 rounded-full font-black">
+                                                        {t("Min Suggested", "সুপারিশকৃত")}: {minSuggestedDistance} KM
+                                                    </span>
+                                                )}
+                                            </div>
                                             <input
                                                 type="number"
                                                 value={formData.distance}
@@ -591,9 +607,29 @@ function BookingContent() {
                                                         estimatedFare: newMin.toString(),
                                                     }));
                                                 }}
+                                                onBlur={(e) => {
+                                                    const num = Number(e.target.value);
+                                                    if (minSuggestedDistance > 0 && (isNaN(num) || num < minSuggestedDistance)) {
+                                                        toast.error(t(`Distance cannot be less than suggested distance (${minSuggestedDistance} KM)`, `দূরত্ব আনুমানিক দূরত্ব (${minSuggestedDistance} কিমি) এর কম হতে পারবে না`));
+                                                        const minFare = calcMinFare(minSuggestedDistance);
+                                                        setFormData(prev => ({
+                                                            ...prev,
+                                                            distance: minSuggestedDistance.toString(),
+                                                            estimatedFare: minFare.toString()
+                                                        }));
+                                                    }
+                                                }}
                                                 placeholder={t("Distance in KM", "কিমি-এ দূরত্ব")}
-                                                className="w-full h-12 bg-slate-50 border border-slate-300 rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400"
+                                                className={cn(
+                                                    "w-full h-12 bg-slate-50 border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 font-normal placeholder:font-normal placeholder:text-slate-400",
+                                                    minSuggestedDistance > 0 && Number(formData.distance) < minSuggestedDistance ? "border-red-400 bg-red-50/20" : "border-slate-300"
+                                                )}
                                             />
+                                            {minSuggestedDistance > 0 && Number(formData.distance) < minSuggestedDistance && (
+                                                <p className="text-[11px] text-red-500 font-bold mt-1">
+                                                    ⚠️ {t(`Distance cannot be less than suggested ${minSuggestedDistance} KM`, `দূরত্ব ${minSuggestedDistance} কিমি এর চেয়ে কম রাখা যাবে না`)}
+                                                </p>
+                                            )}
                                         </div>
                                         <div className="space-y-2">
                                             <div className="flex justify-between items-center">
