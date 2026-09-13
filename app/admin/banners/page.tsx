@@ -54,7 +54,7 @@ export default function AdminBannersPage() {
 
     const fetchBanners = async () => {
         try {
-            const res = await api.get("/cms/banners/all");
+            const res = await api.get("/cms/banners/admin").catch(() => api.get("/cms/banners/all")).catch(() => api.get("/cms/banners"));
             setBanners(res.data?.data || []);
         } catch (error) {
             console.error("Failed to fetch banners", error);
