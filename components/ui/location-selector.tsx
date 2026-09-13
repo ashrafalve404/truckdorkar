@@ -123,16 +123,20 @@ export function LocationSelector({
     const [loadingSuggestions, setLoadingSuggestions] = useState(false);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const areaRef = useRef<HTMLDivElement>(null);
+    const isSelfChangeRef = useRef(false);
 
-    // Sync internal state from value string
+    // Sync internal state from value string (only when changed from OUTSIDE e.g. initial load or Use My Location)
     useEffect(() => {
+        if (isSelfChangeRef.current) {
+            isSelfChangeRef.current = false;
+            return;
+        }
         if (value) {
             const parsed = parseAddress(value);
-            // Only update if DIFFERENT to avoid infinite loops
-            if (parsed.division !== division) setDivision(parsed.division);
-            if (parsed.district !== district) setDistrict(parsed.district);
-            if (parsed.thana !== thana) setThana(parsed.thana);
-            if (parsed.area !== area) setArea(parsed.area);
+            if (parsed.division && parsed.division !== division) setDivision(parsed.division);
+            if (parsed.district && parsed.district !== district) setDistrict(parsed.district);
+            if (parsed.thana && parsed.thana !== thana) setThana(parsed.thana);
+            if (parsed.area !== undefined && parsed.area !== area) setArea(parsed.area);
         }
     }, [value]);
 
@@ -146,9 +150,9 @@ export function LocationSelector({
         return () => document.removeEventListener("mousedown", handler);
     }, []);
 
-    // Free OpenStreetMap Nominatim Auto-suggestions
+    // Free OpenStreetMap Nominatim Auto-suggestions (Debounced 500ms, length >= 3)
     useEffect(() => {
-        if (!area || area.trim().length < 2) {
+        if (!area || area.trim().length < 3 || !showSuggestions) {
             setSuggestions([]);
             return;
         }
@@ -156,7 +160,7 @@ export function LocationSelector({
         const timer = setTimeout(async () => {
             setLoadingSuggestions(true);
             try {
-                const queryParts = [area, thana, district, division, "Bangladesh"].filter(Boolean);
+                const queryParts = [area.trim(), thana, district, division, "Bangladesh"].filter(Boolean);
                 const query = queryParts.join(", ");
                 const res = await fetch(
                     `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&countrycodes=bd&limit=5`
@@ -170,12 +174,13 @@ export function LocationSelector({
             } finally {
                 setLoadingSuggestions(false);
             }
-        }, 350);
+        }, 500);
 
         return () => clearTimeout(timer);
-    }, [area, thana, district, division]);
+    }, [area, thana, district, division, showSuggestions]);
 
     const handleDivisionChange = (val: string) => {
+        isSelfChangeRef.current = true;
         setDivision(val);
         setDistrict("");
         setThana("");
@@ -184,6 +189,7 @@ export function LocationSelector({
     };
 
     const handleDistrictChange = (val: string) => {
+        isSelfChangeRef.current = true;
         setDistrict(val);
         setThana("");
         setArea("");
@@ -191,20 +197,22 @@ export function LocationSelector({
     };
 
     const handleThanaChange = (val: string) => {
+        isSelfChangeRef.current = true;
         setThana(val);
-        // Immediately build partial address without area
         onChange(buildAddress(division, district, val, area));
     };
 
     const handleAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
+        isSelfChangeRef.current = true;
         setArea(val);
         onChange(buildAddress(division, district, thana, val));
     };
 
     const handleSelectSuggestion = (displayName: string) => {
         const parts = displayName.split(",");
-        const shortName = parts.length > 1 ? `${parts[0].trim()}, ${parts[1].trim()}` : parts[0].trim();
+        const shortName = parts[0] ? parts[0].trim() : displayName.trim();
+        isSelfChangeRef.current = true;
         setArea(shortName);
         onChange(buildAddress(division, district, thana, shortName));
         setShowSuggestions(false);

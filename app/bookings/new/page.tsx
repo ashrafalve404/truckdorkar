@@ -204,30 +204,41 @@ function BookingContent() {
                 try {
                     const { latitude, longitude } = position.coords;
                     const res = await fetch(
-                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=14&addressdetails=1`
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
                     );
                     const data = await res.json();
-                    const addr = data.address;
-                    // Build a readable address: neighbourhood/suburb, city/district, state
-                    const parts = [
-                        addr.neighbourhood || addr.suburb || addr.village || addr.hamlet,
-                        addr.city || addr.town || addr.county || addr.district,
-                        addr.state || addr.region,
-                    ].filter(Boolean);
-                    const readable = parts.join(", ") || data.display_name;
+                    const addr = data.address || {};
+
+                    const road = addr.road || addr.street || addr.pedestrian || addr.footway || addr.path || "";
+                    const neighbourhood = addr.neighbourhood || addr.suburb || addr.residential || addr.village || addr.quarter || addr.hamlet || "";
+                    const thana = addr.subdistrict || addr.county || addr.thana || addr.city_district || "";
+                    const district = addr.city || addr.town || addr.district || addr.state_district || "";
+                    const division = addr.state || addr.region || "";
+
+                    const areaPart = [road, neighbourhood].filter(Boolean).join(" ");
+                    const readable = [areaPart, thana, district, division].filter(Boolean).join(", ") || data.display_name;
+
+                    setCoords(prev => ({ ...prev, pickup: [latitude, longitude] }));
                     setFormData(prev => ({ ...prev, pickupLocation: readable }));
-                    toast.success(t("Location detected!", "লোকেশন শনাক্ত হয়েছে!"));
-                } catch {
-                    toast.error(t("Could not read your address.", "আপনার ঠিকানা পড়তে ব্যর্থ হয়েছে।"));
+
+                    toast.success(t("Exact location detected!", "সঠিক লোকেশন শনাক্ত হয়েছে!"));
+                } catch (error) {
+                    console.error("Reverse geocoding failed", error);
+                    toast.error(t("Could not read your address details.", "আপনার ঠিকানা পড়তে ব্যর্থ হয়েছে।"));
                 } finally {
                     setIsGeolocating(false);
                 }
             },
-            () => {
-                toast.error(t("Location access denied. Please allow location permission.", "লোকেশন লোড হয়নি। অনুগ্রহ করে লোকেশন পারমিশন দিন।"));
+            (error) => {
+                console.error("Geolocation error", error);
+                toast.error(t("Location access denied. Please allow GPS location permission.", "লোকেশন লোড হয়নি। অনুগ্রহ করে লোকেশন পারমিশন দিন।"));
                 setIsGeolocating(false);
             },
-            { timeout: 10000 }
+            {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
+            }
         );
     };
 
