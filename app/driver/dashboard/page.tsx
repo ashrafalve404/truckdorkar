@@ -7,7 +7,7 @@ import {
     RiWallet3Fill,
     RiTruckFill,
     RiStarFill,
-    RiBellFill,
+    RiNotification3Fill,
     RiBox3Fill,
     RiLineChartFill
 } from "react-icons/ri";
@@ -125,7 +125,7 @@ export default function DriverDashboard() {
                         className="relative w-10 h-10 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-700 hover:text-primary hover:border-primary/30 transition-all shadow-sm group shrink-0"
                         title={t("Notifications", "নোটিফিকেশন")}
                     >
-                        <RiBellFill className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-700" />
+                        <RiNotification3Fill className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-700" />
                         {unreadCount > 0 && (
                             <span className="absolute top-0 right-0 flex h-3 w-3">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

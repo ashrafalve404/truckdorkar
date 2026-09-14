@@ -14,7 +14,7 @@ import {
     RiUserFill,
     RiTruckFill,
     RiLockFill,
-    RiBellFill,
+    RiNotification3Fill,
     RiSaveFill,
     RiCameraFill,
     RiCheckboxCircleFill,
@@ -220,7 +220,7 @@ export default function DriverSettingsPage() {
         { id: "profile", label_en: "Profile", label_bn: "প্রোফাইল", icon: RiUserFill },
         { id: "truck", label_en: "My Truck", label_bn: "আমার ট্রাক", icon: RiTruckFill },
         { id: "safety", label_en: "Safety & Privacy", label_bn: "সুরক্ষা", icon: RiLockFill },
-        { id: "notifications", label_en: "Notifications", label_bn: "নোটিফিকেশন", icon: RiBellFill },
+        { id: "notifications", label_en: "Notifications", label_bn: "নোটিফিকেশন", icon: RiNotification3Fill },
     ];
 
     const renderTabContent = () => {
@@ -586,7 +586,7 @@ export default function DriverSettingsPage() {
                     <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
                         <div className="border-b border-slate-100 pb-6">
                             <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
-                                <RiBellFill className="w-5 h-5 text-primary" />
+                                <RiNotification3Fill className="w-5 h-5 text-primary" />
                                 {t("Notification Preferences", "নোটিফিকেশন পছন্দ")}
                             </h4>
                             <p className="text-xs font-bold text-slate-500 mt-1">

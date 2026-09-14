@@ -3,10 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
-import { Loader2 } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import {
     RiTruckFill,
-    RiSearchFill,
     RiUserFollowFill,
     RiShieldCheckFill,
     RiCloseCircleFill,
@@ -67,7 +66,7 @@ export default function AgentDriversPage() {
                 </div>
                 <div className="flex gap-4">
                     <div className="relative">
-                        <RiSearchFill className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
                         <input
                             type="text"
                             value={searchTerm}

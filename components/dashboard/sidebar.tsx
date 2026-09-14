@@ -21,14 +21,15 @@ import {
     CreditCard,
     Wallet,
     MapPin,
-    Gift
+    Gift,
+    Search
 } from "lucide-react";
 import {
     RiLayoutGridFill,
     RiMapPinFill,
     RiBox3Fill,
     RiAddCircleFill,
-    RiBellFill,
+    RiNotification3Fill,
     RiCustomerService2Fill,
     RiUserFill,
     RiSearchFill,
@@ -79,13 +80,13 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
         ],
         DRIVER: [
             { name: "Dashboard", href: "/driver/dashboard", icon: RiLayoutGridFill, bn: "ড্যাশবোর্ড" },
-            { name: "Find Trips", href: "/driver/jobs", icon: RiSearchFill, bn: "ট্রিপ খুঁজুন" },
+            { name: "Find Trips", href: "/driver/jobs", icon: Search, bn: "ট্রিপ খুঁজুন" },
             { name: "My Trucks", href: "/driver/trucks", icon: RiTruckFill, bn: "আমার ট্রাক" },
             { name: "My Bookings", href: "/driver/bookings", icon: RiBox3Fill, bn: "আমার বুকিং" },
             { name: "Payments", href: "/driver/payments", icon: RiBankCardFill, bn: "পেমেন্ট" },
             { name: "Earnings", href: "/driver/earnings", icon: RiWallet3Fill, bn: "উপার্জন" },
             { name: "Refer & Earn", href: "/driver/referrals", icon: RiGiftFill, bn: "রেফারেল কমিশন" },
-            { name: "Notifications", href: "/driver/notifications", icon: RiBellFill, bn: "নোটিফিকেশন" },
+            { name: "Notifications", href: "/driver/notifications", icon: RiNotification3Fill, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/driver/support", icon: RiCustomerService2Fill, bn: "সাপোর্ট" },
             { name: "Settings", href: "/driver/settings", icon: RiSettings4Fill, bn: "সেটিংস" },
         ],
@@ -96,14 +97,14 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Withdraw Money", href: "/agent/withdraw", icon: RiWallet3Fill, bn: "টাকা উত্তোলন" },
             { name: "Support Tickets", href: "/agent/support", icon: RiCustomerService2Fill, bn: "সাপোর্ট টিকেট" },
             { name: "Verification", href: "/agent/profile", icon: RiShieldCheckFill, bn: "ভেরিফিকেশন" },
-            { name: "Notifications", href: "/agent/notifications", icon: RiBellFill, bn: "নোটিফিকেশন" },
+            { name: "Notifications", href: "/agent/notifications", icon: RiNotification3Fill, bn: "নোটিফিকেশন" },
         ],
         USER: [
             { name: "Dashboard", href: "/dashboard", icon: RiLayoutGridFill, bn: "ড্যাশবোর্ড" },
             { name: "Track Shipment", href: "/track", icon: RiMapPinFill, bn: "লাইভ ট্র্যাকিং" },
             { name: "My Trips", href: "/bookings", icon: RiBox3Fill, bn: "আমার ট্রিপস" },
             { name: "New Booking", href: "/bookings/new", icon: RiAddCircleFill, bn: "নতুন বুকিং" },
-            { name: "Notifications", href: "/notifications", icon: RiBellFill, bn: "নোটিফিকেশন" },
+            { name: "Notifications", href: "/notifications", icon: RiNotification3Fill, bn: "নোটিফিকেশন" },
             { name: "Support", href: "/support", icon: RiCustomerService2Fill, bn: "সাপোর্ট" },
             { name: "Profile", href: "/profile", icon: RiUserFill, bn: "প্রোফাইল" },
         ]

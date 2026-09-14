@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
-import { Loader2 } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import {
     RiBox3Fill,
     RiTimeFill,
@@ -12,7 +12,6 @@ import {
     RiMapPinFill,
     RiTruckFill,
     RiPhoneFill,
-    RiSearchFill,
     RiAddCircleFill,
     RiFilterFill
 } from "react-icons/ri";
@@ -147,7 +146,7 @@ export default function UserBookingsPage() {
 
                     {/* Search Input */}
                     <div className="relative w-full sm:w-72">
-                        <RiSearchFill className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                         <input
                             type="text"
                             value={searchQuery}

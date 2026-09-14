@@ -8,7 +8,7 @@ import {
     CheckCheck
 } from "lucide-react";
 import {
-    RiBellFill,
+    RiNotification3Fill,
     RiCheckboxCircleFill,
     RiInformationFill,
     RiTruckFill,
@@ -127,7 +127,7 @@ export default function DriverNotificationsPage() {
                 ) : notifications.length === 0 ? (
                     <div className="p-16 text-center">
                         <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <RiBellFill className="w-8 h-8 text-slate-400" />
+                            <RiNotification3Fill className="w-8 h-8 text-slate-400" />
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 mb-1">
                             {t("No Notifications Yet", "কোনো নোটিফিকেশন নেই")}
@@ -137,9 +137,9 @@ export default function DriverNotificationsPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="divide-y divide-slate-50">
                         {notifications.map((item) => {
-                            const IconComponent = iconMap[item.type] || RiBellFill;
+                            const IconComponent = iconMap[item.type] || RiNotification3Fill;
                             const colors = colorMap[item.type] || { icon: "text-slate-500", bg: "bg-slate-50" };
 
                             return (

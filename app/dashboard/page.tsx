@@ -12,7 +12,7 @@ import {
     RiMapPinFill,
     RiTruckFill,
     RiPhoneFill,
-    RiBellFill
+    RiNotification3Fill
 } from "react-icons/ri";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
@@ -90,12 +90,12 @@ export default function DashboardPage() {
             {notifications.filter(n => !n.isRead).length > 0 && (
                 <div className="mb-10 bg-primary/5 border border-primary/20 rounded-2xl p-6 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
-                        <RiBellFill className="w-24 h-24 text-primary" />
+                        <RiNotification3Fill className="w-24 h-24 text-primary" />
                     </div>
                     <div className="flex items-center justify-between mb-4 relative z-10">
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center animate-pulse">
-                                <RiBellFill className="w-4 h-4" />
+                                <RiNotification3Fill className="w-4 h-4" />
                             </div>
                             <h2 className="text-lg font-black text-slate-950 uppercase tracking-tight">
                                 {t("Latest Notifications", "সর্বশেষ নোটিফিকেশন")}
