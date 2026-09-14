@@ -4,15 +4,17 @@ import React, { useEffect, useState, useMemo } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Wallet,
-    TrendingUp,
-    Calendar,
     Loader2,
-    BarChart3,
-    Clock,
-    Award,
     ChevronRight
 } from "lucide-react";
+import {
+    RiWallet3Fill,
+    RiLineChartFill,
+    RiCalendarFill,
+    RiBarChartGroupedFill,
+    RiTimeFill,
+    RiAwardFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -301,10 +303,10 @@ export default function DriverEarningsPage() {
             {/* Summary Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {[
-                    { label: t("Total Lifetime Earnings", "মোট উপার্জন"), value: `৳${stats.total.toLocaleString()}`, icon: Wallet, color: "bg-emerald-500 text-white" },
-                    { label: t("This Month", "এই মাসের আয়"), value: `৳${stats.thisMonth.toLocaleString()}`, icon: TrendingUp, color: "bg-blue-500 text-white" },
-                    { label: t("This Week", "এই সপ্তাহের আয়"), value: `৳${stats.thisWeek.toLocaleString()}`, icon: Calendar, color: "bg-indigo-500 text-white" },
-                    { label: t("Total Completed Trips", "সম্পন্ন ট্রিপ"), value: `${stats.totalTrips}`, icon: Award, color: "bg-amber-500 text-white" },
+                    { label: t("Total Lifetime Earnings", "মোট উপার্জন"), value: `৳${stats.total.toLocaleString()}`, icon: RiWallet3Fill, color: "bg-emerald-500 text-white" },
+                    { label: t("This Month", "এই মাসের আয়"), value: `৳${stats.thisMonth.toLocaleString()}`, icon: RiLineChartFill, color: "bg-blue-500 text-white" },
+                    { label: t("This Week", "এই সপ্তাহের আয়"), value: `৳${stats.thisWeek.toLocaleString()}`, icon: RiCalendarFill, color: "bg-indigo-500 text-white" },
+                    { label: t("Total Completed Trips", "সম্পন্ন ট্রিপ"), value: `${stats.totalTrips}`, icon: RiAwardFill, color: "bg-amber-500 text-white" },
                 ].map((stat, idx) => (
                     <div key={idx} className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
                         <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-md", stat.color)}>
@@ -325,7 +327,7 @@ export default function DriverEarningsPage() {
                     <div>
                         <div className="flex items-center gap-2.5 mb-1">
                             <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                                <BarChart3 className="w-5 h-5" />
+                                <RiBarChartGroupedFill className="w-5 h-5" />
                             </div>
                             <h3 className="text-xl font-black text-slate-900">
                                 {t("Earnings Overview Chart", "আয়ের গ্রাফ চার্ট")}

@@ -4,16 +4,18 @@ import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Truck,
     Plus,
-    Clock,
-    CheckCircle2,
-    XCircle,
-    Info,
     ArrowRight,
     Search,
     Filter,
 } from "lucide-react";
+import {
+    RiTruckFill,
+    RiTimeFill,
+    RiCheckboxCircleFill,
+    RiCloseCircleFill,
+    RiInformationFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import api, { getFileUrl } from "@/lib/api";
 import { useRouter } from "next/navigation";
@@ -52,9 +54,9 @@ export default function DriverTrucksPage() {
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case "APPROVED": return <CheckCircle2 className="w-4 h-4" />;
-            case "REJECTED": return <XCircle className="w-4 h-4" />;
-            default: return <Clock className="w-4 h-4" />;
+            case "APPROVED": return <RiCheckboxCircleFill className="w-4 h-4" />;
+            case "REJECTED": return <RiCloseCircleFill className="w-4 h-4" />;
+            default: return <RiTimeFill className="w-4 h-4" />;
         }
     };
 
@@ -83,7 +85,7 @@ export default function DriverTrucksPage() {
                                 <div className="p-6">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                                            <Truck className="w-6 h-6 text-slate-600 group-hover:text-primary transition-colors" />
+                                            <RiTruckFill className="w-6 h-6 text-slate-600 group-hover:text-primary transition-colors" />
                                         </div>
                                         <div className={cn(
                                             "px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5",
@@ -114,7 +116,7 @@ export default function DriverTrucksPage() {
 
                                     {truck.approvalNote && (
                                         <div className="p-3 mb-6 rounded-xl bg-red-50 border border-red-100 flex gap-2">
-                                            <Info className="w-4 h-4 text-red-500 shrink-0" />
+                                            <RiInformationFill className="w-4 h-4 text-red-500 shrink-0" />
                                             <p className="text-[10px] font-bold text-red-600 leading-tight">{truck.approvalNote}</p>
                                         </div>
                                     )}
@@ -134,7 +136,7 @@ export default function DriverTrucksPage() {
                 ) : (
                     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-12 text-center h-[400px] flex flex-col items-center justify-center">
                         <div className="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mb-6">
-                            <Truck className="w-10 h-10 text-slate-300" />
+                            <RiTruckFill className="w-10 h-10 text-slate-300" />
                         </div>
                         <h2 className="text-xl font-black text-slate-900 mb-2">{t("No trucks registered yet", "কোনো ট্রাক নিবন্ধন করা নেই")}</h2>
                         <p className="text-slate-500 font-bold text-sm mb-8 max-w-sm">
@@ -154,7 +156,7 @@ export default function DriverTrucksPage() {
                             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">
-                                        <Truck className="w-5 h-5" />
+                                        <RiTruckFill className="w-5 h-5" />
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-black text-slate-900">{selectedTruck.name || selectedTruck.registrationNo}</h3>
@@ -179,7 +181,7 @@ export default function DriverTrucksPage() {
                                 </div>
                                 {selectedTruck.approvalNote && (
                                     <div className="p-3 rounded-xl bg-red-50 border border-red-100 flex gap-2">
-                                        <Info className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                                        <RiInformationFill className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                                         <div>
                                             <p className="text-xs font-bold text-red-700">{t("Note from Admin", "এডমিন নোট")}:</p>
                                             <p className="text-xs text-red-600 font-medium leading-relaxed">{selectedTruck.approvalNote}</p>

@@ -5,17 +5,19 @@ import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
     Search,
-    Calendar,
     ArrowRight,
-    Loader2,
-    Package,
-    TrendingUp,
-    AlertTriangle,
-    Lock,
-    CreditCard,
-    MapPin,
-    Map as MapIcon
+    Loader2
 } from "lucide-react";
+import {
+    RiSearchFill,
+    RiCalendarFill,
+    RiBox3Fill,
+    RiLineChartFill,
+    RiErrorWarningFill,
+    RiLockFill,
+    RiBankCardFill,
+    RiMap2Fill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
@@ -164,7 +166,7 @@ export default function DriverJobsPage() {
                 </div>
                 <div className="flex gap-4">
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
+                        <RiSearchFill className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
                         <input
                             type="text"
                             placeholder={t("Search location...", "ঠিকানা খুঁজুন...")}
@@ -179,7 +181,7 @@ export default function DriverJobsPage() {
                 <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-amber-50 border border-amber-200 rounded-xl p-5 shadow-sm">
                     <div className="flex items-start gap-4">
                         <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center shrink-0 mt-0.5">
-                            <AlertTriangle className="w-5 h-5 text-amber-600" />
+                            <RiErrorWarningFill className="w-5 h-5 text-amber-600" />
                         </div>
                         <div>
                             <p className="text-sm font-black text-amber-900 mb-0.5">
@@ -195,7 +197,7 @@ export default function DriverJobsPage() {
                     </div>
                     <Link href="/driver/payments" className="shrink-0">
                         <Button className="h-10 px-5 rounded-lg font-black text-xs gap-2 bg-amber-600 hover:bg-amber-700 text-white shadow-sm whitespace-nowrap">
-                            <CreditCard className="w-4 h-4" />
+                            <RiBankCardFill className="w-4 h-4" />
                             {t("Pay Commission", "কমিশন দিন")}
                         </Button>
                     </Link>
@@ -209,7 +211,7 @@ export default function DriverJobsPage() {
             ) : jobs.length === 0 ? (
                 <div className="bg-white rounded-lg border border-slate-100 p-20 text-center">
                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Package className="w-8 h-8 text-slate-300" />
+                        <RiBox3Fill className="w-8 h-8 text-slate-300" />
                     </div>
                     <h3 className="text-xl font-bold text-slate-950 mb-2">{t("No Available Jobs", "কোন কাজ পাওয়া যায়নি")}</h3>
                     <p className="text-slate-700 font-bold max-w-sm mx-auto">
@@ -247,17 +249,17 @@ export default function DriverJobsPage() {
 
                                 <div className="flex items-center gap-6 py-4 border-y border-slate-50 mb-6">
                                     <div className="flex items-center gap-2">
-                                        <Calendar className="w-4 h-4 text-slate-400" />
+                                        <RiCalendarFill className="w-4 h-4 text-slate-400" />
                                         <span className="text-xs font-bold text-slate-700">
                                             {job.scheduledAt ? new Date(job.scheduledAt).toLocaleDateString() : "ASAP"}
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Package className="w-4 h-4 text-slate-400" />
+                                        <RiBox3Fill className="w-4 h-4 text-slate-400" />
                                         <span className="text-xs font-bold text-slate-700">{job.goodsType}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <TrendingUp className="w-4 h-4 text-primary" />
+                                        <RiLineChartFill className="w-4 h-4 text-primary" />
                                         <span className="text-xs font-bold text-slate-700">
                                             {job.distance ? `${job.distance} KM` : t("N/A", "N/A")}
                                         </span>
@@ -274,13 +276,13 @@ export default function DriverJobsPage() {
                                         {geocodingJobId === job.id ? (
                                             <Loader2 className="w-4 h-4 animate-spin text-slate-500" />
                                         ) : (
-                                            <MapIcon className="w-4 h-4 text-slate-500" />
+                                            <RiMap2Fill className="w-4 h-4 text-slate-500" />
                                         )}
                                         {t("Map", "ম্যাপ")}
                                     </Button>
                                     {hasCommissionDue ? (
                                         <div className="flex-1 h-12 rounded-lg font-black flex items-center justify-center gap-2 bg-slate-100 border border-slate-200 text-slate-400 text-sm cursor-not-allowed select-none">
-                                            <Lock className="w-4 h-4" />
+                                            <RiLockFill className="w-4 h-4" />
                                             {t("Pay Commission to Unlock", "কোম্পানি কমিশন দিন")}
                                         </div>
                                     ) : (
@@ -375,7 +377,7 @@ export default function DriverJobsPage() {
                                 <div className="pt-6 border-t border-slate-100">
                                     {hasCommissionDue ? (
                                         <div className="w-full h-12 rounded-lg font-black flex items-center justify-center gap-2 bg-slate-100 border border-slate-200 text-slate-400 text-sm cursor-not-allowed select-none">
-                                            <Lock className="w-4 h-4" />
+                                            <RiLockFill className="w-4 h-4" />
                                             {t("Pay Commission to Unlock", "কোম্পানি কমিশন দিন")}
                                         </div>
                                     ) : (

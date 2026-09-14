@@ -4,15 +4,17 @@ import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Wallet,
-    CreditCard,
-    History,
-    AlertCircle,
-    CheckCircle2,
-    Clock,
-    XCircle,
     Loader2
 } from "lucide-react";
+import {
+    RiWallet3Fill,
+    RiBankCardFill,
+    RiHistoryFill,
+    RiErrorWarningFill,
+    RiCheckboxCircleFill,
+    RiTimeFill,
+    RiCloseCircleFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
@@ -74,9 +76,9 @@ export default function DriverPaymentsPage() {
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case 'APPROVED': return <CheckCircle2 className="w-4 h-4 text-green-500" />;
-            case 'PENDING': return <Clock className="w-4 h-4 text-amber-500" />;
-            case 'REJECTED': return <XCircle className="w-4 h-4 text-red-500" />;
+            case 'APPROVED': return <RiCheckboxCircleFill className="w-4 h-4 text-green-500" />;
+            case 'PENDING': return <RiTimeFill className="w-4 h-4 text-amber-500" />;
+            case 'REJECTED': return <RiCloseCircleFill className="w-4 h-4 text-red-500" />;
             default: return null;
         }
     };
@@ -107,7 +109,7 @@ export default function DriverPaymentsPage() {
                     <div className="bg-primary/5 border border-primary/10 rounded-2xl p-8">
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-12 h-12 rounded-xl bg-primary text-white flex items-center justify-center">
-                                <Wallet className="w-6 h-6" />
+                                <RiWallet3Fill className="w-6 h-6" />
                             </div>
                             <div>
                                 <p className="text-xs font-black text-slate-500 uppercase tracking-widest leading-none mb-1">{t("Current Due", "বর্তমান বকেয়া")}</p>
@@ -128,12 +130,12 @@ export default function DriverPaymentsPage() {
 
                     <div className="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
                         <h3 className="text-lg font-black text-slate-900 mb-6 flex items-center gap-2">
-                            <CreditCard className="w-5 h-5 text-primary" />
+                            <RiBankCardFill className="w-5 h-5 text-primary" />
                             {t("Submit New Payment", "নতুন পেমেন্ট জমা দিন")}
                         </h3>
                         <div className="mb-6 p-4 bg-amber-50 rounded-xl border border-amber-100">
                             <p className="text-xs font-bold text-amber-800 leading-relaxed">
-                                <AlertCircle className="w-3 h-3 inline mr-1 mb-0.5" />
+                                <RiErrorWarningFill className="w-3.5 h-3.5 inline mr-1 mb-0.5" />
                                 {t("Send money to bKash: 01739142959 and enter the Transaction ID below.", "বিকাশ করুন: ০১৭৩৯১৪২৯৫৯ নম্বরে এবং নিচে ট্রানজেকশন আইডি দিন।")}
                             </p>
                         </div>
@@ -174,7 +176,7 @@ export default function DriverPaymentsPage() {
                     <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden h-full">
                         <div className="p-8 border-b border-slate-50 flex items-center justify-between">
                             <h3 className="text-xl font-bold text-slate-950 flex items-center gap-2">
-                                <History className="w-5 h-5 text-primary" />
+                                <RiHistoryFill className="w-5 h-5 text-primary" />
                                 {t("Payment History", "পেমেন্টের ইতিহাস")}
                             </h3>
                         </div>
@@ -184,7 +186,7 @@ export default function DriverPaymentsPage() {
                         ) : data.payments.length === 0 ? (
                             <div className="p-20 text-center">
                                 <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <History className="w-8 h-8 text-slate-300" />
+                                    <RiHistoryFill className="w-8 h-8 text-slate-300" />
                                 </div>
                                 <h4 className="text-lg font-bold text-slate-600">{t("No payments found", "কোন পেমেন্ট পাওয়া যায়নি")}</h4>
                             </div>

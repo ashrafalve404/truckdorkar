@@ -30,7 +30,13 @@ import {
     RiAddCircleFill,
     RiBellFill,
     RiCustomerService2Fill,
-    RiUserFill
+    RiUserFill,
+    RiSearchFill,
+    RiTruckFill,
+    RiBankCardFill,
+    RiWallet3Fill,
+    RiGiftFill,
+    RiSettings4Fill
 } from "react-icons/ri";
 import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
@@ -70,16 +76,16 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Settings", href: "/admin/settings", icon: Settings, bn: "সেটিংস" },
         ],
         DRIVER: [
-            { name: "Dashboard", href: "/driver/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
-            { name: "Find Trips", href: "/driver/jobs", icon: TrendingUp, bn: "ট্রিপ খুঁজুন" },
-            { name: "My Trucks", href: "/driver/trucks", icon: Truck, bn: "আমার ট্রাক" },
-            { name: "My Bookings", href: "/driver/bookings", icon: Package, bn: "আমার বুকিং" },
-            { name: "Payments", href: "/driver/payments", icon: CreditCard, bn: "পেমেন্ট" },
-            { name: "Earnings", href: "/driver/earnings", icon: FileText, bn: "উপার্জন" },
-            { name: "Refer & Earn", href: "/driver/referrals", icon: Gift, bn: "রেফারেল কমিশন" },
-            { name: "Notifications", href: "/driver/notifications", icon: Bell, bn: "নোটিফিকেশন" },
-            { name: "Support", href: "/driver/support", icon: MessageSquare, bn: "সাপোর্ট" },
-            { name: "Settings", href: "/driver/settings", icon: Settings, bn: "সেটিংস" },
+            { name: "Dashboard", href: "/driver/dashboard", icon: RiLayoutGridFill, bn: "ড্যাশবোর্ড" },
+            { name: "Find Trips", href: "/driver/jobs", icon: RiSearchFill, bn: "ট্রিপ খুঁজুন" },
+            { name: "My Trucks", href: "/driver/trucks", icon: RiTruckFill, bn: "আমার ট্রাক" },
+            { name: "My Bookings", href: "/driver/bookings", icon: RiBox3Fill, bn: "আমার বুকিং" },
+            { name: "Payments", href: "/driver/payments", icon: RiBankCardFill, bn: "পেমেন্ট" },
+            { name: "Earnings", href: "/driver/earnings", icon: RiWallet3Fill, bn: "উপার্জন" },
+            { name: "Refer & Earn", href: "/driver/referrals", icon: RiGiftFill, bn: "রেফারেল কমিশন" },
+            { name: "Notifications", href: "/driver/notifications", icon: RiBellFill, bn: "নোটিফিকেশন" },
+            { name: "Support", href: "/driver/support", icon: RiCustomerService2Fill, bn: "সাপোর্ট" },
+            { name: "Settings", href: "/driver/settings", icon: RiSettings4Fill, bn: "সেটিংস" },
         ],
         AGENT: [
             { name: "Dashboard", href: "/agent/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },

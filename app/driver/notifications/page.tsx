@@ -4,16 +4,18 @@ import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Bell,
-    CheckCircle,
-    Info,
-    Truck,
-    Package,
-    Clock,
-    MessageSquare,
     Loader2,
     CheckCheck
 } from "lucide-react";
+import {
+    RiBellFill,
+    RiCheckboxCircleFill,
+    RiInformationFill,
+    RiTruckFill,
+    RiBox3Fill,
+    RiTimeFill,
+    RiCustomerService2Fill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
@@ -58,11 +60,11 @@ export default function DriverNotificationsPage() {
     };
 
     const iconMap: Record<string, any> = {
-        BOOKING: Package,
-        PAYMENT: CheckCircle,
-        SYSTEM: Info,
-        SUPPORT: MessageSquare,
-        DRIVER: Truck,
+        BOOKING: RiBox3Fill,
+        PAYMENT: RiCheckboxCircleFill,
+        SYSTEM: RiInformationFill,
+        SUPPORT: RiCustomerService2Fill,
+        DRIVER: RiTruckFill,
     };
 
     const colorMap: Record<string, { icon: string; bg: string }> = {
@@ -125,7 +127,7 @@ export default function DriverNotificationsPage() {
                 ) : notifications.length === 0 ? (
                     <div className="p-16 text-center">
                         <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <Bell className="w-8 h-8 text-slate-400" />
+                            <RiBellFill className="w-8 h-8 text-slate-400" />
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 mb-1">
                             {t("No Notifications Yet", "কোনো নোটিফিকেশন নেই")}
@@ -137,7 +139,7 @@ export default function DriverNotificationsPage() {
                 ) : (
                     <div className="space-y-4">
                         {notifications.map((item) => {
-                            const IconComponent = iconMap[item.type] || Bell;
+                            const IconComponent = iconMap[item.type] || RiBellFill;
                             const colors = colorMap[item.type] || { icon: "text-slate-500", bg: "bg-slate-50" };
 
                             return (
@@ -160,7 +162,7 @@ export default function DriverNotificationsPage() {
                                                 {item.title}
                                             </h4>
                                             <span className="text-[11px] font-bold text-slate-400 shrink-0 flex items-center gap-1">
-                                                <Clock className="w-3 h-3" />
+                                                <RiTimeFill className="w-3 h-3" />
                                                 {getTimeAgo(item.createdAt)}
                                             </span>
                                         </div>

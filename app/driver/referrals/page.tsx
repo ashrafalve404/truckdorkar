@@ -6,20 +6,22 @@ import { useLanguage } from "@/context/language-context";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import {
-    Gift,
-    Users,
-    Wallet,
     Copy,
     Check,
     Share2,
-    Truck,
-    Clock,
     Loader2,
-    CheckCircle2,
-    AlertCircle,
-    TrendingUp,
     ExternalLink
 } from "lucide-react";
+import {
+    RiGiftFill,
+    RiGroupFill,
+    RiWallet3Fill,
+    RiTruckFill,
+    RiTimeFill,
+    RiCheckboxCircleFill,
+    RiErrorWarningFill,
+    RiLineChartFill
+} from "react-icons/ri";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 
@@ -79,7 +81,7 @@ export default function DriverReferralsPage() {
             <header className="mb-8">
                 <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                        <Gift className="w-6 h-6" />
+                        <RiGiftFill className="w-6 h-6" />
                     </div>
                     {t("Driver Referral Program", "ড্রাইভার রেফারেল প্রোগ্রাম")}
                 </h1>
@@ -102,7 +104,7 @@ export default function DriverReferralsPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
                             <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 font-black">
-                                <Wallet className="w-7 h-7" />
+                                <RiWallet3Fill className="w-7 h-7" />
                             </div>
                             <div>
                                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t("Total 5% Referral Income", "মোট রেফারেল আয়")}</span>
@@ -113,7 +115,7 @@ export default function DriverReferralsPage() {
 
                         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
                             <div className="w-14 h-14 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-black">
-                                <Users className="w-7 h-7" />
+                                <RiGroupFill className="w-7 h-7" />
                             </div>
                             <div>
                                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t("Referred Drivers", "রেফারকৃত ড্রাইভার")}</span>
@@ -124,7 +126,7 @@ export default function DriverReferralsPage() {
 
                         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
                             <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 font-black">
-                                <Gift className="w-7 h-7" />
+                                <RiGiftFill className="w-7 h-7" />
                             </div>
                             <div>
                                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{t("Your Referral Code", "আপনার রেফারেল কোড")}</span>
@@ -187,7 +189,7 @@ export default function DriverReferralsPage() {
                         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                             <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                                 <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                                    <Users className="w-5 h-5 text-primary" />
+                                    <RiGroupFill className="w-5 h-5 text-primary" />
                                     {t("Referred Drivers", "রেফারকৃত ড্রাইভারবৃন্দ")}
                                 </h3>
                                 <span className="text-xs font-bold bg-slate-100 px-3 py-1 rounded-full text-slate-700">
@@ -198,7 +200,7 @@ export default function DriverReferralsPage() {
                             <div className="p-0 overflow-x-auto flex-1">
                                 {stats.referredDrivers.length === 0 ? (
                                     <div className="p-12 text-center text-slate-400 space-y-3">
-                                        <Users className="w-12 h-12 mx-auto text-slate-200" />
+                                        <RiGroupFill className="w-12 h-12 mx-auto text-slate-200" />
                                         <p className="text-sm font-bold text-slate-600">{t("No referred drivers yet", "এখনো কোনো ড্রাইভার রেফার হয়নি")}</p>
                                         <p className="text-xs">{t("Share your link above to start earning 5% commission!", "৫% কমিশন পেতে উপরে দেওয়া লিংকটি শেয়ার করুন!")}</p>
                                     </div>
@@ -227,7 +229,7 @@ export default function DriverReferralsPage() {
                         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                             <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                                 <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                                    <TrendingUp className="w-5 h-5 text-emerald-600" />
+                                    <RiLineChartFill className="w-5 h-5 text-emerald-600" />
                                     {t("Commission Earnings History", "৫% কমিশন উপার্জনের ইতিহাস")}
                                 </h3>
                                 <span className="text-xs font-bold bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full">
@@ -238,7 +240,7 @@ export default function DriverReferralsPage() {
                             <div className="p-0 overflow-x-auto flex-1">
                                 {stats.referralLogs.length === 0 ? (
                                     <div className="p-12 text-center text-slate-400 space-y-3">
-                                        <Gift className="w-12 h-12 mx-auto text-slate-200" />
+                                        <RiGiftFill className="w-12 h-12 mx-auto text-slate-200" />
                                         <p className="text-sm font-bold text-slate-600">{t("No commission transactions yet", "এখনো কোনো কমিশন জমা হয়নি")}</p>
                                         <p className="text-xs">{t("When your referred drivers complete trips, your 5% cut will show here.", "আপনার রেফারকৃত ড্রাইভারদের ট্রিপ শেষ হলে ৫% কমিশন এখানে যোগ হবে।")}</p>
                                     </div>

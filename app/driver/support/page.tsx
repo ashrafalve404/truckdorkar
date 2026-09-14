@@ -4,17 +4,18 @@ import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    MessageSquare,
-    Phone,
-    Mail,
-    LifeBuoy,
-    HelpCircle,
     ArrowRight,
-    Send,
-    Loader2,
-    Clock,
-    CheckCircle
+    Loader2
 } from "lucide-react";
+import {
+    RiPhoneFill,
+    RiCustomerService2Fill,
+    RiQuestionnaireFill,
+    RiMailFill,
+    RiSendPlaneFill,
+    RiTimeFill,
+    RiCheckboxCircleFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
@@ -88,7 +89,7 @@ export default function DriverSupportPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm text-center">
                     <div className="w-12 h-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Phone className="w-6 h-6" />
+                        <RiPhoneFill className="w-6 h-6" />
                     </div>
                     <h3 className="font-black text-slate-900 text-base mb-1">{t("Call Hotline", "হটলাইন কল")}</h3>
                     <p className="text-xs text-slate-500 font-bold mb-4">01826-110036</p>
@@ -101,7 +102,7 @@ export default function DriverSupportPage() {
 
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm text-center">
                     <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <MessageSquare className="w-6 h-6" />
+                        <RiCustomerService2Fill className="w-6 h-6" />
                     </div>
                     <h3 className="font-black text-slate-900 text-base mb-1">{t("Ticket Response", "টিকেট রেসপন্স")}</h3>
                     <p className="text-xs text-slate-500 font-bold mb-4">{t("Avg. response time: ~15 mins", "গড় উত্তর দেওয়ার সময়: ~১৫ মিনিট")}</p>
@@ -112,7 +113,7 @@ export default function DriverSupportPage() {
 
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm text-center">
                     <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <HelpCircle className="w-6 h-6" />
+                        <RiQuestionnaireFill className="w-6 h-6" />
                     </div>
                     <h3 className="font-black text-slate-900 text-base mb-1">{t("FAQ & Guides", "সাধারণ প্রশ্ন")}</h3>
                     <p className="text-xs text-slate-500 font-bold mb-4">{t("Rules & payment policies", "নিয়ম ও পেমেন্ট পলিসি")}</p>
@@ -129,7 +130,7 @@ export default function DriverSupportPage() {
                 {/* Submit Ticket Form */}
                 <div className="lg:col-span-2 bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
                     <h2 className="text-lg font-black text-slate-900 mb-6 flex items-center gap-2">
-                        <MessageSquare className="w-5 h-5 text-primary" />
+                        <RiCustomerService2Fill className="w-5 h-5 text-primary" />
                         {t("Submit Driver Support Ticket", "ড্রাইভার সাপোর্ট টিকেট সাবমিট করুন")}
                     </h2>
 
@@ -182,7 +183,7 @@ export default function DriverSupportPage() {
                         <Button disabled={loading} className="w-full h-12 rounded-xl font-black bg-primary text-white shadow-md shadow-primary/20 gap-2">
                             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                                 <>
-                                    <Send className="w-4 h-4" />
+                                    <RiSendPlaneFill className="w-4 h-4" />
                                     {t("Submit Ticket", "টিকেট পাঠ জানান")}
                                 </>
                             )}

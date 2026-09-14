@@ -4,12 +4,12 @@ import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Search,
-    Loader2,
-    Calendar,
-    MapPin,
-    Phone
+    Loader2
 } from "lucide-react";
+import {
+    RiPhoneFill,
+    RiCalendarFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -119,7 +119,7 @@ export default function DriverBookingsPage() {
                                             <p className="font-bold text-slate-950 text-sm">{booking.user?.name || 'Customer'}</p>
                                             {booking.contactPhone && (
                                                 <a href={`tel:${booking.contactPhone}`} className="flex items-center gap-1 text-[10px] text-primary font-bold hover:underline mt-0.5">
-                                                    <Phone className="w-2.5 h-2.5" />
+                                                    <RiPhoneFill className="w-2.5 h-2.5" />
                                                     {booking.contactPhone}
                                                 </a>
                                             )}
@@ -141,7 +141,7 @@ export default function DriverBookingsPage() {
                                         </td>
                                         <td className="px-8 py-4 text-xs font-bold text-slate-800">
                                             <div className="flex items-center gap-2">
-                                                <Calendar className="w-3.5 h-3.5" />
+                                                <RiCalendarFill className="w-3.5 h-3.5" />
                                                 {booking.scheduledAt ? new Date(booking.scheduledAt).toLocaleDateString() : t("N/A", "N/A")}
                                             </div>
                                         </td>

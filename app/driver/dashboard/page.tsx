@@ -2,17 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
+import { Loader2, ArrowRight } from "lucide-react";
 import {
-    Package,
-    Truck,
-    Wallet,
-    Star,
-    MapPin,
-    ArrowRight,
-    Loader2,
-    TrendingUp,
-    Bell
-} from "lucide-react";
+    RiWallet3Fill,
+    RiTruckFill,
+    RiStarFill,
+    RiBellFill,
+    RiBox3Fill,
+    RiLineChartFill
+} from "react-icons/ri";
 import { useLanguage } from "@/context/language-context";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -97,9 +95,9 @@ export default function DriverDashboard() {
     const hasPendingTruck = trucks.some(t => t.status === 'PENDING');
 
     const cards = [
-        { label: t("Earnings", "উপার্জন"), value: `৳${stats.earnings.toLocaleString()}`, icon: Wallet, color: "bg-green-500", href: "/driver/earnings" },
-        { label: t("Total Trips", "মোট ট্রিপ"), value: stats.totalTrips, icon: Truck, color: "bg-blue-500", href: "/driver/bookings" },
-        { label: t("Rating", "রেটিং"), value: stats.rating.toFixed(1), icon: Star, color: "bg-amber-500", href: "/driver/settings" },
+        { label: t("Earnings", "উপার্জন"), value: `৳${stats.earnings.toLocaleString()}`, icon: RiWallet3Fill, color: "bg-green-500", href: "/driver/earnings" },
+        { label: t("Total Trips", "মোট ট্রিপ"), value: stats.totalTrips, icon: RiTruckFill, color: "bg-blue-500", href: "/driver/bookings" },
+        { label: t("Rating", "রেটিং"), value: stats.rating.toFixed(1), icon: RiStarFill, color: "bg-amber-500", href: "/driver/settings" },
     ];
 
     return (
@@ -127,7 +125,7 @@ export default function DriverDashboard() {
                         className="relative w-10 h-10 bg-white rounded-full border border-slate-200 flex items-center justify-center text-slate-700 hover:text-primary hover:border-primary/30 transition-all shadow-sm group shrink-0"
                         title={t("Notifications", "নোটিফিকেশন")}
                     >
-                        <Bell className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-700" />
+                        <RiBellFill className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-700" />
                         {unreadCount > 0 && (
                             <span className="absolute top-0 right-0 flex h-3 w-3">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -143,7 +141,7 @@ export default function DriverDashboard() {
                     <div className="flex flex-col items-center text-center gap-3 md:flex-row md:text-left md:justify-between md:gap-6">
                         <div className="flex flex-col items-center gap-3 md:flex-row md:items-center md:gap-4">
                             <div className="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
-                                <Truck className="w-5 h-5 text-amber-600" />
+                                <RiTruckFill className="w-5 h-5 text-amber-600" />
                             </div>
                             <div>
                                 <h2 className="text-base font-black text-slate-900 mb-1">
@@ -224,7 +222,7 @@ export default function DriverDashboard() {
                     ) : activeTrips.length === 0 ? (
                         <div className="p-20 text-center">
                             <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Package className="w-10 h-10 text-slate-200" />
+                                <RiBox3Fill className="w-10 h-10 text-slate-200" />
                             </div>
                             <h4 className="text-lg font-bold text-slate-600 mb-1">{t("No active trips", "কোনো চলমান ট্রিপ নেই")}</h4>
                             <p className="text-slate-600 text-sm font-bold">{t("Requests you accept will appear here.", "আপনার গ্রহণ করা রিকোয়েস্টগুলো এখানে দেখা যাবে।")}</p>
@@ -239,7 +237,7 @@ export default function DriverDashboard() {
                                             <span className="text-xs font-bold text-slate-900">{trip.user?.name}</span>
                                             {trip.distance && (
                                                 <span className="text-[10px] font-black bg-primary/5 text-primary px-2 py-1 rounded uppercase flex items-center gap-1">
-                                                    <TrendingUp className="w-3 h-3" />
+                                                    <RiLineChartFill className="w-3 h-3" />
                                                     {trip.distance} KM
                                                 </span>
                                             )}

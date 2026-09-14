@@ -4,28 +4,28 @@ import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    User,
-    Truck,
-    Lock,
-    Bell,
-    Save,
-    Camera,
-    Upload,
-    CheckCircle2,
-    ShieldCheck,
-    UserCheck,
-    Phone,
-    Mail,
-    AlertCircle,
-    Info,
-    Clock,
-    XCircle,
     Plus,
     ArrowRight,
     Eye,
     EyeOff,
     Loader2
 } from "lucide-react";
+import {
+    RiUserFill,
+    RiTruckFill,
+    RiLockFill,
+    RiBellFill,
+    RiSaveFill,
+    RiCameraFill,
+    RiCheckboxCircleFill,
+    RiShieldCheckFill,
+    RiPhoneFill,
+    RiMailFill,
+    RiErrorWarningFill,
+    RiInformationFill,
+    RiTimeFill,
+    RiCloseCircleFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/store/use-auth";
 import api from "@/lib/api";
@@ -210,17 +210,17 @@ export default function DriverSettingsPage() {
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case "APPROVED": return <CheckCircle2 className="w-4 h-4" />;
-            case "REJECTED": return <XCircle className="w-4 h-4" />;
-            default: return <Clock className="w-4 h-4" />;
+            case "APPROVED": return <RiCheckboxCircleFill className="w-4 h-4" />;
+            case "REJECTED": return <RiCloseCircleFill className="w-4 h-4" />;
+            default: return <RiTimeFill className="w-4 h-4" />;
         }
     };
 
     const tabs: { id: Tab; label_en: string; label_bn: string; icon: LucideIcon }[] = [
-        { id: "profile", label_en: "Profile", label_bn: "প্রোফাইল", icon: User },
-        { id: "truck", label_en: "My Truck", label_bn: "আমার ট্রাক", icon: Truck },
-        { id: "safety", label_en: "Safety & Privacy", label_bn: "সুরক্ষা", icon: Lock },
-        { id: "notifications", label_en: "Notifications", label_bn: "নোটিফিকেশন", icon: Bell },
+        { id: "profile", label_en: "Profile", label_bn: "প্রোফাইল", icon: RiUserFill },
+        { id: "truck", label_en: "My Truck", label_bn: "আমার ট্রাক", icon: RiTruckFill },
+        { id: "safety", label_en: "Safety & Privacy", label_bn: "সুরক্ষা", icon: RiLockFill },
+        { id: "notifications", label_en: "Notifications", label_bn: "নোটিফিকেশন", icon: RiBellFill },
     ];
 
     const renderTabContent = () => {
@@ -235,10 +235,10 @@ export default function DriverSettingsPage() {
         switch (activeTab) {
             case "profile":
                 const driverStatusObj = {
-                    VERIFIED: { icon: CheckCircle2, text: t("Verified Driver", "ভেরিফাইড ড্রাইভার"), color: "text-green-500", bg: "bg-green-50" },
-                    REJECTED: { icon: XCircle, text: t("Rejected", "প্রত্যাখ্যান করা হয়েছে"), color: "text-red-500", bg: "bg-red-50" },
-                    PENDING: { icon: Clock, text: t("Pending Verification", "অপেক্ষমান যাচাইকরণ"), color: "text-amber-500", bg: "bg-amber-50" },
-                }[driverData?.status as 'VERIFIED' | 'REJECTED' | 'PENDING'] || { icon: ShieldCheck, text: t("Unverified", "অযাচাইকৃত"), color: "text-slate-400", bg: "bg-slate-50" };
+                    VERIFIED: { icon: RiCheckboxCircleFill, text: t("Verified Driver", "ভেরিফাইড ড্রাইভার"), color: "text-green-500", bg: "bg-green-50" },
+                    REJECTED: { icon: RiCloseCircleFill, text: t("Rejected", "প্রত্যাখ্যান করা হয়েছে"), color: "text-red-500", bg: "bg-red-50" },
+                    PENDING: { icon: RiTimeFill, text: t("Pending Verification", "অপেক্ষমান যাচাইকরণ"), color: "text-amber-500", bg: "bg-amber-50" },
+                }[driverData?.status as 'VERIFIED' | 'REJECTED' | 'PENDING'] || { icon: RiShieldCheckFill, text: t("Unverified", "অযাচাইকৃত"), color: "text-slate-400", bg: "bg-slate-50" };
 
                 const StatusIconComp = driverStatusObj.icon;
 
@@ -276,7 +276,7 @@ export default function DriverSettingsPage() {
                                         type="button"
                                         className="absolute bottom-0 right-0 w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white shadow-md group-hover:scale-110 transition-transform"
                                     >
-                                        <Camera className="w-3.5 h-3.5" />
+                                        <RiCameraFill className="w-3.5 h-3.5" />
                                     </button>
                                 </div>
                                 <h3 className="font-black text-slate-900 text-lg">{profile.name || "Driver Name"}</h3>
@@ -304,7 +304,7 @@ export default function DriverSettingsPage() {
                             {/* Personal Information Form */}
                             <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm space-y-6">
                                 <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
-                                    <User className="w-5 h-5 text-primary" />
+                                    <RiUserFill className="w-5 h-5 text-primary" />
                                     {t("Personal Information", "ব্যক্তিগত তথ্য")}
                                 </h4>
 
@@ -356,7 +356,7 @@ export default function DriverSettingsPage() {
                                         disabled={saving}
                                         className="h-14 px-8 rounded-2xl font-black bg-slate-950 hover:bg-slate-900 text-white shadow-xl gap-2"
                                     >
-                                        {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                        {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <RiSaveFill className="w-5 h-5" />}
                                         {t("Update Profile", "প্রোফাইল আপডেট করুন")}
                                     </Button>
                                 </div>
@@ -365,7 +365,7 @@ export default function DriverSettingsPage() {
                             {/* Verification Documents Upload Grid */}
                             <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
                                 <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
-                                    <ShieldCheck className="w-5 h-5 text-primary" />
+                                    <RiShieldCheckFill className="w-5 h-5 text-primary" />
                                     {t("Uploaded Verification Documents", "আপলোডকৃত ভেরিফিকেশন ফাইলসমূহ")}
                                 </h4>
 
@@ -384,7 +384,7 @@ export default function DriverSettingsPage() {
                                                 <div className="aspect-[1.6/1] rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex flex-col items-center justify-center overflow-hidden relative p-2">
                                                     {doc.url ? (
                                                         <div className="w-full h-full flex flex-col items-center justify-center text-center">
-                                                            <CheckCircle2 className="w-8 h-8 text-green-500 mb-2" />
+                                                            <RiCheckboxCircleFill className="w-8 h-8 text-green-500 mb-2" />
                                                             <span className="text-xs font-bold text-slate-900 mb-1">{t("Document Uploaded", "ডকুমেন্ট আপলোড করা হয়েছে")}</span>
                                                             <a href={getAvatarUrl(doc.url) || doc.url} target="_blank" rel="noopener noreferrer" className="text-[10px] text-primary underline font-bold">
                                                                 {t("View File", "ফাইল দেখুন")}
@@ -392,7 +392,7 @@ export default function DriverSettingsPage() {
                                                         </div>
                                                     ) : (
                                                         <div className="flex flex-col items-center justify-center text-center">
-                                                            <Camera className="w-8 h-8 text-slate-300 mb-2 group-hover:text-primary transition-colors" />
+                                                            <RiCameraFill className="w-8 h-8 text-slate-300 mb-2 group-hover:text-primary transition-colors" />
                                                             <p className="text-[10px] font-bold text-slate-400">{t("Click to upload photo", "ডকুমেন্টের ছবি আপলোড করতে ক্লিক করুন")}</p>
                                                         </div>
                                                     )}
@@ -435,7 +435,7 @@ export default function DriverSettingsPage() {
                                         <div className="p-5">
                                             <div className="flex items-start justify-between mb-4">
                                                 <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                                                    <Truck className="w-5 h-5 text-slate-600 group-hover:text-primary transition-colors" />
+                                                    <RiTruckFill className="w-5 h-5 text-slate-600 group-hover:text-primary transition-colors" />
                                                 </div>
                                                 <div className={cn(
                                                     "px-2.5 py-1 rounded-full border text-[9px] font-black uppercase tracking-wider flex items-center gap-1",
@@ -466,7 +466,7 @@ export default function DriverSettingsPage() {
 
                                             {truck.approvalNote && (
                                                 <div className="p-2.5 mb-4 rounded-lg bg-red-50 border border-red-100 flex gap-1.5">
-                                                    <Info className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                                                    <RiInformationFill className="w-3.5 h-3.5 text-red-500 shrink-0" />
                                                     <p className="text-[9px] font-bold text-red-600 leading-tight">{truck.approvalNote}</p>
                                                 </div>
                                             )}
@@ -477,7 +477,7 @@ export default function DriverSettingsPage() {
                         ) : (
                             <div className="bg-gradient-to-br from-slate-50 to-slate-100/50 rounded-2xl p-8 border border-slate-100 text-center">
                                 <div className="w-16 h-16 rounded-2xl bg-white shadow-lg shadow-slate-200/50 flex items-center justify-center mx-auto mb-4">
-                                    <Truck className="w-8 h-8 text-slate-300" />
+                                    <RiTruckFill className="w-8 h-8 text-slate-300" />
                                 </div>
                                 <h4 className="text-base font-bold text-slate-900 mb-1">{t("No truck registered", "কোন ট্রাক রেজিস্টার করা নেই")}</h4>
                                 <p className="text-xs text-slate-600 font-bold mb-6 max-w-sm mx-auto">{t("Register your truck to start receiving job requests from shippers.", "কাজের রিকোয়েস্ট পেতে আপনার ট্রাক রেজিস্টার করুন।")}</p>
@@ -492,7 +492,7 @@ export default function DriverSettingsPage() {
                     <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm space-y-6">
                         <div className="border-b border-slate-100 pb-6">
                             <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
-                                <Lock className="w-5 h-5 text-primary" />
+                                <RiLockFill className="w-5 h-5 text-primary" />
                                 {t("Change Password", "পাসওয়ার্ড পরিবর্তন")}
                             </h4>
                             <p className="text-xs font-bold text-slate-500 mt-1">
@@ -573,7 +573,7 @@ export default function DriverSettingsPage() {
                                     disabled={saving}
                                     className="h-14 px-8 rounded-2xl font-black bg-slate-950 hover:bg-slate-900 text-white shadow-xl gap-2"
                                 >
-                                    {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                    {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <RiSaveFill className="w-5 h-5" />}
                                     {t("Update Password", "পাসওয়ার্ড আপডেট করুন")}
                                 </Button>
                             </div>
@@ -586,7 +586,7 @@ export default function DriverSettingsPage() {
                     <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
                         <div className="border-b border-slate-100 pb-6">
                             <h4 className="font-black text-slate-900 text-lg flex items-center gap-2">
-                                <Bell className="w-5 h-5 text-primary" />
+                                <RiBellFill className="w-5 h-5 text-primary" />
                                 {t("Notification Preferences", "নোটিফিকেশন পছন্দ")}
                             </h4>
                             <p className="text-xs font-bold text-slate-500 mt-1">
@@ -631,7 +631,7 @@ export default function DriverSettingsPage() {
                                 disabled={saving}
                                 className="h-14 px-8 rounded-2xl font-black bg-slate-950 hover:bg-slate-900 text-white shadow-xl gap-2"
                             >
-                                {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                                {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <RiSaveFill className="w-5 h-5" />}
                                 {t("Save Preferences", "পছন্দ সংরক্ষণ করুন")}
                             </Button>
                         </div>

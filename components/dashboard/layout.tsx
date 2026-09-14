@@ -14,6 +14,7 @@ import {
     Truck,
     LayoutDashboard,
     PlusCircle,
+    Plus,
     Package,
     User,
     Wallet,
@@ -25,9 +26,10 @@ import {
 import {
     RiLayoutGridFill,
     RiBox3Fill,
-    RiAddCircleFill,
     RiMapPinFill,
-    RiUserFill
+    RiUserFill,
+    RiWallet3Fill,
+    RiSearchFill
 } from "react-icons/ri";
 
 interface DashboardLayoutProps {
@@ -40,18 +42,18 @@ const getMobileNavItems = (role?: string) => {
         return [
             { href: "/dashboard", icon: RiLayoutGridFill, label_en: "Home", label_bn: "হোম" },
             { href: "/bookings", icon: RiBox3Fill, label_en: "My Trips", label_bn: "মাই ট্রিপস" },
-            { href: "/bookings/new", icon: RiAddCircleFill, label_en: "Book Truck", label_bn: "বুকিং", isFab: true },
+            { href: "/bookings/new", icon: Plus, label_en: "Book Truck", label_bn: "বুকিং", isFab: true },
             { href: "/track", icon: RiMapPinFill, label_en: "Tracking", label_bn: "ট্র্যাকিং" },
             { href: "/profile", icon: RiUserFill, label_en: "Profile", label_bn: "প্রোফাইল" },
         ];
     }
     if (role === "DRIVER") {
         return [
-            { href: "/driver/dashboard", icon: LayoutDashboard, label_en: "Overview", label_bn: "হোম" },
-            { href: "/driver/bookings", icon: Package, label_en: "My Trips", label_bn: "ট্রিপস" },
+            { href: "/driver/dashboard", icon: RiLayoutGridFill, label_en: "Overview", label_bn: "হোম" },
+            { href: "/driver/bookings", icon: RiBox3Fill, label_en: "My Trips", label_bn: "ট্রিপস" },
             { href: "/driver/jobs", icon: Search, label_en: "Find Trips", label_bn: "ট্রিপ খুঁজুন", isFab: true },
-            { href: "/driver/earnings", icon: Wallet, label_en: "Earnings", label_bn: "আয়" },
-            { href: "/driver/settings", icon: User, label_en: "Profile", label_bn: "প্রোফাইল" },
+            { href: "/driver/earnings", icon: RiWallet3Fill, label_en: "Earnings", label_bn: "আয়" },
+            { href: "/driver/settings", icon: RiUserFill, label_en: "Profile", label_bn: "প্রোফাইল" },
         ];
     }
     if (role === "AGENT") {

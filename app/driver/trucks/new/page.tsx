@@ -4,18 +4,19 @@ import React, { useState, useRef } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Truck,
     Upload,
-    FileText,
-    BookOpen,
-    CreditCard,
-    Hash,
-    CheckCircle,
     Loader2,
     ArrowLeft,
     Eye,
     X
 } from "lucide-react";
+import {
+    RiTruckFill,
+    RiFileTextFill,
+    RiBookOpenFill,
+    RiBankCardFill,
+    RiCheckboxCircleFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
@@ -261,23 +262,23 @@ export default function DriverAddTruckPage() {
                     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
                         <div className="flex flex-col gap-1 mb-6">
                             <h2 className="font-black text-slate-900 flex items-center gap-2">
-                                <FileText className="w-5 h-5 text-primary" />
+                                <RiFileTextFill className="w-5 h-5 text-primary" />
                                 {t("Vehicle Documents", "গাড়ির ডকুমেন্টস")}
                             </h2>
                             <p className="text-xs text-amber-700 font-bold">{t("All 5 documents are mandatory", "সব ৫টি ডকুমেন্টই আবশ্যক")}</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <DocUploader label="Road Permit" labelBn="রোড পারমিট" icon={<FileText className="w-4 h-4 text-slate-400" />} file={files.roadPermitFile} onFileChange={f => setFiles({ ...files, roadPermitFile: f })} required />
-                            <DocUploader label="Tax Token" labelBn="ট্যাক্স টোকেন" icon={<CreditCard className="w-4 h-4 text-slate-400" />} file={files.taxTokenFile} onFileChange={f => setFiles({ ...files, taxTokenFile: f })} required />
-                            <DocUploader label="Blue Book (Registration Certificate)" labelBn="বুলু বুক (রেজিস্ট্রেশন সার্টিফিকেট)" icon={<BookOpen className="w-4 h-4 text-slate-400" />} file={files.blueBookFile} onFileChange={f => setFiles({ ...files, blueBookFile: f })} required />
-                            <DocUploader label="Number Plate Photo" labelBn="নাম্বার প্লেটের ছবি" icon={<Hash className="w-4 h-4 text-slate-400" />} file={files.numberPlateFile} onFileChange={f => setFiles({ ...files, numberPlateFile: f })} required />
-                            <DocUploader label="Driving License" labelBn="ড্রাইভিং লাইসেন্স" icon={<CreditCard className="w-4 h-4 text-slate-400" />} file={files.drivingLicenseFile} onFileChange={f => setFiles({ ...files, drivingLicenseFile: f })} required />
+                            <DocUploader label="Road Permit" labelBn="রোড পারমিট" icon={<RiFileTextFill className="w-4 h-4 text-slate-400" />} file={files.roadPermitFile} onFileChange={f => setFiles({ ...files, roadPermitFile: f })} required />
+                            <DocUploader label="Tax Token" labelBn="ট্যাক্স টোকেন" icon={<RiBankCardFill className="w-4 h-4 text-slate-400" />} file={files.taxTokenFile} onFileChange={f => setFiles({ ...files, taxTokenFile: f })} required />
+                            <DocUploader label="Blue Book (Registration Certificate)" labelBn="বুলু বুক (রেজিস্ট্রেশন সার্টিফিকেট)" icon={<RiBookOpenFill className="w-4 h-4 text-slate-400" />} file={files.blueBookFile} onFileChange={f => setFiles({ ...files, blueBookFile: f })} required />
+                            <DocUploader label="Number Plate Photo" labelBn="নাম্বার প্লেটের ছবি" icon={<RiFileTextFill className="w-4 h-4 text-slate-400" />} file={files.numberPlateFile} onFileChange={f => setFiles({ ...files, numberPlateFile: f })} required />
+                            <DocUploader label="Driving License" labelBn="ড্রাইভিং লাইসেন্স" icon={<RiBankCardFill className="w-4 h-4 text-slate-400" />} file={files.drivingLicenseFile} onFileChange={f => setFiles({ ...files, drivingLicenseFile: f })} required />
                         </div>
                     </div>
 
                     <div className="pb-10">
                         <Button disabled={submitting} className="h-14 px-12 rounded-xl font-black text-white shadow-xl shadow-primary/20">
-                            {submitting ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <CheckCircle className="w-5 h-5 mr-2" />}
+                            {submitting ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <RiCheckboxCircleFill className="w-5 h-5 mr-2" />}
                             {t("Register Truck for Review", "রিভিউর জন্য জমা দিন")}
                         </Button>
                     </div>
