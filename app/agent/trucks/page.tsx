@@ -4,25 +4,27 @@ import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Truck,
     Plus,
     Loader2,
-    Clock,
-    CheckCircle,
-    XCircle,
-    FileText,
     Eye
 } from "lucide-react";
+import {
+    RiTruckFill,
+    RiTimeFill,
+    RiCheckboxCircleFill,
+    RiCloseCircleFill,
+    RiFileTextFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 const STATUS_CONFIG: Record<string, { label: string; labelBn: string; color: string; bg: string; icon: React.ReactNode }> = {
-    PENDING: { label: "Pending Review", labelBn: "পর্যালোচনাধীন", color: "text-amber-600", bg: "bg-amber-50", icon: <Clock className="w-3 h-3" /> },
-    APPROVED: { label: "Approved", labelBn: "অনুমোদিত", color: "text-green-600", bg: "bg-green-50", icon: <CheckCircle className="w-3 h-3" /> },
-    REJECTED: { label: "Rejected", labelBn: "প্রত্যাখ্যাত", color: "text-red-600", bg: "bg-red-50", icon: <XCircle className="w-3 h-3" /> },
-    INACTIVE: { label: "Inactive", labelBn: "নিষ্ক্রিয়", color: "text-slate-500", bg: "bg-slate-50", icon: <Clock className="w-3 h-3" /> },
+    PENDING: { label: "Pending Review", labelBn: "পর্যালোচনাধীন", color: "text-amber-600", bg: "bg-amber-50", icon: <RiTimeFill className="w-3 h-3" /> },
+    APPROVED: { label: "Approved", labelBn: "অনুমোদিত", color: "text-green-600", bg: "bg-green-50", icon: <RiCheckboxCircleFill className="w-3 h-3" /> },
+    REJECTED: { label: "Rejected", labelBn: "প্রত্যাখ্যাত", color: "text-red-600", bg: "bg-red-50", icon: <RiCloseCircleFill className="w-3 h-3" /> },
+    INACTIVE: { label: "Inactive", labelBn: "নিষ্ক্রিয়", color: "text-slate-500", bg: "bg-slate-50", icon: <RiTimeFill className="w-3 h-3" /> },
 };
 
 export default function AgentTrucksPage() {
@@ -66,10 +68,10 @@ export default function AgentTrucksPage() {
             {/* Stats Row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                 {[
-                    { label: t("Total Registered", "মোট ট্রাক"), value: stats.total, color: "text-slate-900", iconBg: "bg-slate-100 text-slate-700", icon: Truck },
-                    { label: t("Pending Review", "অপেক্ষমান"), value: stats.pending, color: "text-amber-600", iconBg: "bg-amber-50 text-amber-600", icon: Clock },
-                    { label: t("Approved", "অনুমোদিত"), value: stats.approved, color: "text-emerald-600", iconBg: "bg-emerald-50 text-emerald-600", icon: CheckCircle },
-                    { label: t("Rejected", "প্রত্যাখ্যাত"), value: stats.rejected, color: "text-red-600", iconBg: "bg-red-50 text-red-600", icon: XCircle },
+                    { label: t("Total Registered", "মোট ট্রাক"), value: stats.total, color: "text-slate-900", iconBg: "bg-slate-100 text-slate-700", icon: RiTruckFill },
+                    { label: t("Pending Review", "অপেক্ষমান"), value: stats.pending, color: "text-amber-600", iconBg: "bg-amber-50 text-amber-600", icon: RiTimeFill },
+                    { label: t("Approved", "অনুমোদিত"), value: stats.approved, color: "text-emerald-600", iconBg: "bg-emerald-50 text-emerald-600", icon: RiCheckboxCircleFill },
+                    { label: t("Rejected", "প্রত্যাখ্যাত"), value: stats.rejected, color: "text-red-600", iconBg: "bg-red-50 text-red-600", icon: RiCloseCircleFill },
                 ].map((s, i) => (
                     <div key={i} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-all">
                         <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-bold shadow-sm", s.iconBg)}>
@@ -90,7 +92,7 @@ export default function AgentTrucksPage() {
             ) : trucks.length === 0 ? (
                 <div className="bg-white rounded-2xl border border-slate-100 p-24 text-center">
                     <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <Truck className="w-8 h-8 text-slate-300" />
+                        <RiTruckFill className="w-8 h-8 text-slate-300" />
                     </div>
                     <h3 className="font-black text-lg text-slate-900 mb-2">{t("No Trucks Registered Yet", "এখনো কোনো ট্রাক নিবন্ধিত নয়")}</h3>
                     <p className="text-slate-500 font-bold text-sm mb-8">
@@ -113,7 +115,7 @@ export default function AgentTrucksPage() {
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-3">
                                             <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center">
-                                                <Truck className="w-6 h-6 text-primary" />
+                                                <RiTruckFill className="w-6 h-6 text-primary" />
                                             </div>
                                             <div>
                                                 <h3 className="font-black text-slate-900 truncate max-w-[140px]">{truck.name}</h3>

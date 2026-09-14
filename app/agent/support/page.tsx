@@ -3,16 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    MessageSquare,
-    Search,
-    Loader2,
-    CheckCircle,
-    Clock,
-    AlertCircle,
-    User,
-    ArrowUpDown
-} from "lucide-react";
+    RiCustomerService2Fill,
+    RiCheckboxCircleFill,
+    RiTimeFill,
+    RiErrorWarningFill,
+    RiUserFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
@@ -85,10 +83,10 @@ export default function AgentSupportPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
                 {[
-                    { label: t("Total Tickets", "মোট টিকেট"), value: tickets.length, icon: User, color: "text-blue-500", bg: "bg-blue-50" },
-                    { label: t("Pending", "অপেক্ষমান"), value: openCount, icon: Clock, color: "text-amber-500", bg: "bg-amber-50" },
-                    { label: t("In Progress", "চলমান"), value: inProgressCount, icon: AlertCircle, color: "text-purple-500", bg: "bg-purple-50" },
-                    { label: t("Resolved", "সমাধান"), value: resolvedCount, icon: CheckCircle, color: "text-green-500", bg: "bg-green-50" },
+                    { label: t("Total Tickets", "মোট টিকেট"), value: tickets.length, icon: RiUserFill, color: "text-blue-500", bg: "bg-blue-50" },
+                    { label: t("Pending", "অপেক্ষমান"), value: openCount, icon: RiTimeFill, color: "text-amber-500", bg: "bg-amber-50" },
+                    { label: t("In Progress", "চলমান"), value: inProgressCount, icon: RiErrorWarningFill, color: "text-purple-500", bg: "bg-purple-50" },
+                    { label: t("Resolved", "সমাধান"), value: resolvedCount, icon: RiCheckboxCircleFill, color: "text-green-500", bg: "bg-green-50" },
                 ].map((item, idx) => {
                     const Icon = item.icon;
                     return (
@@ -133,7 +131,7 @@ export default function AgentSupportPage() {
                 ) : filteredTickets.length === 0 ? (
                     <div className="p-20 text-center">
                         <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <MessageSquare className="w-8 h-8 text-slate-400" />
+                            <RiCustomerService2Fill className="w-8 h-8 text-slate-400" />
                         </div>
                         <h3 className="text-lg font-bold text-slate-900 mb-2">{t("No Active Tickets", "কোন সক্রিয় টিকেট নেই")}</h3>
                         <p className="text-sm text-slate-500 font-bold max-w-sm mx-auto">

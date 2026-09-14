@@ -3,16 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    Package,
-    Search,
-    MoreVertical,
-    Loader2,
-    Filter,
-    Calendar,
-    MapPin,
-    Truck
-} from "lucide-react";
+    RiSearchFill,
+    RiCalendarFill,
+    RiMapPinFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -70,7 +66,7 @@ export default function AgentBookingsPage() {
                 </div>
                 <div className="flex gap-4">
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
+                        <RiSearchFill className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
                         <input
                             type="text"
                             value={searchTerm}
@@ -119,11 +115,11 @@ export default function AgentBookingsPage() {
                                             <td className="px-8 py-4">
                                                 <div className="flex flex-col gap-1">
                                                     <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                                                        <MapPin className="w-3 h-3 text-green-500" />
+                                                        <RiMapPinFill className="w-3.5 h-3.5 text-green-500 shrink-0" />
                                                         {booking.pickupAddress}
                                                     </div>
                                                     <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                                                        <MapPin className="w-3 h-3 text-red-500" />
+                                                        <RiMapPinFill className="w-3.5 h-3.5 text-red-500 shrink-0" />
                                                         {booking.dropoffAddress}
                                                     </div>
                                                 </div>
@@ -133,7 +129,7 @@ export default function AgentBookingsPage() {
                                             </td>
                                             <td className="px-8 py-4 text-xs font-bold text-slate-800">
                                                 <div className="flex items-center gap-2">
-                                                    <Calendar className="w-3.5 h-3.5" />
+                                                    <RiCalendarFill className="w-3.5 h-3.5" />
                                                     {new Date(booking.scheduledAt).toLocaleDateString()}
                                                 </div>
                                             </td>

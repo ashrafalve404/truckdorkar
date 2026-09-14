@@ -4,17 +4,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import { useAuth } from "@/store/use-auth";
+import { Loader2 } from "lucide-react";
 import {
-    Shield,
-    Image as ImageIcon,
-    CheckCircle2,
-    Clock,
-    XCircle,
-    Loader2,
-    Camera,
-    Info,
-    User as UserIcon
-} from "lucide-react";
+    RiShieldCheckFill,
+    RiCheckboxCircleFill,
+    RiTimeFill,
+    RiCloseCircleFill,
+    RiCameraFill,
+    RiInformationFill,
+    RiUserFill
+} from "react-icons/ri";
 import api, { getFileUrl } from "@/lib/api";
 import { getAvatarUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -135,10 +134,10 @@ export default function AgentProfilePage() {
     }
 
     const statusObj = {
-        PENDING: { icon: Clock, text: t("Pending Verification", "অপেক্ষমান যাচাইকরণ"), color: "text-amber-500", bg: "bg-amber-50" },
-        APPROVED: { icon: CheckCircle2, text: t("Verified Account", "ভেরিফাইড অ্যাকাউন্ট"), color: "text-green-500", bg: "bg-green-50" },
-        REJECTED: { icon: XCircle, text: t("Rejected", "প্রত্যাখ্যান করা হয়েছে"), color: "text-red-500", bg: "bg-red-50" },
-    }[agentData?.verificationStatus as 'PENDING' | 'APPROVED' | 'REJECTED'] || { icon: Shield, text: t("Unverified", "অযাচাইকৃত"), color: "text-slate-400", bg: "bg-slate-50" };
+        PENDING: { icon: RiTimeFill, text: t("Pending Verification", "অপেক্ষমান যাচাইকরণ"), color: "text-amber-500", bg: "bg-amber-50" },
+        APPROVED: { icon: RiCheckboxCircleFill, text: t("Verified Account", "ভেরিফাইড অ্যাকাউন্ট"), color: "text-green-500", bg: "bg-green-50" },
+        REJECTED: { icon: RiCloseCircleFill, text: t("Rejected", "প্রত্যাখ্যান করা হয়েছে"), color: "text-red-500", bg: "bg-red-50" },
+    }[agentData?.verificationStatus as 'PENDING' | 'APPROVED' | 'REJECTED'] || { icon: RiShieldCheckFill, text: t("Unverified", "অযাচাইকৃত"), color: "text-slate-400", bg: "bg-slate-50" };
 
     const StatusIcon = statusObj.icon;
 
@@ -174,7 +173,7 @@ export default function AgentProfilePage() {
                                 {user?.avatar ? (
                                     <img src={getAvatarUrl(user.avatar) || ""} alt={user.name || "Agent Avatar"} className="w-full h-full object-cover" />
                                 ) : (
-                                    <UserIcon className="w-10 h-10 text-slate-400" />
+                                    <RiUserFill className="w-10 h-10 text-slate-400" />
                                 )}
                                 {uploadingAvatar && (
                                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -187,7 +186,7 @@ export default function AgentProfilePage() {
                                 disabled={uploadingAvatar}
                                 className="absolute bottom-0 right-0 w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white shadow-md group-hover:scale-110 transition-transform"
                             >
-                                {uploadingAvatar ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Camera className="w-3.5 h-3.5" />}
+                                {uploadingAvatar ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RiCameraFill className="w-3.5 h-3.5" />}
                             </button>
                         </div>
                         <h3 className="font-black text-slate-900 text-base">{user?.name || agentData?.user?.name || "Agent"}</h3>
@@ -209,7 +208,7 @@ export default function AgentProfilePage() {
 
                     <div className="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm">
                         <h4 className="font-black text-slate-950 mb-4 flex items-center gap-2">
-                            <Info className="w-4 h-4 text-primary" />
+                            <RiInformationFill className="w-4 h-4 text-primary" />
                             {t("Personal Details", "ব্যক্তিগত তথ্য")}
                         </h4>
                         <div className="space-y-4">
@@ -260,7 +259,7 @@ export default function AgentProfilePage() {
                                             />
                                         ) : (
                                             <>
-                                                <Camera className="w-8 h-8 text-slate-300 mb-2 group-hover:text-primary transition-colors" />
+                                                <RiCameraFill className="w-8 h-8 text-slate-300 mb-2 group-hover:text-primary transition-colors" />
                                                 <p className="text-[10px] font-bold text-slate-400">{t("Click to upload photo", "ছবি আপলোড করতে ক্লিক করুন")}</p>
                                             </>
                                         )}
@@ -292,7 +291,7 @@ export default function AgentProfilePage() {
                                             />
                                         ) : (
                                             <>
-                                                <Camera className="w-8 h-8 text-slate-300 mb-2 group-hover:text-primary transition-colors" />
+                                                <RiCameraFill className="w-8 h-8 text-slate-300 mb-2 group-hover:text-primary transition-colors" />
                                                 <p className="text-[10px] font-bold text-slate-400">{t("Click to upload photo", "ছবি আপলোড করতে ক্লিক করুন")}</p>
                                             </>
                                         )}

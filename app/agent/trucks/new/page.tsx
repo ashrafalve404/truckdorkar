@@ -4,18 +4,19 @@ import React, { useState, useRef } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Truck,
     Upload,
-    FileText,
-    BookOpen,
-    CreditCard,
-    Hash,
-    CheckCircle,
     Loader2,
     ArrowLeft,
     Eye,
     X
 } from "lucide-react";
+import {
+    RiTruckFill,
+    RiFileTextFill,
+    RiBookOpenFill,
+    RiBankCardFill,
+    RiCheckboxCircleFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
@@ -248,7 +249,7 @@ export default function AgentAddTruckPage() {
                     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                         <div className="px-8 py-5 border-b border-slate-50 bg-slate-50/50 flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                                <Truck className="w-5 h-5 text-primary" />
+                                <RiTruckFill className="w-5 h-5 text-primary" />
                             </div>
                             <h2 className="font-black text-slate-900">{t("Truck Basic Information", "ট্রাকের মূল তথ্য")}</h2>
                         </div>
@@ -401,7 +402,7 @@ export default function AgentAddTruckPage() {
                     <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                         <div className="px-8 py-5 border-b border-slate-50 bg-amber-50/50 flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
-                                <FileText className="w-5 h-5 text-amber-600" />
+                                <RiFileTextFill className="w-5 h-5 text-amber-600" />
                             </div>
                             <div>
                                 <h2 className="font-black text-slate-900">{t("Required Documents", "প্রয়োজনীয় ডকুমেন্টস")}</h2>
@@ -412,7 +413,7 @@ export default function AgentAddTruckPage() {
                             <DocUploader
                                 label="Road Permit"
                                 labelBn="রোড পারমিট"
-                                icon={<FileText className="w-4 h-4 text-slate-500" />}
+                                icon={<RiFileTextFill className="w-4 h-4 text-slate-500" />}
                                 file={files.roadPermitFile}
                                 onFileChange={f => setFiles({ ...files, roadPermitFile: f })}
                                 required
@@ -420,7 +421,7 @@ export default function AgentAddTruckPage() {
                             <DocUploader
                                 label="Tax Token"
                                 labelBn="ট্যাক্স টোকেন"
-                                icon={<CreditCard className="w-4 h-4 text-slate-500" />}
+                                icon={<RiBankCardFill className="w-4 h-4 text-slate-500" />}
                                 file={files.taxTokenFile}
                                 onFileChange={f => setFiles({ ...files, taxTokenFile: f })}
                                 required
@@ -428,7 +429,7 @@ export default function AgentAddTruckPage() {
                             <DocUploader
                                 label="Blue Book (Registration Certificate)"
                                 labelBn="বুলু বুক (রেজিস্ট্রেশন সার্টিফিকেট)"
-                                icon={<BookOpen className="w-4 h-4 text-slate-500" />}
+                                icon={<RiBookOpenFill className="w-4 h-4 text-slate-500" />}
                                 file={files.blueBookFile}
                                 onFileChange={f => setFiles({ ...files, blueBookFile: f })}
                                 required
@@ -436,7 +437,7 @@ export default function AgentAddTruckPage() {
                             <DocUploader
                                 label="Number Plate Photo"
                                 labelBn="নাম্বার প্লেটের ছবি"
-                                icon={<Hash className="w-4 h-4 text-slate-500" />}
+                                icon={<RiFileTextFill className="w-4 h-4 text-slate-500" />}
                                 file={files.numberPlateFile}
                                 onFileChange={f => setFiles({ ...files, numberPlateFile: f })}
                                 required
@@ -444,7 +445,7 @@ export default function AgentAddTruckPage() {
                             <DocUploader
                                 label="Driving License"
                                 labelBn="ড্রাইভিং লাইসেন্স"
-                                icon={<CreditCard className="w-4 h-4 text-slate-500" />}
+                                icon={<RiBankCardFill className="w-4 h-4 text-slate-500" />}
                                 file={files.drivingLicenseFile}
                                 onFileChange={f => setFiles({ ...files, drivingLicenseFile: f })}
                             />
@@ -461,7 +462,7 @@ export default function AgentAddTruckPage() {
                             {submitting ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
                             ) : (
-                                <CheckCircle className="w-5 h-5" />
+                                <RiCheckboxCircleFill className="w-5 h-5" />
                             )}
                             {t("Submit for Admin Approval", "অ্যাডমিনের অনুমোদনের জন্য জমা দিন")}
                         </Button>

@@ -48,6 +48,15 @@ export default function UserNotificationsPage() {
         }
     };
 
+    const markSingleAsRead = async (id: string) => {
+        try {
+            await api.patch(`/notifications/${id}/read`);
+            setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+        } catch (error) {
+            console.error("Failed to mark notification read", error);
+        }
+    };
+
     const iconMap: Record<string, any> = {
         BOOKING: RiBox3Fill,
         QUOTATION: RiMessage3Fill,
@@ -113,7 +122,8 @@ export default function UserNotificationsPage() {
                             return (
                                 <div
                                     key={notif.id}
-                                    className={`p-5 md:p-6 hover:bg-slate-50/50 transition-all flex items-start gap-4 ${!notif.isRead ? "bg-primary/5" : ""}`}
+                                    onClick={() => !notif.isRead && markSingleAsRead(notif.id)}
+                                    className={`p-5 md:p-6 hover:bg-slate-50/50 transition-all flex items-start gap-4 cursor-pointer ${!notif.isRead ? "bg-primary/5" : ""}`}
                                 >
                                     <div className={`w-11 h-11 rounded-xl ${colors.bg} ${colors.icon} flex items-center justify-center shrink-0`}>
                                         <Icon className="w-5 h-5" />

@@ -3,16 +3,16 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    Bell,
-    CheckCircle,
-    Info,
-    Truck,
-    Package,
-    Clock,
-    MessageSquare,
-    Loader2
-} from "lucide-react";
+    RiBellFill,
+    RiCheckboxCircleFill,
+    RiInformationFill,
+    RiTruckFill,
+    RiBox3Fill,
+    RiCustomerService2Fill,
+    RiMessage3Fill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 
@@ -24,7 +24,7 @@ export default function AgentNotificationsPage() {
     const fetchNotifications = async () => {
         try {
             const res = await api.get("/notifications");
-            setNotifications(res.data?.data || []);
+            setNotifications(res.data?.data || res.data || []);
         } catch (error) {
             console.error("Failed to fetch notifications", error);
             toast.error(t("Failed to load notifications", "নোটিফিকেশন লোড করতে ব্যর্থ হয়েছে"));
@@ -37,13 +37,33 @@ export default function AgentNotificationsPage() {
         fetchNotifications();
     }, []);
 
+    const markAllAsRead = async () => {
+        try {
+            await api.patch("/notifications/read-all");
+            setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+            toast.success(t("All notifications marked as read", "সব নোটিফিকেশন পড়া হিসেবে চিহ্নিত করা হয়েছে"));
+        } catch (error) {
+            console.error("Failed to mark all as read", error);
+            toast.error(t("Failed to mark as read", "চিহ্নিত করতে ব্যর্থ হয়েছে"));
+        }
+    };
+
+    const markSingleAsRead = async (id: string) => {
+        try {
+            await api.patch(`/notifications/${id}/read`);
+            setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+        } catch (error) {
+            console.error("Failed to mark notification read", error);
+        }
+    };
+
     const iconMap: Record<string, any> = {
-        BOOKING: Package,
-        QUOTATION: MessageSquare,
-        PAYMENT: CheckCircle,
-        SYSTEM: Info,
-        SUPPORT: MessageSquare,
-        DRIVER: Truck,
+        BOOKING: RiBox3Fill,
+        QUOTATION: RiMessage3Fill,
+        PAYMENT: RiCheckboxCircleFill,
+        SYSTEM: RiInformationFill,
+        SUPPORT: RiCustomerService2Fill,
+        DRIVER: RiTruckFill,
     };
 
     const colorMap: Record<string, { icon: string; bg: string }> = {
@@ -90,19 +110,20 @@ export default function AgentNotificationsPage() {
                     </div>
                 ) : notifications.length === 0 ? (
                     <div className="p-20 text-center">
-                        <Bell className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                        <RiBellFill className="w-12 h-12 text-slate-300 mx-auto mb-4" />
                         <h3 className="text-lg font-bold text-slate-900 mb-2">{t("No notifications", "কোনো নোটিফিকেশন নেই")}</h3>
                         <p className="text-sm text-slate-500 font-bold">{t("You're all caught up!", "আপনি সবসময় আপডেট আছেন!")}</p>
                     </div>
                 ) : (
                     <div className="divide-y divide-slate-50">
                         {notifications.map((notif) => {
-                            const Icon = iconMap[notif.type] || Bell;
+                            const Icon = iconMap[notif.type] || RiBellFill;
                             const colors = colorMap[notif.type] || { icon: "text-slate-500", bg: "bg-slate-50" };
                             return (
                                 <div
                                     key={notif.id}
-                                    className={`p-5 md:p-6 hover:bg-slate-50/50 transition-all flex items-start gap-4 ${!notif.isRead ? "bg-primary/5" : ""}`}
+                                    onClick={() => !notif.isRead && markSingleAsRead(notif.id)}
+                                    className={`p-5 md:p-6 hover:bg-slate-50/50 transition-all flex items-start gap-4 cursor-pointer ${!notif.isRead ? "bg-primary/5" : ""}`}
                                 >
                                     <div className={`w-11 h-11 rounded-xl ${colors.bg} ${colors.icon} flex items-center justify-center shrink-0`}>
                                         <Icon className="w-5 h-5" />
@@ -115,7 +136,7 @@ export default function AgentNotificationsPage() {
                                         <p className="text-sm text-slate-600 font-bold leading-relaxed">{notif.body}</p>
                                     </div>
                                     {!notif.isRead && (
-                                        <div className="w-2.5 h-2.5 rounded-full bg-primary shrink-0 mt-2" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-primary shrink-0 mt-2" title="Unread" />
                                     )}
                                 </div>
                             );
@@ -127,7 +148,10 @@ export default function AgentNotificationsPage() {
                         <span className="text-xs text-slate-500 font-bold">
                             {notifications.filter((n) => !n.isRead).length} {t("unread notifications", "টি অপঠিত নোটিফিকেশন")}
                         </span>
-                        <button className="text-sm font-black text-primary hover:underline">
+                        <button
+                            onClick={markAllAsRead}
+                            className="text-sm font-black text-primary hover:underline transition-all"
+                        >
                             {t("Mark all as read", "সব পড়া হিসেবে মার্ক করুন")}
                         </button>
                     </div>

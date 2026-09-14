@@ -3,20 +3,17 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    Wallet,
-    DollarSign,
-    Phone,
-    Clock,
-    CheckCircle2,
-    XCircle,
-    Loader2,
-    ArrowUpRight,
-    AlertCircle,
-    Building,
-    FileText,
-    History
-} from "lucide-react";
+    RiWallet3Fill,
+    RiMoneyDollarCircleFill,
+    RiPhoneFill,
+    RiTimeFill,
+    RiCheckboxCircleFill,
+    RiCloseCircleFill,
+    RiArrowRightUpFill,
+    RiHistoryFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
@@ -136,7 +133,7 @@ export default function AgentWithdrawPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
                 <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-13 h-13 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <Wallet className="w-6 h-6" />
+                        <RiWallet3Fill className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-0.5">{t("Available Total Earnings", "উত্তোলনযোগ্য মোট আয়")}</p>
@@ -146,7 +143,7 @@ export default function AgentWithdrawPage() {
 
                 <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-13 h-13 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <CheckCircle2 className="w-6 h-6" />
+                        <RiCheckboxCircleFill className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-0.5">{t("Total Cashout Disbursed", "মোট উত্তোলিত অর্থ")}</p>
@@ -156,7 +153,7 @@ export default function AgentWithdrawPage() {
 
                 <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-13 h-13 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <Clock className="w-6 h-6" />
+                        <RiTimeFill className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-0.5">{t("Pending Cashout Requests", "অপেক্ষমান উত্তোলন")}</p>
@@ -171,7 +168,7 @@ export default function AgentWithdrawPage() {
                 <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 space-y-6">
                     <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
                         <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                            <ArrowUpRight className="w-6 h-6" />
+                            <RiArrowRightUpFill className="w-6 h-6" />
                         </div>
                         <div>
                             <h3 className="text-xl font-black text-slate-900">{t("New Withdrawal Request", "নতুন টাকা উত্তোলনের আবেদন")}</h3>
@@ -192,7 +189,7 @@ export default function AgentWithdrawPage() {
                             {/* bKash Phone Number */}
                             <div className="space-y-2">
                                 <label className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                                    <Phone className="w-3.5 h-3.5 text-pink-500" />
+                                    <RiPhoneFill className="w-3.5 h-3.5 text-pink-500" />
                                     {t("bKash Personal Number", "বিকাশ পার্সোনাল নম্বর")} <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -209,7 +206,7 @@ export default function AgentWithdrawPage() {
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <label className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                                        <DollarSign className="w-3.5 h-3.5 text-emerald-500" />
+                                        <RiMoneyDollarCircleFill className="w-3.5 h-3.5 text-emerald-500" />
                                         {t("Amount (৳)", "পরিমাণ (টাকা)")} <span className="text-red-500">*</span>
                                     </label>
                                 </div>
@@ -280,7 +277,7 @@ export default function AgentWithdrawPage() {
                 <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
-                            <History className="w-5 h-5" />
+                            <RiHistoryFill className="w-5 h-5" />
                         </div>
                         <div>
                             <h3 className="font-black text-slate-900 text-lg">{t("Withdrawal Requests History", "উত্তোলনের হিস্ট্রি তালিকা")}</h3>
@@ -316,26 +313,26 @@ export default function AgentWithdrawPage() {
                                         <td className="px-6 py-4 font-black text-emerald-600 text-base">৳{w.amount.toLocaleString()}</td>
                                         <td className="px-6 py-4">
                                             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-pink-50 text-pink-700 font-bold text-xs border border-pink-100">
-                                                <Phone className="w-3.5 h-3.5" />
+                                                <RiPhoneFill className="w-3.5 h-3.5" />
                                                 {w.bkashNumber}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
                                             {w.status === "APPROVED" && (
                                                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-black border border-emerald-200">
-                                                    <CheckCircle2 className="w-3.5 h-3.5" />
+                                                    <RiCheckboxCircleFill className="w-3.5 h-3.5" />
                                                     {t("APPROVED", "অনুমোদিত")}
                                                 </span>
                                             )}
                                             {w.status === "PENDING" && (
                                                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-black border border-amber-200">
-                                                    <Clock className="w-3.5 h-3.5" />
+                                                    <RiTimeFill className="w-3.5 h-3.5" />
                                                     {t("PENDING REVIEW", "অপেক্ষমান")}
                                                 </span>
                                             )}
                                             {w.status === "REJECTED" && (
                                                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-black border border-red-200">
-                                                    <XCircle className="w-3.5 h-3.5" />
+                                                    <RiCloseCircleFill className="w-3.5 h-3.5" />
                                                     {t("REJECTED", "প্রত্যাখ্যাত")}
                                                 </span>
                                             )}

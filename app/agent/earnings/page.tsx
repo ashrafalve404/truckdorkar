@@ -4,25 +4,23 @@ import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    TrendingUp,
-    Package,
-    Navigation,
-    Truck,
-    Calendar,
-    Loader2,
-    DollarSign,
-    BarChart3,
-    Award,
-    Wallet,
-    ArrowUpRight,
-    CreditCard,
-    CheckCircle2,
-    XCircle,
-    Clock,
-    X,
-    Phone
-} from "lucide-react";
+    RiLineChartFill,
+    RiBox3Fill,
+    RiTruckFill,
+    RiCalendarFill,
+    RiBarChartGroupedFill,
+    RiWallet3Fill,
+    RiArrowRightUpFill,
+    RiBankCardFill,
+    RiCheckboxCircleFill,
+    RiCloseCircleFill,
+    RiTimeFill,
+    RiCloseFill,
+    RiPhoneFill,
+    RiMoneyDollarCircleFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
@@ -389,7 +387,7 @@ export default function AgentEarnings() {
                     <Button
                         className="h-13 px-8 rounded-2xl font-black text-white bg-emerald-600 hover:bg-emerald-700 shadow-md hover:shadow-lg transition-all text-sm gap-2 shrink-0"
                     >
-                        <ArrowUpRight className="w-5 h-5" />
+                        <RiArrowRightUpFill className="w-5 h-5" />
                         {t("Money Withdraw Page", "টাকা উত্তোলন পেজ")}
                     </Button>
                 </Link>
@@ -399,7 +397,7 @@ export default function AgentEarnings() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <TrendingUp className="w-6 h-6" />
+                        <RiLineChartFill className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{t("Total Commission", "মোট কমিশন")}</p>
@@ -409,7 +407,7 @@ export default function AgentEarnings() {
 
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <Wallet className="w-6 h-6" />
+                        <RiWallet3Fill className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{t("Available Wallet", "উত্তোলনযোগ্য ব্যালেন্স")}</p>
@@ -419,7 +417,7 @@ export default function AgentEarnings() {
 
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <Calendar className="w-6 h-6" />
+                        <RiCalendarFill className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{t("This Month", "এই মাসের কমিশন")}</p>
@@ -429,7 +427,7 @@ export default function AgentEarnings() {
 
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-all">
                     <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm">
-                        <Package className="w-6 h-6" />
+                        <RiBox3Fill className="w-6 h-6" />
                     </div>
                     <div>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">{t("Successful Trips", "সফল ট্রিপ")}</p>
@@ -474,26 +472,26 @@ export default function AgentEarnings() {
                                         <td className="px-6 py-4 font-black text-emerald-600 text-base">৳{w.amount.toLocaleString()}</td>
                                         <td className="px-6 py-4">
                                             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-pink-50 text-pink-700 font-bold text-xs border border-pink-100">
-                                                <Phone className="w-3.5 h-3.5" />
+                                                <RiPhoneFill className="w-3.5 h-3.5" />
                                                 {w.bkashNumber}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
                                             {w.status === "APPROVED" && (
                                                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-black border border-emerald-200">
-                                                    <CheckCircle2 className="w-3.5 h-3.5" />
+                                                    <RiCheckboxCircleFill className="w-3.5 h-3.5" />
                                                     {t("APPROVED", "অনুমোদিত")}
                                                 </span>
                                             )}
                                             {w.status === "PENDING" && (
                                                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-black border border-amber-200">
-                                                    <Clock className="w-3.5 h-3.5" />
+                                                    <RiTimeFill className="w-3.5 h-3.5" />
                                                     {t("PENDING REVIEW", "অপেক্ষমান")}
                                                 </span>
                                             )}
                                             {w.status === "REJECTED" && (
                                                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-black border border-red-200">
-                                                    <XCircle className="w-3.5 h-3.5" />
+                                                    <RiCloseCircleFill className="w-3.5 h-3.5" />
                                                     {t("REJECTED", "প্রত্যাখ্যাত")}
                                                 </span>
                                             )}
@@ -572,7 +570,7 @@ export default function AgentEarnings() {
                     <div>
                         <div className="flex items-center gap-2.5 mb-1">
                             <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
-                                <BarChart3 className="w-5 h-5" />
+                                <RiBarChartGroupedFill className="w-5 h-5" />
                             </div>
                             <h3 className="text-xl font-black text-slate-900">
                                 {t("Commission Analytics Chart", "কমিশন আয়ের গ্রাফ চার্ট")}
@@ -808,7 +806,7 @@ export default function AgentEarnings() {
                                 onClick={() => setIsWithdrawModalOpen(false)}
                                 className="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
                             >
-                                <X className="w-4 h-4" />
+                                <RiCloseFill className="w-4 h-4" />
                             </button>
                         </div>
 
@@ -824,7 +822,7 @@ export default function AgentEarnings() {
                             {/* bKash Phone Number */}
                             <div className="space-y-2">
                                 <label className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                                    <Phone className="w-3.5 h-3.5 text-pink-500" />
+                                    <RiPhoneFill className="w-3.5 h-3.5 text-pink-500" />
                                     {t("bKash Personal Account Number", "বিকাশ পার্সোনাল নম্বর")} <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -841,7 +839,7 @@ export default function AgentEarnings() {
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <label className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                                        <DollarSign className="w-3.5 h-3.5 text-emerald-500" />
+                                        <RiMoneyDollarCircleFill className="w-3.5 h-3.5 text-emerald-500" />
                                         {t("Withdrawal Amount (৳)", "উত্তোলনের পরিমাণ (টাকা)")} <span className="text-red-500">*</span>
                                     </label>
                                     <span className="text-xs font-bold text-slate-500">

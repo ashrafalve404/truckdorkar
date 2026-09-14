@@ -3,15 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    Truck,
-    Search,
-    UserCheck,
-    Loader2,
-    ShieldCheck,
-    XCircle,
-    FileText
-} from "lucide-react";
+    RiTruckFill,
+    RiSearchFill,
+    RiUserFollowFill,
+    RiShieldCheckFill,
+    RiCloseCircleFill,
+    RiFileTextFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
@@ -67,7 +67,7 @@ export default function AgentDriversPage() {
                 </div>
                 <div className="flex gap-4">
                     <div className="relative">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
+                        <RiSearchFill className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-950" />
                         <input
                             type="text"
                             value={searchTerm}
@@ -86,7 +86,7 @@ export default function AgentDriversPage() {
                     </div>
                 ) : filteredDrivers.length === 0 ? (
                     <div className="col-span-full py-20 bg-white rounded-lg border border-slate-100 text-center">
-                        <UserCheck className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+                        <RiUserFollowFill className="w-16 h-16 text-slate-200 mx-auto mb-4" />
                         <p className="text-slate-500 font-bold italic">{t("No drivers found.", "কোন ড্রাইভার পাওয়া যায়নি।")}</p>
                     </div>
                 ) : (
@@ -94,7 +94,7 @@ export default function AgentDriversPage() {
                         <div key={driver.id} className="bg-white rounded-lg border border-slate-100 shadow-sm p-6 hover:shadow-md transition-all">
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-primary">
-                                    <Truck className="w-6 h-6" />
+                                    <RiTruckFill className="w-6 h-6" />
                                 </div>
                                 <div className="flex-1 overflow-hidden">
                                     <h3 className="font-black text-slate-950 truncate">{driver.user.name}</h3>
@@ -111,12 +111,12 @@ export default function AgentDriversPage() {
                                     <span className="text-slate-600">{t("Status", "স্ট্যাটাস")}:</span>
                                     {driver.isVerified ? (
                                         <span className="text-green-600 flex items-center gap-1 uppercase tracking-widest text-[10px] font-black">
-                                            <ShieldCheck className="w-3 h-3" />
+                                            <RiShieldCheckFill className="w-3 h-3" />
                                             {t("Verified", "ভেরিফাইড")}
                                         </span>
                                     ) : (
                                         <span className="text-amber-600 flex items-center gap-1 uppercase tracking-widest text-[10px] font-black">
-                                            <XCircle className="w-3 h-3" />
+                                            <RiCloseCircleFill className="w-3 h-3" />
                                             {t("Pending", "অপেক্ষমান")}
                                         </span>
                                     )}
@@ -125,7 +125,7 @@ export default function AgentDriversPage() {
 
                             <div className="flex gap-2 font-black text-white">
                                 <Button className="flex-1 rounded-lg gap-2">
-                                    <FileText className="w-4 h-4" />
+                                    <RiFileTextFill className="w-4 h-4" />
                                     {t("Review Details", "বিস্তারিত দেখুন")}
                                 </Button>
                             </div>

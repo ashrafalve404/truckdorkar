@@ -29,7 +29,8 @@ import {
     RiMapPinFill,
     RiUserFill,
     RiWallet3Fill,
-    RiSearchFill
+    RiSearchFill,
+    RiTruckFill
 } from "react-icons/ri";
 
 interface DashboardLayoutProps {
@@ -58,10 +59,10 @@ const getMobileNavItems = (role?: string) => {
     }
     if (role === "AGENT") {
         return [
-            { href: "/agent/dashboard", icon: LayoutDashboard, label_en: "Overview", label_bn: "ড্যাশবোর্ড" },
-            { href: "/agent/trucks", icon: Truck, label_en: "My Trucks", label_bn: "আমার ট্রাক" },
-            { href: "/agent/earnings", icon: Wallet, label_en: "Earnings", label_bn: "আয়" },
-            { href: "/agent/profile", icon: User, label_en: "Profile", label_bn: "প্রোফাইল" },
+            { href: "/agent/dashboard", icon: RiLayoutGridFill, label_en: "Overview", label_bn: "ড্যাশবোর্ড" },
+            { href: "/agent/trucks", icon: RiTruckFill, label_en: "My Trucks", label_bn: "আমার ট্রাক" },
+            { href: "/agent/earnings", icon: RiWallet3Fill, label_en: "Earnings", label_bn: "আয়" },
+            { href: "/agent/profile", icon: RiUserFill, label_en: "Profile", label_bn: "প্রোফাইল" },
         ];
     }
     return [];

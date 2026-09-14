@@ -4,20 +4,21 @@ import React, { useEffect, useState, useMemo } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import {
-    Users,
-    Truck,
-    Package,
-    MessageSquare,
-    CheckCircle,
-    Clock,
-    AlertCircle,
     Loader2,
-    TrendingUp,
-    BarChart3,
     ArrowRight,
-    DollarSign,
-    Wallet
 } from "lucide-react";
+import {
+    RiTruckFill,
+    RiBox3Fill,
+    RiCustomerService2Fill,
+    RiCheckboxCircleFill,
+    RiTimeFill,
+    RiErrorWarningFill,
+    RiLineChartFill,
+    RiBarChartGroupedFill,
+    RiWallet3Fill,
+    RiMoneyDollarCircleFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -266,12 +267,12 @@ export default function AgentDashboard() {
     }, [curvePath, points]);
 
     const stats = [
-        { label: t("My Registered Trucks", "আমার নিবন্ধিত ট্রাক"), value: counts.myTrucksCount, icon: Truck, color: "text-blue-600", bg: "bg-blue-50", href: "/agent/trucks" },
-        { label: t("Wallet Balance", "ওয়ালেট ব্যালেন্স"), value: `৳${counts.walletBalance.toLocaleString()}`, icon: Wallet, color: "text-emerald-600", bg: "bg-emerald-50", href: "/agent/earnings" },
-        { label: t("Trip Commission", "ট্রিপ কমিশন"), value: `৳${counts.tripCommission.toLocaleString()}`, icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-50", href: "/agent/earnings" },
-        { label: t("Total Earnings", "মোট আয়"), value: `৳${counts.totalEarnings.toLocaleString()}`, icon: DollarSign, color: "text-indigo-600", bg: "bg-indigo-50", href: "/agent/earnings" },
-        { label: t("Successful Trips", "সফল ট্রিপ"), value: counts.totalTrips, icon: Package, color: "text-emerald-600", bg: "bg-emerald-50", href: "/agent/earnings" },
-        { label: t("Pending Trucks", "অপেক্ষমান ট্রাক"), value: counts.pendingTrucks, icon: Clock, color: "text-amber-600", bg: "bg-amber-50", href: "/agent/trucks" },
+        { label: t("My Registered Trucks", "আমার নিবন্ধিত ট্রাক"), value: counts.myTrucksCount, icon: RiTruckFill, color: "text-blue-600", bg: "bg-blue-50", href: "/agent/trucks" },
+        { label: t("Wallet Balance", "ওয়ালেট ব্যালেন্স"), value: `৳${counts.walletBalance.toLocaleString()}`, icon: RiWallet3Fill, color: "text-emerald-600", bg: "bg-emerald-50", href: "/agent/earnings" },
+        { label: t("Trip Commission", "ট্রিপ কমিশন"), value: `৳${counts.tripCommission.toLocaleString()}`, icon: RiLineChartFill, color: "text-purple-600", bg: "bg-purple-50", href: "/agent/earnings" },
+        { label: t("Total Earnings", "মোট আয়"), value: `৳${counts.totalEarnings.toLocaleString()}`, icon: RiMoneyDollarCircleFill, color: "text-indigo-600", bg: "bg-indigo-50", href: "/agent/earnings" },
+        { label: t("Successful Trips", "সফল ট্রিপ"), value: counts.totalTrips, icon: RiBox3Fill, color: "text-emerald-600", bg: "bg-emerald-50", href: "/agent/earnings" },
+        { label: t("Pending Trucks", "অপেক্ষমান ট্রাক"), value: counts.pendingTrucks, icon: RiTimeFill, color: "text-amber-600", bg: "bg-amber-50", href: "/agent/trucks" },
     ];
 
     if (loading) {
@@ -329,7 +330,7 @@ export default function AgentDashboard() {
                             {recentTickets.map((ticket) => (
                                 <div key={ticket.id} className="flex items-center gap-4 p-4 rounded-lg bg-slate-50 border border-slate-100">
                                     <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${ticket.priority === 'URGENT' ? 'bg-red-100' : ticket.priority === 'HIGH' ? 'bg-orange-100' : 'bg-purple-50'}`}>
-                                        <AlertCircle className={`w-5 h-5 ${ticket.priority === 'URGENT' ? 'text-red-500' : ticket.priority === 'HIGH' ? 'text-orange-500' : 'text-purple-500'}`} />
+                                        <RiErrorWarningFill className={`w-5 h-5 ${ticket.priority === 'URGENT' ? 'text-red-500' : ticket.priority === 'HIGH' ? 'text-orange-500' : 'text-purple-500'}`} />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="font-bold text-sm text-slate-900 truncate">{ticket.subject}</p>
@@ -343,7 +344,7 @@ export default function AgentDashboard() {
                         </div>
                     ) : (
                         <div className="text-center py-10">
-                            <MessageSquare className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                            <RiCustomerService2Fill className="w-10 h-10 text-slate-300 mx-auto mb-3" />
                             <p className="text-sm font-bold text-slate-500">{t("No support tickets yet", "কোনো সাপোর্ট টিকেট নেই")}</p>
                         </div>
                     )}
@@ -357,7 +358,7 @@ export default function AgentDashboard() {
                     <div>
                         <div className="flex items-center gap-2.5 mb-1">
                             <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
-                                <BarChart3 className="w-5 h-5" />
+                                <RiBarChartGroupedFill className="w-5 h-5" />
                             </div>
                             <h3 className="text-xl font-black text-slate-900">
                                 {t("Overall Earnings & Commission Analytics", "সামগ্রিক আয় ও কমিশন অ্যানালিটিক্স চার্ট")}

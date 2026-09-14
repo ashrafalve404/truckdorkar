@@ -36,7 +36,9 @@ import {
     RiBankCardFill,
     RiWallet3Fill,
     RiGiftFill,
-    RiSettings4Fill
+    RiSettings4Fill,
+    RiLineChartFill,
+    RiShieldCheckFill
 } from "react-icons/ri";
 import { useAuth } from "@/store/use-auth";
 import { useLanguage } from "@/context/language-context";
@@ -88,13 +90,13 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
             { name: "Settings", href: "/driver/settings", icon: RiSettings4Fill, bn: "সেটিংস" },
         ],
         AGENT: [
-            { name: "Dashboard", href: "/agent/dashboard", icon: LayoutDashboard, bn: "ড্যাশবোর্ড" },
-            { name: "My Trucks", href: "/agent/trucks", icon: Truck, bn: "আমার ট্রাক" },
-            { name: "Earnings", href: "/agent/earnings", icon: TrendingUp, bn: "উপার্জন" },
-            { name: "Withdraw Money", href: "/agent/withdraw", icon: Wallet, bn: "টাকা উত্তোলন" },
-            { name: "Support Tickets", href: "/agent/support", icon: MessageSquare, bn: "সাপোর্ট টিকেট" },
-            { name: "Verification", href: "/agent/profile", icon: Shield, bn: "ভেরিফিকেশন" },
-            { name: "Notifications", href: "/agent/notifications", icon: Bell, bn: "নোটিফিকেশন" },
+            { name: "Dashboard", href: "/agent/dashboard", icon: RiLayoutGridFill, bn: "ড্যাশবোর্ড" },
+            { name: "My Trucks", href: "/agent/trucks", icon: RiTruckFill, bn: "আমার ট্রাক" },
+            { name: "Earnings", href: "/agent/earnings", icon: RiLineChartFill, bn: "উপার্জন" },
+            { name: "Withdraw Money", href: "/agent/withdraw", icon: RiWallet3Fill, bn: "টাকা উত্তোলন" },
+            { name: "Support Tickets", href: "/agent/support", icon: RiCustomerService2Fill, bn: "সাপোর্ট টিকেট" },
+            { name: "Verification", href: "/agent/profile", icon: RiShieldCheckFill, bn: "ভেরিফিকেশন" },
+            { name: "Notifications", href: "/agent/notifications", icon: RiBellFill, bn: "নোটিফিকেশন" },
         ],
         USER: [
             { name: "Dashboard", href: "/dashboard", icon: RiLayoutGridFill, bn: "ড্যাশবোর্ড" },
