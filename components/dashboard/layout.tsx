@@ -22,6 +22,13 @@ import {
     Bell,
     MapPin
 } from "lucide-react";
+import {
+    RiLayoutGridFill,
+    RiBox3Fill,
+    RiAddCircleFill,
+    RiMapPinFill,
+    RiUserFill
+} from "react-icons/ri";
 
 interface DashboardLayoutProps {
     children: React.ReactNode;
@@ -31,11 +38,11 @@ interface DashboardLayoutProps {
 const getMobileNavItems = (role?: string) => {
     if (role === "USER") {
         return [
-            { href: "/dashboard", icon: LayoutDashboard, label_en: "Home", label_bn: "হোম" },
-            { href: "/bookings", icon: Package, label_en: "My Trips", label_bn: "মাই ট্রিপস" },
-            { href: "/bookings/new", icon: PlusCircle, label_en: "Book Truck", label_bn: "বুকিং", isFab: true },
-            { href: "/track", icon: MapPin, label_en: "Tracking", label_bn: "ট্র্যাকিং" },
-            { href: "/profile", icon: User, label_en: "Profile", label_bn: "প্রোফাইল" },
+            { href: "/dashboard", icon: RiLayoutGridFill, label_en: "Home", label_bn: "হোম" },
+            { href: "/bookings", icon: RiBox3Fill, label_en: "My Trips", label_bn: "মাই ট্রিপস" },
+            { href: "/bookings/new", icon: RiAddCircleFill, label_en: "Book Truck", label_bn: "বুকিং", isFab: true },
+            { href: "/track", icon: RiMapPinFill, label_en: "Tracking", label_bn: "ট্র্যাকিং" },
+            { href: "/profile", icon: RiUserFill, label_en: "Profile", label_bn: "প্রোফাইল" },
         ];
     }
     if (role === "DRIVER") {
