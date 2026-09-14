@@ -17,7 +17,7 @@ import {
     RiLineChartFill,
     RiBarChartGroupedFill,
     RiWallet3Fill,
-    RiMoneyDollarCircleFill
+    RiBankCardFill
 } from "react-icons/ri";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
@@ -270,7 +270,7 @@ export default function AgentDashboard() {
         { label: t("My Registered Trucks", "আমার নিবন্ধিত ট্রাক"), value: counts.myTrucksCount, icon: RiTruckFill, color: "text-blue-600", bg: "bg-blue-50", href: "/agent/trucks" },
         { label: t("Wallet Balance", "ওয়ালেট ব্যালেন্স"), value: `৳${counts.walletBalance.toLocaleString()}`, icon: RiWallet3Fill, color: "text-emerald-600", bg: "bg-emerald-50", href: "/agent/earnings" },
         { label: t("Trip Commission", "ট্রিপ কমিশন"), value: `৳${counts.tripCommission.toLocaleString()}`, icon: RiLineChartFill, color: "text-purple-600", bg: "bg-purple-50", href: "/agent/earnings" },
-        { label: t("Total Earnings", "মোট আয়"), value: `৳${counts.totalEarnings.toLocaleString()}`, icon: RiMoneyDollarCircleFill, color: "text-indigo-600", bg: "bg-indigo-50", href: "/agent/earnings" },
+        { label: t("Total Earnings", "মোট আয়"), value: `৳${counts.totalEarnings.toLocaleString()}`, icon: RiBankCardFill, color: "text-indigo-600", bg: "bg-indigo-50", href: "/agent/earnings" },
         { label: t("Successful Trips", "সফল ট্রিপ"), value: counts.totalTrips, icon: RiBox3Fill, color: "text-emerald-600", bg: "bg-emerald-50", href: "/agent/earnings" },
         { label: t("Pending Trucks", "অপেক্ষমান ট্রাক"), value: counts.pendingTrucks, icon: RiTimeFill, color: "text-amber-600", bg: "bg-amber-50", href: "/agent/trucks" },
     ];

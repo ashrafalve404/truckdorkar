@@ -6,7 +6,7 @@ import { useLanguage } from "@/context/language-context";
 import { Loader2 } from "lucide-react";
 import {
     RiWallet3Fill,
-    RiMoneyDollarCircleFill,
+    RiBankCardFill,
     RiPhoneFill,
     RiTimeFill,
     RiCheckboxCircleFill,
@@ -206,7 +206,7 @@ export default function AgentWithdrawPage() {
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <label className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                                        <RiMoneyDollarCircleFill className="w-3.5 h-3.5 text-emerald-500" />
+                                        <RiBankCardFill className="w-3.5 h-3.5 text-emerald-500" />
                                         {t("Amount (৳)", "পরিমাণ (টাকা)")} <span className="text-red-500">*</span>
                                     </label>
                                 </div>

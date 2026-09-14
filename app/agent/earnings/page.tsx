@@ -18,8 +18,7 @@ import {
     RiCloseCircleFill,
     RiTimeFill,
     RiCloseFill,
-    RiPhoneFill,
-    RiMoneyDollarCircleFill
+    RiPhoneFill
 } from "react-icons/ri";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
@@ -839,7 +838,7 @@ export default function AgentEarnings() {
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
                                     <label className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                                        <RiMoneyDollarCircleFill className="w-3.5 h-3.5 text-emerald-500" />
+                                        <RiBankCardFill className="w-3.5 h-3.5 text-emerald-500" />
                                         {t("Withdrawal Amount (৳)", "উত্তোলনের পরিমাণ (টাকা)")} <span className="text-red-500">*</span>
                                     </label>
                                     <span className="text-xs font-bold text-slate-500">
