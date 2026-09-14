@@ -7,19 +7,17 @@ import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Loader2, ArrowRight, ChevronRight } from "lucide-react";
 import {
-    MapPin,
-    Truck,
-    Phone,
-    Loader2,
-    Clock,
-    AlertCircle,
-    ArrowRight,
-    Navigation,
-    ShieldCheck,
-    Calendar,
-    ChevronRight
-} from "lucide-react";
+    RiMapPinFill,
+    RiTruckFill,
+    RiPhoneFill,
+    RiTimeFill,
+    RiErrorWarningFill,
+    RiNavigationFill,
+    RiShieldCheckFill,
+    RiCalendarFill
+} from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import { toast } from "react-hot-toast";
@@ -114,7 +112,7 @@ export default function TrackShipmentPage() {
             <header className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mb-1 flex items-center gap-2.5">
-                        <Navigation className="w-7 h-7 text-primary shrink-0" />
+                        <RiNavigationFill className="w-7 h-7 text-primary shrink-0" />
                         {t("Live Tracking", "লাইভ ট্র্যাকিং")}
                     </h1>
                     <p className="text-slate-600 font-medium text-xs sm:text-sm">
@@ -144,7 +142,7 @@ export default function TrackShipmentPage() {
                 /* No Active Trips Empty State */
                 <div className="bg-white rounded-3xl p-8 sm:p-14 border border-slate-100 shadow-sm text-center max-w-2xl mx-auto">
                     <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-                        <MapPin className="w-10 h-10 animate-bounce" />
+                        <RiMapPinFill className="w-10 h-10 animate-bounce" />
                     </div>
                     <h2 className="text-xl sm:text-2xl font-black text-slate-900 mb-3">
                         {t("No Active Trip to Track", "বর্তমানে কোনো অ্যাক্টিভ ট্রিপ নেই")}
@@ -160,7 +158,7 @@ export default function TrackShipmentPage() {
                             onClick={() => router.push("/bookings/new")}
                             className="w-full sm:w-auto h-12 px-6 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 gap-2"
                         >
-                            <Truck className="w-5 h-5" />
+                            <RiTruckFill className="w-5 h-5" />
                             {t("Book a Truck Now", "এখনই ট্রাক বুক করুন")}
                         </Button>
                         <Button
@@ -211,7 +209,7 @@ export default function TrackShipmentPage() {
                                 "w-12 h-12 rounded-full flex items-center justify-center shrink-0 text-white font-bold",
                                 activeBooking?.status === "IN_TRANSIT" ? "bg-emerald-500" : "bg-amber-500"
                             )}>
-                                {activeBooking?.status === "IN_TRANSIT" ? <Navigation className="w-6 h-6 animate-pulse" /> : <Clock className="w-6 h-6" />}
+                                {activeBooking?.status === "IN_TRANSIT" ? <RiNavigationFill className="w-6 h-6 animate-pulse" /> : <RiTimeFill className="w-6 h-6" />}
                             </div>
                             <div>
                                 <div className="flex items-center gap-2 mb-1 justify-center md:justify-start">
@@ -248,7 +246,7 @@ export default function TrackShipmentPage() {
                         <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-100 shadow-sm space-y-4">
                             <div className="flex items-center justify-between flex-wrap gap-2 pb-1">
                                 <div className="flex items-center gap-2">
-                                    <MapPin className="w-5 h-5 text-primary" />
+                                    <RiMapPinFill className="w-5 h-5 text-primary" />
                                     <h3 className="font-bold text-slate-900 text-base sm:text-lg">{t("Live Vehicle Position", "লাইভ গাড়ি ট্র্যাকিং")}</h3>
                                 </div>
                                 <div className={cn(
@@ -285,7 +283,7 @@ export default function TrackShipmentPage() {
                         /* Accepted Wait Banner */
                         <div className="bg-amber-50 border border-amber-200 rounded-3xl p-8 text-center space-y-4">
                             <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto">
-                                <Clock className="w-8 h-8 animate-pulse" />
+                                <RiTimeFill className="w-8 h-8 animate-pulse" />
                             </div>
                             <h3 className="text-lg font-bold text-slate-900">
                                 {t("Waiting for Driver to Start Ride", "রাইড শুরু হওয়ার অপেক্ষায়")}
@@ -311,7 +309,7 @@ export default function TrackShipmentPage() {
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t("Assigned Driver", "নির্ধারিত ড্রাইভার")}</span>
                                     <h4 className="text-lg font-black text-slate-950">{activeBooking?.driver?.user?.name || "Assigned Driver"}</h4>
                                     <p className="text-xs font-bold text-slate-600 flex items-center gap-1.5 mt-0.5">
-                                        <Truck className="w-3.5 h-3.5 text-primary" />
+                                        <RiTruckFill className="w-3.5 h-3.5 text-primary" />
                                         <span>{activeBooking?.driver?.trucks?.[0]?.regNumber || "Verified Vehicle"}</span>
                                     </p>
                                 </div>
@@ -323,7 +321,7 @@ export default function TrackShipmentPage() {
                                     className="w-12 h-12 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/20 transition-all shrink-0"
                                     title="Call Driver"
                                 >
-                                    <Phone className="w-5 h-5" />
+                                    <RiPhoneFill className="w-5 h-5" />
                                 </a>
                             )}
                         </div>

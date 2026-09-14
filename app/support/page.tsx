@@ -3,7 +3,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
-import { MessageSquare, Send, Loader2, Info, AlertCircle, Clock, CheckCircle } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import {
+    RiCustomerService2Fill,
+    RiSendPlaneFill,
+    RiInformationFill,
+    RiErrorWarningFill,
+    RiQuestionAnswerFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
@@ -77,7 +84,7 @@ export default function SupportPage() {
                 <div className="lg:col-span-2">
                     <div className="bg-white p-8 md:p-12 rounded-2xl border border-slate-100 shadow-sm">
                         <h2 className="text-xl font-bold text-slate-900 mb-8 flex items-center gap-2">
-                            <MessageSquare className="w-6 h-6 text-primary" />
+                            <RiCustomerService2Fill className="w-6 h-6 text-primary" />
                             {t("Create New Ticket", "নতুন টিকেট তৈরি করুন")}
                         </h2>
 
@@ -128,7 +135,7 @@ export default function SupportPage() {
                             <Button disabled={loading} className="w-full h-14 rounded-2xl font-black text-base gap-3 bg-primary text-white shadow-xl shadow-primary/20 transition-all hover:-translate-y-1">
                                 {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
                                     <>
-                                        <Send className="w-5 h-5" />
+                                        <RiSendPlaneFill className="w-5 h-5" />
                                         {t("Submit Ticket", "টিকেট জমা দিন")}
                                     </>
                                 )}
@@ -140,7 +147,7 @@ export default function SupportPage() {
                 <div className="space-y-8">
                     <div className="bg-slate-900 p-8 rounded-2xl text-white">
                         <div className="flex items-center gap-3 mb-4">
-                            <Info className="w-6 h-6 text-primary" />
+                            <RiInformationFill className="w-6 h-6 text-primary" />
                             <h3 className="text-lg font-bold">{t("Quick Support", "দ্রুত সাপোর্ট")}</h3>
                         </div>
                         <p className="text-slate-400 text-xs leading-relaxed mb-6 font-bold">
@@ -153,7 +160,7 @@ export default function SupportPage() {
                     {/* Live Active Tickets List */}
                     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                         <div className="flex items-center gap-2 mb-4">
-                            <AlertCircle className="w-5 h-5 text-primary" />
+                            <RiQuestionAnswerFill className="w-5 h-5 text-primary" />
                             <h3 className="text-base font-black text-slate-900">{t("My Support Tickets", "আমার টিকেটসমূহ")}</h3>
                         </div>
 

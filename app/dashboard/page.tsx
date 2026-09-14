@@ -3,7 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
-import { Package, Clock, CheckCircle, AlertCircle, MapPin, Truck as TruckIcon, Loader2, Phone, Bell } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import {
+    RiBox3Fill,
+    RiTimeFill,
+    RiCheckboxCircleFill,
+    RiErrorWarningFill,
+    RiMapPinFill,
+    RiTruckFill,
+    RiPhoneFill,
+    RiBellFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -51,12 +61,12 @@ export default function DashboardPage() {
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case "PENDING": return <Clock className="w-5 h-5 text-amber-500" />;
-            case "ACCEPTED": return <CheckCircle className="w-5 h-5 text-blue-500" />;
-            case "IN_TRANSIT": return <TruckIcon className="w-5 h-5 text-primary" />;
-            case "COMPLETED": return <CheckCircle className="w-5 h-5 text-green-500" />;
-            case "CANCELLED": return <AlertCircle className="w-5 h-5 text-red-500" />;
-            default: return <Package className="w-5 h-5 text-gray-500" />;
+            case "PENDING": return <RiTimeFill className="w-5 h-5 text-amber-500" />;
+            case "ACCEPTED": return <RiCheckboxCircleFill className="w-5 h-5 text-blue-500" />;
+            case "IN_TRANSIT": return <RiTruckFill className="w-5 h-5 text-primary" />;
+            case "COMPLETED": return <RiCheckboxCircleFill className="w-5 h-5 text-green-500" />;
+            case "CANCELLED": return <RiErrorWarningFill className="w-5 h-5 text-red-500" />;
+            default: return <RiBox3Fill className="w-5 h-5 text-gray-500" />;
         }
     };
 
@@ -80,12 +90,12 @@ export default function DashboardPage() {
             {notifications.filter(n => !n.isRead).length > 0 && (
                 <div className="mb-10 bg-primary/5 border border-primary/20 rounded-2xl p-6 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
-                        <Bell className="w-24 h-24 text-primary" />
+                        <RiBellFill className="w-24 h-24 text-primary" />
                     </div>
                     <div className="flex items-center justify-between mb-4 relative z-10">
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center animate-pulse">
-                                <Bell className="w-4 h-4" />
+                                <RiBellFill className="w-4 h-4" />
                             </div>
                             <h2 className="text-lg font-black text-slate-950 uppercase tracking-tight">
                                 {t("Latest Notifications", "সর্বশেষ নোটিফিকেশন")}
@@ -117,10 +127,10 @@ export default function DashboardPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 {[
-                    { label: t("Total Bookings", "মোট বুকিং"), value: bookings.length, icon: Package, color: "bg-blue-500" },
-                    { label: t("Active", "সক্রিয়"), value: bookings.filter(b => ["ACCEPTED", "IN_TRANSIT"].includes(b.status)).length, icon: Clock, color: "bg-amber-500" },
-                    { label: t("Completed", "সম্পন্ন"), value: bookings.filter(b => b.status === "COMPLETED").length, icon: CheckCircle, color: "bg-green-500" },
-                    { label: t("Cancelled", "বাতিল"), value: bookings.filter(b => b.status === "CANCELLED").length, icon: AlertCircle, color: "bg-red-500" },
+                    { label: t("Total Bookings", "মোট বুকিং"), value: bookings.length, icon: RiBox3Fill, color: "bg-blue-500" },
+                    { label: t("Active", "সক্রিয়"), value: bookings.filter(b => ["ACCEPTED", "IN_TRANSIT"].includes(b.status)).length, icon: RiTimeFill, color: "bg-amber-500" },
+                    { label: t("Completed", "সম্পন্ন"), value: bookings.filter(b => b.status === "COMPLETED").length, icon: RiCheckboxCircleFill, color: "bg-green-500" },
+                    { label: t("Cancelled", "বাতিল"), value: bookings.filter(b => b.status === "CANCELLED").length, icon: RiErrorWarningFill, color: "bg-red-500" },
                 ].map((stat, idx) => (
                     <div key={idx} className="bg-white p-8 rounded-lg shadow-sm border border-slate-100">
                         <div className="flex items-center gap-4">
@@ -149,7 +159,7 @@ export default function DashboardPage() {
                     </div>
                 ) : bookings.length === 0 ? (
                     <div className="p-20 text-center">
-                        <Package className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+                        <RiBox3Fill className="w-16 h-16 text-slate-200 mx-auto mb-4" />
                         <h3 className="text-lg font-bold text-slate-700 mb-2">{t("No bookings yet", "কোন বুকিং পাওয়া যায়নি")}</h3>
                         <Button variant="outline" onClick={() => router.push("/bookings/new")} className="rounded-xl border-primary text-primary">
                             {t("Book Your First Truck", "আপনার প্রথম ট্রাক বুক করুন")}
@@ -177,20 +187,20 @@ export default function DashboardPage() {
                                             <div className="text-[10px] uppercase font-bold text-slate-700 tracking-wider mt-1">{booking.goodsType || "—"}</div>
                                             {booking.contactPhone && (
                                                 <a href={`tel:${booking.contactPhone}`} className="flex items-center gap-1 text-[10px] text-primary font-bold hover:underline mt-1">
-                                                    <Phone className="w-2.5 h-2.5" />
+                                                    <RiPhoneFill className="w-2.5 h-2.5" />
                                                     {booking.contactPhone}
                                                 </a>
                                             )}
                                         </td>
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-2 text-sm text-slate-800 font-bold">
-                                                <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                <RiMapPinFill className="w-3.5 h-3.5 text-primary shrink-0" />
                                                 <span className="line-clamp-1">{booking.pickupAddress}</span>
                                             </div>
                                         </td>
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-2 text-sm text-slate-800 font-bold">
-                                                <MapPin className="w-3.5 h-3.5 text-secondary shrink-0" />
+                                                <RiMapPinFill className="w-3.5 h-3.5 text-secondary shrink-0" />
                                                 <span className="line-clamp-1">{booking.dropAddress}</span>
                                             </div>
                                         </td>

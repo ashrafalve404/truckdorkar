@@ -3,19 +3,19 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    Package,
-    Clock,
-    CheckCircle,
-    AlertCircle,
-    MapPin,
-    Truck as TruckIcon,
-    Loader2,
-    Phone,
-    Search,
-    PlusCircle,
-    Filter
-} from "lucide-react";
+    RiBox3Fill,
+    RiTimeFill,
+    RiCheckboxCircleFill,
+    RiErrorWarningFill,
+    RiMapPinFill,
+    RiTruckFill,
+    RiPhoneFill,
+    RiSearchFill,
+    RiAddCircleFill,
+    RiFilterFill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -61,12 +61,12 @@ export default function UserBookingsPage() {
 
     const getStatusIcon = (status: string) => {
         switch (status) {
-            case "PENDING": return <Clock className="w-4 h-4 text-amber-500" />;
-            case "ACCEPTED": return <CheckCircle className="w-4 h-4 text-blue-500" />;
-            case "IN_TRANSIT": return <TruckIcon className="w-4 h-4 text-primary" />;
-            case "COMPLETED": return <CheckCircle className="w-4 h-4 text-green-500" />;
-            case "CANCELLED": return <AlertCircle className="w-4 h-4 text-red-500" />;
-            default: return <Package className="w-4 h-4 text-slate-500" />;
+            case "PENDING": return <RiTimeFill className="w-4 h-4 text-amber-500" />;
+            case "ACCEPTED": return <RiCheckboxCircleFill className="w-4 h-4 text-blue-500" />;
+            case "IN_TRANSIT": return <RiTruckFill className="w-4 h-4 text-primary" />;
+            case "COMPLETED": return <RiCheckboxCircleFill className="w-4 h-4 text-green-500" />;
+            case "CANCELLED": return <RiErrorWarningFill className="w-4 h-4 text-red-500" />;
+            default: return <RiBox3Fill className="w-4 h-4 text-slate-500" />;
         }
     };
 
@@ -108,7 +108,7 @@ export default function UserBookingsPage() {
                     </p>
                 </div>
                 <Button onClick={() => router.push("/bookings/new")} className="rounded-xl h-12 px-6 font-bold bg-primary text-white shadow-md shadow-primary/20 shrink-0 gap-2">
-                    <PlusCircle className="w-5 h-5" />
+                    <RiAddCircleFill className="w-5 h-5" />
                     {t("New Booking Request", "নতুন বুকিং করুন")}
                 </Button>
             </header>
@@ -147,7 +147,7 @@ export default function UserBookingsPage() {
 
                     {/* Search Input */}
                     <div className="relative w-full sm:w-72">
-                        <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <RiSearchFill className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                         <input
                             type="text"
                             value={searchQuery}
@@ -168,7 +168,7 @@ export default function UserBookingsPage() {
                     </div>
                 ) : filteredBookings.length === 0 ? (
                     <div className="p-16 text-center">
-                        <Package className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+                        <RiBox3Fill className="w-16 h-16 text-slate-200 mx-auto mb-4" />
                         <h3 className="text-lg font-bold text-slate-800 mb-2">{t("No trips found", "কোন ট্রিপ পাওয়া যায়নি")}</h3>
                         <p className="text-xs text-slate-500 font-medium mb-6">
                             {searchQuery || filterStatus !== "ALL"
@@ -207,13 +207,13 @@ export default function UserBookingsPage() {
                                         </td>
                                         <td className="px-6 py-5">
                                             <div className="flex items-center gap-2 text-xs text-slate-900 font-bold max-w-xs">
-                                                <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                <RiMapPinFill className="w-3.5 h-3.5 text-primary shrink-0" />
                                                 <span className="line-clamp-2">{booking.pickupAddress}</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-5">
                                             <div className="flex items-center gap-2 text-xs text-slate-900 font-bold max-w-xs">
-                                                <MapPin className="w-3.5 h-3.5 text-secondary shrink-0" />
+                                                <RiMapPinFill className="w-3.5 h-3.5 text-secondary shrink-0" />
                                                 <span className="line-clamp-2">{booking.dropAddress}</span>
                                             </div>
                                         </td>

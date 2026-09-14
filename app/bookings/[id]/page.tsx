@@ -6,23 +6,21 @@ import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import { useAuth } from "@/store/use-auth";
 import api from "@/lib/api";
+import { Loader2, ArrowLeft, TrendingUp } from "lucide-react";
 import {
-    MapPin,
-    Calendar,
-    Truck,
-    Package,
-    User,
-    Phone,
-    CheckCircle,
-    Clock,
-    AlertCircle,
-    Loader2,
-    ArrowLeft,
-    TrendingUp,
-    Navigation,
-    XCircle,
-    Star
-} from "lucide-react";
+    RiMapPinFill,
+    RiCalendarFill,
+    RiTruckFill,
+    RiBox3Fill,
+    RiUserFill,
+    RiPhoneFill,
+    RiCheckboxCircleFill,
+    RiTimeFill,
+    RiErrorWarningFill,
+    RiNavigationFill,
+    RiCloseCircleFill,
+    RiStarFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
@@ -279,7 +277,7 @@ export default function BookingDetailPage() {
                         {booking.driver && (
                             <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                                 <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black">
-                                    <User className="w-5 h-5" />
+                                    <RiUserFill className="w-5 h-5" />
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black text-slate-700 uppercase tracking-widest">{t("Assigned Driver", "মনোনীত ড্রাইভার")}</p>
@@ -298,7 +296,7 @@ export default function BookingDetailPage() {
                                 <div className="space-y-6 relative before:absolute before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200">
                                     <div className="flex items-start gap-4 relative">
                                         <div className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center shrink-0 shadow-md">
-                                            <MapPin className="w-4 h-4" />
+                                            <RiMapPinFill className="w-4 h-4" />
                                         </div>
                                         <div>
                                             <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight">{t("Pickup Address", "পিকআপ অ্যাড্রেস")}</p>
@@ -308,7 +306,7 @@ export default function BookingDetailPage() {
 
                                     <div className="flex items-start gap-4 relative">
                                         <div className="w-7 h-7 rounded-full bg-secondary text-white flex items-center justify-center shrink-0 shadow-md">
-                                            <MapPin className="w-4 h-4" />
+                                            <RiMapPinFill className="w-4 h-4" />
                                         </div>
                                         <div>
                                             <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight">{t("Drop-off Address", "ড্রপ-অফ অ্যাড্রেস")}</p>
@@ -321,14 +319,14 @@ export default function BookingDetailPage() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="bg-slate-50 rounded-2xl p-4">
                                     <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight flex items-center gap-1.5 mb-1">
-                                        <Navigation className="w-3 h-3 text-primary" />
+                                        <RiNavigationFill className="w-3 h-3 text-primary" />
                                         {t("Distance", "দূরত্ব")}
                                     </p>
                                     <p className="text-lg font-black text-slate-950">{booking.distance} KM</p>
                                 </div>
                                 <div className="bg-slate-50 rounded-2xl p-4">
                                     <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight flex items-center gap-1.5 mb-1">
-                                        <Truck className="w-3 h-3 text-primary" />
+                                        <RiTruckFill className="w-3 h-3 text-primary" />
                                         {t("Truck Type", "ট্রাকের ধরন")}
                                     </p>
                                     <p className="text-sm font-bold text-slate-950 truncate">
@@ -382,7 +380,7 @@ export default function BookingDetailPage() {
                                             disabled={updating}
                                             className="w-full h-12 rounded-xl font-bold text-red-500 hover:bg-red-50 hover:text-red-600 gap-2 mt-2"
                                         >
-                                            <XCircle className="w-4 h-4" />
+                                            <RiCloseCircleFill className="w-4 h-4" />
                                             {t("Cancel Booking", "বুকিং বাতিল করুন")}
                                         </Button>
                                     </div>
@@ -426,14 +424,14 @@ export default function BookingDetailPage() {
                                     {booking.review ? (
                                         <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm">
                                             <div className="flex items-center gap-2 mb-2">
-                                                <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
+                                                <RiStarFill className="w-5 h-5 fill-amber-400 text-amber-400" />
                                                 <h3 className="font-black text-slate-900 text-sm">
                                                     {t("Your Rating for Driver", "ড্রাইভারকে দেয়া আপনার রেটিং")}
                                                 </h3>
                                             </div>
                                             <div className="flex items-center gap-1 my-2">
                                                 {[1, 2, 3, 4, 5].map((s) => (
-                                                    <Star
+                                                    <RiStarFill
                                                         key={s}
                                                         className={cn(
                                                             "w-5 h-5",
@@ -453,7 +451,7 @@ export default function BookingDetailPage() {
                                         <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/80 rounded-2xl p-6 shadow-sm">
                                             <div className="flex items-center gap-3 mb-3">
                                                 <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20 shrink-0">
-                                                    <Star className="w-5 h-5 fill-white" />
+                                                    <RiStarFill className="w-5 h-5 fill-white" />
                                                 </div>
                                                 <div>
                                                     <h3 className="font-black text-slate-900 text-sm">
@@ -474,7 +472,7 @@ export default function BookingDetailPage() {
                                                         onClick={() => setRating(star)}
                                                         className="p-1 hover:scale-125 transition-transform outline-none"
                                                     >
-                                                        <Star
+                                                        <RiStarFill
                                                             className={cn(
                                                                 "w-7 h-7 transition-colors",
                                                                 star <= rating
@@ -524,7 +522,7 @@ export default function BookingDetailPage() {
                                 {booking.contactPhone && (
                                     <div className="col-span-2">
                                         <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight flex items-center gap-1">
-                                            <Phone className="w-3 h-3" />
+                                            <RiPhoneFill className="w-3 h-3" />
                                             {t("Contact Phone", "যোগাযোগ নম্বর")}
                                         </p>
                                         <a href={`tel:${booking.contactPhone}`} className="text-sm font-bold text-primary hover:underline">{booking.contactPhone}</a>
@@ -567,7 +565,7 @@ export default function BookingDetailPage() {
                             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                                 <div>
                                     <h3 className="text-lg font-black text-slate-950 flex items-center gap-2">
-                                        <Navigation className="w-5 h-5 text-primary" />
+                                        <RiNavigationFill className="w-5 h-5 text-primary" />
                                         {t("Live Truck Tracking", "লাইভ ট্রাক ট্র্যাকিং")}
                                     </h3>
                                     <p className="text-xs text-slate-500 font-bold mt-0.5">
@@ -616,7 +614,7 @@ export default function BookingDetailPage() {
                             {booking.statusLogs.map((log, i) => (
                                 <div key={i} className="flex gap-4">
                                     <div className="w-8 h-8 rounded-full bg-white border border-slate-100 flex items-center justify-center shrink-0">
-                                        <Clock className="w-4 h-4 text-slate-400" />
+                                        <RiTimeFill className="w-4 h-4 text-slate-400" />
                                     </div>
                                     <div>
                                         <p className="text-xs font-bold text-slate-900">{log.note}</p>

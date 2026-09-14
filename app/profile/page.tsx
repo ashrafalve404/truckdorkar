@@ -4,17 +4,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
 import { useAuth } from "@/store/use-auth";
+import { Loader2 } from "lucide-react";
 import {
-    User,
-    Mail,
-    Phone,
-    MapPin,
-    Camera,
-    Shield,
-    Clock,
-    Loader2,
-    Save
-} from "lucide-react";
+    RiUserFill,
+    RiMailFill,
+    RiPhoneFill,
+    RiCameraFill,
+    RiShieldCheckFill,
+    RiTimeFill,
+    RiSaveFill
+} from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import api, { getFileUrl } from "@/lib/api";
 import { toast } from "react-hot-toast";
@@ -139,7 +138,7 @@ export default function ProfilePage() {
                                 {user?.avatar ? (
                                     <img src={getFileUrl(user.avatar)} alt={user.name || "User Avatar"} className="w-full h-full object-cover" />
                                 ) : (
-                                    <User className="w-12 h-12 text-slate-300" />
+                                    <RiUserFill className="w-12 h-12 text-slate-300" />
                                 )}
                                 {uploadingAvatar && (
                                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -152,7 +151,7 @@ export default function ProfilePage() {
                                 disabled={uploadingAvatar}
                                 className="absolute bottom-1 right-1 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white shadow-lg group-hover:scale-110 transition-transform"
                             >
-                                {uploadingAvatar ? <Loader2 className="w-4 h-4 animate-spin" /> : <Camera className="w-4 h-4" />}
+                                {uploadingAvatar ? <Loader2 className="w-4 h-4 animate-spin" /> : <RiCameraFill className="w-4 h-4" />}
                             </button>
                         </div>
                         <h3 className="text-xl font-bold text-slate-900 mb-1">{user?.name}</h3>
@@ -160,11 +159,11 @@ export default function ProfilePage() {
 
                         <div className="mt-8 pt-8 border-t border-slate-50 space-y-4 text-left">
                             <div className="flex items-center gap-3 text-slate-500">
-                                <Mail className="w-4 h-4 text-primary" />
+                                <RiMailFill className="w-4 h-4 text-primary" />
                                 <span className="text-sm font-medium">{user?.email || t("No email added", "ইমেইল যোগ করা হয়নি")}</span>
                             </div>
                             <div className="flex items-center gap-3 text-slate-500">
-                                <Phone className="w-4 h-4 text-primary" />
+                                <RiPhoneFill className="w-4 h-4 text-primary" />
                                 <span className="text-sm font-medium">{user?.phone}</span>
                             </div>
                         </div>
@@ -172,14 +171,14 @@ export default function ProfilePage() {
 
                     <div className="bg-primary/5 p-8 rounded-xl border border-primary/10">
                         <div className="flex items-center gap-3 mb-4">
-                            <Shield className="w-6 h-6 text-primary" />
+                            <RiShieldCheckFill className="w-6 h-6 text-primary" />
                             <h4 className="text-lg font-bold text-slate-900">{t("Account Security", "অ্যাকাউন্ট নিরাপত্তা")}</h4>
                         </div>
                         <p className="text-slate-500 text-sm leading-relaxed mb-6 font-bold">
                             {t("Your account is verified. To change your password, please use the reset option at login.", "আপনার অ্যাকাউন্ট ভেরিফাইড। পাসওয়ার্ড পরিবর্তন করতে লগইন পেজের রিসেট অপশন ব্যবহার করুন।")}
                         </p>
                         <div className="flex items-center gap-2 text-xs font-black text-primary uppercase tracking-widest">
-                            <Clock className="w-3.5 h-3.5" />
+                            <RiTimeFill className="w-3.5 h-3.5" />
                             {t("Last active: Today", "সর্বশেষ সক্রিয়: আজ")}
                         </div>
                     </div>
@@ -194,7 +193,7 @@ export default function ProfilePage() {
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-slate-500 ml-1">{t("Full Name", "পুরো নাম")}</label>
                                     <div className="relative">
-                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
+                                        <RiUserFill className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                                         <input
                                             type="text"
                                             value={profileData.name}
@@ -206,7 +205,7 @@ export default function ProfilePage() {
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-slate-500 ml-1">{t("Phone Number", "ফোন নম্বর")}</label>
                                     <div className="relative">
-                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
+                                        <RiPhoneFill className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                                         <input
                                             type="text"
                                             disabled
@@ -220,7 +219,7 @@ export default function ProfilePage() {
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-slate-500 ml-1">{t("Email Address", "ইমেইল ঠিকানা")}</label>
                                 <div className="relative">
-                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
+                                    <RiMailFill className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300" />
                                     <input
                                         type="email"
                                         value={profileData.email}
@@ -235,7 +234,7 @@ export default function ProfilePage() {
                                 <Button disabled={loading} className="w-full h-16 rounded-xl font-black text-lg gap-3 bg-primary text-white shadow-xl shadow-primary/20 transition-all hover:-translate-y-1">
                                     {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
                                         <>
-                                            <Save className="w-5 h-5" />
+                                            <RiSaveFill className="w-5 h-5" />
                                             {t("Save Changes", "পরিবর্তন সংরক্ষণ করুন")}
                                         </>
                                     )}

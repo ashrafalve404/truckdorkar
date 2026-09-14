@@ -3,16 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/layout";
 import { useLanguage } from "@/context/language-context";
+import { Loader2 } from "lucide-react";
 import {
-    Bell,
-    CheckCircle,
-    Info,
-    Truck,
-    Package,
-    Clock,
-    MessageSquare,
-    Loader2
-} from "lucide-react";
+    RiBellFill,
+    RiCheckboxCircleFill,
+    RiInformationFill,
+    RiTruckFill,
+    RiBox3Fill,
+    RiTimeFill,
+    RiCustomerService2Fill,
+    RiMessage3Fill
+} from "react-icons/ri";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 
@@ -48,12 +49,12 @@ export default function UserNotificationsPage() {
     };
 
     const iconMap: Record<string, any> = {
-        BOOKING: Package,
-        QUOTATION: MessageSquare,
-        PAYMENT: CheckCircle,
-        SYSTEM: Info,
-        SUPPORT: MessageSquare,
-        DRIVER: Truck,
+        BOOKING: RiBox3Fill,
+        QUOTATION: RiMessage3Fill,
+        PAYMENT: RiCheckboxCircleFill,
+        SYSTEM: RiInformationFill,
+        SUPPORT: RiCustomerService2Fill,
+        DRIVER: RiTruckFill,
     };
 
     const colorMap: Record<string, { icon: string; bg: string }> = {
@@ -100,14 +101,14 @@ export default function UserNotificationsPage() {
                     </div>
                 ) : notifications.length === 0 ? (
                     <div className="p-20 text-center">
-                        <Bell className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                        <RiBellFill className="w-12 h-12 text-slate-300 mx-auto mb-4" />
                         <h3 className="text-lg font-bold text-slate-900 mb-2">{t("No notifications", "কোনো নোটিফিকেশন নেই")}</h3>
                         <p className="text-sm text-slate-500 font-bold">{t("You're all caught up!", "আপনি সবসময় আপডেট আছেন!")}</p>
                     </div>
                 ) : (
                     <div className="divide-y divide-slate-50">
                         {notifications.map((notif) => {
-                            const Icon = iconMap[notif.type] || Bell;
+                            const Icon = iconMap[notif.type] || RiBellFill;
                             const colors = colorMap[notif.type] || { icon: "text-slate-500", bg: "bg-slate-50" };
                             return (
                                 <div
