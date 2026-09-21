@@ -182,7 +182,7 @@ function BookingContent() {
         } else if (type?.startsWith('T3')) {
             baseFare = 3000; extraPerKm = 75;
         } else {
-            baseFare = 1000; extraPerKm = 50;
+            baseFare = 1500; extraPerKm = 70;
         }
 
         if (km <= 10) return baseFare;
