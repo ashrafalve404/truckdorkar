@@ -2,7 +2,8 @@
 
 import React from "react";
 import { ArrowRight, Phone } from "lucide-react";
-import { RiGiftFill, RiPercentFill, RiShieldCheckFill } from "react-icons/ri";
+import { RiPercentFill, RiShieldCheckFill } from "react-icons/ri";
+import { FaGift } from "react-icons/fa6";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
@@ -56,7 +57,7 @@ export function PartnerHighlight() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                             <div className="flex gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
                                 <div className="w-12 h-12 rounded-xl bg-white/20 group-hover:bg-slate-950 group-hover:border-slate-950 text-white flex items-center justify-center shrink-0 border border-white/10 shadow-sm transition-all duration-300 group-hover:scale-110">
-                                    <RiGiftFill className="w-6 h-6" />
+                                    <FaGift className="w-6 h-6" />
                                 </div>
                                 <div className="space-y-1">
                                     <h4 className={cn("font-bold text-white", lang === "bn" ? "text-xs" : "text-sm")}>{t("Daily Bonus", "প্রতিদিন বোনাস")}</h4>

@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import {
-    RiGiftFill,
     RiPercentFill,
     RiFundsBoxFill,
     RiPhoneFill,
@@ -17,6 +16,7 @@ import {
     RiCheckboxCircleFill,
     RiArrowRightLine
 } from "react-icons/ri";
+import { FaGift } from "react-icons/fa6";
 import Link from "next/link";
 
 export default function PartnerWithUsPage() {
@@ -24,7 +24,7 @@ export default function PartnerWithUsPage() {
 
     const benefits = [
         {
-            icon: RiGiftFill,
+            icon: FaGift,
             title_en: "Daily Bonus",
             title_bn: "প্রতিদিন বোনাস",
             desc_en: "Receive 200 TK direct balance top-up every day as an active Truck Dorkar agent.",

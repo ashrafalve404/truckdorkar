@@ -240,7 +240,7 @@ export function BookingWidget() {
 
                     <Button
                         onClick={handleSearch}
-                        className="w-full h-14 rounded-md font-black text-lg gap-3 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary hover:bg-secondary border-none text-white"
+                        className="w-full h-14 rounded-md font-black text-lg gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary hover:bg-secondary border-none text-white"
                     >
                         <Search className="w-5 h-5" />
                         {t("Book Now", "বুক করুন")}
