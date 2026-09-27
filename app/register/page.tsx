@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import Link from "next/link";
 import { Eye, EyeOff, ArrowLeft, Loader2, PhoneCall, KeyRound, RefreshCw } from "lucide-react";
-import { RiUser3Fill, RiTruckFill } from "react-icons/ri";
+import { RiUser3Fill } from "react-icons/ri";
+import { FaTruck } from "react-icons/fa6";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/store/use-auth";
 import api from "@/lib/api";
@@ -86,7 +87,7 @@ function RegisterForm() {
         },
         {
             id: "driver" as const,
-            icon: RiTruckFill,
+            icon: FaTruck,
             title_en: "Truck Driver",
             title_bn: "ট্রাক ড্রাইভার",
             desc_en: "Register as a driver to get booking requests",

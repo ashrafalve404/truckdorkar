@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronDown, Search } from "lucide-react";
-import { RiTruckFill, RiCalendarEventFill, RiCloseCircleFill } from "react-icons/ri";
+import { RiCalendarEventFill, RiCloseCircleFill } from "react-icons/ri";
+import { FaTruck } from "react-icons/fa6";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -180,7 +181,7 @@ export function BookingWidget() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 items-end">
                     <div className="space-y-3">
                         <label className="text-xs font-black text-slate-800 flex items-center gap-2">
-                            <RiTruckFill className="w-3.5 h-3.5 text-primary shrink-0" />
+                            <FaTruck className="w-3.5 h-3.5 text-primary shrink-0" />
                             {t("Truck Type", "ট্রাকের ধরণ")}
                         </label>
                         <div className="relative" ref={dropdownRef}>

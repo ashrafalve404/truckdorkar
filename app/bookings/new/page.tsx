@@ -14,7 +14,6 @@ import {
 import {
     RiPhoneFill,
     RiCalendarEventFill,
-    RiTruckFill,
     RiBox3Fill,
     RiScales3Fill,
     RiWallet3Fill,
@@ -22,6 +21,7 @@ import {
     RiLineChartFill,
     RiMapPinFill
 } from "react-icons/ri";
+import { FaTruck } from "react-icons/fa6";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -569,7 +569,7 @@ function BookingContent() {
                                         <div className="space-y-1">
                                             <CustomSelect
                                                 label={t("Required Truck", "প্রয়োজনীয় ট্রাক")}
-                                                icon={<RiTruckFill className="w-4 h-4 text-primary shrink-0" />}
+                                                icon={<FaTruck className="w-4 h-4 text-primary shrink-0" />}
                                                 value={formData.truckType}
                                                 onChange={(val) => {
                                                     const newMin = calcMinFare(formData.distance, val);

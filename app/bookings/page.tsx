@@ -10,11 +10,11 @@ import {
     RiCheckboxCircleFill,
     RiErrorWarningFill,
     RiMapPinFill,
-    RiTruckFill,
     RiPhoneFill,
     RiAddCircleFill,
     RiFilterFill
 } from "react-icons/ri";
+import { FaTruck } from "react-icons/fa6";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -62,7 +62,7 @@ export default function UserBookingsPage() {
         switch (status) {
             case "PENDING": return <RiTimeFill className="w-4 h-4 text-amber-500" />;
             case "ACCEPTED": return <RiCheckboxCircleFill className="w-4 h-4 text-blue-500" />;
-            case "IN_TRANSIT": return <RiTruckFill className="w-4 h-4 text-primary" />;
+            case "IN_TRANSIT": return <FaTruck className="w-4 h-4 text-primary" />;
             case "COMPLETED": return <RiCheckboxCircleFill className="w-4 h-4 text-green-500" />;
             case "CANCELLED": return <RiErrorWarningFill className="w-4 h-4 text-red-500" />;
             default: return <RiBox3Fill className="w-4 h-4 text-slate-500" />;

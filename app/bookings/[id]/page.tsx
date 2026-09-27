@@ -10,7 +10,6 @@ import { Loader2, ArrowLeft, TrendingUp } from "lucide-react";
 import {
     RiMapPinFill,
     RiCalendarFill,
-    RiTruckFill,
     RiBox3Fill,
     RiUserFill,
     RiPhoneFill,
@@ -21,6 +20,7 @@ import {
     RiCloseCircleFill,
     RiStarFill
 } from "react-icons/ri";
+import { FaTruck } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
@@ -326,7 +326,7 @@ export default function BookingDetailPage() {
                                 </div>
                                 <div className="bg-slate-50 rounded-2xl p-4">
                                     <p className="text-[10px] font-black text-slate-700 uppercase tracking-tight flex items-center gap-1.5 mb-1">
-                                        <RiTruckFill className="w-3 h-3 text-primary" />
+                                        <FaTruck className="w-3 h-3 text-primary" />
                                         {t("Truck Type", "ট্রাকের ধরন")}
                                     </p>
                                     <p className="text-sm font-bold text-slate-950 truncate">
