@@ -238,7 +238,7 @@ export function TicketModal({ ticketId, onClose, currentRole, onUpdated }: Ticke
                     <Button
                         type="submit"
                         disabled={submittingReply || !replyText.trim()}
-                        className="h-11 px-6 rounded-xl font-bold bg-primary text-white gap-2 shadow-md shadow-primary/20 shrink-0"
+                        className="h-11 px-6 rounded-xl font-bold bg-primary text-white gap-2 shrink-0"
                     >
                         {submittingReply ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                             <>

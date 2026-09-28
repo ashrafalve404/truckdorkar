@@ -308,7 +308,7 @@ export function Navbar() {
                                             </Button>
                                         </Link>
                                         <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
-                                            <Button className="w-full font-bold text-white shadow-lg shadow-primary/20">
+                                            <Button className="w-full font-bold text-white">
                                                 {lang === "en" ? "Register" : "রেজিস্টার"}
                                             </Button>
                                         </Link>

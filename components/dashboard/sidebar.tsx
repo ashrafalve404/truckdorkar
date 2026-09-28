@@ -151,7 +151,7 @@ export function DashboardSidebar({ role, isOpen, onClose }: SidebarProps) {
                             className={cn(
                                 "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all group",
                                 isActive
-                                    ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                    ? "bg-primary text-white"
                                     : "text-slate-700 hover:bg-slate-50 hover:text-primary"
                             )}
                         >

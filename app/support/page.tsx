@@ -110,7 +110,7 @@ export default function SupportPage() {
                                             type="button"
                                             onClick={() => setTicket({ ...ticket, priority: p })}
                                             className={`h-12 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${ticket.priority === p
-                                                ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                                ? "bg-primary text-white"
                                                 : "bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100"
                                                 }`}
                                         >
@@ -132,7 +132,7 @@ export default function SupportPage() {
                                 />
                             </div>
 
-                            <Button disabled={loading} className="w-full h-14 rounded-2xl font-black text-base gap-3 bg-primary text-white shadow-xl shadow-primary/20 transition-all hover:-translate-y-1">
+                            <Button disabled={loading} className="w-full h-14 rounded-2xl font-black text-base gap-3 bg-primary text-white transition-all">
                                 {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
                                     <>
                                         <RiSendPlaneFill className="w-5 h-5" />

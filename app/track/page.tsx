@@ -156,7 +156,7 @@ export default function TrackShipmentPage() {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                         <Button
                             onClick={() => router.push("/bookings/new")}
-                            className="w-full sm:w-auto h-12 px-6 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 gap-2"
+                            className="w-full sm:w-auto h-12 px-6 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white gap-2"
                         >
                             <RiTruckFill className="w-5 h-5" />
                             {t("Book a Truck Now", "এখনই ট্রাক বুক করুন")}
@@ -186,7 +186,7 @@ export default function TrackShipmentPage() {
                                     className={cn(
                                         "px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-2 border",
                                         activeBooking?.id === b.id
-                                            ? "bg-primary text-white border-primary shadow-md shadow-primary/20"
+                                            ? "bg-primary text-white border-primary"
                                             : "bg-white text-slate-700 border-slate-200 hover:border-primary/40"
                                     )}
                                 >

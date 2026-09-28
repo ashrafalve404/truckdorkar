@@ -106,7 +106,7 @@ export default function UserBookingsPage() {
                         {t("View and manage all your past and active truck booking requests.", "আপনার সকল অতীত ও বর্তমান ট্রাক বুকিং রিকোয়েস্ট দেখুন এবং পরিচালনা করুন।")}
                     </p>
                 </div>
-                <Button onClick={() => router.push("/bookings/new")} className="rounded-xl h-12 px-6 font-bold bg-primary text-white shadow-md shadow-primary/20 shrink-0 gap-2">
+                <Button onClick={() => router.push("/bookings/new")} className="rounded-xl h-12 px-6 font-bold bg-primary text-white shrink-0 gap-2">
                     <RiAddCircleFill className="w-5 h-5" />
                     {t("New Booking Request", "নতুন বুকিং করুন")}
                 </Button>

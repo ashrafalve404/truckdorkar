@@ -81,7 +81,7 @@ export default function DashboardPage() {
                         {t("Track your active orders and view booking history.", "আপনার সক্রিয় অর্ডারগুলো ট্র্যাক করুন এবং বুকিং ইতিহাস দেখুন।")}
                     </p>
                 </div>
-                <Button onClick={() => router.push("/bookings/new")} className="rounded-2xl h-12 px-6 font-bold bg-primary text-white shadow-lg shadow-primary/20">
+                <Button onClick={() => router.push("/bookings/new")} className="rounded-2xl h-12 px-6 font-bold bg-primary text-white">
                     {t("New Booking Request", "নতুন বুকিং রিকোয়েস্ট")}
                 </Button>
             </header>

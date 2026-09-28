@@ -400,7 +400,7 @@ export default function BookingDetailPage() {
                                             <Button
                                                 onClick={() => handleUpdateStatus("IN_TRANSIT", "Driver started the ride")}
                                                 disabled={updating}
-                                                className="h-12 px-6 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+                                                className="h-12 px-6 rounded-xl font-bold bg-primary hover:bg-primary/90 text-white"
                                             >
                                                 {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : t("Start Ride", "রাইড শুরু করুন")}
                                             </Button>

@@ -32,6 +32,7 @@ import {
     RiSearchFill,
     RiTruckFill
 } from "react-icons/ri";
+import { FaTruck } from "react-icons/fa6";
 
 interface DashboardLayoutProps {
     children: React.ReactNode;
@@ -43,7 +44,7 @@ const getMobileNavItems = (role?: string) => {
         return [
             { href: "/dashboard", icon: RiLayoutGridFill, label_en: "Home", label_bn: "হোম" },
             { href: "/bookings", icon: RiBox3Fill, label_en: "My Trips", label_bn: "মাই ট্রিপস" },
-            { href: "/bookings/new", icon: Plus, label_en: "Book Truck", label_bn: "বুকিং", isFab: true },
+            { href: "/bookings/new", icon: FaTruck, label_en: "Book Truck", label_bn: "বুকিং", isFab: true },
             { href: "/track", icon: RiMapPinFill, label_en: "Tracking", label_bn: "ট্র্যাকিং" },
             { href: "/profile", icon: RiUserFill, label_en: "Profile", label_bn: "প্রোফাইল" },
         ];
@@ -196,12 +197,12 @@ export function DashboardLayout({ children, requiredRole }: DashboardLayoutProps
                                     className="flex flex-col items-center justify-center -mt-5 group z-50 shrink-0 px-2 pb-1"
                                 >
                                     <div className={cn(
-                                        "w-13 h-13 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border-4 border-white",
+                                        "w-13 h-13 rounded-full flex items-center justify-center transition-all duration-300 border-4 border-white",
                                         isActive
-                                            ? "bg-primary text-white shadow-primary/40 scale-110 ring-4 ring-primary/20"
-                                            : "bg-primary text-white shadow-primary/30 group-hover:scale-105"
+                                            ? "bg-primary text-white scale-110 ring-4 ring-primary/20"
+                                            : "bg-primary text-white group-hover:scale-105"
                                     )}>
-                                        <Icon className="w-6 h-6 stroke-[2.5]" />
+                                        <Icon className="w-6 h-6" />
                                     </div>
                                     <span className={cn(
                                         "text-[10px] mt-0.5 font-black whitespace-nowrap px-2 py-0.5 rounded-full transition-colors",

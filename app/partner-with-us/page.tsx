@@ -111,7 +111,7 @@ export default function PartnerWithUsPage() {
                             className="flex flex-wrap justify-center gap-4"
                         >
                             <a href="tel:01826-110036">
-                                <Button className="h-14 px-8 rounded-lg font-black text-base gap-3 bg-primary text-white shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
+                                <Button className="h-14 px-8 rounded-lg font-black text-base gap-3 bg-primary text-white hover:scale-105 transition-transform">
                                     <RiPhoneFill className="w-5 h-5" />
                                     {t("Call Admin", "অ্যাডমিনকে কল করুন")}
                                 </Button>

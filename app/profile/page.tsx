@@ -231,7 +231,7 @@ export default function ProfilePage() {
                             </div>
 
                             <div className="pt-4">
-                                <Button disabled={loading} className="w-full h-16 rounded-xl font-black text-lg gap-3 bg-primary text-white shadow-xl shadow-primary/20 transition-all hover:-translate-y-1">
+                                <Button disabled={loading} className="w-full h-16 rounded-xl font-black text-lg gap-3 bg-primary text-white transition-all">
                                     {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : (
                                         <>
                                             <RiSaveFill className="w-5 h-5" />
