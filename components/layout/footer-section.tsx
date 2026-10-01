@@ -118,7 +118,7 @@ export function Footer() {
                     <div className="lg:col-span-4 space-y-4 md:space-y-6 text-black pr-0 lg:pr-8">
                         <div className="flex flex-wrap items-center gap-3 md:gap-4">
                             <Image
-                                src="/logos/mainlogo1.png"
+                                src="/logos/truckdorkarlogobangla.png"
                                 alt="TruckDorkar Logo"
                                 width={500}
                                 height={150}
