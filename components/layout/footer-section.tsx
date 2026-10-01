@@ -122,7 +122,7 @@ export function Footer() {
                                 alt="TruckDorkar Logo"
                                 width={500}
                                 height={150}
-                                className="h-36 w-auto object-contain"
+                                className="h-20 md:h-24 w-auto object-contain"
                             />
                             <div className="flex items-baseline gap-2">
                                 <span className="text-2xl md:text-4xl font-black tracking-tight text-primary">Truck</span>
