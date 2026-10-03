@@ -65,14 +65,21 @@ export default function AdminUsersPage() {
 
     const fetchUsers = useCallback(async () => {
         try {
-            const response = await api.get("/admin/users");
-            setUsers(response.data.data.users || []);
+            const response = await api.get("/admin/users", {
+                params: {
+                    limit: 500,
+                    role: roleFilter !== "ALL" ? roleFilter : undefined,
+                    status: statusFilter !== "ALL" ? statusFilter : undefined,
+                    search: searchTerm.trim() || undefined,
+                }
+            });
+            setUsers(response.data?.data?.users || []);
         } catch (error) {
             console.error("Failed to fetch users", error);
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [roleFilter, statusFilter, searchTerm]);
 
     useEffect(() => {
         fetchUsers();
