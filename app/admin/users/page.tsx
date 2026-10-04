@@ -305,8 +305,9 @@ export default function AdminUsersPage() {
                                                     )}
                                                 </div>
                                                 {user.role === 'ADMIN' && (
-                                                    <span className="text-[10px] font-black text-purple-600 bg-purple-100/80 px-2 py-0.5 rounded-full uppercase tracking-wider group-hover:hidden transition-all pointer-events-none shrink-0">
-                                                        🔒 Hidden Admin
+                                                    <span className="text-[10px] font-black text-purple-600 bg-purple-100/80 px-2.5 py-0.5 rounded-full uppercase tracking-wider group-hover:hidden transition-all pointer-events-none shrink-0 flex items-center gap-1">
+                                                        <ShieldCheck className="w-3 h-3 text-purple-600" />
+                                                        Hidden Admin
                                                     </span>
                                                 )}
                                             </div>
