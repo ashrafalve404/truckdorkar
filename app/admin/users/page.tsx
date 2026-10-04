@@ -273,30 +273,19 @@ export default function AdminUsersPage() {
                                             setSelectedUser(user);
                                             setUserTab("overview");
                                         }}
-                                        className={cn(
-                                            "hover:bg-slate-50/80 transition-all cursor-pointer group",
-                                            user.role === 'ADMIN' && "bg-purple-50/20 hover:bg-purple-50/40"
-                                        )}
+                                        className="hover:bg-slate-50/80 transition-all cursor-pointer group"
                                     >
                                         <td className="px-8 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className={cn(
-                                                    "w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-600 overflow-hidden shrink-0 border border-slate-200 transition-all duration-300",
-                                                    user.role === 'ADMIN' && "blur-md group-hover:blur-none"
-                                                )}>
+                                                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-slate-600 overflow-hidden shrink-0 border border-slate-200">
                                                     {user.avatar ? (
                                                         <img src={getAvatarUrl(user.avatar) || ""} alt={user.name} className="w-full h-full object-cover" />
                                                     ) : (
                                                         user.name[0]?.toUpperCase()
                                                     )}
                                                 </div>
-                                                <div className={cn(
-                                                    "transition-all duration-300 relative",
-                                                    user.role === 'ADMIN' && "blur-md group-hover:blur-none select-none group-hover:select-auto"
-                                                )}>
-                                                    <p className="font-bold text-slate-950 flex items-center gap-2">
-                                                        {user.name}
-                                                    </p>
+                                                <div>
+                                                    <p className="font-bold text-slate-950">{user.name}</p>
                                                     <p className="text-xs text-slate-700 font-bold">{user.phone}</p>
                                                     {((user as any).driver?.nidNumber || (user as any).agent?.nidNumber) && (
                                                         <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase">
@@ -304,12 +293,6 @@ export default function AdminUsersPage() {
                                                         </p>
                                                     )}
                                                 </div>
-                                                {user.role === 'ADMIN' && (
-                                                    <span className="text-[10px] font-black text-purple-600 bg-purple-100/80 px-2.5 py-0.5 rounded-full uppercase tracking-wider group-hover:hidden transition-all pointer-events-none shrink-0 flex items-center gap-1">
-                                                        <ShieldCheck className="w-3 h-3 text-purple-600" />
-                                                        Hidden Admin
-                                                    </span>
-                                                )}
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
