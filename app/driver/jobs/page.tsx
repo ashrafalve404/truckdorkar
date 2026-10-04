@@ -15,7 +15,9 @@ import {
     RiErrorWarningFill,
     RiLockFill,
     RiBankCardFill,
-    RiMap2Fill
+    RiMap2Fill,
+    RiPhoneFill,
+    RiCheckboxCircleFill
 } from "react-icons/ri";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -44,12 +46,23 @@ export default function DriverJobsPage() {
         scheduledAt?: string;
         goodsType?: string;
         distance?: number | null;
+        contactPhone?: string;
+        user?: { name?: string; phone?: string };
     }[]>([]);
     const [loading, setLoading] = useState(true);
     const [commissionBalance, setCommissionBalance] = useState(0);
     const [commissionLoading, setCommissionLoading] = useState(true);
     const [activeMapJob, setActiveMapJob] = useState<null | typeof jobs[0]>(null);
     const [geocodingJobId, setGeocodingJobId] = useState<string | null>(null);
+    const [acceptedModal, setAcceptedModal] = useState<null | {
+        id: string;
+        bookingNumber?: string;
+        pickupAddress: string;
+        dropAddress: string;
+        estimatedFare?: number | string;
+        contactPhone?: string;
+        customerName?: string;
+    }>(null);
 
     const handleOpenMap = async (job: typeof jobs[0]) => {
         if (
@@ -137,14 +150,26 @@ export default function DriverJobsPage() {
 
     const hasCommissionDue = !commissionLoading && commissionBalance > 0;
 
-    const handleAcceptJob = async (id: string) => {
+    const handleAcceptJob = async (job: typeof jobs[0]) => {
         if (hasCommissionDue) {
             toast.error(t("Pay your commission first to accept trips.", "ট্রিপ নিতে আগে কমিশন পরিশোধ করুন।"));
             return;
         }
         try {
-            await api.patch(`/bookings/${id}/accept`);
+            const res = await api.patch(`/bookings/${job.id}/accept`);
+            const acceptedData = res.data?.data;
             toast.success(t("Trip accepted successfully!", "ট্রিপটি সফলভাবে গ্রহণ করা হয়েছে!"));
+            
+            setAcceptedModal({
+                id: job.id,
+                bookingNumber: acceptedData?.bookingNumber || job.id.substring(0, 8).toUpperCase(),
+                pickupAddress: job.pickupAddress,
+                dropAddress: job.dropAddress,
+                estimatedFare: job.estimatedFare,
+                contactPhone: acceptedData?.contactPhone || acceptedData?.user?.phone || job.contactPhone || job.user?.phone,
+                customerName: acceptedData?.user?.name || job.user?.name || t("Customer", "কাস্টমার"),
+            });
+
             fetchJobs();
         } catch (error: any) {
             const msg = error?.response?.data?.message || t("Failed to accept trip", "ট্রিপটি গ্রহণ করতে ব্যর্থ হয়েছে");
@@ -286,7 +311,7 @@ export default function DriverJobsPage() {
                                         </div>
                                     ) : (
                                         <Button
-                                            onClick={() => handleAcceptJob(job.id)}
+                                            onClick={() => handleAcceptJob(job)}
                                             className="flex-1 h-12 rounded-lg font-black gap-2 shadow-lg shadow-primary/10"
                                         >
                                             {t("Accept Job", "কাজটি নিন")}
@@ -382,7 +407,7 @@ export default function DriverJobsPage() {
                                     ) : (
                                         <Button
                                             onClick={() => {
-                                                handleAcceptJob(activeMapJob.id);
+                                                handleAcceptJob(activeMapJob);
                                                 setActiveMapJob(null);
                                             }}
                                             className="w-full h-12 rounded-lg font-black gap-2 shadow-lg shadow-primary/10"
@@ -392,6 +417,107 @@ export default function DriverJobsPage() {
                                         </Button>
                                     )}
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Trip Accepted Success Modal */}
+            {acceptedModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in-50 duration-200">
+                    <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden flex flex-col shadow-2xl border border-slate-100 relative animate-in zoom-in-95 duration-200">
+                        {/* Header Banner */}
+                        <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 text-white text-center relative overflow-hidden">
+                            <button
+                                onClick={() => setAcceptedModal(null)}
+                                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-colors font-bold text-sm"
+                            >
+                                ✕
+                            </button>
+                            <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-3 border border-white/30 shadow-inner">
+                                <RiCheckboxCircleFill className="w-10 h-10 text-white" />
+                            </div>
+                            <h3 className="text-xl font-black tracking-tight text-white mb-1">
+                                {t("Trip Accepted!", "ট্রিপটি সফলভাবে নেওয়া হয়েছে!")}
+                            </h3>
+                            <p className="text-xs font-bold text-emerald-100">
+                                {t("Please call the customer to confirm pickup details.", "পিকআপের বিবরণ নিশ্চিত করতে কাস্টমারকে কল দিন।")}
+                            </p>
+                        </div>
+
+                        {/* Modal Body */}
+                        <div className="p-6 space-y-5">
+                            {/* Customer Contact Card */}
+                            <div className="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-4 text-center space-y-3">
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700 mb-0.5">
+                                        {t("CUSTOMER CONTACT", "কাস্টমারের ফোন নম্বর")}
+                                    </p>
+                                    <h4 className="text-base font-black text-slate-900">
+                                        {acceptedModal.customerName}
+                                    </h4>
+                                    {acceptedModal.contactPhone && (
+                                        <p className="text-sm font-extrabold text-emerald-800 tracking-wide mt-0.5">
+                                            {acceptedModal.contactPhone}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {acceptedModal.contactPhone ? (
+                                    <a
+                                        href={`tel:${acceptedModal.contactPhone}`}
+                                        className="w-full h-13 rounded-xl font-black text-base bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-600/25 transition-all text-decoration-none"
+                                    >
+                                        <RiPhoneFill className="w-5 h-5 animate-bounce" />
+                                        {t("Call Customer Now", "কাস্টমারকে সরাসরি কল করুন")}
+                                    </a>
+                                ) : (
+                                    <div className="text-xs font-bold text-slate-500 py-1">
+                                        {t("No contact phone provided", "ফোন নম্বর দেওয়া হয়নি")}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Trip Address Details */}
+                            <div className="space-y-3 bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                                <div className="flex justify-between items-center pb-2 border-b border-slate-200/60">
+                                    <span className="text-xs font-bold text-slate-500">{t("Fare Amount", "ভাড়া")}:</span>
+                                    <span className="text-sm font-black text-slate-950">৳{acceptedModal.estimatedFare || "Negotiable"}</span>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-green-500 mt-1 shrink-0" />
+                                    <div>
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider leading-none mb-1">{t("Pickup", "পিকআপ")}</p>
+                                        <p className="text-xs font-bold text-slate-800 line-clamp-2">{acceptedModal.pickupAddress}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-red-500 mt-1 shrink-0" />
+                                    <div>
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider leading-none mb-1">{t("Drop", "ড্রপ")}</p>
+                                        <p className="text-xs font-bold text-slate-800 line-clamp-2">{acceptedModal.dropAddress}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Footer Actions */}
+                            <div className="flex gap-3 pt-1">
+                                <Button
+                                    variant="outline"
+                                    onClick={() => setAcceptedModal(null)}
+                                    className="flex-1 h-12 rounded-xl font-bold border-slate-200 text-slate-700 hover:bg-slate-100 text-xs"
+                                >
+                                    {t("Close", "বন্ধ করুন")}
+                                </Button>
+                                <Link href="/driver/bookings" className="flex-1">
+                                    <Button
+                                        className="w-full h-12 rounded-xl font-bold bg-slate-900 hover:bg-slate-800 text-white text-xs gap-1.5"
+                                    >
+                                        {t("View My Trips", "মাই ট্রিপস দেখুন")}
+                                        <ArrowRight className="w-3.5 h-3.5" />
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                     </div>
