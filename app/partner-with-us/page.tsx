@@ -11,12 +11,11 @@ import {
     RiFundsBoxFill,
     RiPhoneFill,
     RiWallet3Fill,
-    RiTruckFill,
     RiMailFill,
     RiCheckboxCircleFill,
     RiArrowRightLine
 } from "react-icons/ri";
-import { FaGift } from "react-icons/fa6";
+import { FaGift, FaTruck } from "react-icons/fa6";
 import Link from "next/link";
 
 export default function PartnerWithUsPage() {
@@ -65,7 +64,7 @@ export default function PartnerWithUsPage() {
             desc_bn: "আপনার ড্যাশবোর্ড সক্রিয় করতে ১,০০,০০০ টাকা এককালীন ফি পরিশোধ করুন।"
         },
         {
-            icon: RiTruckFill,
+            icon: FaTruck,
             title_en: "Fleet Building",
             title_bn: "রিসোর্স ম্যানেজমেন্ট",
             desc_en: "Add trucks and drivers to start receiving daily and trip earnings.",
