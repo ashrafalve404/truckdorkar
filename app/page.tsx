@@ -11,8 +11,28 @@ import { PartnerHighlight } from "@/components/sections/partner-highlight";
 import { MobileApp, Testimonials } from "@/components/sections/social-proof";
 import { FAQ, FinalCTA, Footer } from "@/components/layout/footer-section";
 import { FooterBanner } from "@/components/sections/footer-banner";
+import { MaintenanceScreen } from "@/components/sections/maintenance-screen";
 
-export default function Home() {
+/**
+ * Temporary Maintenance Mode Flag
+ * Set to `true` to display the maintenance screen when opening the website.
+ * Set to `false` to display the normal website.
+ * You can also bypass/preview the site anytime using: /?preview=true
+ */
+const IS_MAINTENANCE_MODE = true;
+
+interface PageProps {
+  searchParams?: Promise<{ preview?: string }>;
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const isPreview = params?.preview === "true";
+
+  if (IS_MAINTENANCE_MODE && !isPreview) {
+    return <MaintenanceScreen />;
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -36,3 +56,4 @@ export default function Home() {
     </div>
   );
 }
+
