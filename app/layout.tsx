@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     siteName: 'Truck Dorkar',
     images: [
       {
-        url: '/logos/mainlogo1.png',
+        url: '/logos/truckdorkarlogobangla.png',
         width: 1200,
         height: 630,
         alt: 'Truck Dorkar Limited - Logistics Simplified',
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Truck Dorkar Limited | Bangladesh's Leading Truck Booking Platform",
     description: "Book trucks online fast and safely anywhere in Bangladesh with Truck Dorkar Limited.",
-    images: ['/logos/mainlogo1.png'],
+    images: ['/logos/truckdorkarlogobangla.png'],
   },
   icons: {
     icon: [
@@ -111,7 +111,7 @@ export default function RootLayout({
               "name": "Truck Dorkar Limited",
               "alternateName": ["Truck Dorkar", "TruckDorkar", "truckdorkar.com"],
               "url": "https://truckdorkar.com",
-              "logo": "https://truckdorkar.com/logos/mainlogo1.png",
+              "logo": "https://truckdorkar.com/logos/truckdorkarlogobangla.png",
               "sameAs": [
                 "https://www.facebook.com/profile.php?id=61579235266143",
                 "https://wa.me/8801826110036"
