@@ -45,12 +45,6 @@ export function Fleet() {
     const fallbacks: TruckFareInfo[] = [
         { id: "T1_OPEN_7FT", nameEn: "1 Ton Open 7 Ft Truck", nameBn: "১ টন খোলা ৭ ফিট ট্রাক", minFare10km: 1000 },
         { id: "T1_COVER_7FT", nameEn: "1 Ton Cover 7 Ft Truck", nameBn: "১ টন কাভার ৭ ফিট ট্রাক", minFare10km: 1000 },
-        { id: "T1_5_OPEN_9FT", nameEn: "1.5 Ton Open 9 Ft Truck", nameBn: "১.৫ টন খোলা ৯ ফিট ট্রাক", minFare10km: 1500 },
-        { id: "T1_5_COVER_9FT", nameEn: "1.5 Ton Cover 9 Ft Truck", nameBn: "১.৫ টন কাভার ৯ ফিট ট্রাক", minFare10km: 1500 },
-        { id: "T2_OPEN_9FT", nameEn: "2 Ton Open 9 Ft Truck", nameBn: "২ টন খোলা ৯ ফিট ট্রাক", minFare10km: 1800 },
-        { id: "T3_OPEN_14FT", nameEn: "3 Ton Open 14 Ft Truck", nameBn: "৩ টন খোলা ১৪ ফিট ট্রাক", minFare10km: 2500 },
-        { id: "T3_COVER_14FT", nameEn: "3 Ton Cover 14 Ft Truck", nameBn: "৩ টন কাভার ১৪ ফিট ট্রাক", minFare10km: 2500 },
-        { id: "T5_OPEN_17FT", nameEn: "5 Ton Open 17 Ft Truck", nameBn: "৫ টন খোলা ১৭ ফিট ট্রাক", minFare10km: 3500 },
     ];
 
     const isSelectableForBooking = (item: { id?: string; nameEn?: string }) => {

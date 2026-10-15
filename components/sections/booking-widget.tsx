@@ -64,8 +64,6 @@ export function BookingWidget() {
     const FALLBACK_TRUCKS = [
         { value: "T1_OPEN_7FT", en: "1 Ton Open 7 Ft", bn: "১ টন খোলা ৭ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_OPEN_7FT },
         { value: "T1_COVER_7FT", en: "1 Ton Cover 7 Ft", bn: "১ টন কাভার ৭ ফিট ট্রাক", icon: STATIC_TRUCK_ICONS.T1_COVER_7FT },
-        { value: "T3_OPEN_16_14FT", en: "3 Ton Open 14/16 Ft", bn: "৩ টন খোলা ১৪/১৬ ফিট ট্রাক", icon: "/icons/3ton12feeticon.webp" },
-        { value: "T3_COVER_16_14FT", en: "3 Ton Cover 14/16 Ft", bn: "৩ টন কাভার ১৪/১৬ ফিট ট্রাক", icon: "/icons/3ton12feetcovericon.webp" },
     ];
 
     const [dynamicTrucks, setDynamicTrucks] = useState<any[]>([]);
