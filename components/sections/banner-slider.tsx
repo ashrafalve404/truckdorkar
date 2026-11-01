@@ -20,6 +20,7 @@ const fallbackBanners: BannerItem[] = [
         titleEn: "Nationwide Logistics",
         titleBn: "দেশব্যাপী লজিস্টিকস",
     },
+    /* Temporarily hidden - only show slidingbanner001 for now
     {
         id: 2,
         image: "/images/slidingbanner02.webp",
@@ -32,12 +33,14 @@ const fallbackBanners: BannerItem[] = [
         titleEn: "Reliable Truck Booking",
         titleBn: "বিশ্বস্ত ট্রাক বুকিং",
     },
+    */
 ];
 
 export function BannerSlider() {
-    const [banners, setBanners] = useState<BannerItem[]>(fallbackBanners);
+    const [banners] = useState<BannerItem[]>(fallbackBanners);
     const [current, setCurrent] = useState(0);
 
+    /* Temporarily disabled CMS banner fetch to show only slidingbanner001.webp
     useEffect(() => {
         const fetchBanners = async () => {
             try {
@@ -58,6 +61,7 @@ export function BannerSlider() {
         };
         fetchBanners();
     }, []);
+    */
 
     useEffect(() => {
         if (banners.length <= 1) return;

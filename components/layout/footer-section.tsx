@@ -137,6 +137,7 @@ export function Footer() {
                         </p>
                         <div className="flex gap-3 md:gap-4">
                             {[
+                                /* Temporarily hidden: Facebook and WhatsApp links
                                 {
                                     label: "Facebook",
                                     href: "https://www.facebook.com/profile.php?id=61579235266143",
@@ -163,6 +164,7 @@ export function Footer() {
                                         />
                                     )
                                 },
+                                */
                                 { label: "Share", href: "#", icon: <Share2 className="w-4 h-4 md:w-5 md:h-5" /> }
                             ].map((social, i) => (
                                 <a

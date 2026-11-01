@@ -151,12 +151,13 @@ export default function ContactPage() {
                                     <h2 className="text-lg md:text-xl font-bold text-black mb-3 md:mb-4">{t("Direct Contact", "সরাসরি যোগাযোগ")}</h2>
                                     <p className="text-sm md:text-base text-slate-600 font-medium mb-4 md:mb-6">
                                         {t(
-                                            "You can call our 24/7 customer care number at any time or visit our office directly.",
-                                            "আমাদের ২৪/৭ কাস্টমার কেয়ার নাম্বারে যেকোনো সময় কল করতে পারেন অথবা সরাসরি আমাদের অফিসে ভিজিট করতে পারেন।"
+                                            "You can reach out to our team at any time or visit our office directly.",
+                                            "আমাদের সাথে যেকোনো সময় যোগাযোগ করতে পারেন অথবা সরাসরি আমাদের অফিসে ভিজিট করতে পারেন।"
                                         )}
                                     </p>
 
                                     <div className="space-y-4 md:space-y-5 text-black">
+                                        {/* Call Us - Temporarily hidden
                                         <div className="flex items-start gap-3 md:gap-4 group">
                                             <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
                                                 <RiPhoneFill className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white" />
@@ -166,6 +167,7 @@ export default function ContactPage() {
                                                 <div className="text-base md:text-lg font-bold text-black">{t("01826-110036", "০১৮২৬-১১০০৩৬")}</div>
                                             </div>
                                         </div>
+                                        */}
 
                                         <div className="flex items-start gap-3 md:gap-4 group">
                                             <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
